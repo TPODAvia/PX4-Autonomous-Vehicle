@@ -1,0 +1,5 @@
+<launch>
+   <arg name="map_name" default="map"/>
+
+   <node name="saver" pkg="map_server" type="map_saver" args="-f $(find learning_tf2)/launch/$(arg map_name)" output="screen"/>
+</launch>

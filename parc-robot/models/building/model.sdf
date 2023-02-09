@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+<model name="building">
+  <static>true</static>
+  <link name="building_link">
+  
+  <visual name="building">
+    <pose>0 0 0 0 0 0</pose>
+    <geometry>
+      <mesh><uri>model://building/meshes/building.dae</uri><scale>1 1 1</scale></mesh>
+    </geometry>
+  </visual>
+
+  <collision name="building">
+    <pose>0 0 0 0 0 0</pose>
+    <geometry>
+      <mesh><uri>model://building/meshes/building.dae</uri><scale>1 1 1</scale></mesh>
+    </geometry>
+  </collision>
+
+  </link>
+</model>
+</sdf>

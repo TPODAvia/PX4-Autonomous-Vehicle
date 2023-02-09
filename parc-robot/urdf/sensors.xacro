@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Includes -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro" />
+  <xacro:include filename="$(find parc-robot)/urdf/_d435.gazebo.xacro" />
+  <xacro:include filename="$(find parc-robot)/urdf/rplidar.xacro" />
+
+  <!-- Realsense sensor -->
+  <xacro:sensor_d435i parent="base_link" use_nominal_extrinsics="true">
+    <origin xyz="0.3 0 0.11" rpy="0 0 0" />
+  </xacro:sensor_d435i>
+
+  <!-- Realsense Gazebo Plugin -->
+  <xacro:gazebo_d435 camera_name="camera" reference_link="camera_link" topics_ns="camera" depth_optical_frame="camera_depth_optical_frame" color_optical_frame="camera_color_optical_frame" infrared1_optical_frame="camera_left_ir_optical_frame" infrared2_optical_frame="camera_right_ir_optical_frame" publish_pointcloud="false" />
+
+  <!-- RPlidar -->
+  <xacro:sensor_rplidar parent="base_link">
+    <origin xyz="0.25 0 0.14" rpy="0 0 0" />
+  </xacro:sensor_rplidar>
+
+</robot>

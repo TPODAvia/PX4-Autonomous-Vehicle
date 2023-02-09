@@ -1,0 +1,23 @@
+# traffic_sign:
+# Publish all joint states -----------------------------------
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+# Joint 1 position controller --------------------------------
+joint_red_position_controller:
+    joint: joint_red
+    pid:
+        p: 100.0
+        i: 15.0
+        d: 20
+    type: effort_controllers/JointPositionController
+
+# Joint 2 position controller --------------------------------
+joint_green_position_controller:
+    joint: joint_green
+    pid:
+        p: 100.0
+        i: 15.0
+        d: 20
+    type: effort_controllers/JointPositionController

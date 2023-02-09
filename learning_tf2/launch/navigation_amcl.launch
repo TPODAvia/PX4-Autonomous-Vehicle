@@ -1,0 +1,15 @@
+<launch>
+<arg name="scan" default="base_scan" />
+<arg name="map_name" default="map"/>
+
+	<node name="map" type="map_server" pkg="map_server" output="screen" args="$(find navigation)/launch/$(arg map_name).yaml" required="true">
+	</node> 
+
+	<node name="amcl" type="amcl" pkg="amcl" output="screen">
+	    <remap from="scan" to="base_scan" />
+	</node> 
+	
+	<include file="$(find learning_tf2)/launch/move_base/move_base.xml">
+	    <arg name="scan" value="$(arg scan)" />
+	</include> 
+</launch>
