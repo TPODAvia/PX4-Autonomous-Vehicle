@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="paused" default="false"/>
+	<arg name="gui" default="true"/>
+	<!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_ground)/worlds/empty.world"/>
+
+	<!-- Start Gazebo -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="world_name" default="$(arg world)" />
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="verbose" value="true"/>
+	</include>
+
+	<!-- any vehicle: iris, iris2, r1_rover, standard_vtol, typhoon_h480 etc -->
+	<arg name="vehicle" default="r1_rover"/>
+	<arg name="arena" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+  	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena) -sdf -z 0.5 -model $(arg vehicle)" />
+
+	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 1.571 0 0 /map /chassis 100" /> -->
+	<!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<param name="robot_description" command="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+		<param name="publish_frequency" type="double" value="20" />
+	</node> -->
+	<!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/> -->
+
+</launch>

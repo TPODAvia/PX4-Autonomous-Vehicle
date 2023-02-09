@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="default">
+    <!-- A global light source -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0.0 0.0 1000 -0.35 -0.5 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- A ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Tertiary</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Other models -->
+
+    <include>
+      <uri>model://road</uri>
+      <pose>-30.43 0.01 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sidewalk</uri>
+      <pose>-30.4 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://fountain</uri>
+      <pose>1.41 -5.53 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://building</uri>
+      <pose>-30.74 0.499 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>lamp1</name>
+      <uri>model://lamp_post</uri>
+      <pose>-1.04 -11.36 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>post1</name>
+      <uri>model://postbox</uri>
+      <pose>-29.84 6.29 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>post2</name>
+      <uri>model://postbox</uri>
+      <pose>-1.536 -1.605 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>lamp2</name>
+      <uri>model://lamp_post</uri>
+      <pose>-29.79 -11.47 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://oak_tree</uri>
+      <pose>15.03 -7.67  0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://person_standing</uri>
+      <pose>7.32 -7.91 0 0 0 -3.04</pose>
+    </include>
+
+    <include>
+      <uri>model://stop_light_post</uri>
+      <pose>-1.49 11.73 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://hatchback_red</uri>
+      <pose>-5.05 4.98 0 0 0 1.533</pose>
+    </include>
+
+    <include>
+      <name>fire_hydrant1</name>
+      <uri>model://fire_hydrant</uri>
+      <pose>3.66 11.53 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>fire_hydrant2</name>
+      <uri>model://fire_hydrant</uri>
+      <pose>-20.56 11.56 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>trash_can1</name>
+      <uri>model://first_2015_trash_can</uri>
+      <pose>-19.729 -10.384 0.138 0 0 0.025</pose>
+    </include>
+
+    <include>
+      <name>trash_can2</name>
+      <uri>model://first_2015_trash_can</uri>
+      <pose>5.845 -10.48 0.138 0 0 0.025</pose>
+    </include>
+
+    <include>
+      <uri>model://park_fence</uri>
+      <pose>7.86 0.25 0 0 0 0</pose>
+    </include>
+
+    <!-- <include>
+      <uri>model://gazebo</uri>
+      <pose>7.39 0.92 0 0 0 0</pose>
+    </include> -->
+
+    <!-- Physics -->
+    <physics type='ode'>
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>
+
+    <!-- Scene -->
+    <scene>
+      <ambient>0.9 0.9 0.9 1</ambient>
+      <sky>
+        <clouds>
+          <speed>8</speed>
+        </clouds>
+      </sky>
+
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+
+    <!-- User Camera -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>-41.674171 -7.805446 14.311985 0 0.747643 0.396001</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

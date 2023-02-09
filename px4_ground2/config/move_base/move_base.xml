@@ -1,0 +1,24 @@
+<launch>
+<!--
+  Example move_base configuration. Descriptions of parameters, as well as a full list of all amcl parameters, can be found at http://www.ros.org/wiki/move_base.
+-->
+  <arg name="scan" default="base_scan" />
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <remap from="base_scan" to="$(arg scan)"/>
+    <param name="footprint_padding" value="0.5" />
+    <param name="controller_frequency" value="10.0" />
+    <param name="controller_patience" value="3.0" />
+
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+
+  
+
+    <rosparam file="$(find learning_tf2)/launch/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find learning_tf2)/launch/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find learning_tf2)/launch/move_base/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find learning_tf2)/launch/move_base/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find learning_tf2)/launch/move_base/base_local_planner_params.yaml" command="load" />
+   
+  </node>
+</launch>
