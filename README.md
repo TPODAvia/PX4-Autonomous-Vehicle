@@ -187,7 +187,9 @@ source devel/setup.bash
 roslaunch px4_ground 1mavros_posix_sitl.launch
 ```
 Now go to the path ../px4_ground/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
+
 Example: chmod +x control_vel.py
+
 In the terminal 3 run:
 ```
 source devel/setup.bash
