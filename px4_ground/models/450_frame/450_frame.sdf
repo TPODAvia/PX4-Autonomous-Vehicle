@@ -193,7 +193,7 @@
 
 
     <link name="cgo3_camera_link">
-    <pose>0.12 0 -0.1 0 1.57 0</pose>
+    <pose>0.12 0 -0.09 0 1.57 0</pose>
       <inertial>
         <!-- place holder -->
         <pose>0 0 0 0 0 0</pose>
@@ -403,39 +403,30 @@
 
 
 
-    <joint name="lidar_vl53l1x_joint" type="fixed">
-      <origin xyz="${x} ${y} ${z}"
-              rpy="${roll} ${pitch} ${yaw}"/>
-      <parent link="${parent}"/>
-      <child link="lidar_vl53l1x_link"/>
-    </joint>
+
 
     <link name="lidar_vl53l1x_link">
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+    <pose>-0.12 0 0 0 1.57 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>4.15e-6</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>2.407e-6</iyy>
+          <iyz>0</iyz>
+          <izz>2.407e-6</izz>
+        </inertia>
+      </inertial>
+      <visual name="lidar_visual">
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <box size="0.001 0.005 0.005"/>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
         </geometry>
       </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.001 0.001 0.005"/>
-        </geometry>
-      </collision>
-      <inertial>
-        <mass value="0.015"/>
-        <origin xyz="0 0 0"/>
-        <inertia ixx="4.15e-6" iyy="2.407e-6" izz="2.407e-6" ixy="0" ixz="0" iyz="0"/>
-      </inertial>
-    </link>
-
-    <gazebo reference="lidar_vl53l1x_joint">
-      <disableFixedJointLumping>true</disableFixedJointLumping>
-      <preserveFixedJoint>true</preserveFixedJoint>
-    </gazebo>
-
-    <gazebo reference="lidar_vl53l1x_link">
       <sensor type="ray" name="lidar_vl53l1x">
         <pose>0 0 0 0 0 0</pose>
         <ray>
@@ -448,27 +439,39 @@
             </horizontal>
           </scan>
           <range>
-            <min>0.03</min> <!-- Note: This is a hack, since the rangefinder is inside the drone collision box -->
-            <max>${range_max}</max>
+            <min>0.03</min>
+            <max>4</max>
             <resolution>0.01</resolution>
           </range>
         </ray>
         <plugin name="laser" filename="libgazebo_ros_range.so">
-          <robotNamespace></robotNamespace> <!-- FIXME: fill namespace? -->
+          <robotNamespace></robotNamespace>
           <topicName>/rangefinder/range</topicName>
           <frameName>rangefinder</frameName>
           <radiation>infrared</radiation>
           <fov>0.471239</fov>
           <gaussianNoise>0.001</gaussianNoise>
           <updateRate>10</updateRate>
-          <min_distance>${range_min}</min_distance>
-          <max_distance>${range_max}</max_distance>
+          <min_distance>0.01</min_distance>
+          <max_distance>4</max_distance>
         </plugin>
         <always_on>1</always_on>
         <update_rate>10</update_rate>
         <visualize>true</visualize>
       </sensor>
-    </gazebo>
+    </link>
+
+    <joint name="lidar_vl53l1x_joint" type="fixed">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>fuselage</parent>
+      <child>lidar_vl53l1x_link</child>
+    </joint>
+
+
+
+
+
+
 
 
 
@@ -1024,34 +1027,34 @@
     
 
     <!--Pixhawk autopilot-->
-    <!--<include>-->
-      <!--<uri>model://pixhawk</uri>-->
-      <!--<pose>0 0 0.03 0 0 0</pose>-->
-    <!--</include>-->
+    <include>
+      <uri>model://pixhawk</uri>
+      <pose>0 0 0.03 0 0 0</pose>
+    </include>
 
-    <!--<joint name="pixhawk_joint" type="fixed">-->
-      <!--<parent>fuselage</parent>-->
-      <!--<child>pixhawk::link</child>-->
-    <!--</joint>-->
+    <joint name="pixhawk_joint" type="fixed">
+      <parent>fuselage</parent>
+      <child>pixhawk::link</child>
+    </joint>
 
     <!--3DR GPS and Magnetometer-->
-    <!--<include>-->
-      <!--<uri>model://3DR_gps_mag</uri>-->
-      <!--<pose> 0 0 0.07 0 0 0</pose>-->
-    <!--</include>-->
+    <include>
+      <uri>model://3DR_gps_mag</uri>
+      <pose> -0.08 0 0.155 0 0 0</pose>
+    </include>
 
-    <!--<joint name="3DR_gps_mag_joint" type="fixed">-->
-      <!--<parent>fuselage</parent>-->
-      <!--<child>3DR_gps_mag::link</child>-->
-    <!--</joint>-->
+    <joint name="3DR_gps_mag_joint" type="fixed">
+      <parent>fuselage</parent>
+      <child>3DR_gps_mag::link</child>
+    </joint>
 
     <!--This is what plugin should look like if using standard sensors-->
-    <!--<plugin name="mavlink" filename="libgazebo_mavlink.so">-->
-      <!--<imu_topic>fuselage/pixhawk/link/mpu-6000/imu</imu_topic>-->
-      <!--<gps_topic>fuselage/3DR_gps_mag/link/ublox-neo-7</gps_topic>-->
-      <!--<mag_topic>fuselage/3DR_gps_mag/link/HMC5883L</mag_topic>-->
-      <!--<sonar_topic>fuselage/mb1240-xl-ez4/link/sonar</sonar_topic>-->
-    <!--</plugin>-->
+    <!-- <plugin name="mavlink" filename="libgazebo_mavlink.so">
+      <imu_topic>fuselage/pixhawk/link/mpu-6000/imu</imu_topic>
+      <gps_topic>fuselage/3DR_gps_mag/link/ublox-neo-7</gps_topic>
+      <mag_topic>fuselage/3DR_gps_mag/link/HMC5883L</mag_topic>
+      <sonar_topic>fuselage/mb1240-xl-ez4/link/sonar</sonar_topic>
+    </plugin> -->
 
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
