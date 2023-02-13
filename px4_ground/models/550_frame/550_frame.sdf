@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <!-- DO NOT EDIT: Generated from iris.sdf.jinja -->
 <sdf version='1.5'>
-  <model name='typhoon_h480'>
+  <model name='550_frames'>
     <!-- Typhoon H body -->
     <pose>0 0 0.26 0 0 0.0</pose>
     <link name='base_link'>
@@ -44,7 +44,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/main_body_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/main_body_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -54,102 +54,28 @@
           </script>
         </material>
       </visual>
-      <!--
-      <visual name='rotor_0_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 3.14159265359</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name='rotor_1_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 -1.0471975512</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name='rotor_2_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 -2.09439510239</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name='rotor_3_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 2.09439510239</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name='rotor_4_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 1.0471975512</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      <visual name='rotor_5_prop_guard_jybhz'>
-        <pose>0 0 0 0 0 0</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_guard_jybhz.stl</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-      -->
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <link name="cgo3_mount_link">
       <inertial>
@@ -170,12 +96,12 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/cgo3_mount_remeshed_v1.stl</uri>
+            <uri>model://550_frame/meshes/cgo3_mount_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/DarkGrey</name> 
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
@@ -205,6 +131,22 @@
       </physics>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name="cgo3_vertical_arm_link">
       <inertial>
         <!-- place holder -->
@@ -224,7 +166,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
+            <uri>model://550_frame/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -267,6 +209,20 @@
       </physics>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name="cgo3_horizontal_arm_link">
       <inertial>
         <!-- place holder -->
@@ -286,7 +242,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
+            <uri>model://550_frame/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -328,6 +284,32 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <link name="cgo3_camera_link">
       <inertial>
@@ -372,7 +354,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/cgo3_camera_remeshed_v1.stl</uri>
+            <uri>model://550_frame/meshes/cgo3_camera_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -427,7 +409,7 @@
             <udpPort>5600</udpPort>
         </plugin>
         <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
-            <robotNamespace>typhoon_h480</robotNamespace>
+            <robotNamespace>550_frame</robotNamespace>
             <interval>1</interval>
             <width>3840</width>
             <height>2160</height>
@@ -467,6 +449,28 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <link name="left_leg">
       <inertial>
@@ -537,7 +541,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/leg2_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/leg2_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -573,6 +577,30 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <link name="right_leg">
       <pose>0 0 0 0 0 0</pose>
@@ -644,7 +672,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/leg1_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/leg1_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -681,7 +709,30 @@
       </physics>
     </joint>
 
-    <link name='typhoon_h480/imu_link'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <link name='550_frame/imu_link'>
       <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -696,8 +747,8 @@
         </inertia>
       </inertial>
     </link>
-    <joint name='typhoon_h480/imu_joint' type='revolute'>
-      <child>typhoon_h480/imu_link</child>
+    <joint name='550_frame/imu_joint' type='revolute'>
+      <child>550_frame/imu_link</child>
       <parent>base_link</parent>
       <axis>
         <xyz>1 0 0</xyz>
@@ -714,6 +765,27 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name='rotor_3'>
       <pose>0.211396 0.119762 0.082219 0 0 0</pose>
       <inertial>
@@ -750,7 +822,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -786,6 +858,29 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name='rotor_0'>
       <pose>-0.209396 0.122762 0.082219 0 0 2.09439510239</pose>
       <inertial>
@@ -822,7 +917,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -858,6 +953,28 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name='rotor_4'>
       <pose>-0.00187896 0.242705 0.0822169 0 0 0</pose>
       <inertial>
@@ -894,7 +1011,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -930,6 +1047,27 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name='rotor_1'>
       <pose>0.211396 -0.119762 0.082219 0 0 -2.09439510239</pose>
       <inertial>
@@ -966,7 +1104,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1002,6 +1140,30 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <link name='rotor_5'>
       <pose>-0.00187896 -0.242705 0.0822169 0 0 -2.09439510239</pose>
@@ -1039,7 +1201,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_ccw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1075,6 +1237,29 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name='rotor_2'>
       <pose>-0.209396 -0.122762 0.082219 0 0 2.09439510239</pose>
       <inertial>
@@ -1111,7 +1296,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://typhoon_h480/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
+            <uri>model://550_frame/meshes/prop_cw_assembly_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1148,13 +1333,31 @@
       </physics>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <include>
       <uri>model://sonar</uri>
       <pose>0.08 0 -0.03 0 0 3.141592</pose>
     </include>
     <joint name="sonar_joint" type="revolute">
       <child>sonar::link</child>
-      <parent>typhoon_h480::base_link</parent>
+      <parent>550_frame::base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -1283,6 +1486,23 @@
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
@@ -1376,7 +1596,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_roll_cmd</gztopic>
-          <joint_name>typhoon_h480::cgo3_camera_joint</joint_name>
+          <joint_name>550_frame::cgo3_camera_joint</joint_name>
         </channel>
         <channel name="gimbal_pitch">
           <input_index>7</input_index>
@@ -1386,7 +1606,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_pitch_cmd</gztopic>
-          <joint_name>typhoon_h480::cgo3_camera_joint</joint_name>
+          <joint_name>550_frame::cgo3_camera_joint</joint_name>
         </channel>
         <channel name="gimbal_yaw">
           <input_index>8</input_index>
@@ -1396,7 +1616,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_yaw_cmd</gztopic>
-          <joint_name>typhoon_h480::cgo3_vertical_arm_joint</joint_name>
+          <joint_name>550_frame::cgo3_vertical_arm_joint</joint_name>
         </channel>
         <channel name="left_leg">
           <input_index>9</input_index>
@@ -1439,7 +1659,7 @@
     <static>0</static>
     <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace></robotNamespace>
-      <linkName>typhoon_h480/imu_link</linkName>
+      <linkName>550_frame/imu_link</linkName>
       <imuTopic>/imu</imuTopic>
       <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
       <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
@@ -1451,9 +1671,9 @@
       <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
     <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
-      <joint_yaw>typhoon_h480::cgo3_vertical_arm_joint</joint_yaw>
-      <joint_roll>typhoon_h480::cgo3_horizontal_arm_joint</joint_roll>
-      <joint_pitch>typhoon_h480::cgo3_camera_joint</joint_pitch>
+      <joint_yaw>550_frame::cgo3_vertical_arm_joint</joint_yaw>
+      <joint_roll>550_frame::cgo3_horizontal_arm_joint</joint_roll>
+      <joint_pitch>550_frame::cgo3_camera_joint</joint_pitch>
       <control_gimbal_channels>
         <channel>
           <joint_control_pid>

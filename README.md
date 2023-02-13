@@ -64,6 +64,7 @@ catkin_make
 
 ```
 ```
+cd ~/catkin_ws/src
 git init
 git remote add origin http://git.promcars.ru/promavto-drone/px4-repository.git
 git pull origin main
