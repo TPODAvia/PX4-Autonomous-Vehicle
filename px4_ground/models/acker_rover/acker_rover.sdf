@@ -2,6 +2,7 @@
 <sdf version="1.5">
   <model name="rover">
     <static>false</static>
+
     <link name="base_link">
       <inertial>
         <!-- subtracted wheel weights from dry weight of 771 kg -->
@@ -431,6 +432,12 @@
         </material>
       </visual>
     </link>
+
+
+
+
+
+
     <link name='rover/imu_link'>
       <pose>0 0 0 0 0 0</pose>
       <inertial>
@@ -464,6 +471,16 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
     <link name="front_left_wheel">
       <pose>1.20223 0.71562 0.34697 -1.52 0.0 0.0</pose>
       <inertial>
@@ -525,6 +542,78 @@
         </material>
       </visual>
     </link>
+    <link name="front_left_wheel_steering_block">
+      <pose>1.20223 0.5 0.35515 1.570796 0.0 0.0</pose>
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.01</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+    <joint type="revolute" name="front_left_steering_joint">
+      <child>front_left_wheel_steering_block</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.7727</lower>
+          <upper>0.7727</upper>
+        </limit>
+        <dynamics>
+          <damping>50.0</damping>
+        </dynamics>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0.000000</cfm>
+            <erp>0.900000</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <joint type="revolute" name="front_left_wheel_joint">
+      <child>front_left_wheel</child>
+      <parent>front_left_wheel_steering_block</parent>
+      <axis>
+        <xyz>0 1 0.05</xyz>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name="front_right_wheel">
       <pose>1.20223 -0.71562 0.34697 1.52 0.0 0.0</pose>
       <inertial>
@@ -586,6 +675,78 @@
         </material>
       </visual>
     </link>
+    <link name="front_right_wheel_steering_block">
+      <pose>1.20223 -0.5 0.35515 1.570796 0.0 0.0</pose>
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.01</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.01</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.05</radius>
+            <length>0.01</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+    <joint type="revolute" name="front_right_steering_joint">
+      <child>front_right_wheel_steering_block</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.7727</lower>
+          <upper>0.7727</upper>
+        </limit>
+        <dynamics>
+          <damping>50.0</damping>
+        </dynamics>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+      <physics>
+        <ode>
+          <cfm_damping>1</cfm_damping>
+          <limit>
+            <cfm>0.000000</cfm>
+            <erp>0.900000</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <joint type="revolute" name="front_right_wheel_joint">
+      <child>front_right_wheel</child>
+      <parent>front_right_wheel_steering_block</parent>
+      <axis>
+        <xyz>0 1 -0.05</xyz>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <link name="rear_left_wheel">
       <pose>-0.99377 0.71562 0.34697 -1.52 0.0 0.0</pose>
       <inertial>
@@ -647,6 +808,15 @@
         </material>
       </visual>
     </link>
+    <joint type="revolute" name="rear_left_wheel_joint">
+      <child>rear_left_wheel</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 1 0.05</xyz>
+        <use_parent_model_frame>true</use_parent_model_frame>
+      </axis>
+    </joint>
+
     <link name="rear_right_wheel">
       <pose>-0.99377 -0.71562 0.34697 1.52 0.0 0.0</pose>
       <inertial>
@@ -708,122 +878,6 @@
         </material>
       </visual>
     </link>
-    <link name="front_right_wheel_steering_block">
-      <pose>1.20223 -0.5 0.35515 1.570796 0.0 0.0</pose>
-      <inertial>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.01</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.01</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.01</izz>
-        </inertia>
-      </inertial>
-      <collision name="collision">
-        <geometry>
-          <cylinder>
-            <radius>0.05</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-      </collision>
-    </link>
-    <link name="front_left_wheel_steering_block">
-      <pose>1.20223 0.5 0.35515 1.570796 0.0 0.0</pose>
-      <inertial>
-        <mass>1</mass>
-        <inertia>
-          <ixx>0.01</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.01</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.01</izz>
-        </inertia>
-      </inertial>
-      <collision name="collision">
-        <geometry>
-          <cylinder>
-            <radius>0.05</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-      </collision>
-    </link>
-    <joint type="revolute" name="front_left_steering_joint">
-      <child>front_left_wheel_steering_block</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>-0.7727</lower>
-          <upper>0.7727</upper>
-        </limit>
-        <dynamics>
-          <damping>50.0</damping>
-        </dynamics>
-        <use_parent_model_frame>true</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0.000000</cfm>
-            <erp>0.900000</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
-    <joint type="revolute" name="front_left_wheel_joint">
-      <child>front_left_wheel</child>
-      <parent>front_left_wheel_steering_block</parent>
-      <axis>
-        <xyz>0 1 0.05</xyz>
-        <use_parent_model_frame>true</use_parent_model_frame>
-      </axis>
-    </joint>
-    <joint type="revolute" name="front_right_steering_joint">
-      <child>front_right_wheel_steering_block</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>-0.7727</lower>
-          <upper>0.7727</upper>
-        </limit>
-        <dynamics>
-          <damping>50.0</damping>
-        </dynamics>
-        <use_parent_model_frame>true</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <cfm_damping>1</cfm_damping>
-          <limit>
-            <cfm>0.000000</cfm>
-            <erp>0.900000</erp>
-          </limit>
-        </ode>
-      </physics>
-    </joint>
-    <joint type="revolute" name="front_right_wheel_joint">
-      <child>front_right_wheel</child>
-      <parent>front_right_wheel_steering_block</parent>
-      <axis>
-        <xyz>0 1 -0.05</xyz>
-        <use_parent_model_frame>true</use_parent_model_frame>
-      </axis>
-    </joint>
-    <joint type="revolute" name="rear_left_wheel_joint">
-      <child>rear_left_wheel</child>
-      <parent>base_link</parent>
-      <axis>
-        <xyz>0 1 0.05</xyz>
-        <use_parent_model_frame>true</use_parent_model_frame>
-      </axis>
-    </joint>
     <joint type="revolute" name="rear_right_wheel_joint">
       <pose>0.0 0.0 -0.1 0 0 0</pose>
       <child>rear_right_wheel</child>
@@ -833,7 +887,8 @@
         <use_parent_model_frame>true</use_parent_model_frame>
       </axis>
     </joint>
-<!--     <joint type="revolute" name="rear_differential_joint">
+
+    <!-- <joint type="revolute" name="rear_differential_joint">
       <child>rear_right_wheel</child>
       <parent>rear_left_wheel</parent>
       <axis>
@@ -851,6 +906,27 @@
         </ode>
       </physics>
     </joint> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <include>
       <uri>model://gps</uri>
       <pose>0 0 0 0 0 0</pose>
@@ -890,7 +966,22 @@
       <magTopic>/mag</magTopic>
     </plugin>
 
-<!-- Detph Camera ////////////////////////////////////////////////////////////// -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Detph Camera -->
   <link name="realsense_link">
   <pose>1 0 1.2 0 0 0</pose>
     <inertial>
@@ -916,38 +1007,6 @@
       </geometry>
     </visual>
     <sensor name="depth_camera" type="depth">
-      {%- if ros_version == '2' -%}
-      <!-- <always_on>0</always_on>
-      <update_rate>30</update_rate>
-      <camera name="camera_name">
-        <horizontal_fov>1.02974</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.5</near>
-          <far>18</far>
-        </clip>
-        <distortion>
-          <k1>0.0</k1>
-          <k2>0.0</k2>
-          <k3>0.0</k3>
-          <p1>0.0</p1>
-          <p2>0.0</p2>
-          <center>0.5 0.5</center>
-        </distortion>
-      </camera>
-
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-        <camera_name>camera</camera_name>
-        <frame_name>camera_link</frame_name>
-        <hack_baseline>0.07</hack_baseline>
-        <min_depth>0.1</min_depth>
-        <max_depth>12</max_depth>
-      </plugin> -->
-      {%- else -%}
       <update_rate>30</update_rate>
       <camera>
         <horizontal_fov>1.02974</horizontal_fov>
@@ -979,7 +1038,6 @@
         <distortion_t1>0.0</distortion_t1>
         <distortion_t2>0.0</distortion_t2>
       </plugin>
-      {%- endif -%}
     </sensor>
   </link>
   <joint type="fixed" name="realsense_joint"> <!--can be a revolute type-->
@@ -990,6 +1048,27 @@
       <xyz>0 0 1</xyz>
     </axis>
   </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace/>
@@ -1108,5 +1187,16 @@
         </channel>
       </control_channels>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
   </model>
 </sdf>
