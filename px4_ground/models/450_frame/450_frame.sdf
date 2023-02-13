@@ -403,7 +403,7 @@
 
 
 
-
+    <!-- lidar vl53l1x -->
 
     <link name="lidar_vl53l1x_link">
     <pose>-0.12 0 0 0 1.57 0</pose>

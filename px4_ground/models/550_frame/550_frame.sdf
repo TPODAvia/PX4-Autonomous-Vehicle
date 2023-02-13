@@ -21,7 +21,7 @@
         </inertia>
       </inertial>
       <collision name='base_link_collision'>
-        <pose>0 0 0.0 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <box>
             <size>0.67 0.4 0.15</size>
@@ -70,6 +70,106 @@
           </script>
         </material>
       </visual>
+
+      <collision name="case_collision_left">
+        <pose>-0.03 0.17 -0.18 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.55 0.01 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+
+      <collision name="case_collision_right">
+        <pose>-0.03 -0.17 -0.18 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.55 0.01 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+
+      <collision name="case_collision_front">
+        <pose>0.25 0 -0.18 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.32 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+
+      <collision name="case_collision_back">
+        <pose>-0.28 0 -0.18 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.32 0.2</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+
+      <collision name="case_collision_bottom">
+        <pose>-0.03 0 -0.29 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.55 0.36 0.01</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
@@ -477,6 +577,77 @@
 
 
 
+
+
+
+
+
+
+
+
+    <!-- lidar vl53l1x -->
+
+    <link name="lidar_vl53l1x_link">
+    <pose>0.3 0 -0.25 0 1.57 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>4.15e-6</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>2.407e-6</iyy>
+          <iyz>0</iyz>
+          <izz>2.407e-6</izz>
+        </inertia>
+      </inertial>
+      <visual name="lidar_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor type="ray" name="lidar_vl53l1x">
+        <pose>0 0 0 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>-0</min_angle>
+              <max_angle>0</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.03</min>
+            <max>4</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="laser" filename="libgazebo_ros_range.so">
+          <robotNamespace></robotNamespace>
+          <topicName>/rangefinder/range</topicName>
+          <frameName>rangefinder</frameName>
+          <radiation>infrared</radiation>
+          <fov>0.471239</fov>
+          <gaussianNoise>0.001</gaussianNoise>
+          <updateRate>10</updateRate>
+          <min_distance>0.01</min_distance>
+          <max_distance>4</max_distance>
+        </plugin>
+        <always_on>1</always_on>
+        <update_rate>10</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+    </link>
+
+    <joint name="lidar_vl53l1x_joint" type="fixed">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>lidar_vl53l1x_link</child>
+    </joint>
 
 
 
@@ -1470,7 +1641,7 @@
 
 
 
-    <include>
+    <!-- <include>
       <uri>model://sonar</uri>
       <pose>0.3 0 -0.03 0 0 3.141592</pose>
     </include>
@@ -1484,7 +1655,7 @@
           <lower>0</lower>
         </limit>
       </axis>
-    </joint>
+    </joint> -->
 
 
     <include>
@@ -1526,6 +1697,13 @@
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
+
+
+
+
+
+
+
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
       <robotNamespace/>
       <pubRate>100</pubRate>
@@ -1534,11 +1712,40 @@
       <biasCorrelationTime>600</biasCorrelationTime>
       <magTopic>/mag</magTopic>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
       <pubRate>50</pubRate>
       <baroTopic>/baro</baroTopic>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace></robotNamespace>
       <imuSubTopic>/imu</imuSubTopic>
@@ -1677,6 +1884,27 @@
       </control_channels>
     </plugin>
     <static>0</static>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace></robotNamespace>
       <linkName>550_frame/imu_link</linkName>
@@ -1690,6 +1918,24 @@
       <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
       <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
       <joint_yaw>550_frame::cgo3_vertical_arm_joint</joint_yaw>
       <joint_roll>550_frame::cgo3_horizontal_arm_joint</joint_roll>
@@ -1734,5 +1980,13 @@
       </control_gimbal_channels>
       <gimbal_imu>camera_imu</gimbal_imu>
     </plugin>
+
+
+
+
+
+
+
+
   </model>
 </sdf>
