@@ -4,10 +4,13 @@
     <static>false</static>
 
     <link name="base_link">
+
       <inertial>
         <!-- subtracted wheel weights from dry weight of 771 kg -->
         <!-- http://www.polaris.com/en-us/ranger-utv/side-by-sides/ranger-ev/specifications -->
         <mass>720.0</mass>
+        <!-- chassis c.o.g. near lateral/longitudinal center, height of 0.4 m -->
+        <pose>0.1 0 0.4 0 0 0</pose>
         <inertia>
           <ixx>140</ixx>
           <ixy>0.0</ixy>
@@ -16,9 +19,8 @@
           <iyz>0.0</iyz>
           <izz>550</izz>
         </inertia>
-        <!-- chassis c.o.g. near lateral/longitudinal center, height of 0.4 m -->
-        <pose>0.1 0 0.4 0 0 0</pose>
       </inertial>
+
       <visual name="visual">
         <pose>0 0 0 0 0 -1.570796</pose>
         <geometry>
@@ -38,6 +40,7 @@
           </script>
         </material>
       </visual>
+
       <collision name="base_link_bottom">
         <pose>0.2 0.0 0.335 0 0 0</pose>
         <geometry>
@@ -46,6 +49,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="cargo_bottom">
         <pose>-1.0 0.0 0.921 0.0 0.0 0.0</pose>
         <geometry>
@@ -54,6 +58,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="cargo_front">
         <pose>-0.495 0.0 1.06 0.0 0.0 0.0</pose>
         <geometry>
@@ -62,6 +67,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="cargo_back">
         <pose>-1.465 0.0 1.06 0.0 0.0 0.0</pose>
         <geometry>
@@ -70,6 +76,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="cargo_left">
         <pose>-0.97 0.82491 1.06 0.0 0.0 0.0</pose>
         <geometry>
@@ -78,6 +85,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="cargo_right">
         <pose>-0.97 -0.82491 1.06 0.0 0.0 0.0</pose>
         <geometry>
@@ -86,6 +94,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="seat">
         <pose>0.0 0.0 0.62 0 0 0</pose>
         <geometry>
@@ -101,6 +110,7 @@
           </contact>
         </surface>
       </collision>
+
       <collision name="mud_seat">
         <pose>0.0 0.0 0.86 0 0 0</pose>
         <geometry>
@@ -114,6 +124,7 @@
           </contact>
         </surface>
       </collision>
+
       <sensor name="seat_contact" type="contact">
         <always_on>true</always_on>
         <update_rate>1000</update_rate>
@@ -121,6 +132,7 @@
           <collision>mud_seat</collision>
         </contact>
       </sensor>
+
       <collision name="seat_back">
         <pose>-0.26 0.0 1.125 0.0 -0.2 0.0</pose>
         <geometry>
@@ -129,6 +141,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="engine">
         <pose>1.12 0.0 0.7 0.0 0.0 0.0</pose>
         <geometry>
@@ -137,6 +150,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="rollcage_top_left">
         <pose>-0.02 0.76 1.936 0 1.60 0</pose>
         <geometry>
@@ -146,6 +160,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_top_right">
         <pose>-0.02 -0.76 1.936 0 1.60 0</pose>
         <geometry>
@@ -155,6 +170,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_top_front">
         <pose>0.315 0.0 1.93 0 -1.0 0</pose>
         <geometry>
@@ -163,6 +179,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="rollcage_top_back">
         <pose>-0.410 0.0 1.88 0 0 0</pose>
         <geometry>
@@ -171,6 +188,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="rollcage_front_left">
         <pose>0.602 0.755 1.45 0 -0.54 0</pose>
         <geometry>
@@ -180,6 +198,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_front_right">
         <pose>0.602 -0.755 1.45 0 -0.54 0</pose>
         <geometry>
@@ -189,6 +208,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_back_left">
         <pose>-0.4 0.755 1.45 0 0 0</pose>
         <geometry>
@@ -198,6 +218,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_back_right">
         <pose>-0.4 -0.755 1.45 0 0 0</pose>
         <geometry>
@@ -207,6 +228,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <collision name="rollcage_X_1">
         <pose>-0.411 0.04 1.445 0.397 0 0</pose>
         <geometry>
@@ -215,6 +237,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="rollcage_X_2">
         <pose>-0.40 -0.04 1.445 -0.397 0 0</pose>
         <geometry>
@@ -223,6 +246,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="central_hump1_collision">
         <pose>0.55 -0.1 0.4 0 0 0</pose>
         <geometry>
@@ -231,6 +255,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="central_hump2_collision">
         <pose>0.7 -0.05 0.45 0 -0.5 0</pose>
         <geometry>
@@ -239,6 +264,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="central_hump3_collision">
         <pose>0.798 -0.125 0.478 0 -0.8 0</pose>
         <geometry>
@@ -247,6 +273,7 @@
           </box>
         </geometry>
       </collision>
+ 
       <collision name="central_hump4_collision">
         <pose>0.8135 -0.05 0.45 0 0 0</pose>
         <geometry>
@@ -255,6 +282,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="central_hump5_collision">
         <pose>0.84 -0.125 0.45 0 0 0</pose>
         <geometry>
@@ -263,6 +291,7 @@
           </box>
         </geometry>
       </collision>
+
       <collision name="central_hump6_collision">
         <pose>0.82 -0.125 0.475 0 0 0</pose>
         <geometry>
@@ -271,6 +300,7 @@
           </box>
         </geometry>
       </collision>
+
       <visual name="cargo_visual">
         <pose>-1.0 0 1.03230 0 0 -1.5707</pose>
         <geometry>
@@ -290,6 +320,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="tailgate_visual">
         <pose>-1.492 0 1.03 0 0 -1.5707</pose>
         <geometry>
@@ -309,6 +340,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="front_left_brake_visual">
         <pose>1.12 -0.57488 0.35516 3.1415 0 1.5707</pose>
         <geometry>
@@ -328,6 +360,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="front_right_brake_visual">
         <pose>1.12 0.57488 0.35516 3.1415 0 1.5707</pose>
         <geometry>
@@ -347,6 +380,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump1">
         <pose>0.55 -0.1 0.4 0 0 0</pose>
         <geometry>
@@ -361,6 +395,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump2">
         <pose>0.7 -0.05 0.45 0 -0.5 0</pose>
         <geometry>
@@ -375,6 +410,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump3">
         <pose>0.798 -0.125 0.478 0 -0.8 0</pose>
         <geometry>
@@ -389,6 +425,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump4">
         <pose>0.8135 -0.05 0.45 0 0 0</pose>
         <geometry>
@@ -403,6 +440,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump5">
         <pose>0.84 -0.125 0.45 0 0 0</pose>
         <geometry>
@@ -417,6 +455,7 @@
           </script>
         </material>
       </visual>
+
       <visual name="central_hump6">
         <pose>0.82 -0.125 0.475 0 0 0</pose>
         <geometry>
@@ -431,6 +470,7 @@
           </script>
         </material>
       </visual>
+
     </link>
 
 
@@ -438,8 +478,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- IMU -->
+
     <link name='rover/imu_link'>
       <pose>0 0 0 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.015</mass>
@@ -452,7 +509,9 @@
           <izz>1e-05</izz>
         </inertia>
       </inertial>
+
     </link>
+
     <joint name='rover/imu_joint' type='revolute'>
       <child>rover/imu_link</child>
       <parent>base_link</parent>
@@ -481,8 +540,18 @@
 
 
 
+
+
+
+
+
+
+    <!-- Left Front wheel -->
+
     <link name="front_left_wheel">
+
       <pose>1.20223 0.71562 0.34697 -1.52 0.0 0.0</pose>
+
       <inertial>
         <mass>12</mass>
         <!-- estimated from http://www.rzrforums.net/wheels-tires/1729-tire-wheel-weights-most-sizes.html -->
@@ -495,6 +564,7 @@
           <izz>1.0</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -521,6 +591,7 @@
           </contact>
         </surface>
       </collision>
+
       <visual name="tire_visual">
         <pose>0 0 0 3.14159 1.570796 0</pose>
         <geometry>
@@ -541,9 +612,12 @@
           </script>
         </material>
       </visual>
+
     </link>
+
     <link name="front_left_wheel_steering_block">
       <pose>1.20223 0.5 0.35515 1.570796 0.0 0.0</pose>
+
       <inertial>
         <mass>1</mass>
         <inertia>
@@ -555,6 +629,7 @@
           <izz>0.01</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -563,6 +638,7 @@
           </cylinder>
         </geometry>
       </collision>
+
     </link>
 
     <joint type="revolute" name="front_left_steering_joint">
@@ -614,10 +690,11 @@
 
 
 
-
+    <!-- Right Front Wheel -->
 
     <link name="front_right_wheel">
       <pose>1.20223 -0.71562 0.34697 1.52 0.0 0.0</pose>
+
       <inertial>
         <mass>12</mass>
         <!-- estimated from http://www.rzrforums.net/wheels-tires/1729-tire-wheel-weights-most-sizes.html -->
@@ -630,6 +707,7 @@
           <izz>1.0</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -656,6 +734,7 @@
           </contact>
         </surface>
       </collision>
+
       <visual name="visual">
         <pose>0 0 0 0 -1.570796 0</pose>
         <geometry>
@@ -676,9 +755,12 @@
           </script>
         </material>
       </visual>
+
     </link>
+
     <link name="front_right_wheel_steering_block">
       <pose>1.20223 -0.5 0.35515 1.570796 0.0 0.0</pose>
+
       <inertial>
         <mass>1</mass>
         <inertia>
@@ -690,6 +772,7 @@
           <izz>0.01</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -698,7 +781,9 @@
           </cylinder>
         </geometry>
       </collision>
+
     </link>
+
     <joint type="revolute" name="front_right_steering_joint">
       <child>front_right_wheel_steering_block</child>
       <parent>base_link</parent>
@@ -723,6 +808,7 @@
         </ode>
       </physics>
     </joint>
+
     <joint type="revolute" name="front_right_wheel_joint">
       <child>front_right_wheel</child>
       <parent>front_right_wheel_steering_block</parent>
@@ -747,10 +833,11 @@
 
 
 
-
+    <!-- Left and Right Rear Wheel  -->
 
     <link name="rear_left_wheel">
       <pose>-0.99377 0.71562 0.34697 -1.52 0.0 0.0</pose>
+
       <inertial>
         <mass>12</mass>
         <!-- estimated from http://www.rzrforums.net/wheels-tires/1729-tire-wheel-weights-most-sizes.html -->
@@ -763,6 +850,7 @@
           <izz>1.0</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -789,6 +877,7 @@
           </contact>
         </surface>
       </collision>
+
       <visual name="visual">
         <pose>0 0 0 0 -1.570796 0</pose>
         <geometry>
@@ -809,7 +898,9 @@
           </script>
         </material>
       </visual>
+
     </link>
+
     <joint type="revolute" name="rear_left_wheel_joint">
       <child>rear_left_wheel</child>
       <parent>base_link</parent>
@@ -821,6 +912,7 @@
 
     <link name="rear_right_wheel">
       <pose>-0.99377 -0.71562 0.34697 1.52 0.0 0.0</pose>
+
       <inertial>
         <mass>12</mass>
         <!-- estimated from http://www.rzrforums.net/wheels-tires/1729-tire-wheel-weights-most-sizes.html -->
@@ -833,6 +925,7 @@
           <izz>1.0</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -859,6 +952,7 @@
           </contact>
         </surface>
       </collision>
+
       <visual name="visual">
         <pose>0 0 0 0 -1.570796 0</pose>
         <geometry>
@@ -880,8 +974,8 @@
         </material>
       </visual>
     </link>
+
     <joint type="revolute" name="rear_right_wheel_joint">
-      <pose>0.0 0.0 -0.1 0 0 0</pose>
       <child>rear_right_wheel</child>
       <parent>base_link</parent>
       <axis>
@@ -927,22 +1021,42 @@
 
 
 
-
+    <!-- GPS -->
 
     <include>
       <uri>model://gps</uri>
       <pose>0 0 0 0 0 0</pose>
       <name>gps</name>
     </include>
+
     <joint name='gps_joint' type='fixed'>
       <child>gps::link</child>
       <parent>base_link</parent>
     </joint>
+
+
+
+
+
+
+
+    <!-- Barometer -->
+
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
       <pubRate>10</pubRate>
       <baroTopic>/baro</baroTopic>
     </plugin>
+
+
+
+
+
+
+
+
+    <!-- IMU -->
+
     <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace></robotNamespace>
       <linkName>rover/imu_link</linkName>
@@ -956,9 +1070,26 @@
       <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
       <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
+
+
+
+
+
+
+
+
+    <!-- Ground Truth -->
+
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
+
+
+
+
+
+    <!-- Magnetometer -->
+
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
       <robotNamespace/>
       <pubRate>100</pubRate>
@@ -983,73 +1114,81 @@
 
 
 
-  <!-- Detph Camera -->
-  <link name="realsense_link">
-  <pose>1 0 1.2 0 0 0</pose>
-    <inertial>
+    <!-- Detph Camera -->
+
+    <link name="realsense_link">
+ 
+    <pose>1 0 1.2 0 0 0</pose>
+
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.15</mass>
+        <!-- Inertia that's smaller than 1 gonna go craqzy in Gazebo.
+        Don't ask me why -->
+        <inertia>
+          <ixx>1</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1</iyy>
+          <iyz>0</iyz>
+          <izz>1</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://realsense_camera/meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="depth_camera" type="depth">
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.02974</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.5</near>
+            <far>18</far>
+          </clip>
+        </camera>
+
+        <plugin filename="libgazebo_ros_openni_kinect.so" name="camera_controller">
+          <cameraName>camera</cameraName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>20</updateRate>
+          <pointCloudCutoff>0.2</pointCloudCutoff>
+          <pointCloudCutoffMax>20</pointCloudCutoffMax>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <frameName>camera_link</frameName>
+          <distortion_k1>0.0</distortion_k1>
+          <distortion_k2>0.0</distortion_k2>
+          <distortion_k3>0.0</distortion_k3>
+          <distortion_t1>0.0</distortion_t1>
+          <distortion_t2>0.0</distortion_t2>
+        </plugin>
+      </sensor>
+
+    </link>
+
+    <joint type="fixed" name="realsense_joint"> <!--can be a revolute type-->
+      <parent>base_link</parent>
+      <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
-      <mass>0.15</mass>
-      <!-- Inertia that's smaller than 1 gonna go craqzy in Gazebo.
-      Don't ask me why -->
-      <inertia>
-        <ixx>1</ixx>
-        <ixy>0</ixy>
-        <ixz>0</ixz>
-        <iyy>1</iyy>
-        <iyz>0</iyz>
-        <izz>1</izz>
-      </inertia>
-    </inertial>
-    <visual name="visual">
-      <pose>0 0 0 0 0 0</pose>
-      <geometry>
-        <mesh>
-          <uri>model://realsense_camera/meshes/realsense.dae</uri>
-        </mesh>
-      </geometry>
-    </visual>
-    <sensor name="depth_camera" type="depth">
-      <update_rate>30</update_rate>
-      <camera>
-        <horizontal_fov>1.02974</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.5</near>
-          <far>18</far>
-        </clip>
-      </camera>
-      <plugin filename="libgazebo_ros_openni_kinect.so" name="camera_controller">
-        <cameraName>camera</cameraName>
-        <alwaysOn>true</alwaysOn>
-        <updateRate>20</updateRate>
-        <pointCloudCutoff>0.2</pointCloudCutoff>
-        <pointCloudCutoffMax>20</pointCloudCutoffMax>
-        <imageTopicName>rgb/image_raw</imageTopicName>
-        <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
-        <depthImageTopicName>depth/image_raw</depthImageTopicName>
-        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-        <pointCloudTopicName>depth/points</pointCloudTopicName>
-        <frameName>camera_link</frameName>
-        <distortion_k1>0.0</distortion_k1>
-        <distortion_k2>0.0</distortion_k2>
-        <distortion_k3>0.0</distortion_k3>
-        <distortion_t1>0.0</distortion_t1>
-        <distortion_t2>0.0</distortion_t2>
-      </plugin>
-    </sensor>
-  </link>
-  <joint type="fixed" name="realsense_joint"> <!--can be a revolute type-->
-    <parent>base_link</parent>
-    <child>realsense_link</child>
-    <pose>0 0 0 0 0 0</pose>
-    <axis>
-      <xyz>0 0 1</xyz>
-    </axis>
-  </joint>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
 
 
 
@@ -1070,7 +1209,7 @@
 
 
 
-
+    <!-- Mavlink -->
 
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace/>
@@ -1095,6 +1234,7 @@
       <use_tcp>1</use_tcp>
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
+ 
         <!--
         <channel name="front_left_wheel_drive">
           <input_index>3</input_index>
@@ -1115,6 +1255,7 @@
           <joint_name>front_right_wheel_joint</joint_name>
         </channel>
       -->
+
         <channel name="rear_left_wheel_drive">
           <input_index>5</input_index>
           <input_offset>0</input_offset>
@@ -1133,6 +1274,7 @@
             <cmdMin>-1200</cmdMin>
           </joint_control_pid>
         </channel>
+
         <channel name="rear_right_wheel_drive">
           <input_index>6</input_index>
           <input_offset>0</input_offset>
@@ -1151,6 +1293,7 @@
             <cmdMin>-1200</cmdMin>
           </joint_control_pid>
         </channel>
+
         <channel name="left_wheel_steering">
           <input_index>0</input_index>
           <input_offset>0</input_offset>
@@ -1169,6 +1312,7 @@
             <cmdMin>-80</cmdMin>
           </joint_control_pid>
         </channel>
+
         <channel name="right_wheel_steering">
           <input_index>1</input_index>
           <input_offset>0</input_offset>
@@ -1187,7 +1331,9 @@
             <cmdMin>-80</cmdMin>
           </joint_control_pid>
         </channel>
+
       </control_channels>
+
     </plugin>
 
 
