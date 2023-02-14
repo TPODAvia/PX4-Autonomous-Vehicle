@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!-- DO NOT EDIT: Generated from matrice_100.sdf.jinja -->
+
 <sdf version="1.5">
 
   <model name="450_frame">
@@ -51,7 +51,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/GreyTransparent</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
@@ -191,11 +191,10 @@
 
 
 
-
+    <!-- FPV Camera -->
     <link name="cgo3_camera_link">
     <pose>0.12 0 -0.09 0 1.57 0</pose>
       <inertial>
-        <!-- place holder -->
         <pose>0 0 0 0 0 0</pose>
         <mass>0.1</mass>
         <inertia>
@@ -278,7 +277,7 @@
         </plugin>
       </sensor>
     </link>
-    <joint name='cgo3_camera_joint' type='fixed'>
+    <joint name='cgo3_camera_joint' type='fixed'>  <!--can be revolute type-->
       <child>cgo3_camera_link</child>
       <parent>fuselage</parent>
       <pose>0 0 0 0 0 0</pose>
@@ -379,7 +378,7 @@
         </plugin>
       </sensor>
     </link>
-    <joint type="fixed" name="realsense_joint"> <!--can be revolute type-->
+    <joint name="realsense_joint" type="fixed"> <!--can be revolute type-->
       <parent>fuselage</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
@@ -510,7 +509,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/Blue</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
@@ -649,7 +648,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/Blue</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
@@ -788,7 +787,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/DarkYellow</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
@@ -927,7 +926,7 @@
         </geometry>
         <material>
           <script>
-            <name>Gazebo/DarkGrey</name>
+            <name>Gazebo/DarkYellow</name>
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>

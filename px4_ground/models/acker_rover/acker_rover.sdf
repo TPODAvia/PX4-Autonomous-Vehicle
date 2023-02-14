@@ -564,6 +564,7 @@
         </geometry>
       </collision>
     </link>
+
     <joint type="revolute" name="front_left_steering_joint">
       <child>front_left_wheel_steering_block</child>
       <parent>base_link</parent>
@@ -588,6 +589,7 @@
         </ode>
       </physics>
     </joint>
+
     <joint type="revolute" name="front_left_wheel_joint">
       <child>front_left_wheel</child>
       <parent>front_left_wheel_steering_block</parent>

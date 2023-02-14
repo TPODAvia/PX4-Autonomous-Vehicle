@@ -13,8 +13,8 @@
 		<arg name="verbose" value="true"/>
 	</include>
 
-	<!-- any vehicle: iris, iris2, r1_rover, standard_vtol, typhoon_h480 etc -->
-	<arg name="vehicle" default="osprey_vtol"/>
+	<!-- any vehicle: iris, 450_frame, acker_rover, avia_vtol, typhoon_h480 etc -->
+	<arg name="vehicle" default="acker_rover"/>
 	<arg name="arena" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
   	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-file $(arg arena) -sdf -z 0.5 -model $(arg vehicle)" />
