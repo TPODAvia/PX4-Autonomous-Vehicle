@@ -1,8 +1,7 @@
 <?xml version='1.0'?>
 <sdf version='1.4'>
 
-
-  <model name="vector">
+  <model name="diff_rover">
 
 
     <link name='base_link1'>
@@ -24,7 +23,7 @@
       <collision name='collision'>
         <geometry>
           <box>
-            <size>.4 <div class="5"></div> .1</size>
+            <size>0.4 <div class="5"></div> 0.1</size>
           </box>
         </geometry>
       </collision>
@@ -32,9 +31,15 @@
       <visual name='visual'>
         <geometry>
           <box>
-            <size>.4 .5 .1</size>
+            <size>0.4 0.5 0.1</size>
           </box>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
 
       <collision name='caster_collision1'>
@@ -63,14 +68,15 @@
             <radius>.05</radius>
           </sphere>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
 
     </link>
-
-
-
-
-
 
 
 
@@ -148,6 +154,12 @@
             <length>.05</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
 
     </link>
@@ -170,9 +182,25 @@
       </axis>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Right Wheel -->
     <link name="right_wheel">
       <pose>0.1 -0.33 0.1 0 1.5707 1.5707</pose>
+
       <inertial>
         <pose>0 0 0 1.57079632679 0 0</pose>
         <mass>0.414</mass>
@@ -185,6 +213,7 @@
           <izz>0.0097299</izz>
         </inertia>
       </inertial>
+
       <collision name="collision">
         <geometry>
           <cylinder>
@@ -221,6 +250,7 @@
             </contact>
           </surface>
       </collision>
+
       <visual name="visual">
         <geometry>
           <cylinder>
@@ -228,7 +258,14 @@
             <length>.05</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
 
     <joint type="revolute" name="right_wheel_hinge">
@@ -251,6 +288,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- GPS Sensors -->
   
     <include>
@@ -264,7 +315,10 @@
         <parent>base_link1</parent>
     </joint>
 
-    <!-- IMU + mag + baro -->
+
+
+
+    <!-- IMU -->
     <link name='rover/imu_link'>
 
       <pose>0.1 0 0.2 0 0 0</pose>
@@ -331,9 +385,17 @@
       <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
 
+
+
+
+    <!-- Ground Truth -->
+
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
+
+
+    <!-- Magnetometer -->
 
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
       <robotNamespace/>
@@ -343,6 +405,9 @@
       <biasCorrelationTime>600</biasCorrelationTime>
       <magTopic>/mag</magTopic>
     </plugin>
+
+
+    <!-- Barometer -->
 
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
@@ -470,7 +535,8 @@
 
 
 
-    <!--FPV Camera //////////////////////////////////////////////////////////////////////-->
+    <!--FPV Camera -->
+
     <link name='camera_link'>
       <pose>-0.05 0 0.2 0 0 3.14</pose>
 
@@ -582,7 +648,7 @@
     <!-- Detph Camera -->
 
     <link name="realsense_link">
-      <pose>0.05 0 0.2 0 0 0</pose>
+      <pose>0.15 0 0.2 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -657,9 +723,42 @@
 
 
 
+    <!-- Diff Drive Plugin -->
 
-
-
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <!-- Plugin update rate in Hz -->
+      <updateRate>30</updateRate>
+      <!-- Name of left joint, defaults to `left_joint` -->
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <!-- Name of right joint, defaults to `right_joint` -->
+      <rightJoint>right_wheel_hinge</rightJoint>
+      <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+      <wheelSeparation>0.5380</wheelSeparation>
+      <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+      <wheelDiameter>0.2410</wheelDiameter>
+      <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+      <wheelTorque>20</wheelTorque>
+      <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+      <commandTopic>cmd_vel</commandTopic>
+      <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+      <odometryTopic>robotodom</odometryTopic>
+      <!-- Odometry frame, defaults to `odom` -->
+      <odometryFrame>robotodom</odometryFrame>
+      <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+      <odometrySource>1</odometrySource>
+      <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+      <publishWheelTF>true</publishWheelTF>
+      <!-- Set to true to publish transforms for the odometry, defaults to true -->
+      <publishOdom>true</publishOdom>
+      <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+      <publishWheelJointState>true</publishWheelJointState>
+      <!-- Set to true to swap right and left wheels, defaults to true -->
+      <legacyMode>false</legacyMode>
+    </plugin>
 
 
 
@@ -733,45 +832,6 @@
         </channel>
       </control_channels>
     </plugin>
-
- 
- 
- 
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      <!-- Plugin update rate in Hz -->
-      <updateRate>30</updateRate>
-      <!-- Name of left joint, defaults to `left_joint` -->
-      <leftJoint>left_wheel_hinge</leftJoint>
-      <!-- Name of right joint, defaults to `right_joint` -->
-      <rightJoint>right_wheel_hinge</rightJoint>
-      <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-      <wheelSeparation>0.5380</wheelSeparation>
-      <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
-      <wheelDiameter>0.2410</wheelDiameter>
-      <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
-      <wheelAcceleration>1.0</wheelAcceleration>
-      <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-      <wheelTorque>20</wheelTorque>
-      <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
-      <commandTopic>cmd_vel</commandTopic>
-      <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-      <odometryTopic>robotodom</odometryTopic>
-      <!-- Odometry frame, defaults to `odom` -->
-      <odometryFrame>robotodom</odometryFrame>
-      <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-      <robotBaseFrame>base_footprint</robotBaseFrame>
-      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-      <odometrySource>1</odometrySource>
-      <!-- Set to true to publish transforms for the wheel links, defaults to false -->
-      <publishWheelTF>true</publishWheelTF>
-      <!-- Set to true to publish transforms for the odometry, defaults to true -->
-      <publishOdom>true</publishOdom>
-      <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-      <publishWheelJointState>true</publishWheelJointState>
-      <!-- Set to true to swap right and left wheels, defaults to true -->
-      <legacyMode>false</legacyMode>
-    </plugin>
-
 
     <!-- Physics -->
     <static>0</static>

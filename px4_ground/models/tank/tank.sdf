@@ -1,9 +1,11 @@
 <?xml version='1.0'?>
 <sdf version="1.4">
-  <model name="track_creator">
+  <model name="tank">
+
     <link name="base_link">
       <self_collide>0</self_collide>
       <pose>0 0 0.14 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>10.0</mass>
@@ -16,6 +18,7 @@
           <izz>0.53333</izz>
         </inertia>
       </inertial>
+
       <collision name="base_link_collision">
         <geometry>
           <box>
@@ -23,15 +26,28 @@
           </box>
         </geometry>
       </collision>
+
       <visual name="base_link_visual">
         <geometry>
-          <mesh><uri>model://tank/tank.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          <mesh><uri>model://tank/meshes/tank.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkYellow</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
+
+
+    <!-- Wheel 1 -->
+
     <link name="drum1">
       <self_collide>1</self_collide>
       <pose>0.1 0.1 0.1 1.57079632679 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1.0</mass>
@@ -44,6 +60,7 @@
           <izz>0.13333</izz>
         </inertia>
       </inertial>
+
       <collision name="drum1_collision">
         <geometry>
           <cylinder>
@@ -52,6 +69,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <visual name="drum1_visual">
         <geometry>
           <cylinder>
@@ -59,8 +77,16 @@
             <length>0.03</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
+
     <joint type="revolute" name="drum_joint1">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
@@ -69,9 +95,21 @@
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+    <!-- Wheel 2 -->
+
     <link name="drum2">
       <self_collide>1</self_collide>
       <pose>0.1 -0.1 0.1 1.57079632679 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1.0</mass>
@@ -84,6 +122,7 @@
           <izz>0.13333</izz>
         </inertia>
       </inertial>
+
       <collision name="drum2_collision">
         <geometry>
           <cylinder>
@@ -92,6 +131,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <visual name="drum2_visual">
         <geometry>
           <cylinder>
@@ -99,8 +139,16 @@
             <length>0.03</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
+
     <joint type="revolute" name="drum_joint2">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
@@ -109,9 +157,21 @@
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+    <!-- Wheel 3 -->
+
     <link name="drum3">
       <self_collide>1</self_collide>
       <pose>-0.12 0.1 0.1 1.57079632679 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1.0</mass>
@@ -124,6 +184,7 @@
           <izz>0.13333</izz>
         </inertia>
       </inertial>
+
       <collision name="drum3_collision">
         <geometry>
           <cylinder>
@@ -132,6 +193,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <visual name="drum3_visual">
         <geometry>
           <cylinder>
@@ -139,8 +201,16 @@
             <length>0.03</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
+
     <joint type="revolute" name="drum_joint3">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
@@ -149,9 +219,21 @@
         <xyz>0 1 0</xyz>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+    <!-- Wheel 4 -->
+
     <link name="drum4">
       <self_collide>1</self_collide>
       <pose>-0.12 -0.1 0.1 1.57079632679 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 -0 0</pose>
         <mass>1.0</mass>
@@ -164,6 +246,7 @@
           <izz>0.13333</izz>
         </inertia>
       </inertial>
+
       <collision name="drum4_collision">
         <geometry>
           <cylinder>
@@ -172,6 +255,7 @@
           </cylinder>
         </geometry>
       </collision>
+
       <visual name="drum4_visual">
         <geometry>
           <cylinder>
@@ -179,8 +263,16 @@
             <length>0.03</length>
           </cylinder>
         </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
       </visual>
+
     </link>
+
     <joint type="revolute" name="drum_joint4">
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
@@ -191,125 +283,144 @@
     </joint>
 
 
-  <link name='camera_link'>
-  <inertial>
-    <pose>0 0 0 0 0 0</pose>
-    <mass>0.015</mass>
-    <inertia>
-      <ixx>1e-05</ixx>
-      <ixy>0</ixy>
-      <ixz>0</ixz>
-      <iyy>1e-05</iyy>
-      <iyz>0</iyz>
-      <izz>1e-05</izz>
-    </inertia>
-  </inertial>
-  <pose>-0.05 0 0.2 0 0 3.14</pose>
-    <visual name='visual'>
-      <geometry>
-        <box>
-          <size>0.01 0.01 0.01</size>
-        </box>
-      </geometry>
-    </visual>
-    <sensor name='camera' type='camera'>
-      <camera name='__default__'>
-        <horizontal_fov>1.047</horizontal_fov>
-        <image>
-          <width>320</width>
-          <height>240</height>
-        </image>
-        <clip>
-          <near>0.1</near>
-          <far>100</far>
-        </clip>
-        <lens>
-          <type>custom</type>
-          <custom_function>
-            <c1>1.05</c1>
-            <c2>4</c2>
-            <f>1</f>
-            <fun>tan</fun>
-          </custom_function>
-          <scale_to_hfov>1</scale_to_hfov>
-          <cutoff_angle>3.1415</cutoff_angle>
-          <env_texture_size>1080</env_texture_size>
-        </lens>
-      </camera>
-      <always_on>1</always_on>
-      <update_rate>30</update_rate>
-      <visualize>1</visualize>
-      <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
-        <!-- <robotNamespace></robotNamespace> -->
-        <alwaysOn>true</alwaysOn>
-        <imageTopicName>image_raw</imageTopicName>
-        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-        <updateRate>30.0</updateRate>
-        <cameraName>usb_cam</cameraName>
-        <frameName>/robot_camera_link</frameName>
-        <CxPrime>320.5</CxPrime>
-        <Cx>320.5</Cx>
-        <Cy>240.5</Cy>
-        <hackBaseline>0</hackBaseline>
-        <focalLength>277.191356</focalLength>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-      </plugin>
-      <!-- GStreamer camera plugin (needs a lot of CPU! Consider lowering the
-          camera image size) -->
-      <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
-        <robotNamespace></robotNamespace>
-        <udpPort>5600</udpPort>
-      </plugin>
-    </sensor>
-    <self_collide>0</self_collide>
-    <kinematic>0</kinematic>
-  </link>
-  <joint type="fixed" name="camera_joint"> <!--can be revolute type-->
-    <parent>base_link</parent>
-    <child>camera_link</child>
-    <pose>0 0 0 0 0 0</pose>
-    <axis>
-      <xyz>0 0 1</xyz>
-    </axis>
-  </joint>
 
-  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-    <!-- Plugin update rate in Hz -->
-    <updateRate>30</updateRate>
-    <!-- Name of left joint, defaults to `left_joint` -->
-    <leftJoint>drum_joint4</leftJoint>
-    <!-- Name of right joint, defaults to `right_joint` -->
-    <rightJoint>drum_joint3</rightJoint>
-    <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-    <wheelSeparation>0.5380</wheelSeparation>
-    <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
-    <wheelDiameter>0.2410</wheelDiameter>
-    <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
-    <wheelAcceleration>1.0</wheelAcceleration>
-    <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-    <wheelTorque>20</wheelTorque>
-    <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
-    <commandTopic>cmd_vel</commandTopic>
-    <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-    <odometryTopic>robotodom</odometryTopic>
-    <!-- Odometry frame, defaults to `odom` -->
-    <odometryFrame>robotodom</odometryFrame>
-    <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-    <robotBaseFrame>base_footprint</robotBaseFrame>
-    <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-    <odometrySource>1</odometrySource>
-    <!-- Set to true to publish transforms for the wheel links, defaults to false -->
-    <publishWheelTF>true</publishWheelTF>
-    <!-- Set to true to publish transforms for the odometry, defaults to true -->
-    <publishOdom>true</publishOdom>
-    <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-    <publishWheelJointState>true</publishWheelJointState>
-    <!-- Set to true to swap right and left wheels, defaults to true -->
-    <legacyMode>false</legacyMode>
-  </plugin>
+
+
+
+
+
+
+
+
+    <!-- Camera -->
+
+    <link name='camera_link'>
+      <pose>-0.05 0 0.2 0 0 3.14</pose>
+ 
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+      </inertial>
+
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+
+      <sensor name='camera' type='camera'>
+        <camera name='__default__'>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <lens>
+            <type>custom</type>
+            <custom_function>
+              <c1>1.05</c1>
+              <c2>4</c2>
+              <f>1</f>
+              <fun>tan</fun>
+            </custom_function>
+            <scale_to_hfov>1</scale_to_hfov>
+            <cutoff_angle>3.1415</cutoff_angle>
+            <env_texture_size>1080</env_texture_size>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>1</visualize>
+        <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
+          <!-- <robotNamespace></robotNamespace> -->
+          <alwaysOn>true</alwaysOn>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <updateRate>30.0</updateRate>
+          <cameraName>usb_cam</cameraName>
+          <frameName>/robot_camera_link</frameName>
+          <CxPrime>320.5</CxPrime>
+          <Cx>320.5</Cx>
+          <Cy>240.5</Cy>
+          <hackBaseline>0</hackBaseline>
+          <focalLength>277.191356</focalLength>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+        <!-- GStreamer camera plugin (needs a lot of CPU! Consider lowering the
+            camera image size) -->
+        <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
+          <robotNamespace></robotNamespace>
+          <udpPort>5600</udpPort>
+        </plugin>
+      </sensor>
+
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+
+    </link>
+
+    <joint name="camera_joint" type="fixed"> <!--can be revolute type-->
+      <parent>base_link</parent>
+      <child>camera_link</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+
+
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <!-- Plugin update rate in Hz -->
+      <updateRate>30</updateRate>
+      <!-- Name of left joint, defaults to `left_joint` -->
+      <leftJoint>drum_joint4</leftJoint>
+      <!-- Name of right joint, defaults to `right_joint` -->
+      <rightJoint>drum_joint3</rightJoint>
+      <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+      <wheelSeparation>0.5380</wheelSeparation>
+      <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+      <wheelDiameter>0.2410</wheelDiameter>
+      <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+      <wheelTorque>20</wheelTorque>
+      <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+      <commandTopic>cmd_vel</commandTopic>
+      <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+      <odometryTopic>robotodom</odometryTopic>
+      <!-- Odometry frame, defaults to `odom` -->
+      <odometryFrame>robotodom</odometryFrame>
+      <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+      <odometrySource>1</odometrySource>
+      <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+      <publishWheelTF>true</publishWheelTF>
+      <!-- Set to true to publish transforms for the odometry, defaults to true -->
+      <publishOdom>true</publishOdom>
+      <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+      <publishWheelJointState>true</publishWheelJointState>
+      <!-- Set to true to swap right and left wheels, defaults to true -->
+      <legacyMode>false</legacyMode>
+    </plugin>
+
   </model>
 </sdf>
