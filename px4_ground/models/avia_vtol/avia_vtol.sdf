@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
-<!-- DO NOT EDIT: Generated from standard_vtol.sdf.jinja -->
 <sdf version='1.5'>
+
   <model name='standard_vtol'>
     <pose>0 0 0.246 0 0 0</pose>
+
     <link name='base_link'>
       <pose>0 0 0 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>5</mass>
@@ -17,6 +19,7 @@
           <izz>0.811041666667</izz>
         </inertia>
       </inertial>
+
       <collision name='base_link_collision'>
         <pose>0 0 -0.07 0 0 0</pose>
         <geometry>
@@ -38,6 +41,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='base_link_visual'>
         <pose>0.53 -1.072 -0.1 1.5707963268 0 3.1415926536</pose>
         <geometry>
@@ -53,6 +57,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='left_motor_column'>
         <pose>0 0.35 0.01 0 0 0</pose>
         <geometry>
@@ -67,6 +72,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='right_motor_column'>
         <pose>0 -0.35 0.01 0 0 0</pose>
         <geometry>
@@ -81,6 +87,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='m0'>
         <pose>-0.35 0.35 0.045 0 0 0</pose>
         <geometry>
@@ -96,6 +103,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='m1'>
         <pose>-0.35 -0.35 0.045 0 0 0</pose>
         <geometry>
@@ -111,6 +119,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='m2'>
         <pose>0.35 -0.35 0.045 0 0 0</pose>
         <geometry>
@@ -126,6 +135,7 @@
           </script>
         </material>
       </visual>
+
       <visual name='m3'>
         <pose>0.35 0.35 0.045 0 0 0</pose>
         <geometry>
@@ -141,12 +151,36 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
+
     </link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- IMU -->
+
     <link name='standard_vtol/imu_link'>
       <pose>0 0 0 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.015</mass>
@@ -159,7 +193,9 @@
           <izz>1e-05</izz>
         </inertia>
       </inertial>
+
     </link>
+
     <joint name='standard_vtol/imu_joint' type='revolute'>
       <child>standard_vtol/imu_link</child>
       <parent>base_link</parent>
@@ -178,17 +214,56 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Airspeed -->
+
     <include>
       <uri>model://airspeed</uri>
       <pose>0 0 0 0 0 0</pose>
       <name>airspeed</name>
     </include>
+
     <joint name='airspeed_joint' type='fixed'>
       <child>airspeed::link</child>
       <parent>base_link</parent>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotor 0 -->
+
     <link name='rotor_0'>
       <pose>0.35 -0.35 0.07 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.005</mass>
@@ -201,6 +276,7 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
+
       <collision name='rotor_0_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -218,6 +294,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='rotor_0_visual'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -233,10 +310,12 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
+
     <joint name='rotor_0_joint' type='revolute'>
       <child>rotor_0</child>
       <parent>base_link</parent>
@@ -253,8 +332,31 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotor 1 -->
+
     <link name='rotor_1'>
       <pose>-0.35 0.35 0.07 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.005</mass>
@@ -267,6 +369,7 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
+
       <collision name='rotor_1_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -284,6 +387,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='rotor_1_visual'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -299,10 +403,12 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
+ 
     <joint name='rotor_1_joint' type='revolute'>
       <child>rotor_1</child>
       <parent>base_link</parent>
@@ -319,8 +425,30 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotor 2 -->
+
     <link name='rotor_2'>
       <pose>0.35 0.35 0.07 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.005</mass>
@@ -333,6 +461,7 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
+
       <collision name='rotor_2_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -350,6 +479,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='rotor_2_visual'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -365,10 +495,13 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
+ 
     </link>
+
     <joint name='rotor_2_joint' type='revolute'>
       <child>rotor_2</child>
       <parent>base_link</parent>
@@ -385,8 +518,32 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotor 3 -->
+
     <link name='rotor_3'>
       <pose>-0.35 -0.35 0.07 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.005</mass>
@@ -399,6 +556,7 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
+
       <collision name='rotor_3_collision'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -416,6 +574,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='rotor_3_visual'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -431,10 +590,13 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
+
     </link>
+
     <joint name='rotor_3_joint' type='revolute'>
       <child>rotor_3</child>
       <parent>base_link</parent>
@@ -452,8 +614,31 @@
       </axis>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotor Puller -->
+
     <link name='rotor_puller'>
       <pose>-0.22 0 0.0 0 1.57 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.005</mass>
@@ -466,6 +651,7 @@
           <izz>0.000167604</izz>
         </inertia>
       </inertial>
+
       <collision name='rotor_puller_collision'>
         <pose>0.0 0 -0.04 0 0 0</pose>
         <geometry>
@@ -483,6 +669,7 @@
           </friction>
         </surface>
       </collision>
+
       <visual name='rotor_puller_visual'>
         <pose>0 0 -0.04 0 0 0</pose>
         <geometry>
@@ -498,10 +685,12 @@
           </script>
         </material>
       </visual>
+
       <gravity>1</gravity>
       <velocity_decay/>
       <self_collide>0</self_collide>
     </link>
+
     <joint name='rotor_puller_joint' type='revolute'>
       <child>rotor_puller</child>
       <parent>base_link</parent>
@@ -519,7 +708,32 @@
       </axis>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Left Elevon -->
+
     <link name="left_elevon">
+
       <inertial>
         <mass>0.00000001</mass>
         <inertia>
@@ -532,6 +746,7 @@
         </inertia>
         <pose>0 0.3 0 0.00 0 0.0</pose>
       </inertial>
+
       <visual name='left_elevon_visual'>
         <pose>-0.105 0.004 -0.034 1.5707963268 0 3.1415926536</pose>
         <geometry>
@@ -547,64 +762,9 @@
           </script>
         </material>
       </visual>
+
     </link>
-    <link name="right_elevon">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>0 -0.6 0 0.00 0 0.0</pose>
-      </inertial>
-      <visual name='right_elevon_visual'>
-        <pose>0.281 -1.032 -0.034 1.5707963268 0 3.1415926536</pose>
-        <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://standard_vtol/meshes/x8_elevon_right.dae</uri>
-          </mesh>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/Blue</name>
-            <uri>__default__</uri>
-          </script>
-        </material>
-      </visual>
-    </link>
-    <link name="elevator">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose> -0.5 0 0 0.00 0 0.0</pose>
-      </inertial>
-    </link>
-    <link name="rudder">
-      <inertial>
-        <mass>0.00000001</mass>
-        <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
-        </inertia>
-        <pose>-0.5 0 0.05 0 0 0 </pose>
-      </inertial>
-    </link>
+
     <joint name='left_elevon_joint' type='revolute'>
       <parent>base_link</parent>
       <child>left_elevon</child>
@@ -626,6 +786,61 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Right Elevon -->
+
+    <link name="right_elevon">
+
+      <inertial>
+        <mass>0.00000001</mass>
+        <inertia>
+          <ixx>0.000001</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.000001</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.000001</izz>
+        </inertia>
+        <pose>0 -0.6 0 0.00 0 0.0</pose>
+      </inertial>
+
+      <visual name='right_elevon_visual'>
+        <pose>0.281 -1.032 -0.034 1.5707963268 0 3.1415926536</pose>
+        <geometry>
+          <mesh>
+            <scale>0.001 0.001 0.001</scale>
+            <uri>model://standard_vtol/meshes/x8_elevon_right.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>__default__</uri>
+          </script>
+        </material>
+      </visual>
+ 
+    </link>
+
     <joint name='right_elevon_joint' type='revolute'>
       <parent>base_link</parent>
       <child>right_elevon</child>
@@ -647,6 +862,45 @@
         </ode>
       </physics>
     </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Elevator -->
+
+    <link name="elevator">
+
+      <inertial>
+        <mass>0.00000001</mass>
+        <inertia>
+          <ixx>0.000001</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.000001</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.000001</izz>
+        </inertia>
+        <pose> -0.5 0 0 0.00 0 0.0</pose>
+      </inertial>
+
+    </link>
+
     <joint name='elevator_joint' type='revolute'>
       <parent>base_link</parent>
       <child>elevator</child>
@@ -668,80 +922,7 @@
         </ode>
       </physics>
     </joint>
-    <joint name='rudder_joint' type='revolute'>
-      <parent>base_link</parent>
-      <child>rudder</child>
-      <pose>-0.5 0 0.05 0.00 0 0.0</pose>
-      <axis>
-        <xyz>1 0 0</xyz>
-        <limit>
-          <!-- -30/+30 deg. -->
-          <lower>-0.01</lower>
-          <upper>0.01</upper>
-        </limit>
-        <dynamics>
-          <damping>1.000</damping>
-        </dynamics>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-        </ode>
-      </physics>
-    </joint>
-    <include>
-      <uri>model://gps</uri>
-      <pose>0 0 0 0 0 0</pose>
-      <name>gps</name>
-    </include>
-    <joint name='gps_joint' type='fixed'>
-      <child>gps::link</child>
-      <parent>base_link</parent>
-    </joint>
-    <plugin name="left_wing_lift" filename="libLiftDragPlugin.so">
-      <a0>0.05984281113</a0>
-      <cla>4.752798721</cla>
-      <cda>0.6417112299</cda>
-      <cma>0.0</cma>
-      <alpha_stall>0.3391428111</alpha_stall>
-      <cla_stall>-3.85</cla_stall>
-      <cda_stall>-0.9233984055</cda_stall>
-      <cma_stall>0</cma_stall>
-      <cp>-0.05 0.3 0.05</cp>
-      <area>0.50</area>
-      <air_density>1.2041</air_density>
-      <forward>1 0 0</forward>
-      <upward>0 0 1</upward>
-      <link_name>base_link</link_name>
-      <control_joint_name>
-        left_elevon_joint
-      </control_joint_name>
-      <control_joint_rad_to_cl>-1.0</control_joint_rad_to_cl>
-      <robotNamespace></robotNamespace>
-      <windSubTopic>world_wind</windSubTopic>
-    </plugin>
-    <plugin name="right_wing_lift" filename="libLiftDragPlugin.so">
-      <a0>0.05984281113</a0>
-      <cla>4.752798721</cla>
-      <cda>0.6417112299</cda>
-      <cma>0.0</cma>
-      <alpha_stall>0.3391428111</alpha_stall>
-      <cla_stall>-3.85</cla_stall>
-      <cda_stall>-0.9233984055</cda_stall>
-      <cma_stall>0</cma_stall>
-      <cp>-0.05 -0.3 0.05</cp>
-      <area>0.50</area>
-      <air_density>1.2041</air_density>
-      <forward>1 0 0</forward>
-      <upward>0 0 1</upward>
-      <link_name>base_link</link_name>
-      <control_joint_name>
-        right_elevon_joint
-      </control_joint_name>
-      <control_joint_rad_to_cl>-1.0</control_joint_rad_to_cl>
-      <robotNamespace></robotNamespace>
-      <windSubTopic>world_wind</windSubTopic>
-    </plugin>
+
     <plugin name="elevator_lift" filename="libLiftDragPlugin.so">
       <a0>-0.2</a0>
       <cla>4.752798721</cla>
@@ -764,6 +945,66 @@
       <robotNamespace></robotNamespace>
       <windSubTopic>world_wind</windSubTopic>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rudder -->
+
+    <link name="rudder">
+
+      <inertial>
+        <mass>0.00000001</mass>
+        <inertia>
+          <ixx>0.000001</ixx>
+          <ixy>0.0</ixy>
+          <iyy>0.000001</iyy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+          <izz>0.000001</izz>
+        </inertia>
+        <pose>-0.5 0 0.05 0 0 0 </pose>
+      </inertial>
+
+    </link>
+
+    <joint name='rudder_joint' type='revolute'>
+      <parent>base_link</parent>
+      <child>rudder</child>
+      <pose>-0.5 0 0.05 0.00 0 0.0</pose>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <!-- -30/+30 deg. -->
+          <lower>-0.01</lower>
+          <upper>0.01</upper>
+        </limit>
+        <dynamics>
+          <damping>1.000</damping>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <implicit_spring_damper>1</implicit_spring_damper>
+        </ode>
+      </physics>
+    </joint>
+
     <plugin name="rudder_lift" filename="libLiftDragPlugin.so">
       <a0>0.0</a0>
       <cla>4.752798721</cla>
@@ -782,6 +1023,113 @@
       <robotNamespace></robotNamespace>
       <windSubTopic>world_wind</windSubTopic>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- GPS -->
+
+    <include>
+      <uri>model://gps</uri>
+      <pose>0 0 0 0 0 0</pose>
+      <name>gps</name>
+    </include>
+
+    <joint name='gps_joint' type='fixed'>
+      <child>gps::link</child>
+      <parent>base_link</parent>
+    </joint>
+
+
+    <!-- Left Wing -->
+
+    <plugin name="left_wing_lift" filename="libLiftDragPlugin.so">
+      <a0>0.05984281113</a0>
+      <cla>4.752798721</cla>
+      <cda>0.6417112299</cda>
+      <cma>0.0</cma>
+      <alpha_stall>0.3391428111</alpha_stall>
+      <cla_stall>-3.85</cla_stall>
+      <cda_stall>-0.9233984055</cda_stall>
+      <cma_stall>0</cma_stall>
+      <cp>-0.05 0.3 0.05</cp>
+      <area>0.50</area>
+      <air_density>1.2041</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>base_link</link_name>
+      <control_joint_name>
+        left_elevon_joint
+      </control_joint_name>
+      <control_joint_rad_to_cl>-1.0</control_joint_rad_to_cl>
+      <robotNamespace></robotNamespace>
+      <windSubTopic>world_wind</windSubTopic>
+    </plugin>
+
+
+
+
+    <!-- Right Wing -->
+
+    <plugin name="right_wing_lift" filename="libLiftDragPlugin.so">
+      <a0>0.05984281113</a0>
+      <cla>4.752798721</cla>
+      <cda>0.6417112299</cda>
+      <cma>0.0</cma>
+      <alpha_stall>0.3391428111</alpha_stall>
+      <cla_stall>-3.85</cla_stall>
+      <cda_stall>-0.9233984055</cda_stall>
+      <cma_stall>0</cma_stall>
+      <cp>-0.05 -0.3 0.05</cp>
+      <area>0.50</area>
+      <air_density>1.2041</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 0 1</upward>
+      <link_name>base_link</link_name>
+      <control_joint_name>
+        right_elevon_joint
+      </control_joint_name>
+      <control_joint_rad_to_cl>-1.0</control_joint_rad_to_cl>
+      <robotNamespace></robotNamespace>
+      <windSubTopic>world_wind</windSubTopic>
+    </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Rotors plugin -->
+
     <plugin name='front_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace></robotNamespace>
       <jointName>rotor_0_joint</jointName>
@@ -799,6 +1147,7 @@
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
     </plugin>
+
     <plugin name='back_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace></robotNamespace>
       <jointName>rotor_1_joint</jointName>
@@ -816,6 +1165,7 @@
       <motorSpeedPubTopic>/motor_speed/1</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
     </plugin>
+
     <plugin name='front_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace></robotNamespace>
       <jointName>rotor_2_joint</jointName>
@@ -833,6 +1183,7 @@
       <motorSpeedPubTopic>/motor_speed/2</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
     </plugin>
+
     <plugin name='back_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace></robotNamespace>
       <jointName>rotor_3_joint</jointName>
@@ -850,6 +1201,7 @@
       <motorSpeedPubTopic>/motor_speed/3</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
     </plugin>
+
     <plugin name='puller_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace></robotNamespace>
       <jointName>rotor_puller_joint</jointName>
@@ -867,6 +1219,24 @@
       <motorSpeedPubTopic>/motor_speed/4</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
     </plugin>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- IMU plugin -->
+
     <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace></robotNamespace>
       <linkName>standard_vtol/imu_link</linkName>
@@ -880,9 +1250,20 @@
       <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
       <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
+
+
+
+
+    <!-- Ground Truth -->
+
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
+
+
+
+    <!-- Magnetometer -->
+
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
       <robotNamespace/>
       <pubRate>100</pubRate>
@@ -891,110 +1272,133 @@
       <biasCorrelationTime>600</biasCorrelationTime>
       <magTopic>/mag</magTopic>
     </plugin>
+
+
+
+
+    <!-- Barometer -->
+
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
       <pubRate>50</pubRate>
       <baroTopic>/baro</baroTopic>
     </plugin>
 
-<!-- Detph Camera ////////////////////////////////////////////////////////////// -->
-  <link name="realsense_link">
-  <pose>0.53 0 0.012 0 0 0</pose>
-    <inertial>
-      <pose>0 0 0 0 0 0</pose>
-      <mass>0.015</mass>
-      <inertia>
-        <ixx>1e-05</ixx>
-        <ixy>0</ixy>
-        <ixz>0</ixz>
-        <iyy>1e-05</iyy>
-        <iyz>0</iyz>
-        <izz>1e-05</izz>
-      </inertia>
-    </inertial>
-    <visual name="visual">
-      <pose>0 0 0 0 0 0</pose>
-      <geometry>
-        <mesh>
-          <uri>model://realsense_camera/meshes/realsense.dae</uri>
-        </mesh>
-      </geometry>
-    </visual>
-    <sensor name="depth_camera" type="depth">
-      {%- if ros_version == '2' -%}
-      <!-- <always_on>0</always_on>
-      <update_rate>30</update_rate>
-      <camera name="camera_name">
-        <horizontal_fov>1.02974</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.5</near>
-          <far>18</far>
-        </clip>
-        <distortion>
-          <k1>0.0</k1>
-          <k2>0.0</k2>
-          <k3>0.0</k3>
-          <p1>0.0</p1>
-          <p2>0.0</p2>
-          <center>0.5 0.5</center>
-        </distortion>
-      </camera>
 
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-        <camera_name>camera</camera_name>
-        <frame_name>camera_link</frame_name>
-        <hack_baseline>0.07</hack_baseline>
-        <min_depth>0.1</min_depth>
-        <max_depth>12</max_depth>
-      </plugin> -->
-      {%- else -%}
-      <update_rate>30</update_rate>
-      <camera>
-        <horizontal_fov>1.02974</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.5</near>
-          <far>18</far>
-        </clip>
-      </camera>
-      <plugin filename="libgazebo_ros_openni_kinect.so" name="camera_controller">
-        <cameraName>camera</cameraName>
-        <alwaysOn>true</alwaysOn>
-        <updateRate>20</updateRate>
-        <pointCloudCutoff>0.2</pointCloudCutoff>
-        <pointCloudCutoffMax>20</pointCloudCutoffMax>
-        <imageTopicName>rgb/image_raw</imageTopicName>
-        <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
-        <depthImageTopicName>depth/image_raw</depthImageTopicName>
-        <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
-        <pointCloudTopicName>depth/points</pointCloudTopicName>
-        <frameName>camera_link</frameName>
-        <distortion_k1>0.0</distortion_k1>
-        <distortion_k2>0.0</distortion_k2>
-        <distortion_k3>0.0</distortion_k3>
-        <distortion_t1>0.0</distortion_t1>
-        <distortion_t2>0.0</distortion_t2>
-      </plugin>
-      {%- endif -%}
-    </sensor>
-  </link>
-  <joint type="fixed" name="realsense_joint"> <!--can be revolute type-->
-    <parent>base_link</parent>
-    <child>realsense_link</child>
-    <pose>0 0 0 0 0 0</pose>
-    <axis>
-      <xyz>0 0 1</xyz>
-    </axis>
-  </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Detph Camera -->
+    <link name="realsense_link">
+    <pose>0.53 0 0.012 0 0 0</pose>
+
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://realsense_camera/meshes/realsense.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="depth_camera" type="depth">
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.02974</horizontal_fov>
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>
+          </image>
+          <clip>
+            <near>0.5</near>
+            <far>18</far>
+          </clip>
+        </camera>
+        <plugin filename="libgazebo_ros_openni_kinect.so" name="camera_controller">
+          <cameraName>camera</cameraName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>20</updateRate>
+          <pointCloudCutoff>0.2</pointCloudCutoff>
+          <pointCloudCutoffMax>20</pointCloudCutoffMax>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <frameName>camera_link</frameName>
+          <distortion_k1>0.0</distortion_k1>
+          <distortion_k2>0.0</distortion_k2>
+          <distortion_k3>0.0</distortion_k3>
+          <distortion_t1>0.0</distortion_t1>
+          <distortion_t2>0.0</distortion_t2>
+        </plugin>
+      </sensor>
+
+    </link>
+
+    <joint type="fixed" name="realsense_joint"> <!--can be revolute type-->
+      <parent>base_link</parent>
+      <child>realsense_link</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Mavlink -->
 
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace></robotNamespace>
@@ -1017,6 +1421,7 @@
       <use_tcp>true</use_tcp>
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
+
         <channel name="rotor0">
           <input_index>0</input_index>
           <input_offset>0</input_offset>
@@ -1026,6 +1431,7 @@
           <joint_control_type>velocity</joint_control_type>
           <joint_name>rotor_0_joint</joint_name>
         </channel>
+
         <channel name="rotor1">
           <input_index>1</input_index>
           <input_offset>0</input_offset>
@@ -1035,6 +1441,7 @@
           <joint_control_type>velocity</joint_control_type>
           <joint_name>rotor_1_joint</joint_name>
         </channel>
+
         <channel name="rotor2">
           <input_index>2</input_index>
           <input_offset>0</input_offset>
@@ -1044,6 +1451,7 @@
           <joint_control_type>velocity</joint_control_type>
           <joint_name>rotor_2_joint</joint_name>
         </channel>
+
         <channel name="rotor3">
           <input_index>3</input_index>
           <input_offset>0</input_offset>
@@ -1053,6 +1461,7 @@
           <joint_control_type>velocity</joint_control_type>
           <joint_name>rotor_3_joint</joint_name>
         </channel>
+
         <channel name="rotor4">
           <input_index>4</input_index>
           <input_offset>0</input_offset>
@@ -1062,6 +1471,7 @@
           <joint_control_type>velocity</joint_control_type>
           <joint_name>rotor_puller_joint</joint_name>
         </channel>
+
         <channel name="left_elevon">
           <input_index>5</input_index>
           <input_offset>0</input_offset>
@@ -1071,6 +1481,7 @@
           <joint_control_type>position_kinematic</joint_control_type>
           <joint_name>left_elevon_joint</joint_name>
         </channel>
+
         <channel name="right_elevon">
           <input_index>6</input_index>
           <input_offset>0</input_offset>
@@ -1080,6 +1491,7 @@
           <joint_control_type>position_kinematic</joint_control_type>
           <joint_name>right_elevon_joint</joint_name>
         </channel>
+
         <channel name="elevator">
           <input_index>7</input_index>
           <input_offset>0</input_offset>
@@ -1089,8 +1501,10 @@
           <joint_control_type>position_kinematic</joint_control_type>
           <joint_name>elevator_joint</joint_name>
         </channel>
+
       </control_channels>
     </plugin>
     <static>0</static>
+
   </model>
 </sdf>
