@@ -116,7 +116,7 @@ cd
 ```
 wait for some second
 ```
-cp ./Downloads/QGroundControl.AppImage /home/vboxuser/QGroundControl.AppImage
+cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
 ```
 
