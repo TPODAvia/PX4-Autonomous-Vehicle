@@ -4,10 +4,10 @@
 
     <link name="base_link">
       <self_collide>0</self_collide>
-      <pose>0 0 0.14 0 0 0</pose>
+      <pose>0 0 0.04 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>10.0</mass>
         <inertia>
           <ixx>0.37083</ixx>
@@ -29,7 +29,10 @@
 
       <visual name="base_link_visual">
         <geometry>
-          <mesh><uri>model://tank/meshes/tank.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          <mesh>
+          <scale>0.001 0.001 0.001</scale>
+          <uri>model://tank/meshes/tank.stl</uri>
+          </mesh>
         </geometry>
         <material>
           <script>
@@ -46,10 +49,10 @@
 
     <link name="drum1">
       <self_collide>1</self_collide>
-      <pose>0.1 0.1 0.1 1.57079632679 0 0</pose>
+      <pose>0.1 0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>1.0</mass>
         <inertia>
           <ixx>0.17083</ixx>
@@ -108,10 +111,10 @@
 
     <link name="drum2">
       <self_collide>1</self_collide>
-      <pose>0.1 -0.1 0.1 1.57079632679 0 0</pose>
+      <pose>0.1 -0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>1.0</mass>
         <inertia>
           <ixx>0.17083</ixx>
@@ -170,10 +173,10 @@
 
     <link name="drum3">
       <self_collide>1</self_collide>
-      <pose>-0.12 0.1 0.1 1.57079632679 0 0</pose>
+      <pose>-0.12 0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>1.0</mass>
         <inertia>
           <ixx>0.17083</ixx>
@@ -232,10 +235,10 @@
 
     <link name="drum4">
       <self_collide>1</self_collide>
-      <pose>-0.12 -0.1 0.1 1.57079632679 0 0</pose>
+      <pose>-0.12 -0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>1.0</mass>
         <inertia>
           <ixx>0.17083</ixx>
@@ -295,7 +298,7 @@
     <!-- Camera -->
 
     <link name='camera_link'>
-      <pose>-0.05 0 0.2 0 0 3.14</pose>
+      <pose>-0.05 0 0.1 0 0 3.14</pose>
  
       <inertial>
         <pose>0 0 0 0 0 0</pose>

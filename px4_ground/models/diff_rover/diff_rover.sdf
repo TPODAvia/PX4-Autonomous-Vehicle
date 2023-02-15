@@ -4,11 +4,11 @@
   <model name="diff_rover">
 
 
-    <link name='base_link1'>
-      <pose>0 0 0.1 0 0 0</pose>
+    <link name='body_link'>
+      <pose>0 0 0 0 0 0</pose>
   
       <inertial>
-        <pose>0 0 0 0 -0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>20.0</mass>
         <inertia>
           <ixx>0.37083</ixx>
@@ -20,15 +20,7 @@
         </inertia>
       </inertial>
 
-      <collision name='collision'>
-        <geometry>
-          <box>
-            <size>0.4 <div class="5"></div> 0.1</size>
-          </box>
-        </geometry>
-      </collision>
-
-      <visual name='visual'>
+      <visual name='body_link_visual'>
         <geometry>
           <box>
             <size>0.4 0.5 0.1</size>
@@ -42,11 +34,11 @@
         </material>
       </visual>
 
-      <collision name='caster_collision1'>
+      <collision name='caster_collision'>
         <pose>-0.15 0 -0.05 0 0 0</pose>
         <geometry>
           <sphere>
-            <radius>.05</radius>
+            <radius>0.05</radius>
           </sphere>
         </geometry>
         <surface>
@@ -61,11 +53,11 @@
         </surface>
       </collision>
 
-      <visual name='caster_visual1'>
+      <visual name='caster_visual'>
         <pose>-0.15 0 -0.05 0 0 0</pose>
         <geometry>
           <sphere>
-            <radius>.05</radius>
+            <radius>0.05</radius>
           </sphere>
         </geometry>
         <material>
@@ -95,10 +87,10 @@
     <!-- Left Wheel -->
 
     <link name="left_wheel">
-      <pose>0.1 0.33 0.1 0 1.5707 1.5707</pose>
+      <pose>0.1 0.33 0 1.57 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 1.57079632679 0 0</pose>
+        <pose>0 0 0 1.57 0 0</pose>
         <mass>0.414</mass>
         <inertia>
           <ixx>0.0068682</ixx>
@@ -113,8 +105,8 @@
       <collision name="collision">
         <geometry>
           <cylinder>
-            <radius>.1</radius>
-            <length>.05</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
           <surface>
@@ -150,8 +142,8 @@
       <visual name="visual">
         <geometry>
           <cylinder>
-            <radius>.1</radius>
-            <length>.05</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
         <material>
@@ -165,9 +157,9 @@
     </link>
 
     <joint type="revolute" name="left_wheel_hinge">
-      <pose>0 0 -0.03 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <child>left_wheel</child>
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -198,8 +190,9 @@
 
 
     <!-- Right Wheel -->
+
     <link name="right_wheel">
-      <pose>0.1 -0.33 0.1 0 1.5707 1.5707</pose>
+      <pose>0.1 -0.33 0 1.57 0 0</pose>
 
       <inertial>
         <pose>0 0 0 1.57079632679 0 0</pose>
@@ -217,8 +210,8 @@
       <collision name="collision">
         <geometry>
           <cylinder>
-            <radius>.1</radius>
-            <length>.05</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
           <surface>
@@ -254,8 +247,8 @@
       <visual name="visual">
         <geometry>
           <cylinder>
-            <radius>.1</radius>
-            <length>.05</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
         <material>
@@ -269,9 +262,9 @@
     </link>
 
     <joint type="revolute" name="right_wheel_hinge">
-      <pose>0 0 0.03 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <child>right_wheel</child>
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -306,13 +299,13 @@
   
     <include>
         <uri>model://gps</uri>
-        <pose>0.1 0 0.2 0 0 0</pose>
+        <pose>0.1 0 0.1 0 0 0</pose>
         <name>gps</name>
     </include>
 
     <joint name='gps_joint' type='fixed'>
         <child>gps::link</child>
-        <parent>base_link1</parent>
+        <parent>body_link</parent>
     </joint>
 
 
@@ -321,7 +314,7 @@
     <!-- IMU -->
     <link name='rover/imu_link'>
 
-      <pose>0.1 0 0.2 0 0 0</pose>
+      <pose>0.1 0 0.1 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -354,7 +347,7 @@
 
     <joint name='standard_vtol/imu_joint' type='revolute'>
       <child>rover/imu_link</child>
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
       <axis>
         <xyz>1 0 0</xyz>
         <limit>
@@ -419,7 +412,7 @@
     <!-- Lidar -->
 
     <link name="lidar_link">
-      <pose>0 0 0.22 0 0 0</pose>
+      <pose>0 0 0.12 0 0 0</pose>
       <gravity>false</gravity>
 
       <inertial>
@@ -513,7 +506,7 @@
     <joint type="fixed" name="lidar_joint">
       <pose>0 0 0 0 0 0</pose>
       <child>lidar_link</child>
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
     </joint>
 
 
@@ -538,7 +531,7 @@
     <!--FPV Camera -->
 
     <link name='camera_link'>
-      <pose>-0.05 0 0.2 0 0 3.14</pose>
+      <pose>-0.05 0 0.1 0 0 3.14</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -622,7 +615,7 @@
     </link>
 
     <joint type="fixed" name="camera_joint"> <!--can be revolute type-->
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
       <child>camera_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
@@ -648,7 +641,7 @@
     <!-- Detph Camera -->
 
     <link name="realsense_link">
-      <pose>0.15 0 0.2 0 0 0</pose>
+      <pose>0.15 0 0.1 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -708,7 +701,7 @@
     </link>
 
     <joint type="fixed" name="realsense_joint"> <!--can be revolute type-->
-      <parent>base_link1</parent>
+      <parent>body_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>

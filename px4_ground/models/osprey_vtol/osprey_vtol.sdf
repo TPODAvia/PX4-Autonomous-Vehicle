@@ -67,6 +67,27 @@
 
     </link>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Swing wing left -->
 
     <link name='swing_wing_left'>
@@ -74,14 +95,14 @@
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>1</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>0.001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
+          <iyy>0.001</iyy>
           <iyz>0</iyz>
-          <izz>0.000167604</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
 
@@ -105,7 +126,7 @@
       <self_collide>0</self_collide>
     </link>
 
-    <joint name='swing_wing_left_joint' type='fixed'>
+    <joint name='swing_wing_left_joint' type='revolute'>
       <child>swing_wing_left</child>
       <parent>base_link</parent>
       <axis>
@@ -122,6 +143,28 @@
       </axis>
     </joint>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Swing wing right -->
 
     <link name='swing_wing_right'>
@@ -129,14 +172,14 @@
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>1</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>0.001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
+          <iyy>0.001</iyy>
           <iyz>0</iyz>
-          <izz>0.000167604</izz>
+          <izz>0.001</izz>
         </inertia>
       </inertial>
 
@@ -160,7 +203,7 @@
       <self_collide>0</self_collide>
     </link>
 
-    <joint name='swing_wing_right_joint' type='fixed'>
+    <joint name='swing_wing_right_joint' type='revolute'>
       <child>swing_wing_right</child>
       <parent>base_link</parent>
       <axis>
@@ -278,11 +321,11 @@
       </inertial>
 
       <collision name='rotor_0_collision'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.2 0 0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.005</length>
-            <radius>0.1</radius>
+            <length>0.05</length>
+            <radius>0.45</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -318,7 +361,7 @@
 
     <joint name='rotor_0_joint' type='revolute'>
       <child>rotor_0</child>
-      <parent>base_link</parent>
+      <parent>swing_wing_right</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -382,11 +425,11 @@
       </inertial>
 
       <collision name='rotor_1_collision'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 -0.2 0 0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.005</length>
-            <radius>0.1</radius>
+            <length>0.05</length>
+            <radius>0.45</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -422,7 +465,7 @@
 
     <joint name='rotor_1_joint' type='revolute'>
       <child>rotor_1</child>
-      <parent>base_link</parent>
+      <parent>swing_wing_left</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -489,11 +532,11 @@
       </inertial>
 
       <collision name='rotor_2_collision'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.2 0 0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.005</length>
-            <radius>0.1</radius>
+            <length>0.05</length>
+            <radius>0.45</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -529,7 +572,7 @@
 
     <joint name='rotor_2_joint' type='revolute'>
       <child>rotor_2</child>
-      <parent>base_link</parent>
+      <parent>swing_wing_left</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -598,11 +641,11 @@
       </inertial>
 
       <collision name='rotor_3_collision'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 -0.2 0 0 0</pose>
         <geometry>
           <cylinder>
-            <length>0.005</length>
-            <radius>0.1</radius>
+            <length>0.05</length>
+            <radius>0.45</radius>
           </cylinder>
         </geometry>
         <surface>
@@ -638,7 +681,7 @@
 
     <joint name='rotor_3_joint' type='revolute'>
       <child>rotor_3</child>
-      <parent>base_link</parent>
+      <parent>swing_wing_right</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -1417,7 +1460,7 @@
     <!-- Detph Camera -->
 
     <link name="realsense_link">
-    <pose>0.53 0 0.012 0 0 0</pose>
+    <pose>0.49 0 0.14 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -1602,6 +1645,46 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_kinematic</joint_control_type>
           <joint_name>elevator_joint</joint_name>
+        </channel>
+
+        <channel name="rudder_left">
+          <input_index>8</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>1</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position_kinematic</joint_control_type>
+          <joint_name>rudder_left_joint</joint_name>
+        </channel>
+
+         <channel name="rudder_right">
+          <input_index>9</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>1</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position_kinematic</joint_control_type>
+          <joint_name>rudder_right_joint</joint_name>
+        </channel>
+
+        <channel name="swing_wing_left">
+          <input_index>10</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>1</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position_kinematic</joint_control_type>
+          <joint_name>swing_wing_left_joint</joint_name>
+        </channel>
+
+        <channel name="swing_wing_right">
+          <input_index>11</input_index>
+          <input_offset>0</input_offset>
+          <input_scaling>1</input_scaling>
+          <zero_position_disarmed>0</zero_position_disarmed>
+          <zero_position_armed>0</zero_position_armed>
+          <joint_control_type>position_kinematic</joint_control_type>
+          <joint_name>swing_wing_left_joint</joint_name>
         </channel>
 
       </control_channels>
