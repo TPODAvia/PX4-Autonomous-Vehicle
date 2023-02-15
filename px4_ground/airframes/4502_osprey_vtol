@@ -1,9 +1,0 @@
-#!/bin/sh
-#
-# @name Balamut i Oborot
-#
-# @type Quadrotor X
-#
-
-. ${R}etc/init.d/rc.mc_defaults
-#. ${R}etc/init.d-posix/airframes/10016_iris # base on iris
