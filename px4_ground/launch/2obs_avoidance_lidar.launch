@@ -8,8 +8,13 @@
   - rviz view
  -->
 <launch>
+
+    <!-- Any world: empty, flat, city, forest etc -->
 	<arg name="world" default="$(find px4_ground)/worlds/city.world"/>
-	<arg name="vehicle" default="r1_rover"/>
+
+	<!-- Ground vehicle only: acker_rover, diff_rover, balance_bot, tank -->
+	<arg name="vehicle" default="diff_rover"/>
+
     <!-- Gazebo enviroment -->
     <include file="$(find px4_ground)/launch/0launch_model_only.launch">
         <arg name="vehicle" value="$(arg vehicle)"/>

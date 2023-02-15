@@ -14,7 +14,7 @@
 	</include>
 
 	<!-- any vehicle: iris, iris2, r1_rover, standard_vtol, typhoon_h480 etc -->
-	<arg name="vehicle" default="osprey_vtol"/>
+	<arg name="vehicle" default="acker_rover"/>
 
 	<arg name="arena" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
   	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"

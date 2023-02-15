@@ -818,7 +818,18 @@
       </axis>
     </joint>
 
-
+    <joint name='right_steering_gearbox' type='gearbox'>
+      <parent>front_left_wheel_steering_block</parent>
+      <child>front_right_wheel_steering_block</child>
+      <gearbox_ratio>-1</gearbox_ratio>
+      <gearbox_reference_body>base_link</gearbox_reference_body>
+      <axis>
+        <xyz>0 1 0</xyz>
+      </axis>
+      <axis2>
+        <xyz>0 1 0</xyz>
+      </axis2>
+    </joint>
 
 
 
@@ -984,7 +995,7 @@
       </axis>
     </joint>
 
-    <!-- <joint type="revolute" name="rear_differential_joint">
+    <joint type="revolute" name="rear_differential_joint">
       <child>rear_right_wheel</child>
       <parent>rear_left_wheel</parent>
       <axis>
@@ -1001,7 +1012,7 @@
           <cfm_damping>1</cfm_damping>
         </ode>
       </physics>
-    </joint> -->
+    </joint>
 
 
 
@@ -1111,20 +1122,93 @@
 
 
 
+    <!-- Lidar -->
+
+    <link name="lidar_link">
+      <pose>0 0 2 0 0 0</pose>
+      <gravity>false</gravity>
+
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+      </visual>
+
+      <sensor name="laser" type="ray">
+        <pose>0 0 0 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>0.0</min_angle>
+              <max_angle>6.28319</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.08</min>
+            <max>10</max>
+            <resolution>0.015</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="laser" filename="libgazebo_ros_laser.so"> 
+        <topicName>/base_scan</topicName> 
+        <frameName>lidar</frameName> </plugin> 
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
+      </sensor>
+
+
+    </link>
+
+    <joint type="fixed" name="lidar_joint">
+      <pose>0 0 0 0 0 0</pose>
+      <child>lidar_link</child>
+      <parent>base_link</parent>
+    </joint>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     <!-- Detph Camera -->
 
     <link name="realsense_link">
- 
-    <pose>1 0 1.2 0 0 0</pose>
+      <pose>1 0 1.2 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.15</mass>
-        <!-- Inertia that's smaller than 1 gonna go craqzy in Gazebo.
-        Don't ask me why -->
         <inertia>
           <ixx>1</ixx>
           <ixy>0</ixy>
@@ -1181,7 +1265,7 @@
 
     </link>
 
-    <joint type="fixed" name="realsense_joint"> <!--can be a revolute type-->
+    <joint type="fixed" name="realsense_joint">
       <parent>base_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
@@ -1339,9 +1423,34 @@
 
 
 
+    <!-- Ackerman keyboard control (Not actualy working) -->
 
-
-
+    <plugin name="tricycle_drive_controller" filename="libgazebo_ros_tricycle_drive.so">
+        <rosDebugLevel>Debug</rosDebugLevel>
+        <robotNamespace></robotNamespace>
+        <publishWheelTF>false</publishWheelTF>
+        <publishWheelJointState>true</publishWheelJointState>
+        <alwaysOn>true</alwaysOn>
+        <steeringJoint>front_left_steering_joint</steeringJoint>
+        <actuatedWheelJoint>rear_left_wheel_joint</actuatedWheelJoint>
+        <encoderWheelLeftJoint>front_left_wheel_joint</encoderWheelLeftJoint>
+        <encoderWheelRightJoint>front_right_wheel_joint</encoderWheelRightJoint>
+        <actuatedWheelDiameter>0.3</actuatedWheelDiameter>
+        <encoderWheelDiameter>0.3</encoderWheelDiameter>
+        <encoderWheelSeparation>2</encoderWheelSeparation>
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometrySource>encoder</odometrySource>
+        <robotBaseFrame>base_link</robotBaseFrame>
+        <updateRate>10.0</updateRate>
+        <wheelAcceleration>5</wheelAcceleration>
+        <wheelDeceleration>5.0</wheelDeceleration>
+        <wheelSpeedTolerance>0.5</wheelSpeedTolerance>
+        <wheelTorque>2000</wheelTorque>
+        <steeringSpeed>1</steeringSpeed>
+        <steeringAngleTolerance>0.2</steeringAngleTolerance>
+    </plugin>
 
 
 
