@@ -131,7 +131,7 @@
       </visual>
 
       <collision name='head_collision'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 1.57 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.025</radius>
