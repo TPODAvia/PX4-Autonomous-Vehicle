@@ -6,3 +6,4 @@ sitl_gazebo
 CMakeLists.txt
 PX4-Autopilot
 mavlink
+yolov7-ros/weights/*

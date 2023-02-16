@@ -1,0 +1,19 @@
+sudo: required
+dist: bionic
+language: generic
+services:
+  - docker
+
+env:
+  - ROS_DISTRO=kinetic
+  - ROS_DISTRO=melodic
+
+before_script:
+  - docker run --rm --privileged sfalexrog/qemu-register:v4.1.0
+
+script:
+  - mkdir ${HOME}/output
+  - docker run --rm -v $(pwd):/rosbuild/src -v ${HOME}/output:/output sfalexrog/multipack:${ROS_DISTRO}
+
+after_script:
+  - ls -la ${HOME}/output
