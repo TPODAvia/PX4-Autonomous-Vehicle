@@ -15,9 +15,9 @@
       <inertial>
         <mass>1.0</mass>
         <inertia>
-          <ixx>0.02166666666666667</ixx>
-          <iyy>0.02166666666666667</iyy>
-          <izz>0.04000000000000001</izz>
+          <ixx>0.002166666666666667</ixx>
+          <iyy>0.002166666666666667</iyy>
+          <izz>0.004000000000000001</izz>
         </inertia>
       </inertial>
 
@@ -196,14 +196,14 @@
     <pose>0.12 0 -0.09 0 1.57 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.1</mass>
+        <mass>0.01</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
       <visual name='cgo3_camera_visual'>
@@ -277,6 +277,7 @@
         </plugin>
       </sensor>
     </link>
+
     <joint name='cgo3_camera_joint' type='fixed'>  <!--can be revolute type-->
       <child>cgo3_camera_link</child>
       <parent>fuselage</parent>
@@ -324,6 +325,7 @@
     <!-- Detph Camera -->
     <link name="realsense_link">
     <pose>0.12 0 0.05 0 0 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.015</mass>
@@ -336,6 +338,7 @@
           <izz>1e-05</izz>
         </inertia>
       </inertial>
+
       <visual name="visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -344,6 +347,7 @@
           </mesh>
         </geometry>
       </visual>
+
       <sensor name="depth_camera" type="depth">
         <update_rate>30</update_rate>
         <camera>
@@ -377,7 +381,9 @@
           <distortion_t2>0.0</distortion_t2>
         </plugin>
       </sensor>
+
     </link>
+
     <joint name="realsense_joint" type="fixed"> <!--can be revolute type-->
       <parent>fuselage</parent>
       <child>realsense_link</child>
@@ -406,6 +412,7 @@
 
     <link name="lidar_vl53l1x_link">
     <pose>-0.12 0 0 0 1.57 0</pose>
+
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.015</mass>
@@ -418,6 +425,7 @@
           <izz>2.407e-6</izz>
         </inertia>
       </inertial>
+
       <visual name="lidar_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -426,6 +434,7 @@
           </box>
         </geometry>
       </visual>
+
       <sensor type="ray" name="lidar_vl53l1x">
         <pose>0 0 0 0 0 0</pose>
         <ray>
@@ -458,6 +467,7 @@
         <update_rate>10</update_rate>
         <visualize>true</visualize>
       </sensor>
+
     </link>
 
     <joint name="lidar_vl53l1x_joint" type="fixed">
@@ -493,10 +503,11 @@
       <pose>0.149115 -0.149115 0.0285 0 0 0</pose>
       <inertial>
           <mass>0.019</mass>
+          <pose>0 0 0.04 0 0 0</pose>
           <inertia>
-            <ixx>6.349166666666668e-07</ixx>
-            <iyy>4.310783333333334e-05</iyy>
-            <izz>4.373958333333334e-05</izz>
+            <ixx>3e-05</ixx>
+            <iyy>3e-05</iyy>
+            <izz>6e-05</izz>
           </inertia>
         </inertial>
       <visual name="rotor_0_visual">
@@ -516,11 +527,12 @@
       </visual>
 
       <collision name="rotor_0_collision">
-        <pose>0 0 0 0 0 0 </pose>
+        <pose>0 0 0.05 0 0 0 </pose>
         <geometry>
-          <box>
-            <size>0.33 0.02 0.001</size>
-          </box>
+          <cylinder>
+            <length>0.01</length>
+            <radius>0.115</radius>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -632,10 +644,11 @@
       <pose>-0.149115 0.149115 0.0285 0 0 0</pose>
       <inertial>
           <mass>0.019</mass>
+          <pose>0 0 0.04 0 0 0</pose>
           <inertia>
-            <ixx>6.349166666666668e-07</ixx>
-            <iyy>4.310783333333334e-05</iyy>
-            <izz>4.373958333333334e-05</izz>
+            <ixx>3e-05</ixx>
+            <iyy>3e-05</iyy>
+            <izz>6e-05</izz>
           </inertia>
         </inertial>
       <visual name="rotor_1_visual">
@@ -655,11 +668,12 @@
       </visual>
 
       <collision name="rotor_1_collision">
-        <pose>0 0 0 0 0 0 </pose>
+        <pose>0 0 0.05 0 0 0 </pose>
         <geometry>
-          <box>
-            <size>0.33 0.02 0.001</size>
-          </box>
+          <cylinder>
+            <length>0.01</length>
+            <radius>0.115</radius>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -771,10 +785,11 @@
       <pose>0.149115 0.149115 0.0285 0 0 0</pose>
       <inertial>
           <mass>0.019</mass>
+          <pose>0 0 0.04 0 0 0</pose>
           <inertia>
-            <ixx>6.349166666666668e-07</ixx>
-            <iyy>4.310783333333334e-05</iyy>
-            <izz>4.373958333333334e-05</izz>
+            <ixx>3e-05</ixx>
+            <iyy>3e-05</iyy>
+            <izz>6e-05</izz>
           </inertia>
         </inertial>
       <visual name="rotor_2_visual">
@@ -794,11 +809,12 @@
       </visual>
 
       <collision name="rotor_2_collision">
-        <pose>0 0 0 0 0 0 </pose>
+        <pose>0 0 0.05 0 0 0 </pose>
         <geometry>
-          <box>
-            <size>0.33 0.02 0.001</size>
-          </box>
+          <cylinder>
+            <length>0.01</length>
+            <radius>0.115</radius>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -910,10 +926,11 @@
       <pose>-0.149115 -0.149115 0.0285 0 0 0</pose>
       <inertial>
           <mass>0.019</mass>
+          <pose>0 0 0.04 0 0 0</pose>
           <inertia>
-            <ixx>6.349166666666668e-07</ixx>
-            <iyy>4.310783333333334e-05</iyy>
-            <izz>4.373958333333334e-05</izz>
+            <ixx>3e-05</ixx>
+            <iyy>3e-05</iyy>
+            <izz>6e-05</izz>
           </inertia>
         </inertial>
       <visual name="rotor_3_visual">
@@ -933,11 +950,12 @@
       </visual>
 
       <collision name="rotor_3_collision">
-        <pose>0 0 0 0 0 0 </pose>
+        <pose>0 0 0.05 0 0 0 </pose>
         <geometry>
-          <box>
-            <size>0.33 0.02 0.001</size>
-          </box>
+          <cylinder>
+            <length>0.01</length>
+            <radius>0.115</radius>
+          </cylinder>
         </geometry>
         <surface>
           <contact>
@@ -1023,7 +1041,21 @@
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!--Pixhawk autopilot-->
     <include>
@@ -1046,6 +1078,20 @@
       <parent>fuselage</parent>
       <child>3DR_gps_mag::link</child>
     </joint>
+
+    <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
+      <robotNamespace></robotNamespace>
+      <linkName>fuselage</linkName>
+      <imuTopic>/imu</imuTopic>
+      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
+      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
+      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
+      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
+      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
+      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
+      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
+      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
+    </plugin>
 
     <!--This is what plugin should look like if using standard sensors-->
     <!-- <plugin name="mavlink" filename="libgazebo_mavlink.so">
@@ -1126,20 +1172,6 @@
           <joint_control_type>velocity</joint_control_type>
         </channel>
       </control_channels>
-    </plugin>
-
-    <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
-      <robotNamespace></robotNamespace>
-      <linkName>fuselage</linkName>
-      <imuTopic>/imu</imuTopic>
-      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
-      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
-      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
-      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
-      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
-      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
-      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
-      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
 
   </model>

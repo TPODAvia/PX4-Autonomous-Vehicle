@@ -2,7 +2,7 @@
 <sdf version='1.5'>
 
   <model name='osprey_vtol'>
-    <pose>0 0 0.246 0 0 0</pose>
+    <pose>0 0 0 0 0 0</pose>
 
 
 
@@ -10,15 +10,15 @@
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.15 0 0 0</pose>
         <mass>5</mass>
         <inertia>
-          <ixx>0.477708333333</ixx>
+          <ixx>0.5</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.341666666667</iyy>
+          <iyy>0.3</iyy>
           <iyz>0</iyz>
-          <izz>0.811041666667</izz>
+          <izz>0.8</izz>
         </inertia>
       </inertial>
 
@@ -97,12 +97,12 @@
         <pose>0 0 0 0 0 0</pose>
         <mass>1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.005</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.005</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
 
@@ -174,12 +174,12 @@
         <pose>0 0 0 0 0 0</pose>
         <mass>1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.005</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.005</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
 
@@ -308,15 +308,12 @@
       <pose>0.25 -0.7 0.17 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <pose>0 0 0.2 0 0 0</pose>
+        <mass>0.05</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
+            <ixx>3e-04</ixx>
+            <iyy>3e-04</iyy>
+            <izz>6e-04</izz>
         </inertia>
       </inertial>
 
@@ -412,15 +409,12 @@
       <pose>-0.25 0.7 0.33 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <pose>0 0 -0.2 0 0 0</pose>
+        <mass>0.05</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
+            <ixx>3e-04</ixx>
+            <iyy>3e-04</iyy>
+            <izz>6e-04</izz>
         </inertia>
       </inertial>
 
@@ -519,15 +513,12 @@
       <pose>0.25 0.7 0.17 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <pose>0 0 0.2 0 0 0</pose>
+        <mass>0.05</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
+            <ixx>3e-04</ixx>
+            <iyy>3e-04</iyy>
+            <izz>6e-04</izz>
         </inertia>
       </inertial>
 
@@ -628,15 +619,12 @@
       <pose>-0.25 -0.7 0.33 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.005</mass>
+        <pose>0 0 -0.2 0 0 0</pose>
+        <mass>0.05</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.000166704</iyy>
-          <iyz>0</iyz>
-          <izz>0.000167604</izz>
+            <ixx>3e-04</ixx>
+            <iyy>3e-04</iyy>
+            <izz>6e-04</izz>
         </inertia>
       </inertial>
 
@@ -840,14 +828,14 @@
       <pose>-0.15 0.32 0.25 0 0 0</pose>
 
       <inertial>
-        <mass>0.00000001</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
+          <ixx>0.00005</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.75e-07</iyy>
+          <iyz>0</iyz>
+          <izz>0.00005</izz>
         </inertia>
       </inertial>
 
@@ -948,14 +936,14 @@
       <pose>-0.15 -0.32 0.25 0 0 0</pose>
 
       <inertial>
-        <mass>0.00000001</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
+          <ixx>0.00005</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.75e-07</iyy>
+          <iyz>0</iyz>
+          <izz>0.00005</izz>
         </inertia>
       </inertial>
 
@@ -1057,14 +1045,14 @@
       <pose> -0.92 0 0.2 0 0 0</pose>
 
       <inertial>
-        <mass>0.00000001</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
+          <ixx>0.00005</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.75e-07</iyy>
+          <iyz>0</iyz>
+          <izz>0.00005</izz>
         </inertia>
       </inertial>
 
@@ -1163,15 +1151,16 @@
 
     <link name="rudder_left">
       <pose>-0.88 0.225 0.275 1.57 0 0 </pose>
+
       <inertial>
-        <mass>0.00000001</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
+          <ixx>0.00001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.75e-07</iyy>
+          <iyz>0</iyz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -1244,15 +1233,16 @@
 
     <link name="rudder_right">
       <pose>-0.88 -0.225 0.275 1.57 0 0 </pose>
+
       <inertial>
-        <mass>0.00000001</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.000001</ixx>
-          <ixy>0.0</ixy>
-          <iyy>0.000001</iyy>
-          <ixz>0.0</ixz>
-          <iyz>0.0</iyz>
-          <izz>0.000001</izz>
+          <ixx>0.00001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>9.75e-07</iyy>
+          <iyz>0</iyz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 

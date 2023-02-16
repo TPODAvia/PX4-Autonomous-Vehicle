@@ -10,12 +10,12 @@
         <pose>0 0 0 0 0 0</pose>
         <mass>10.0</mass>
         <inertia>
-          <ixx>0.37083</ixx>
+          <ixx>0.2</ixx>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
-          <iyy>0.37083</iyy>
+          <iyy>0.3</iyy>
           <iyz>0.0</iyz>
-          <izz>0.53333</izz>
+          <izz>0.4</izz>
         </inertia>
       </inertial>
 
@@ -52,15 +52,15 @@
       <pose>0.1 0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.0</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.17083</ixx>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyy>0.17083</iyy>
-          <iyz>0.0</iyz>
-          <izz>0.13333</izz>
+          <ixx>0.0003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0003</iyy>
+          <iyz>0</iyz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -114,15 +114,15 @@
       <pose>0.1 -0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.0</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.17083</ixx>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyy>0.17083</iyy>
-          <iyz>0.0</iyz>
-          <izz>0.13333</izz>
+          <ixx>0.0003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0003</iyy>
+          <iyz>0</iyz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -176,15 +176,15 @@
       <pose>-0.12 0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.0</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.17083</ixx>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyy>0.17083</iyy>
-          <iyz>0.0</iyz>
-          <izz>0.13333</izz>
+          <ixx>0.0003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0003</iyy>
+          <iyz>0</iyz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -238,15 +238,15 @@
       <pose>-0.12 -0.1 0 1.57079632679 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>1.0</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.17083</ixx>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <iyy>0.17083</iyy>
-          <iyz>0.0</iyz>
-          <izz>0.13333</izz>
+          <ixx>0.0003</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0003</iyy>
+          <iyz>0</iyz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -404,7 +404,7 @@
       <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
       <wheelAcceleration>1.0</wheelAcceleration>
       <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-      <wheelTorque>20</wheelTorque>
+      <wheelTorque>300</wheelTorque>
       <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
       <commandTopic>cmd_vel</commandTopic>
       <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->

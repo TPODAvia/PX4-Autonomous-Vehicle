@@ -218,12 +218,12 @@
         <pose>-0.041 0 -0.162 0 0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -300,12 +300,12 @@
         <pose>-0.041 0 -0.162 0 0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -388,12 +388,12 @@
         <pose>-0.041 0 -0.081 0 0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -468,25 +468,24 @@
     <!-- FPV camera -->
 
     <link name="cgo3_camera_link">
-
-    <pose>0.4 0 0 0 0 0</pose>
+      <pose>0.392 0 -0.162 0 0 0</pose>
 
       <inertial>
         <!-- place holder -->
-        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.0001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.0001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.0001</izz>
         </inertia>
       </inertial>
 
       <collision name='cgo3_camera_collision'>
-        <pose>-0.041 0 -0.162 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <sphere>
             <radius>0.035</radius>
@@ -511,12 +510,27 @@
       </collision>
 
       <visual name='cgo3_camera_visual'>
-        <pose>-0.05 0 0 0 0 3.141592</pose>
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <mesh>
-            <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/cgo3_camera_remeshed_v1.stl</uri>
-          </mesh>
+          <sphere>
+            <radius>0.03</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+
+      <visual name='cgo3_lens_visual'>
+        <pose>0.03 0 0 0 1.57 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.02</radius>
+            <length>0.005</length>
+          </cylinder>
         </geometry>
         <material>
           <script>
@@ -531,7 +545,7 @@
       </sensor>
 
       <sensor name="camera" type="camera">
-        <pose>0.0 0 -0.162 0 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <camera>
           <horizontal_fov>2.0</horizontal_fov>
           <image>
@@ -592,7 +606,7 @@
     <joint name='cgo3_camera_joint' type='revolute'>
       <child>cgo3_camera_link</child>
       <parent>cgo3_horizontal_arm_link</parent>
-      <pose>-0.01 0.03 -0.162 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <limit>
@@ -1061,7 +1075,7 @@
       <pose>-0.755 0.425 0.05 0 0 2.09439510239</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1092,7 +1106,7 @@
       </collision>
  
       <visual name='rotor_0_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1176,7 +1190,7 @@
       <pose>0.755 -0.425 0.05 0 0 -2.09439510239</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1207,7 +1221,7 @@
       </collision>
 
       <visual name='rotor_1_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1296,7 +1310,7 @@
       <pose>-0.755 -0.425 0.05 0 0 2.09439510239</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1327,7 +1341,7 @@
       </collision>
 
       <visual name='rotor_2_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1411,7 +1425,7 @@
       <pose>0.755 0.425 0.05 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1442,7 +1456,7 @@
       </collision>
 
       <visual name='rotor_3_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1532,7 +1546,7 @@
       <pose>0 0.658 -0.02 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1563,7 +1577,7 @@
       </collision>
 
       <visual name='rotor_4_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
@@ -1652,7 +1666,7 @@
       <pose>0 -0.658 -0.02 0 0 -2.09439510239</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0.05 0 0 0</pose>
         <mass>0.005</mass>
         <inertia>
           <ixx>9.75e-07</ixx>
@@ -1683,7 +1697,7 @@
       </collision>
 
       <visual name='rotor_5_visual'>
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 0 0 0.8</pose>
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>

@@ -7,15 +7,15 @@
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
-        <mass>2</mass>
-        <pose>0 0 0 0 0 0</pose>
+        <mass>20</mass>
+        <pose>0 0 0.25 0 0 0</pose>
         <inertia>
-          <ixx>0.0166667</ixx>
+          <ixx>0.17</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0166667</iyy>
+          <iyy>0.17</iyy>
           <iyz>0</iyz>
-          <izz>0.0166667</izz>
+          <izz>0.07</izz>
         </inertia>
       </inertial>
 
@@ -99,23 +99,23 @@
     <!-- Head -->
 
     <link name='head'>
-      <pose>0 0 0.525 1.57 0 0</pose>
+      <pose>0 0 0.525 0 0 0</pose>
 
       <inertial>
         <mass>1</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.0166667</ixx>
+          <ixx>0.015</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0166667</iyy>
+          <iyy>0.005</iyy>
           <iyz>0</iyz>
-          <izz>0.0166667</izz>
+          <izz>0.015</izz>
         </inertia>
       </inertial>
 
       <visual name='head_visual'> 
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 1.57 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.025</radius>
@@ -145,7 +145,7 @@
       </sensor>
 
       <sensor name="camera" type="camera">
-        <pose>0 0 0 -1.57 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <camera>
           <horizontal_fov>2.0</horizontal_fov>
           <image>
@@ -203,7 +203,7 @@
       </sensor>
 
       <sensor name="depth_camera" type="depth">
-        <pose>0 0 0 -1.57 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <update_rate>30</update_rate>
         <camera>
           <horizontal_fov>1.02974</horizontal_fov>
@@ -244,7 +244,7 @@
       <child>head</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
-        <xyz>0 0 1</xyz>
+        <xyz>0 1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -281,18 +281,18 @@
     <!-- Arm Left -->
 
     <link name="left_arm">
-      <pose>0 0.13 0 00 0</pose>
+      <pose>0 0.13 0 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.414</mass>
+        <pose>0 0 0.25 0 0 0</pose>
+        <mass>2</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.1</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.1</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
 
@@ -410,15 +410,15 @@
       <pose>0 -0.13 0 0 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 0 0 0</pose>
-        <mass>0.414</mass>
+        <pose>0 0 0.25 0 0 0</pose>
+        <mass>2</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.1</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.1</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.005</izz>
         </inertia>
       </inertial>
 
@@ -540,14 +540,14 @@
 
       <inertial>
         <pose>0 0 0 1.57 0 0</pose>
-        <mass>0.414</mass>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.0003</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.0003</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -655,15 +655,15 @@
       <pose>0 -0.12 0.525 1.57 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 1.57079632679 0 0</pose>
-        <mass>0.414</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.0003</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.0003</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -776,14 +776,14 @@
 
       <inertial>
         <pose>0 0 0 1.57 0 0</pose>
-        <mass>0.414</mass>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.0003</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.0003</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -880,15 +880,15 @@
       <pose>0 -0.12 0 1.57 0 0</pose>
 
       <inertial>
-        <pose>0 0 0 1.57079632679 0 0</pose>
-        <mass>0.414</mass>
+        <pose>0 0 0 1.57 0 0</pose>
+        <mass>0.4</mass>
         <inertia>
-          <ixx>0.0068682</ixx>
+          <ixx>0.0003</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0068682</iyy>
+          <iyy>0.0003</iyy>
           <iyz>0</iyz>
-          <izz>0.0097299</izz>
+          <izz>0.0004</izz>
         </inertia>
       </inertial>
 
@@ -992,10 +992,10 @@
       <updateRate>30</updateRate>
       <leftJoint>left_bottom_wheel_hinge</leftJoint>
       <rightJoint>right_bottom_wheel_hinge</rightJoint>
-      <wheelSeparation>0.5380</wheelSeparation>
-      <wheelDiameter>0.2410</wheelDiameter>
+      <wheelSeparation>0.24</wheelSeparation>
+      <wheelDiameter>0.12</wheelDiameter>
       <wheelAcceleration>1.0</wheelAcceleration>
-      <wheelTorque>20</wheelTorque>
+      <wheelTorque>200</wheelTorque>
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
