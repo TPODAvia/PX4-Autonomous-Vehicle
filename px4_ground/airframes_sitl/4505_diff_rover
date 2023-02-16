@@ -6,6 +6,8 @@
 
 . ${R}etc/init.d/rc.rover_defaults
 
+# Differencial Drive rover setting
+
 param set-default GND_L1_DIST 5
 param set-default GND_SP_CTRL_MODE 1
 param set-default GND_SPEED_D 3

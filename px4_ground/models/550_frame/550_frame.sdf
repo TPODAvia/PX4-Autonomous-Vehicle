@@ -4,23 +4,21 @@
 
   <model name='550_frames'>
  
-    <pose>0 0 0.26 0 0 0.0</pose>
+    <pose>0 0 0.1 0 0 0</pose>
 
     <link name='base_link'>
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
-        <!-- rear reference point X: -100.044mm, CAD offset: 1001.049mm -->
-        <!-- top reference point Z: 33.8663mm, CAD offset: 42.8698mm -->
-        <pose>0.001005 0 -0.0090035 0 0 0</pose>
-        <mass>2.02</mass>
+        <pose>0 0 0.02 0 0 0</pose>
+        <mass>19.76</mass>
         <inertia>
-          <ixx>0.011</ixx>
+          <ixx>1</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.015</iyy>
+          <iyy>1</iyy>
           <iyz>0</iyz>
-          <izz>0.021</izz>
+          <izz>2</izz>
         </inertia>
       </inertial>
 
@@ -60,7 +58,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <box>
-            <size>0.67 0.4 0.15</size>
+            <size>1.2 1 0.15</size>
           </box>
         </geometry>
         <surface>
@@ -1076,35 +1074,17 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
 
-      <collision name='rotor_0_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
- 
       <visual name='rotor_0_visual'>
         <pose>0 0 0 0 0 0.8</pose>
         <geometry>
@@ -1156,12 +1136,12 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>5</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/5</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1191,34 +1171,16 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
-
-      <collision name='rotor_1_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
 
       <visual name='rotor_1_visual'>
         <pose>0 0 0 0 0 0.8</pose>
@@ -1271,12 +1233,12 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/4</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1311,34 +1273,16 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
-
-      <collision name='rotor_2_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
 
       <visual name='rotor_2_visual'>
         <pose>0 0 0 0 0 0.8</pose>
@@ -1391,12 +1335,12 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/3</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1426,34 +1370,16 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
-
-      <collision name='rotor_3_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
 
       <visual name='rotor_3_visual'>
         <pose>0 0 0 0 0 0.8</pose>
@@ -1506,12 +1432,12 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/2</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1547,34 +1473,16 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
-
-      <collision name='rotor_4_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
 
       <visual name='rotor_4_visual'>
         <pose>0 0 0 0 0 0.8</pose>
@@ -1627,12 +1535,12 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/1</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1667,34 +1575,16 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.005</mass>
+        <mass>0.9</mass>
         <inertia>
-          <ixx>9.75e-07</ixx>
+          <ixx>5e-04</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.000273104</iyy>
+          <iyy>0.04</iyy>
           <iyz>0</iyz>
-          <izz>0.000274004</izz>
+          <izz>0.04</izz>
         </inertia>
       </inertial>
-
-      <collision name='rotor_5_collision'>
-        <pose>0 0 0.05 0 0 0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.05</length>
-            <radius>0.381</radius>
-          </cylinder>
-        </geometry>
-        <surface>
-          <contact>
-            <ode/>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
 
       <visual name='rotor_5_visual'>
         <pose>0 0 0 0 0 0.8</pose>
@@ -1747,12 +1637,12 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>1500</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
-      <momentConstant>0.06</momentConstant>
+      <maxRotVelocity>2720</maxRotVelocity>
+      <motorConstant>0.0028</motorConstant>
+      <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.26807</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>

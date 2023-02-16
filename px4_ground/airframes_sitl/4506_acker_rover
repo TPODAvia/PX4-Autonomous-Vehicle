@@ -5,6 +5,8 @@
 
 . ${R}etc/init.d/rc.rover_defaults
 
+# Ackerman Drive rover setting
+
 param set-default GND_L1_DIST 5
 param set-default GND_L1_PERIOD 10
 param set-default GND_SP_CTRL_MODE 1

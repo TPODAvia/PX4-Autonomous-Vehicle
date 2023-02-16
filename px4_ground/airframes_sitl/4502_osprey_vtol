@@ -7,6 +7,9 @@
 
 . ${R}etc/init.d/rc.vtol_defaults
 
+
+# Tiltrotor VTOL setting
+
 param set-default FW_L1_PERIOD 12
 param set-default FW_MAN_P_MAX 30
 param set-default FW_PR_FF 0.2

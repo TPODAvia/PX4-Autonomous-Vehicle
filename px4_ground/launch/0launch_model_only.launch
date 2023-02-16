@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<arg name="paused" default="false"/>
+	<arg name="paused" default="true"/>
 	<arg name="gui" default="true"/>
 	<!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_ground)/worlds/empty.world"/>
@@ -13,12 +13,23 @@
 		<arg name="verbose" value="true"/>
 	</include>
 
+
 	<!-- any vehicle: iris, diff_rover, avia_vtol, typhoon_h480 etc -->
 	<arg name="vehicle" default="550_frame"/>
 
 	<arg name="arena" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
   	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-file $(arg arena) -sdf -z 0.5 -model $(arg vehicle)" />
+
+
+	<!-- box spawner. To make this work you need to unpause env manually -->
+	<arg name="box" default="box10kg"/>
+
+	<arg name="arena2" default="$(find px4_ground)/models/$(arg box)/$(arg box).sdf"/>
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" />
+
+
 
 	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 1.571 0 0 /map /chassis 100" /> -->
 	<!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
