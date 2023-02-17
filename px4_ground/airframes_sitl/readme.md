@@ -21,6 +21,6 @@ A couple of things to keep in mind:
 
 3 If the quad is unstable, it is probably due to bad controller gains. Tweak them for the larger vehicle.
 
-ln -s ~/catkin_ws/src/px4_ground/airframes/* ~/PX4-Autopilot/ROMFS/px4fmu_common/init.d/airframes/
+ln -fs ~/catkin_ws/src/px4_ground/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 
 ln -s ~/catkin_ws/src/px4_ground/airframes/* /home/vboxuser/.ros/etc/init.d-posix/airframes
