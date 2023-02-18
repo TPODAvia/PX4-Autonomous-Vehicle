@@ -7,6 +7,9 @@
 
 . ${R}etc/init.d/rc.mc_defaults
 
+
+# Hexarotor setting
+
 param set-default MC_PITCHRATE_P 0.0800
 param set-default MC_PITCHRATE_I 0.0400
 param set-default MC_PITCHRATE_D 0.0010

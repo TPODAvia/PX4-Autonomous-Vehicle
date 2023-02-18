@@ -2,7 +2,7 @@
 
 <sdf version="1.5">
 
-  <model name="450_frame">
+  <model name="frame450">
 
     <pose>0 0 0 0 0 0</pose>
 
@@ -30,7 +30,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/450Frame.stl</uri>
+            <uri>model://frame450/meshes/450Frame.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -46,7 +46,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/DeliveryBox.stl</uri>
+            <uri>model://frame450/meshes/DeliveryBox.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -515,7 +515,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/Rotor CCW.stl</uri>
+            <uri>model://frame450/meshes/Rotor CCW.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -656,7 +656,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/Rotor CCW.stl</uri>
+            <uri>model://frame450/meshes/Rotor CCW.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -797,7 +797,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/Rotor CW.stl</uri>
+            <uri>model://frame450/meshes/Rotor CW.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -938,7 +938,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://450_frame/meshes/Rotor CW.stl</uri>
+            <uri>model://frame450/meshes/Rotor CW.stl</uri>
           </mesh>
         </geometry>
         <material>

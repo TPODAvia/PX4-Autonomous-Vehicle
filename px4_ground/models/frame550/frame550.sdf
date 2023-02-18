@@ -2,7 +2,7 @@
 
 <sdf version='1.5'>
 
-  <model name='550_frames'>
+  <model name='frames550'>
  
     <pose>0 0 0.1 0 0 0</pose>
 
@@ -27,7 +27,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/550frame.stl</uri>
+            <uri>model://frame550/meshes/550frame.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -43,7 +43,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/deliveryBox.stl</uri>
+            <uri>model://frame550/meshes/deliveryBox.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -230,7 +230,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/cgo3_mount_remeshed_v1.stl</uri>
+            <uri>model://frame550/meshes/cgo3_mount_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -312,7 +312,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
+            <uri>model://frame550/meshes/cgo3_vertical_arm_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -400,7 +400,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
+            <uri>model://frame550/meshes/cgo3_horizontal_arm_remeshed_v1.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -587,7 +587,7 @@
         </plugin>
 
         <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
-            <robotNamespace>550_frame</robotNamespace>
+            <robotNamespace>frame550</robotNamespace>
             <interval>1</interval>
             <width>3840</width>
             <height>2160</height>
@@ -812,7 +812,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/leg2_remeshed_v3.stl</uri>
+            <uri>model://frame550/meshes/leg2_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -942,7 +942,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/leg1_remeshed_v3.stl</uri>
+            <uri>model://frame550/meshes/leg1_remeshed_v3.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1090,7 +1090,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1187,7 +1187,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1289,7 +1289,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1386,7 +1386,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1489,7 +1489,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1591,7 +1591,7 @@
         <geometry>
           <mesh>
             <scale>0.001 0.001 0.001</scale>
-            <uri>model://550_frame/meshes/prop.stl</uri>
+            <uri>model://frame550/meshes/prop.stl</uri>
           </mesh>
         </geometry>
         <material>
@@ -1674,7 +1674,7 @@
     </include>
     <joint name="sonar_joint" type="revolute">
       <child>sonar::link</child>
-      <parent>550_frame::base_link</parent>
+      <parent>frame550::base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
@@ -1862,7 +1862,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_roll_cmd</gztopic>
-          <joint_name>550_frame::cgo3_camera_joint</joint_name>
+          <joint_name>frame550::cgo3_camera_joint</joint_name>
         </channel>
 
         <channel name="gimbal_pitch">
@@ -1873,7 +1873,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_pitch_cmd</gztopic>
-          <joint_name>550_frame::cgo3_camera_joint</joint_name>
+          <joint_name>frame550::cgo3_camera_joint</joint_name>
         </channel>
 
         <channel name="gimbal_yaw">
@@ -1884,7 +1884,7 @@
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>position_gztopic</joint_control_type>
           <gztopic>/gimbal_yaw_cmd</gztopic>
-          <joint_name>550_frame::cgo3_vertical_arm_joint</joint_name>
+          <joint_name>frame550::cgo3_vertical_arm_joint</joint_name>
         </channel>
 
         <channel name="left_leg">
@@ -1981,9 +1981,9 @@
     <!-- Gimbal -->
 
     <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
-      <joint_yaw>550_frame::cgo3_vertical_arm_joint</joint_yaw>
-      <joint_roll>550_frame::cgo3_horizontal_arm_joint</joint_roll>
-      <joint_pitch>550_frame::cgo3_camera_joint</joint_pitch>
+      <joint_yaw>frame550::cgo3_vertical_arm_joint</joint_yaw>
+      <joint_roll>frame550::cgo3_horizontal_arm_joint</joint_roll>
+      <joint_pitch>frame550::cgo3_camera_joint</joint_pitch>
  
       <control_gimbal_channels>
 
