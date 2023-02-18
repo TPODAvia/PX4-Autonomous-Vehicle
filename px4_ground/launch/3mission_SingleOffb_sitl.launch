@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-		<!-- Our node to control the drone -->
-	<!-- <node pkg="px4_ground" type="control_pos.py" name="px4_ground" required="true" output="screen" /> -->
-
 		<!-- Our Aruco takeoff and landing -->
 	<!-- <node pkg="px4_ground" type="aruco_fly.py" name="offb_node_py" required="true" output="screen" /> -->
 
 		<!-- Our node to control the drone -->
-    <node pkg="px4_ground" type="control_vel.py" name="offb_node_py" required="true" output="screen" />
+    <node pkg="px4_ground" type="mavros_offboard_posctl_test.py" name="offb_node_py" required="true" output="screen" />
 
 		<!-- Our control keyboard -->
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
+    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" /> -->
 
 		<!-- Wind plugin -->
     <!-- <node pkg="px4_ground" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
