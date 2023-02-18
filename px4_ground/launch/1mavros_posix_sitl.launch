@@ -5,14 +5,14 @@
     <!-- vehicle pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
-    <arg name="z" default="0"/>
+    <arg name="z" default="0.5"/>
     <arg name="R" default="0"/>
     <arg name="P" default="0"/>
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, 450_frame, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="iris"/>
+    <arg name="vehicle" default="550_frame"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_ground)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
@@ -21,7 +21,7 @@
     <arg name="gui" default="true"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
-    <arg name="paused" default="true"/>
+    <arg name="paused" default="false"/>
     <arg name="respawn_gazebo" default="false"/>
     <!-- MAVROS configs -->
     <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
@@ -55,11 +55,10 @@
 
 
 	<!-- box spawner. To make this work you need to unpause env manually -->
-	<arg name="box" default="box1kg"/>
-
+	<!-- <arg name="box" default="box1kg"/>
 	<arg name="arena2" default="$(find px4_ground)/models/$(arg box)/$(arg box).sdf"/>
   	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" />
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
 
 
 

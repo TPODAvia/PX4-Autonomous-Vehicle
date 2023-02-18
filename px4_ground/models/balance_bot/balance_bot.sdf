@@ -988,7 +988,7 @@
 
 
 
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+    <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <updateRate>30</updateRate>
       <leftJoint>left_bottom_wheel_hinge</leftJoint>
       <rightJoint>right_bottom_wheel_hinge</rightJoint>
@@ -1005,7 +1005,7 @@
       <publishOdom>true</publishOdom>
       <publishWheelJointState>true</publishWheelJointState>
       <legacyMode>false</legacyMode>
-    </plugin>
+    </plugin> -->
 
 
 

@@ -1425,7 +1425,7 @@
 
     <!-- Ackerman keyboard control (Not actualy working) -->
 
-    <plugin name="tricycle_drive_controller" filename="libgazebo_ros_tricycle_drive.so">
+    <!-- <plugin name="tricycle_drive_controller" filename="libgazebo_ros_tricycle_drive.so">
         <rosDebugLevel>Debug</rosDebugLevel>
         <robotNamespace></robotNamespace>
         <publishWheelTF>false</publishWheelTF>
@@ -1450,7 +1450,7 @@
         <wheelTorque>2000</wheelTorque>
         <steeringSpeed>1</steeringSpeed>
         <steeringAngleTolerance>0.2</steeringAngleTolerance>
-    </plugin>
+    </plugin> -->
 
 
 

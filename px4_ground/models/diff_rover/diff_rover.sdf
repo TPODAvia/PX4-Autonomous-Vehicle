@@ -717,7 +717,7 @@
 
 
     <!-- Diff Drive Plugin -->
-
+<?ignore
     <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <!-- Plugin update rate in Hz -->
       <updateRate>30</updateRate>
@@ -753,7 +753,7 @@
       <legacyMode>false</legacyMode>
     </plugin>
 
-
+?>
 
 
 
