@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches Gazebo environment and 2x: MAVROS, PX4 SITL, and spawns vehicle -->
     <!-- vehicle model and world -->
@@ -19,6 +20,7 @@
         <arg name="verbose" value="$(arg verbose)"/>
         <arg name="paused" value="$(arg paused)"/>
     </include>
+
     <!-- UAV0 -->
     <group ns="uav0">
         <!-- MAVROS and vehicle configs -->
@@ -48,6 +50,7 @@
             <arg name="tgt_component" value="1"/>
         </include>
     </group>
+
     <!-- UAV1 -->
     <group ns="uav1">
         <!-- MAVROS and vehicle configs -->
@@ -77,6 +80,7 @@
             <arg name="tgt_component" value="1"/>
         </include>
     </group>
+
     <!-- UAV2 -->
     <group ns="uav2">
         <!-- MAVROS and vehicle configs -->

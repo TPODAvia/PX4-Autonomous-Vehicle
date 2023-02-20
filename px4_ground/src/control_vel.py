@@ -4,10 +4,19 @@ import rospy
 from geometry_msgs.msg import PoseStamped, TwistStamped, Twist
 from mavros_msgs.msg import State
 from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest
+from nav_msgs.msg import Odometry
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
+import math
 
 current_state = State()
 
 g_vel = Twist()
+
+my_odom = Odometry()
+
+roll = 0
+pitch = 0
+yaw = 0
 
 def state_cb(msg):
     global current_state
@@ -17,6 +26,15 @@ def state_callback(data):
     global g_vel
     # rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.angular.x)
     g_vel = data
+
+def odom_callback(msg):
+    global my_odom
+    global roll, pitch, yaw
+    orientation_q = msg.pose.pose.orientation
+    orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+    (roll, pitch, yaw) = euler_from_quaternion (orientation_list)
+    # print(yaw)
+
 
 if __name__ == "__main__":
     rospy.init_node("offb_node_py")
@@ -69,9 +87,18 @@ if __name__ == "__main__":
     last_req = rospy.Time.now()
 
     while(not rospy.is_shutdown()):
+
+        rospy.Subscriber("/mavros/global_position/local", Odometry, callback = odom_callback)
         rospy.Subscriber('cmd_vel', Twist, callback = state_callback)
-        vel.twist.linear.x = g_vel.linear.x
-        vel.twist.linear.y = g_vel.linear.y
+        
+        if g_vel.linear.y == 0.0:
+            vel.twist.linear.x = math.cos(yaw)*g_vel.linear.x
+            vel.twist.linear.y = math.sin(yaw)*g_vel.linear.x
+            # print(math.cos(yaw)*g_vel.linear.x)
+        else:
+            vel.twist.linear.x = math.sin(yaw)*g_vel.linear.y
+            vel.twist.linear.y = math.cos(yaw)*g_vel.linear.y
+
         vel.twist.linear.z = g_vel.linear.z
         vel.twist.angular.z = g_vel.angular.z
 

@@ -72,7 +72,7 @@
     <arg name="rc" default="false"/>
     <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
 
-    <arg name="simulator" default="false"/> <!-- flag that we are operating on a simulated drone -->
+    <arg name="simulator" default="true"/> <!-- flag that we are operating on a simulated drone -->
 
     <!-- log formatting -->
     <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
@@ -130,23 +130,14 @@
     </node>
 
 
-
-    <!-- rc backend -->
+    <!-- rc backend virtual joystick control -->
     <node name="rc" pkg="clover" type="rc" output="screen" if="$(arg rc)" clear_params="true">
         <!-- Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
         <param name="use_fake_gcs" value="false"/>
     </node>
 
-
-
-		<!-- Our node to control the mission -->
-    <node pkg="clover" type="mission.py" name="offb_node_py" required="true" output="screen" />
-
 		<!-- Our Aruco landing -->
-	<node pkg="clover" type="aruco_landing.py" name="offb_node_py" required="true" output="screen" />
-
-		<!-- Our Manual control -->
-    <node pkg="clover" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
+	<node pkg="px4_ground" type="aruco_landing.py" name="offb_node_py" required="true" output="screen" />
 
 		<!-- Wind plugin -->
     <!-- <node pkg="clover" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->

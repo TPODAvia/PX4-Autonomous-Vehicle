@@ -38,4 +38,17 @@
 # param set-default EKF2_EVP_NOISE 0.1
 # param set-default EKF2_EV_DELAY 0
 
+
+# What is this?
+# param set NAV_DLL_ACT 0
+# param set NAV_RCL_ACT 0
+# param set COM_OBL_ACT 0
+# param set EKF2_AID_MASK 1
+# param set EKF2_HGT_MODE 0
+# param set SIM_GPS_BLOCK 0
+# param set PWM_AUX_MAX 2000
+# param set EKF2_EV_DELAY 50.0
+
+
+
 set MIXER quad_x
