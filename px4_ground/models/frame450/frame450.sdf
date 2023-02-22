@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 
-<sdf version="1.5">
+<sdf version='1.6'>
 
   <model name="frame450">
 
@@ -10,8 +10,8 @@
 
     <static>false</static>
 
-
-    <link name="fuselage">
+    <link name='base_link'>
+      <pose>0 0 0 0 0 0</pose>
       <inertial>
         <mass>1.0</mass>
         <inertia>
@@ -179,8 +179,64 @@
 
     </link>
 
-    
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- IMU -->
+
+    <link name='/imu_link'>
+      <pose>0 0 0 0 0 0</pose>
+
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.015</mass>
+        <inertia>
+          <ixx>1e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>1e-05</iyy>
+          <iyz>0</iyz>
+          <izz>1e-05</izz>
+        </inertia>
+      </inertial>
+
+    </link>
+
+    <joint name='/imu_joint' type='revolute'>
+      <child>/imu_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+
 
 
 
@@ -280,7 +336,7 @@
 
     <joint name='cgo3_camera_joint' type='fixed'>  <!--can be revolute type-->
       <child>cgo3_camera_link</child>
-      <parent>fuselage</parent>
+      <parent>base_link</parent>
       <pose>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
@@ -311,20 +367,20 @@
 
 
 
-      
-      
 
-      
-        
-        
-        
-      
 
-      
+
+
+
+
+
+
+
+
 
     <!-- Detph Camera -->
     <link name="realsense_link">
-    <pose>0.12 0 0.05 0 0 0</pose>
+      <pose>0.12 0 0.05 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -385,13 +441,19 @@
     </link>
 
     <joint name="realsense_joint" type="fixed"> <!--can be revolute type-->
-      <parent>fuselage</parent>
+      <parent>base_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
     </joint>
+
+
+
+
+
+
 
 
 
@@ -472,7 +534,7 @@
 
     <joint name="lidar_vl53l1x_joint" type="fixed">
       <pose>0 0 0 0 0 0</pose>
-      <parent>fuselage</parent>
+      <parent>base_link</parent>
       <child>lidar_vl53l1x_link</child>
     </joint>
 
@@ -492,15 +554,18 @@
 
 
 
+    <plugin name='rosbag' filename='libgazebo_multirotor_base_plugin.so'>
+      <robotNamespace/>
+      <linkName>base_link</linkName>
+      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    </plugin>
+
 
     <!--Rotor 0 -->
-    <link name="rotor_0">
 
-      <gravity>true</gravity>
-      <self_collide>false</self_collide>
-      <velocity_decay/>
-
+    <link name='rotor_0'>
       <pose>0.149115 -0.149115 0.0285 0 0 0</pose>
+
       <inertial>
           <mass>0.019</mass>
           <pose>0 0 0.04 0 0 0</pose>
@@ -510,6 +575,7 @@
             <izz>6e-05</izz>
           </inertia>
         </inertial>
+  
       <visual name="rotor_0_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -547,14 +613,16 @@
         </surface>
       </collision>
 
+      <gravity>1</gravity>
+      <velocity_decay/>
     </link>
 
-    <joint name="rotor_0_joint" type="revolute">
-      <parent>fuselage</parent>
+    <joint name='rotor_0_joint' type='revolute'>
       <child>rotor_0</child>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
-	      <limit>
+        <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
@@ -600,48 +668,45 @@
       <link_name>rotor_0</link_name>
     </plugin> -->
 
-    <plugin name='rotor_0_motor_model' filename='libgazebo_motor_model.so'>
-      <robotNamespace></robotNamespace>
+    <plugin name='front_right_motor_model' filename='libgazebo_motor_model.so'>
+      <robotNamespace/>
       <jointName>rotor_0_joint</jointName>
       <linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
+      <motorConstant>5.84e-06</motorConstant>
       <momentConstant>0.06</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.000175</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    
-      
-      
-      
-      
 
-      
-        
-        
-        
-      
 
-      
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     <!--Rotor 1 -->
-    <link name="rotor_1">
 
-      <gravity>true</gravity>
-      <self_collide>false</self_collide>
-      <velocity_decay/>
-
+    <link name='rotor_1'>
       <pose>-0.149115 0.149115 0.0285 0 0 0</pose>
+
       <inertial>
           <mass>0.019</mass>
           <pose>0 0 0.04 0 0 0</pose>
@@ -651,6 +716,7 @@
             <izz>6e-05</izz>
           </inertia>
         </inertial>
+
       <visual name="rotor_1_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -688,14 +754,16 @@
         </surface>
       </collision>
 
+      <gravity>1</gravity>
+      <velocity_decay/>
     </link>
 
-    <joint name="rotor_1_joint" type="revolute">
-      <parent>fuselage</parent>
+    <joint name='rotor_1_joint' type='revolute'>
       <child>rotor_1</child>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
-	      <limit>
+        <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
@@ -741,48 +809,49 @@
       <link_name>rotor_1</link_name>
     </plugin> -->
 
-    <plugin name='rotor_1_motor_model' filename='libgazebo_motor_model.so'>
-      <robotNamespace></robotNamespace>
+    <plugin name='back_left_motor_model' filename='libgazebo_motor_model.so'>
+      <robotNamespace/>
       <jointName>rotor_1_joint</jointName>
       <linkName>rotor_1</linkName>
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
+      <motorConstant>5.84e-06</motorConstant>
       <momentConstant>0.06</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.000175</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/1</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    
-      
-      
-      
-      
 
-      
-        
-        
-        
-      
 
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     <!--Rotor 2 -->
-    <link name="rotor_2">
 
-      <gravity>true</gravity>
-      <self_collide>false</self_collide>
-      <velocity_decay/>
-
+    <link name='rotor_2'>
       <pose>0.149115 0.149115 0.0285 0 0 0</pose>
+
       <inertial>
           <mass>0.019</mass>
           <pose>0 0 0.04 0 0 0</pose>
@@ -792,6 +861,7 @@
             <izz>6e-05</izz>
           </inertia>
         </inertial>
+
       <visual name="rotor_2_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -829,14 +899,16 @@
         </surface>
       </collision>
 
+      <gravity>1</gravity>
+      <velocity_decay/>
     </link>
 
-    <joint name="rotor_2_joint" type="revolute">
-      <parent>fuselage</parent>
+    <joint name='rotor_2_joint' type='revolute'>
       <child>rotor_2</child>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
-	      <limit>
+        <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
@@ -882,57 +954,55 @@
       <link_name>rotor_2</link_name>
     </plugin> -->
 
-    <plugin name='rotor_2_motor_model' filename='libgazebo_motor_model.so'>
-      <robotNamespace></robotNamespace>
+    <plugin name='front_left_motor_model' filename='libgazebo_motor_model.so'>
+      <robotNamespace/>
       <jointName>rotor_2_joint</jointName>
       <linkName>rotor_2</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
+      <motorConstant>5.84e-06</motorConstant>
       <momentConstant>0.06</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.000175</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/2</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    
-      
-      
-      
-      
 
-      
-        
-        
-        
-      
 
-      
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     <!--Rotor 3 -->
-    <link name="rotor_3">
 
-      <gravity>true</gravity>
-      <self_collide>false</self_collide>
-      <velocity_decay/>
-
+    <link name='rotor_3'>
       <pose>-0.149115 -0.149115 0.0285 0 0 0</pose>
+
       <inertial>
-          <mass>0.019</mass>
-          <pose>0 0 0.04 0 0 0</pose>
-          <inertia>
-            <ixx>3e-05</ixx>
-            <iyy>3e-05</iyy>
-            <izz>6e-05</izz>
-          </inertia>
-        </inertial>
+        <mass>0.019</mass>
+        <pose>0 0 0.04 0 0 0</pose>
+        <inertia>
+          <ixx>3e-05</ixx>
+          <iyy>3e-05</iyy>
+          <izz>6e-05</izz>
+        </inertia>
+      </inertial>
+
       <visual name="rotor_3_visual">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
@@ -970,14 +1040,16 @@
         </surface>
       </collision>
 
+      <gravity>1</gravity>
+      <velocity_decay/>
     </link>
 
-    <joint name="rotor_3_joint" type="revolute">
-      <parent>fuselage</parent>
+    <joint name='rotor_3_joint' type='revolute'>
       <child>rotor_3</child>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 0 1</xyz>
-	      <limit>
+        <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
         </limit>
@@ -1023,19 +1095,19 @@
       <link_name>rotor_3</link_name>
     </plugin> -->
 
-    <plugin name='rotor_3_motor_model' filename='libgazebo_motor_model.so'>
-      <robotNamespace></robotNamespace>
+    <plugin name='back_right_motor_model' filename='libgazebo_motor_model.so'>
+      <robotNamespace/>
       <jointName>rotor_3_joint</jointName>
       <linkName>rotor_3</linkName>
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>8.54858e-06</motorConstant>
+      <motorConstant>5.84e-06</motorConstant>
       <momentConstant>0.06</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber>
-      <rotorDragCoefficient>0.000806428</rotorDragCoefficient>
+      <rotorDragCoefficient>0.000175</rotorDragCoefficient>
       <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/3</motorSpeedPubTopic>
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -1057,86 +1129,80 @@
 
 
 
-    <!--Pixhawk autopilot-->
+
+
+
+
     <include>
-      <uri>model://pixhawk</uri>
-      <pose>0 0 0.03 0 0 0</pose>
+      <uri>model://gps</uri>
+      <pose>-0.08 0 0.155 0 0 0</pose>
+      <name>gps0</name>
     </include>
 
-    <joint name="pixhawk_joint" type="fixed">
-      <parent>fuselage</parent>
-      <child>pixhawk::link</child>
+    <joint name='gps0_joint' type='fixed'>
+      <child>gps0::link</child>
+      <parent>base_link</parent>
     </joint>
-
-    <!--3DR GPS and Magnetometer-->
-    <include>
-      <uri>model://3DR_gps_mag</uri>
-      <pose> -0.08 0 0.155 0 0 0</pose>
-    </include>
-
-    <joint name="3DR_gps_mag_joint" type="fixed">
-      <parent>fuselage</parent>
-      <child>3DR_gps_mag::link</child>
-    </joint>
-
-    <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
-      <robotNamespace></robotNamespace>
-      <linkName>fuselage</linkName>
-      <imuTopic>/imu</imuTopic>
-      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
-      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
-      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
-      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
-      <accelerometerNoiseDensity>0.004</accelerometerNoiseDensity>
-      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
-      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
-      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
-    </plugin>
-
-    <!--This is what plugin should look like if using standard sensors-->
-    <!-- <plugin name="mavlink" filename="libgazebo_mavlink.so">
-      <imu_topic>fuselage/pixhawk/link/mpu-6000/imu</imu_topic>
-      <gps_topic>fuselage/3DR_gps_mag/link/ublox-neo-7</gps_topic>
-      <mag_topic>fuselage/3DR_gps_mag/link/HMC5883L</mag_topic>
-      <sonar_topic>fuselage/mb1240-xl-ez4/link/sonar</sonar_topic>
-    </plugin> -->
 
     <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
       <robotNamespace/>
     </plugin>
 
     <plugin name='magnetometer_plugin' filename='libgazebo_magnetometer_plugin.so'>
-        <robotNamespace/>
-        <pubRate>100</pubRate>
-        <noiseDensity>0.0004</noiseDensity>
-        <randomWalk>6.4e-06</randomWalk>
-        <biasCorrelationTime>600</biasCorrelationTime>
-        <magTopic>/mag</magTopic>
+      <robotNamespace/>
+      <pubRate>100</pubRate>
+      <noiseDensity>0.0004</noiseDensity>
+      <randomWalk>6.4e-06</randomWalk>
+      <biasCorrelationTime>600</biasCorrelationTime>
+      <magTopic>/mag</magTopic>
     </plugin>
 
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
       <pubRate>50</pubRate>
       <baroTopic>/baro</baroTopic>
+      <baroDriftPaPerSec>0</baroDriftPaPerSec>
     </plugin>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Mavlink -->
+
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
-      <robotNamespace></robotNamespace>
+      <robotNamespace/>
       <imuSubTopic>/imu</imuSubTopic>
-      <gpsSubTopic>/gps</gpsSubTopic>
+      <magSubTopic>/mag</magSubTopic>
+      <baroSubTopic>/baro</baroSubTopic>
       <mavlink_addr>INADDR_ANY</mavlink_addr>
+      <mavlink_tcp_port>4560</mavlink_tcp_port>
       <mavlink_udp_port>14560</mavlink_udp_port>
       <serialEnabled>0</serialEnabled>
       <serialDevice>/dev/ttyACM0</serialDevice>
       <baudRate>921600</baudRate>
       <qgc_addr>INADDR_ANY</qgc_addr>
       <qgc_udp_port>14550</qgc_udp_port>
+      <sdk_addr>INADDR_ANY</sdk_addr>
+      <sdk_udp_port>14540</sdk_udp_port>
       <hil_mode>0</hil_mode>
-      <hil_state_level>false</hil_state_level>
+      <hil_state_level>0</hil_state_level>
       <opticalFlowSubTopic>/px4flow/link/opticalFlow</opticalFlowSubTopic>
       <lidarSubTopic>/sf10a/link/lidar</lidarSubTopic>
-      <enable_lockstep>true</enable_lockstep>
-      <use_tcp>true</use_tcp>
+      <send_vision_estimation>0</send_vision_estimation>
+      <send_odometry>1</send_odometry>
+      <enable_lockstep>1</enable_lockstep>
+      <use_tcp>1</use_tcp>
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
         <channel name='rotor1'>
@@ -1174,9 +1240,21 @@
       </control_channels>
     </plugin>
 
+    <static>0</static>
+
+    <plugin name='rotors_gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
+      <robotNamespace/>
+      <linkName>/imu_link</linkName>
+      <imuTopic>/imu</imuTopic>
+      <gyroscopeNoiseDensity>0.00018665</gyroscopeNoiseDensity>
+      <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
+      <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
+      <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
+      <accelerometerNoiseDensity>0.00186</accelerometerNoiseDensity>
+      <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
+      <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
+      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
+    </plugin>
+
   </model>
-
 </sdf>
-
-
-<!-- vim: set et ft=xml fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : -->
