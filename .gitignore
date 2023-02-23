@@ -3,7 +3,7 @@ orb_slam3_ros/
 package-lock.json
 /.vscode/
 sitl_gazebo
-CMakeLists.txt
+/CMakeLists.txt
 PX4-Autopilot
 mavlink
 yolov7-ros/weights/*
