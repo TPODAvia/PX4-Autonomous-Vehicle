@@ -22,11 +22,11 @@ using namespace Eigen;
 class PX4Landing {
  public:
     /**
-     *默认构造函数
+     * default constructor
      */
     PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
     /**
-     * 析构函数
+     * destructor
      */
     ~PX4Landing();
     void Initialize();

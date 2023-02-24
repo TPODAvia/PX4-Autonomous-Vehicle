@@ -3,7 +3,8 @@
 * Author: bingo
 * Email: bingobin.lw@gmail.com
 * Time: 2020.01.31
-* Description: 实现ros navigation中move_base速度控制输出的cmd_vel控制px4 quadrotor 
+* Description: 
+Realize the cmd_vel control px4 quadrotor of the move_base speed control output in ros navigation
 ***************************************************************************************************************************/
 #include "ros_nav_quadrotor.h"
 using namespace std;

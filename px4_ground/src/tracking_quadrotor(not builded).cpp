@@ -3,7 +3,7 @@
 * Author: bingo
 * Email: bingobin.lw@gmail.com
 * Time: 2020.03.10
-* Description: 实现px4 quadrotor 二维码跟踪
+* Description: Implement px4 quadrotor QR code tracking
 ***************************************************************************************************************************/
 #include "tracking_quadrotor.h"
 using namespace std;

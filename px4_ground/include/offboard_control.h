@@ -19,7 +19,7 @@ using namespace Eigen;
 class OffboardControl {
  public:
     /**
-     *默认构造函数
+     * default constructor
      */
   OffboardControl(void):
     offboard_nh_("~") {
