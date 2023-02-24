@@ -13,20 +13,25 @@ Some realization in this project:
 - Swarm mission
 
 Examples:
-![alt text](./doc/uav.jpg)
+
 UAV with avoidance module
+![alt text](./doc/uav.jpg)
 
-![alt text](./doc/car.jpg)
 Ground vehicle with avoidance module
+![alt text](./doc/car.jpg)
 
-![alt text](./doc/swarm.jpg)
+
 UAV or ground vehicle swarm
+![alt text](./doc/swarm.jpg)
 
-![alt text](./doc/uav_pipeline.jpg)
+
 UAV pipeline
+![alt text](./doc/uav_pipeline.jpg)
 
-![alt text](./doc/car_pipeline.jpg)
+
 Ground vehicle pipeline
+![alt text](./doc/car_pipeline.jpg)
+
 
 # Installing Guide
 
