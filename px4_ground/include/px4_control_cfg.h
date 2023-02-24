@@ -90,11 +90,11 @@ using namespace Eigen;
 class PX4RosNav {
  public:
     /**
-     *默认构造函数
+     * default constructor
      */
     PX4RosNav(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
     /**
-     * 析构函数
+     * destructor
      */
     ~PX4RosNav();
     void initialize();

@@ -16,11 +16,11 @@ using namespace Eigen;
 class MissionCar {
  public:
     /**
-     *默认构造函数
+     * default constructor
      */
     MissionCar(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
     /**
-     * 析构函数
+     * destructor
      */
     ~MissionCar();
     void Initialize();

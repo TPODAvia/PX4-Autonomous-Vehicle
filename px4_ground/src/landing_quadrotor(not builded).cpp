@@ -3,7 +3,7 @@
 * Author: bingo
 * Email: bingobin.lw@gmail.com
 * Time: 2020.02.08
-* Description: 实现px4 quadrotor 二维码精准着陆，
+* Description: Realize the precise landing of px4 quadrotor AR code
 ***************************************************************************************************************************/
 #include "landing_quadrotor.h"
 using namespace std;

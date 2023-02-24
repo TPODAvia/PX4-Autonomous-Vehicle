@@ -3,7 +3,8 @@
 * Author: bingo
 * Email: bingobin.lw@gmail.com
 * Time: 2020.05.26
-* Description: 实现无人机在未知环境给定点导航，规划
+* Description: 
+Realize the navigation and planning of UAVs at a given point in an unknown environment
 ***************************************************************************************************************************/
 #include "auto_2d_nav.h"
 using namespace std;
