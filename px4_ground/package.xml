@@ -54,16 +54,32 @@
   <build_depend>urdf</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>mavros_extras</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>move_base_msgs</build_depend>
+  <build_depend>prometheus_msgs</build_depend>
+
+
   <build_export_depend>gazebo_ros</build_export_depend>
   <build_export_depend>gazebo_plugins</build_export_depend>
   <build_export_depend>urdf</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>mavros_extras</build_export_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>tf</build_export_depend>
+
+
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>urdf</exec_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>mavros_extras</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>actionlib</exec_depend>
+  <exec_depend>move_base_msgs</exec_depend>
+  <exec_depend>prometheus_msgs</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
