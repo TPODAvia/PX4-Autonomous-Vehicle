@@ -300,14 +300,14 @@ Still in development...
 
 # HITL simulations
 
-### 1) Adding custom airframes
+### Adding custom airframes
 You can create custom airframe for HITL simulations and save them in airframe_hitl folder. Names of created airframe file should consist of number code followed by model name (e.g. 6011_typhoon_h480). After run in terminal: 
 
 ```
 ln -fs ~/catkin_ws/src/px4_ground/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 ```
 
-### 2) Enabling motors in hitl
+### Enabling motors in hitl
 By default motors output is blocked in hitl mode. To unblock it, run in terminal:
 
 ```
@@ -331,29 +331,29 @@ A successful run will end with output similar to:
 [954/954] Creating /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default/px4_fmu-v4_default.px4
 ```
 The first part of the build target `px4_fmu-v4` indicates the firmware for a particular flight controller hardware. The following list shows the build commands for the [Pixhawk standard](https://docs.px4.io/main/en/flight_controller/autopilot_pixhawk_standard.html) boards:
--Holybro Pixhawk 6X (FMUv6X): `make px4_fmu-v6x_default`
--Holybro Pixhawk 6C (FMUv6C): `make px4_fmu-v6c_default`
--Holybro Pix32 v6 (FMUv6C): `make px4_fmu-v6c_default`
--Holybro Pixhawk 5X (FMUv5X): `make px4_fmu-v5x_default`
--Pixhawk 4 (FMUv5): `make px4_fmu-v5_default`
--Pixhawk 4 Mini (FMUv5): `make px4_fmu-v5_default`
--CUAV V5+ (FMUv5): `make px4_fmu-v5_default`
--CUAV V5 nano (FMUv5): `make px4_fmu-v5_default`
--Pixracer (FMUv4): `make px4_fmu-v4_default`
--Pixhawk 3 Pro: `make px4_fmu-v4pro_default`
--Pixhawk Mini: `make px4_fmu-v3_default`
--Pixhawk 2 (Cube Black) (FMUv3): `make px4_fmu-v3_default`
--mRo Pixhawk (FMUv3): `make px4_fmu-v3_default` (supports 2MB Flash)
--Holybro pix32 (FMUv2): `make px4_fmu-v2_default`
--Pixfalcon (FMUv2): `make px4_fmu-v2_default`
--Dropix (FMUv2): `make px4_fmu-v2_default`
--Pixhawk 1 (FMUv2): `make px4_fmu-v2_default`
--Pixhawk 1 with 2 MB flash: `make px4_fmu-v3_default`
+- Holybro Pixhawk 6X (FMUv6X): `make px4_fmu-v6x_default`
+- Holybro Pixhawk 6C (FMUv6C): `make px4_fmu-v6c_default`
+- Holybro Pix32 v6 (FMUv6C): `make px4_fmu-v6c_default`
+- Holybro Pixhawk 5X (FMUv5X): `make px4_fmu-v5x_default`
+- Pixhawk 4 (FMUv5): `make px4_fmu-v5_default`
+- Pixhawk 4 Mini (FMUv5): `make px4_fmu-v5_default`
+- CUAV V5+ (FMUv5): `make px4_fmu-v5_default`
+- CUAV V5 nano (FMUv5): `make px4_fmu-v5_default`
+- Pixracer (FMUv4): `make px4_fmu-v4_default`
+- Pixhawk 3 Pro: `make px4_fmu-v4pro_default`
+- Pixhawk Mini: `make px4_fmu-v3_default`
+- Pixhawk 2 (Cube Black) (FMUv3): `make px4_fmu-v3_default`
+- mRo Pixhawk (FMUv3): `make px4_fmu-v3_default` (supports 2MB Flash)
+- Holybro pix32 (FMUv2): `make px4_fmu-v2_default`
+- Pixfalcon (FMUv2): `make px4_fmu-v2_default`
+- Dropix (FMUv2): `make px4_fmu-v2_default`
+- Pixhawk 1 (FMUv2): `make px4_fmu-v2_default`
+- Pixhawk 1 with 2 MB flash: `make px4_fmu-v3_default`
 Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards) are provided in the documentation for the individual [flight controller boards](https://docs.px4.io/main/en/flight_controller/).
 
-:::Note
+:::note
 The `_default` suffix is the firmware _configuration_. This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraze_crazyflie`, etc.).
-:::
+::: 
 
 ### Uploading Firmware (Flashing the board)
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB. For example:
