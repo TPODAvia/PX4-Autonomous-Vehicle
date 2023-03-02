@@ -352,10 +352,8 @@ The first part of the build target `px4_fmu-v4` indicates the firmware for a par
 Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards) are provided in the documentation for the individual [flight controller boards](https://docs.px4.io/main/en/flight_controller/).
 
 
-**Note** 
--
+## Note 
 The `_default` suffix is the firmware _configuration_. This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraze_crazyflie`, etc.).
--
 
 ### Uploading Firmware (Flashing the board)
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB. For example:
