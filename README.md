@@ -354,6 +354,7 @@ Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards
 
 ## Note 
 The `_default` suffix is the firmware _configuration_. This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraze_crazyflie`, etc.).
+##
 
 ### Uploading Firmware (Flashing the board)
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB. For example:
