@@ -42,4 +42,4 @@ It can be done by using this comand:
 
 ln -fs ~/catkin_ws/src/px4_ground/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 
-ln -s ~/catkin_ws/src/px4_ground/airframes_sitl/* /home/vboxuser/.ros/etc/init.d-posix/airframes
+ln -fs ~/catkin_ws/src/px4_ground/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
