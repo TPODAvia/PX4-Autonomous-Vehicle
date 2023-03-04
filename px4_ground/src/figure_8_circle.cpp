@@ -9,9 +9,9 @@
 #include <math.h>
 
 #define FLIGHT_ALTITUDE 1.5f
-#define RATE            20  // 频率 hz
-#define RADIUS          5   // 绕八运动的半径大小 m
-#define CYCLE_S         15  // 完成一次绕八运动所花费的时间
+#define RATE            20  // frequency hz
+#define RADIUS          5   // The radius of movement around eight is m
+#define CYCLE_S         15  // The time it takes to complete a round eight
 #define STEPS           (CYCLE_S*RATE)
 
 #define PI 3.141592653589793238327950
@@ -24,7 +24,7 @@ void init_path()
 {
     int i;
     const double dt = 1.0/RATE;
-    const double dadt = (2.0*PI)/CYCLE_S;   //角度相对于时间的一阶导数
+    const double dadt = (2.0*PI)/CYCLE_S;   // first derivative of angle with respect to time
     const double r = RADIUS;
 
     for(i=0;i<STEPS;i++)
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
         rate.sleep();
     }
 
-HOME:
+    HOME:
     ROS_INFO("waiting for offboard mode");
     while(ros::ok()){
         target_local_pub.publish(position_home);

@@ -7,7 +7,7 @@
 *  
 ***************************************************************************************************************************/
 
-//ROS 头文件
+// ROS header files
 #include <ros/ros.h>
 #include <Eigen/Eigen>
 #include <cmath>
@@ -15,7 +15,7 @@
 #include <vector>
 
 
-//topic 头文件
+// topic header file
 #include <iostream>
 #include <std_msgs/Bool.h>
 #include <mavros_msgs/State.h>
@@ -50,7 +50,7 @@ float sector_scale;
 Point2D Uavp;
 vector<float> map_cv;
 vector<double> ranges;
-float desire_z = 1.5; //期望高度
+float desire_z = 1.5; // high expectations
 
 uint32_t init_mask = 0;
 Eigen::Vector3d vel_sp_body;                                           
@@ -72,14 +72,14 @@ void ComputeMV(vector<float> r) {
 	float dist[360] = { 0 };
 	ranges.clear();
 	map_cv.clear();
-	int range_size = r.size(); //有多少条激光
+	int range_size = r.size(); // how many lasers are there
 
 	for (size_t i = 0; i < range_size; i++)
 	{
 		//A non-zero value (true) if x is a NaN value; and zero (false) otherwise.
 
 		//isinf A non-zero value (true) if x is an infinity; and zero (false) otherwise.
-		if (!std::isnan(r[i]) && !std::isinf(r[i]))//取出有效值
+		if (!std::isnan(r[i]) && !std::isinf(r[i]))//Take effective value
 		{
 			float scan_distance = r[i];
 			int sector_index = std::floor((i*angle_resolution) / sector_value);//(i*1)/30 sector_index:[1 12]
@@ -93,7 +93,7 @@ void ComputeMV(vector<float> r) {
 		ranges.push_back(r[i]);
 	}
 
-	for (int j = 0; j < (int)(360 / sector_value); j++)//把uav四周分为12个sector，每个sector的值越小，代表越安全。
+	for (int j = 0; j < (int)(360 / sector_value); j++)//Divide the uav into 12 sectors, the smaller the value of each sector, the safer it is.
 	{
 		map_cv.push_back(dist[j]);
 //		printf("dist[%d]=%f-",j,dist[j]);
@@ -101,7 +101,7 @@ void ComputeMV(vector<float> r) {
 //	printf("##############################################################################################\n");
 }
 
-/*检测前方[340 360],[0 20]范围内是否安全*/
+/*Detect whether it is safe within the range of [340 360], [0 20] ahead*/
 bool IsFrontSafety()
 {
 	float goal_sector = (int)(0 - (sector_value - sector_scale) + 360) % 360;//(0-(30-10)+360)%360 = 340,goal_sector = 340
@@ -124,21 +124,21 @@ bool IsFrontSafety()
 	return false;
 }
 
-/*输入期望坐标点，输出期望机头方向*/
+/*Input the desired coordinate point and output the desired nose direction*/
 float CalculDirection(Point2D& goal) {
 	float ori;
 	//Compute arc tangent with two parameters
 	//return Principal arc tangent of y/x, in the interval [-pi,+pi] radians.
 	//One radian is equivalent to 180/PI degrees.
 	float G_theta = atan2((goal.y - Uavp.y), (goal.x - Uavp.x));
-	float goal_ori = G_theta * 180 / PI; //目标点相对uav的方向信息，即与y轴的夹角，正值代表在第一三现象，负值代表在二四现象。ENU坐标系下
+	float goal_ori = G_theta * 180 / PI; //The direction information of the target point relative to uav, that is, the angle with the y-axis, positive values ​​represent the first and third phenomena, and negative values ​​represent the second and fourth phenomena. In the ENU coordinate system
 	if (goal_ori < 0)
 	{
 		goal_ori += 360;
 	}
 	goal_ori -= heading;
 	goal_ori += 360;
-	goal_ori = (int)goal_ori % 360; //把目标点方向转化成机体坐标系下的方向
+	goal_ori = (int)goal_ori % 360; //Transform the direction of the target point into the direction in the body coordinate system
 
 	float goal_sector = (int)(goal_ori - sector_value + 360) % 360;
 	int start_index = goal_sector / angle_resolution;
@@ -152,18 +152,18 @@ float CalculDirection(Point2D& goal) {
 				scan_distance = scan_distance_max - ranges[real_index] + scan_distance;
 		}
 	}
-	if (scan_distance < 0.1)//判断目标方向处是否安全
+	if (scan_distance < 0.1)//Determine whether the target direction is safe
 	{
 		ori = goal_ori;
 		ori += heading;
 		ori = (int)ori % 360;
 
-		return ori;//若安全，则把机头指向目标处
+		return ori;//If safe, point the nose at the target
 	}
 
 
 	vector<int> mesh;
-	for (int i = 0; i < map_cv.size(); i++) //确定栅格中CV值 共有12个栅格，CV值越大，存在障碍物可能性越大
+	for (int i = 0; i < map_cv.size(); i++) //Determine the CV value in the grid. There are 12 grids in total. The larger the CV value, the greater the possibility of obstacles
 	{
 		if (map_cv[i] < 0.1)
 			mesh.push_back(0);
@@ -184,7 +184,7 @@ float CalculDirection(Point2D& goal) {
 		else
 		{
 			if (mesh[j] + mesh[j + 1] == 0)
-				cand_dir.push_back((j + 1)*sector_value);//寻找安全角度，机体坐标系下；即确定波谷
+				cand_dir.push_back((j + 1)*sector_value);//Find a safe angle, in the body coordinate system; that is, determine the trough
 		}
 	}
 
@@ -195,14 +195,14 @@ float CalculDirection(Point2D& goal) {
 			float delte_theta2 = 360 - delte_theta1;
 			float delte_theta = delte_theta1 < delte_theta2 ? delte_theta1 : delte_theta2;
 			delta.push_back(delte_theta);
-		}//寻找接近目标区域的波谷
+		}//Look for troughs close to the target area
 		int min_index = min_element(delta.begin(), delta.end()) - delta.begin();
 		ori = cand_dir.at(min_index);
 
 		ori += heading;
 		ori = (int)ori % 360;
 
-		return ori;//确定机头方向
+		return ori;//Determine the direction of the nose
 	}
 
 	return -1;
@@ -244,7 +244,7 @@ void waypoints_cb(const mavros_msgs::WaypointList::ConstPtr& msg) {
 bool scan_updated = false;
 void scan_cb(const sensor_msgs::LaserScan::ConstPtr &msg)
 {
-	//激光雷达数据回调函数
+	//LiDAR data callback function
 	init_mask |= 1 << 5;
 	ComputeMV(msg->ranges);
 	scan_updated = true;
@@ -263,7 +263,7 @@ void gps_cb(const sensor_msgs::NavSatFix::ConstPtr &msg)
 	init_mask |= 1;
 	current_gps = { msg->latitude, msg->longitude, msg->altitude };
 }
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>主 函 数<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>main function<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "collision_avoidance_vfh");
@@ -286,7 +286,7 @@ int main(int argc, char **argv)
     ros::Subscriber head_sub = nh.subscribe<std_msgs::Float64>("/mavros/global_position/compass_hdg", 100, heading_cb);
 
 ros::Publisher local_pos_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 10);
-    // 频率 [20Hz]
+    // frequency [20Hz]
     ros::Rate rate(20.0);
 	while (ros::ok() && !current_state.connected) {
 		ros::spinOnce();
@@ -313,10 +313,10 @@ while (ros::ok())
 			rate.sleep();
 		}
 		printf("guild ok\n");
-		//**********************************************pose vextor容器***********************************************
+		//**********************************************pose vextor container***********************************************
 		std::vector<geometry_msgs::PoseStamped> pose;
 //		printf("wp size=%d\n", waypoints.waypoints.size());
-		for (int index = 0; index < waypoints.waypoints.size(); index++)//把gps下的航点信息转成ENU下的期望位置信息
+		for (int index = 0; index < waypoints.waypoints.size(); index++)//Convert the waypoint information under GPS to the expected position information under ENU
 		{
 			geometry_msgs::PoseStamped p;
 			GeographicLib::Geocentric earth(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
@@ -352,7 +352,7 @@ while (ros::ok())
 			sp.translation() = current_local_pos + enu_offset;
 
 			sp.linear() = q.toRotationMatrix();
-			//*******************************往vector容器存数据****************************************
+			//*******************************Store data in the vector container****************************************
 			Eigen::Vector3d testv(sp.translation());
 			p.pose.position.x = testv[0];
 			p.pose.position.y = testv[1];
@@ -369,7 +369,7 @@ while (ros::ok())
 
 				while (ros::ok())
 				{
-					ros::spinOnce();//等待订阅更新完成
+					ros::spinOnce();//Wait for the subscription update to complete
 					if (local_pos_updated && scan_updated && heading_updated)
 						break;
 					rate.sleep();
@@ -381,14 +381,13 @@ while (ros::ok())
 				if (fabs(local_pos.pose.position.x - pose[i].pose.position.x) < 1.0 &&
 					fabs(local_pos.pose.position.y - pose[i].pose.position.y) < 1.0)
 				{
-					break;//当前位置与期望航点距离相差不到1m,则退出此次航点任务
+					break;//If the distance between the current position and the desired waypoint is less than 1m, the waypoint task will be exited.
 				}
 
 				Point2D goal;
-				goal.x = pose[i].pose.position.x;//读取期望位置
+				goal.x = pose[i].pose.position.x;//read desired position
 				goal.y = pose[i].pose.position.y;
-				float direction = CalculDirection(goal);//根据障碍物的分布与期望位置，得到期望的航向
-
+				float direction = CalculDirection(goal);//According to the distribution of obstacles and the desired position, the desired heading is obtained
 				if (direction >= -0.5)
 				{
 					if (direction > 180)

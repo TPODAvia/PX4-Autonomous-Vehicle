@@ -3,7 +3,9 @@
 * Author: bingo
 * Email: bingobin.lw@gmail.com
 * Time: 2020.02.19
-* Description: 实现小车在offboard模式下的走预定航点,其中的位置控制采用的是飞控中的NED坐标系，可参考这个博客：https://blog.csdn.net/qq_33641919/article/details/101003978
+* Description: Realize that the car goes to the predetermined waypoint in the offboard mode. The position control uses the NED coordinate system in the flight control. 
+* You can refer to this blog：https://blog.csdn.net/qq_33641919/article/details/101003978
+*
 ***************************************************************************************************************************/
 #include "mission_car_offboard.h"
 using namespace std;
@@ -29,11 +31,11 @@ void MissionCar::CmdLoopCallback(const ros::TimerEvent& event)
 /**
 * @name      bool MissionCar::CarPosControl(Eigen::Vector3d &currPose,float currYaw,Eigen::Vector3d &expectPose)
 
-* @brief      实现px4小车offboard模式下的位置控制
+* @brief      Realize the position control of the px4 car in offboard mode
 *             
-* @param[in]  &currPose currYaw 当前小车的位置以及偏航角（NED坐标系）
+* @param[in]  &currPose currYaw The current position and yaw angle of the car (NED coordinate system)
 *             
-* @param[in]  &expectPose 期望位置（NED坐标系）
+* @param[in]  &expectPose expected position (NED coordinate system)
 * @param[out] 是否到达目标点
 *
 * @param[out] 
@@ -60,7 +62,7 @@ bool MissionCar::CarPosControl(Eigen::Vector3d &currPose,float currYaw,Eigen::Ve
     currYaw = currYaw * (180/pi);
 
 		OffboardControl_.send_attitude_setpoint(expectAtt,desire_vel_);
-   //据航点小于0.5m即作为到达目的地
+   // According to the waypoint is less than 0.5m as the destination
 	if(sqrt((currPose[0]-expectPose[0])*(currPose[0]-expectPose[0]) - (currPose[1]-expectPose[1])*(currPose[1]-expectPose[1])) <= 0.5)
 	{
 		return true;
@@ -120,7 +122,7 @@ void MissionCar::MissionStateUpdate()
 	
 //	cout << "missionStep = " << mission_step_ << endl;
 }
-//接收来自飞控的当前car位置和偏航角，并转换成飞控中的NED坐标系                
+// Receive the current car position and yaw angle from the flight control, and convert it into the NED coordinate system in the flight control             
 void MissionCar::Px4PosCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
     double temp_roll,temp_pitch,temp_yaw;
@@ -128,12 +130,12 @@ void MissionCar::Px4PosCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
     tf::quaternionMsgToTF(msg->pose.orientation,quat);
     tf::Matrix3x3(quat).getRPY(temp_roll,temp_pitch,temp_yaw);
     curr_yaw_ = -temp_yaw + pi/2;
-    //保证curr_yaw_范围为[-pi,+pi]
+    // Guaranteed that the range of curr_yaw_ is [-pi,+pi]
     if(curr_yaw_ > pi)
 	{
 		curr_yaw_ = curr_yaw_ - 2*pi;
 	}
-//    cout << "curr_yaw = " << curr_yaw_ << endl;
+	//cout << "curr_yaw = " << curr_yaw_ << endl;
     Eigen::Vector3d pos_drone_fcu_enu(msg->pose.position.x,msg->pose.position.y,msg->pose.position.z);
     car_pose_[0] = pos_drone_fcu_enu[1];
     car_pose_[1] = pos_drone_fcu_enu[0];

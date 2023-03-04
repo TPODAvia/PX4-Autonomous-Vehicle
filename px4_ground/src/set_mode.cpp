@@ -8,38 +8,38 @@
 * Introduction:  Change mode
 ***************************************************************************************************************************/
 
-//头文件
+// head File
 #include <ros/ros.h>
 
 
 #include <iostream>
 
-//话题头文件
+// topic header file
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
 
 
 using namespace std;
-mavros_msgs::State current_state;                       //无人机当前状态[包含上锁状态 模式] (从飞控中读取)
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>回调函数<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+mavros_msgs::State current_state;                       // The current state of the drone [including the locked state mode] (read from the flight control)
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Callback<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 void state_cb(const mavros_msgs::State::ConstPtr& msg)
 {
     current_state = *msg;
 }
 
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>主 函 数<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>main function<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "set_mode");
     ros::NodeHandle nh("~");
 
-    // 【订阅】无人机当前状态 - 来自飞控
-    //  本话题来自飞控(通过/plugins/sys_status.cpp)
+    // 【Subscription】Current Status of UAV - From Flight Control
+    //  This topic comes from flight control (via /plugins/sys_status.cpp)
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("/mavros/state", 10, state_cb);
 
-    // 【服务】修改系统模式
+    // 【Service】Modify system mode
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
 
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     int Num_StateMachine = 0;
     int flag_1;
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>主  循  环<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>main loop<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     while(ros::ok())
     {
         switch (Num_StateMachine)
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
                 cout << "Input the mode:  0 for Arm,1 for TAKEOFF, 2 for OFFBOARD,3 for LAND, 4 for POSCTL,5 for MISSION  "<<endl;
                 cin >> flag_1;
 
-                //1000 降落 也可以指向其他任务
+                //1000 Landing can also point to other quests
                 if (flag_1 == 0)
                 {
                     Num_StateMachine = 1;
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
                 else if(flag_1 == 2)
                 {
                     Num_StateMachine = 3;
-                }//惯性系移动
+                }//Inertial frame movement
                 else if(flag_1 == 3)
                 {
                     Num_StateMachine = 4;
@@ -187,9 +187,9 @@ int main(int argc, char **argv)
             break;
         }
 
-        //执行回调函数
+        //Execute the callback function
         ros::spinOnce();
-        //周期休眠
+        //Cycle sleep
         rate.sleep();
     }
 

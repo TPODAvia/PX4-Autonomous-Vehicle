@@ -32,12 +32,12 @@ class MissionCar {
   ros::NodeHandle nh_private_;
   ros::Timer cmdloop_timer_;
 
-  Eigen::Vector3d  car_pose_; //接收来自飞控的car位置 
-  Eigen::Vector3d  desire_pose_;//mission中期望car位置
-  float curr_yaw_;//当前航向角
+  Eigen::Vector3d  car_pose_;     //Receive car position from flight controller
+  Eigen::Vector3d  desire_pose_;  //Expected car position in mission
+  float curr_yaw_;                //Current heading angle
   float mission_step_;
 
-  /*四个期望的航点*/
+  /*four desired waypoints*/
   float step1_Pose_x;
   float step1_Pose_y;
   float step2_Pose_x;

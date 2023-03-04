@@ -19,10 +19,10 @@
 #include <Eigen/Eigen>
 #include <geometry_msgs/PoseStamped.h>
 using namespace std;
-Eigen::Vector3d pos_target;//offboard模式下，发送给飞控的期望值
-float desire_Radius = 15;//期望圆轨迹半径
+Eigen::Vector3d pos_target;//In offboard mode, the expected value sent to the flight controller
+float desire_Radius = 15;// Expected circle trajectory radius
 float MoveTimeCnt = 0;
-float priod = 2000.0;   //调此数值可改变走圆形的速度
+float priod = 2000.0;   //Adjust this value to change the speed of walking in a circle
 Eigen::Vector3d temp_pos_drone;
 Eigen::Vector3d temp_pos_target;
 mavros_msgs::SetMode mode_cmd;
@@ -31,15 +31,17 @@ ros::ServiceClient set_mode_client;
 ros::ServiceClient arming_client;
 mavros_msgs::CommandBool arm_cmd;
 
-enum
+enum Drone
 {
-  WAITING,		//等待offboard模式
-	CHECKING,		//检查小车状态
-	RUN,			  //跑圆形路经
-	RUNOVER,		//结束		
-}	RunState = WAITING;//初始状态WAITING
+  	WAITING,			//Wait for offboard mode
+	CHECKING,			// check the status of the car
+	RUN,			    //Run in a circle
+	RUNOVER,			//Finish		
+};
 
-//接收来自飞控的当前小车位置
+Drone RunState = WAITING; //Initial state WAITING
+
+//Receive the current position of the car from the flight controller
 Eigen::Vector3d pos_drone;                     
 void pos_cb(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
@@ -49,14 +51,14 @@ void pos_cb(const geometry_msgs::PoseStamped::ConstPtr &msg)
     pos_drone = pos_drone_fcu_enu;
 }
 
-//接收来自飞控的当前小车状态
+//Receive the current status of the car from the flight controller
 mavros_msgs::State current_state;
 void state_cb(const mavros_msgs::State::ConstPtr& msg) 
 {
 	current_state = *msg;
 }
 
-//发送位置期望值至飞控（输入：期望xyz,期望yaw）
+//Send the position expectation to the flight controller (input: expected xyz, expected yaw)
 void send_pos_setpoint(const Eigen::Vector3d& pos_sp, float yaw_sp)
 {
     mavros_msgs::PositionTarget pos_setpoint;
@@ -76,7 +78,7 @@ void send_pos_setpoint(const Eigen::Vector3d& pos_sp, float yaw_sp)
     setpoint_raw_local_pub.publish(pos_setpoint);
 }
 
-//状态机更新
+// state machine update
 void run_state_update(void)
 {
 
@@ -106,7 +108,7 @@ void run_state_update(void)
 			cout << "WAITING" <<endl;
 			break;
 		case CHECKING:
-			if(pos_drone[0] == 0 && pos_drone[1] == 0) 			//没有位置信息则执行上锁
+			if(pos_drone[0] == 0 && pos_drone[1] == 0) 			//If there is no position information, perform locking
 			{
 				cout << "Check error, make sure have local location" <<endl;
         arm_cmd.request.value = false;
@@ -179,7 +181,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "circular_car_offboard");
     ros::NodeHandle nh("~");
-    // 频率 [20Hz]
+    //  frequency [20Hz]
     ros::Rate rate(20.0);
 
     ros::Subscriber position_sub = nh.subscribe<geometry_msgs::PoseStamped>("/mavros/local_position/pose", 100, pos_cb);
@@ -187,7 +189,7 @@ int main(int argc, char **argv)
 
     setpoint_raw_local_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 10);
 
-    // 【服务】修改系统模式
+    // [Service] Modify the system mode
     set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
     arming_client = nh.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
 

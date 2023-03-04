@@ -63,9 +63,9 @@ chmod +x ROS1-installation/ROS.sh
 sudo ./ROS1-installation/ROS.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-```
-```
 source /opt/ros/noetic/setup.bash
+```
+```
 sudo apt install build-essential git python3-pip python3-rosdep -y
 sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
@@ -73,6 +73,8 @@ sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 sudo apt install libeigen3-dev -y
 sudo apt install ros-noetic-hector-trajectory-server -y
+```
+```
 cd ~
 git clone https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
@@ -126,7 +128,8 @@ sudo rosdep init
 ```
 rosdep update
 rosdep install --from-paths src --ignore-src -y
-
+```
+```
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov7-ros/requirements.txt
 ```

@@ -43,15 +43,15 @@ class PX4Landing {
   void Px4StateCallback(const mavros_msgs::State::ConstPtr& msg);
   Eigen::Vector4d LandingPidProcess(Eigen::Vector3d &currentPos,float currentYaw,Eigen::Vector3d &expectPos,float expectYaw);
   Eigen::Vector3d temp_pos_drone;
-  Eigen::Vector3d posxyz_target;//期望飞机的空间位置
-  Eigen::Vector3d velxy_posz_target;//offboard模式下，发送给飞控的期望值
-  Eigen::Vector3d ar_pose_big_;  //大二维码相对飞机位置
-  Eigen::Vector3d ar_pose_small_; //小二维码相对飞机位置
-  Eigen::Vector3d  px4_pose_; //接收来自飞控的飞机位置 
-  Eigen::Vector3d desire_pose_;//期望的飞机相对降落板的位置
-	float desire_yaw_;//期望的飞机相对降落板的偏航角
-  mavros_msgs::State px4_state_;//飞机的状态
-  double rel_alt_;//飞机的真实高度
+  Eigen::Vector3d posxyz_target;     //Expect the spatial position of the aircraft
+  Eigen::Vector3d velxy_posz_target; //In offboard mode, the expected value sent to the flight controller
+  Eigen::Vector3d ar_pose_big_;      //Large AR code relative to aircraft position
+  Eigen::Vector3d ar_pose_small_;    //Small AR code relative to aircraft position
+  Eigen::Vector3d  px4_pose_;        //Receive the aircraft position from the flight controller
+  Eigen::Vector3d desire_pose_;      //Desired position of the aircraft relative to the landing pad
+	float desire_yaw_;                 //Desired yaw angle of the aircraft relative to the landing pad
+  mavros_msgs::State px4_state_;     //the state of the aircraft
+  double rel_alt_;                   //true altitude of the plane
   mavros_msgs::SetMode mode_cmd_;
   int approach_count = 0;
   int small_count = 0;
@@ -61,11 +61,11 @@ class PX4Landing {
   int Thres_count_detect;
   float landing_vel;
   float search_alt_;
-  float markers_id_;//需要检测到的二维码，默认是4
-	float markers_yaw_;//二维码相对飞机的偏航角
-  bool detect_state;//是否检测到降落板标志位
-  bool detect_small;//是否检测到小二维码
-  bool detect_big;//是否检测到大二维码
+  float markers_id_;  //The AR code to be detected, the default is 4
+	float markers_yaw_; //The yaw angle of the AR code relative to the aircraft
+  bool detect_state;  //Is the landing board flag detected?
+  bool detect_small;  //Whether the small AR code is detected
+  bool detect_big;    //Whether a large AR code is detected
   Eigen::Vector4d desire_vel_;
 	Eigen::Vector3d desire_xyVel_;
 	float desire_yawVel_;
@@ -74,17 +74,18 @@ class PX4Landing {
   S_PID_ITEM s_PidItemY;
   S_PID_ITEM s_PidItemZ;
   S_PID_ITEM s_PidItemYaw;
-  enum
+  enum Drone
  {
-  WAITING,		//等待offboard模式
-  CHECKING,		//检查飞机状态
-  PREPARE,		//起飞到指定高度
-  SEARCH,		//搜索
-  APPROACH,   //水平接近
-  LANDING,	        //检测到降落板，开始降落
-  LANDOVER,		//结束
+  WAITING,		//Wait for offboard mode
+  CHECKING,		//Check aircraft status
+  PREPARE,		//Take off to the specified altitude
+  SEARCH,	  	//Search
+  APPROACH,   //Close to level
+  LANDING,	  //Landing board detected, start landing
+  LANDOVER,		//Finish
   LAND,		
-}LandingState = WAITING;//初始状态WAITING
+};
+Drone LandingState = WAITING;//Initial state WAITING
 
   ros::Subscriber ar_pose_sub_;
   ros::Subscriber position_sub_;

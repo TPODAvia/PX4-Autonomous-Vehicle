@@ -18,16 +18,16 @@ using namespace std;
 	} S_SETPOINT_VEL;
 	typedef struct
 	{
-		float difference;      //比例项
-		float differential;    //微分项
-		float tempDiffer;			 //上一时刻的比例项
-		float intergral;       //积分项
+		float difference;      //Proportional term
+		float differential;    //Differential term
+		float tempDiffer;			 //Proportional item at last moment
+		float intergral;       //Integral item
 	} S_PID_ITEM;
 	typedef struct
 	{
-		float p;       //比例项系数
-		float d;       //微分项系数.
-		float i;       //积分项系数
+		float p;       //coefficient of proportionality
+		float d;       //Differential term coefficient
+		float i;       //Integral term coefficient
 	} S_PID;
 #endif /* PX4_CONTROL_CFG_H_ */
 #include <ros/ros.h>
@@ -44,11 +44,11 @@ using namespace Eigen;
 class PX4RosNav {
  public:
     /**
-     *默认构造函数
+     * default constructor
      */
     PX4RosNav(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private);
     /**
-     * 析构函数
+     * destructor
      */
     ~PX4RosNav();
     void initialize();

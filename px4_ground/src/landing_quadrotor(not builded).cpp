@@ -13,7 +13,7 @@ PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_priv
   nh_private_(nh_private) {
   Initialize();
   cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &PX4Landing::CmdLoopCallback, this); //周期为0.1s
-  //订阅降落板相对飞机位置
+  //Subscribe to landing pad relative to aircraft position
   ar_pose_sub_ = nh_private_.subscribe("/ar_pose_marker", 1, &PX4Landing::ArPoseCallback, this,ros::TransportHints().tcpNoDelay());
 
   position_sub_ = nh_private_.subscribe("/mavros/local_position/pose", 1, &PX4Landing::Px4PosCallback,this,ros::TransportHints().tcpNoDelay());
@@ -21,7 +21,7 @@ PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_priv
   rel_alt_sub_ = nh_private_.subscribe("/mavros/global_position/rel_alt", 1, &PX4Landing::Px4RelAltCallback,this,ros::TransportHints().tcpNoDelay());
 
   state_sub_ = nh_private_.subscribe("/mavros/state", 1, &PX4Landing::Px4StateCallback,this,ros::TransportHints().tcpNoDelay());
-  // 【服务】修改系统模式
+  //【Service】Modify system mode
   set_mode_client_ = nh_private_.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
 
 }
@@ -33,12 +33,12 @@ PX4Landing::~PX4Landing() {
 /**
 * @name       S_SETPOINT_VEL PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,Eigen::Vector3d &expectPos)
 
-* @brief      pid控制程序
+* @brief      pid control program
 *             
-* @param[in]  &currentPos 当前飞机相对降落板的位置,currentYaw 当前飞机相对降落板的方向
+* @param[in]  &currentPos The position of the current aircraft relative to the landing board, currentYaw The direction of the current aircraft relative to the landing board
 *             
-* @param[in]  &expectPos 期望位置，expectYaw 飞机相对降落板的期望方向:默认0
-* @param[out] 机体系下x,y,z的期望速度,以及yaw方向的期望速度。
+* @param[in]  &expectPos Expected position, expectYaw The expected direction of the aircraft relative to the landing pad: default 0
+* @param[out] &The expected speed of x, y, z under the machine system, and the expected speed in the yaw direction.
 *
 * @param[out] 
 **/
@@ -46,7 +46,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 {
   Eigen::Vector4d s_PidOut;
 
-	/*X方向的pid控制*/
+	/*pid control in X direction*/
 	s_PidItemX.difference = expectPos[0] - currentPos[0];
 	s_PidItemX.intergral += s_PidItemX.difference;
 	if(s_PidItemX.intergral >= 100)		
@@ -59,7 +59,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 //	cout << "s_PidItemX.differential: " << s_PidItemX.differential << endl;
 
 	s_PidOut[0] = s_PidXY.p*s_PidItemX.difference + s_PidXY.d*s_PidItemX.differential + s_PidXY.i*s_PidItemX.intergral;
-	/*Y方向的pid控制*/
+	/*pid control in Y direction*/
 	s_PidItemY.difference = expectPos[1] - currentPos[1];
 	s_PidItemY.intergral += s_PidItemY.difference;
 	if(s_PidItemY.intergral >= 100)		
@@ -70,7 +70,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
   s_PidItemY.tempDiffer = s_PidItemY.difference;
 	s_PidOut[1] = s_PidXY.p*s_PidItemY.difference + s_PidXY.d*s_PidItemY.differential + s_PidXY.i*s_PidItemY.intergral;
 
-	/*Z方向的pid控制*/
+	/*pid control in Z direction*/
 	s_PidItemZ.difference = expectPos[2] - currentPos[2];
 	s_PidItemZ.intergral += s_PidItemZ.difference;
 	if(s_PidItemZ.intergral >= 100)		
@@ -81,7 +81,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
   s_PidItemZ.tempDiffer = s_PidItemZ.difference;
 	s_PidOut[2] = s_PidZ.p*s_PidItemZ.difference + s_PidZ.d*s_PidItemZ.differential + s_PidZ.i*s_PidItemZ.intergral;
 
-	/*Yaw方向的pid控制*/
+	/*pid control of Yaw direction*/
 	s_PidItemYaw.difference =  expectYaw - currentYaw;
 	s_PidItemYaw.intergral += s_PidItemYaw.difference;
 	if(s_PidItemYaw.intergral >= 100)		
@@ -102,11 +102,11 @@ void PX4Landing::CmdLoopCallback(const ros::TimerEvent& event)
 
 /**
 * @name       void PX4Landing::LandingStateUpdate()
-* @brief      状态机更新函数
+* @brief      State machine update function
 *             
-* @param[in]  无
+* @param[in]  none
 *             
-* @param[in]  无
+* @param[in]  none
 * @param[out] 
 *
 * @param[out] 
@@ -141,7 +141,7 @@ void PX4Landing::LandingStateUpdate()
 				mode_cmd_.request.custom_mode = "OFFBOARD";
 				set_mode_client_.call(mode_cmd_);
 			}
-			if(px4_state_.mode != "OFFBOARD")//等待offboard模式
+			if(px4_state_.mode != "OFFBOARD")//Wait for offboard mode
 			{
 				temp_pos_drone[0] = px4_pose_[0];
 				temp_pos_drone[1] = px4_pose_[1];
@@ -159,7 +159,7 @@ void PX4Landing::LandingStateUpdate()
 			}
 			break;
 		case CHECKING:
-			if(px4_pose_[0] == 0 && px4_pose_[1] == 0) 			//没有位置信息则执行降落模式
+			if(px4_pose_[0] == 0 && px4_pose_[1] == 0) 			//Execute landing mode without position information
 			{
 				cout << "Check error, make sure have local location" <<endl;
 				mode_cmd_.request.custom_mode = "AUTO.LAND";
@@ -173,17 +173,17 @@ void PX4Landing::LandingStateUpdate()
 			}
 			
 			break;
-		case PREPARE:											//起飞到指定高度
+		case PREPARE:											//Take off to the specified altitude
 			posxyz_target[0] = temp_pos_drone[0];
 			posxyz_target[1] = temp_pos_drone[1];
 			posxyz_target[2] = search_alt_;
 			OffboardControl_.send_pos_xyz(posxyz_target);
 			// OffboardControl_.send_pos_setpoint(posxyz_target, 0);
-			if((rel_alt_<=search_alt_+0.5) && (rel_alt_>=search_alt_-0.3) && detect_state == true) //在预设高度上方半米，下方0.3米均视为可以进入下一阶段水平接近。
+			if((rel_alt_<=search_alt_+0.5) && (rel_alt_>=search_alt_-0.3) && detect_state == true) //Half a meter above the preset height and 0.3 meters below are considered to be able to enter the next stage of horizontal approach.
 			{
 				LandingState = SEARCH;
 			}					
-			if(px4_state_.mode != "OFFBOARD")				//如果在准备中途中切换到onboard，则跳到WAITING
+			if(px4_state_.mode != "OFFBOARD")				//If you switch to onboard in the middle of preparation, skip to WAITING
 			{
 				LandingState = WAITING;
 			}
@@ -195,7 +195,7 @@ void PX4Landing::LandingStateUpdate()
 				LandingState = APPROACH;
 			  cout << "approach" <<endl;
 			}	
-			else//这里无人机没有主动搜寻目标
+			else//Here the drone is not actively searching for targets
 			{
 				posxyz_target[0] = temp_pos_drone[0];
 				posxyz_target[1] = temp_pos_drone[1];
@@ -203,7 +203,7 @@ void PX4Landing::LandingStateUpdate()
 				OffboardControl_.send_pos_xyz(posxyz_target);
 				// OffboardControl_.send_pos_setpoint(posxyz_target, 0);
 			}
-			if(px4_state_.mode != "OFFBOARD")				//如果在SEARCH途中切换到onboard，则跳到WAITING
+			if(px4_state_.mode != "OFFBOARD")				//If you switch to onboard during SEARCH, skip to WAITING
 			{
 				LandingState = WAITING;
 			}
@@ -236,7 +236,7 @@ void PX4Landing::LandingStateUpdate()
 				desire_yawVel_ = desire_vel_[3];
 				OffboardControl_.send_body_velxyz_setpoint(desire_xyVel_,desire_yawVel_);
 
-				if((fabs(ar_pose_big_[0]) < 0.02) && (fabs(ar_pose_big_[1]) < 0.02))			//修改误差
+				if((fabs(ar_pose_big_[0]) < 0.02) && (fabs(ar_pose_big_[1]) < 0.02))			//modify error
 				{
 					approach_count ++;
 					cout<< "Distance_land_count: " << approach_count <<endl;
@@ -309,7 +309,7 @@ void PX4Landing::LandingStateUpdate()
 					LandingState = LANDOVER;
 					cout << "LANDOVER" <<endl;
 				}
-				if(px4_state_.mode != "OFFBOARD")			//如果在LANDING中途中切换到onboard，则跳到WAITING
+				if(px4_state_.mode != "OFFBOARD")			//If you switch to onboard in the middle of LANDING, skip to WAITING
 				{
 					LandingState = WAITING;
 				}
@@ -370,7 +370,7 @@ void PX4Landing::LandingStateUpdate()
 
 }
 
-/*接收降落板相对飞机的位置以及偏航角*/
+/*Receive the position of the landing board relative to the aircraft and the yaw angle*/
 void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &msg)
 {
 	detect_state = false;
@@ -413,7 +413,7 @@ void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPt
 	}
 //	cout << "detect_state :" << detect_state << endl;
 }
-/*接收来自飞控的当前飞机位置*/                  
+/*Receive the current aircraft position from the flight controller*/                  
 void PX4Landing::Px4PosCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 {
     // Read the Drone Position from the Mavros Package [Frame: ENU]
@@ -421,7 +421,7 @@ void PX4Landing::Px4PosCallback(const geometry_msgs::PoseStamped::ConstPtr &msg)
 
     px4_pose_ = pos_drone_fcu_enu;
 }
-/*接受来自飞控的当前真实高度数据*/
+/*Accept the current true altitude data from the flight controller*/
 void PX4Landing::Px4RelAltCallback(const std_msgs::Float64::ConstPtr& msg)
 {
 	double  data;
@@ -429,19 +429,20 @@ void PX4Landing::Px4RelAltCallback(const std_msgs::Float64::ConstPtr& msg)
 	rel_alt_ = data;
 	
 }
-/*接收来自飞控的当前飞机状态*/
+/*Receive current aircraft status from flight controller*/
 void PX4Landing::Px4StateCallback(const mavros_msgs::State::ConstPtr& msg)
 {
 	px4_state_ = *msg;
 }
 
-/*初始化*/
+/*initialization*/
 void PX4Landing::Initialize()
 {
-  //读取offboard模式下飞机的搜索高度
+  //Read the search altitude of the aircraft in offboard mode
   nh_private_.param<float>("search_alt_", search_alt_, 3);
 
-  //小二维码的id号,大二维码用作高处的水平面接近，不使用其高度数据。
+  //The id number of the small two-dimensional code, the large two-dimensional code is 
+  //used to approach the horizontal plane of the height, and its height data is not used.
   nh_private_.param<float>("markers_id_", markers_id_, 4.0);
 
   nh_private_.param<float>("PidXY_p", s_PidXY.p, 0.4);
@@ -458,7 +459,7 @@ void PX4Landing::Initialize()
   nh_private_.param<int>("Thres_count_small",Thres_count_small, 0);
   nh_private_.param<float>("landing_vel", landing_vel, -0.1);
 
-  //期望的飞机相对降落板的位置
+  //Desired position of the aircraft relative to the landing pad
   float desire_pose_x,desire_pose_y,desire_pose_z;
   nh_private_.param<float>("desire_pose_x", desire_pose_x, 0);
   nh_private_.param<float>("desire_pose_y", desire_pose_y, 0);
