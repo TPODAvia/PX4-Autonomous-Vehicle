@@ -85,12 +85,9 @@ sudo make install
 sudo ldconfig
 ```
 
-### Install YOLOv7 dependencies
+### Install YOLOv8 dependencies
 
 ```
-pip3 install numpy==1.21
-pip3 install torch torchvision pandas
-
 sudo apt-get install python3-scipy -y
 sudo apt-get install ros-noetic-vision-msgs -y
 sudo apt-get install ros-noetic-geometry-msgs -y
@@ -113,6 +110,9 @@ catkin_make
 ```
 ```
 cd ~/catkin_ws/src
+
+git clone https://github.com/TPODAvia/yolov8_ros.git
+
 git init
 git remote add origin http://git.promcars.ru/promavto-drone/px4-repository.git
 git pull origin main
@@ -131,7 +131,7 @@ rosdep install --from-paths src --ignore-src -y
 ```
 ```
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
-sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov7-ros/requirements.txt
+sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
 ### Install PX4-Autopilot
 ```
@@ -334,24 +334,43 @@ A successful run will end with output similar to:
 [954/954] Creating /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default/px4_fmu-v4_default.px4
 ```
 The first part of the build target `px4_fmu-v4` indicates the firmware for a particular flight controller hardware. The following list shows the build commands for the [Pixhawk standard](https://docs.px4.io/main/en/flight_controller/autopilot_pixhawk_standard.html) boards:
+
 -Holybro Pixhawk 6X (FMUv6X): `make px4_fmu-v6x_default`
+
 -Holybro Pixhawk 6C (FMUv6C): `make px4_fmu-v6c_default`
+
 -Holybro Pix32 v6 (FMUv6C): `make px4_fmu-v6c_default`
+
 -Holybro Pixhawk 5X (FMUv5X): `make px4_fmu-v5x_default`
+
 -Pixhawk 4 (FMUv5): `make px4_fmu-v5_default`
+
 -Pixhawk 4 Mini (FMUv5): `make px4_fmu-v5_default`
+
 -CUAV V5+ (FMUv5): `make px4_fmu-v5_default`
+
 -CUAV V5 nano (FMUv5): `make px4_fmu-v5_default`
+
 -Pixracer (FMUv4): `make px4_fmu-v4_default`
+
 -Pixhawk 3 Pro: `make px4_fmu-v4pro_default`
+
 -Pixhawk Mini: `make px4_fmu-v3_default`
+
 -Pixhawk 2 (Cube Black) (FMUv3): `make px4_fmu-v3_default`
+
 -mRo Pixhawk (FMUv3): `make px4_fmu-v3_default` (supports 2MB Flash)
+
 -Holybro pix32 (FMUv2): `make px4_fmu-v2_default`
+
 -Pixfalcon (FMUv2): `make px4_fmu-v2_default`
+
 -Dropix (FMUv2): `make px4_fmu-v2_default`
+
 -Pixhawk 1 (FMUv2): `make px4_fmu-v2_default`
+
 -Pixhawk 1 with 2 MB flash: `make px4_fmu-v3_default`
+
 Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards) are provided in the documentation for the individual [flight controller boards](https://docs.px4.io/main/en/flight_controller/).
 
 :::Note
