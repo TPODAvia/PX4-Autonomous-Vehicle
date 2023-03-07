@@ -41,5 +41,3 @@ To setup your SITL simulation you need to provide symbolic link to your airframe
 It can be done by using this comand:
 
 ln -fs ~/catkin_ws/src/px4_ground/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
-
-ln -fs ~/catkin_ws/src/px4_ground/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/

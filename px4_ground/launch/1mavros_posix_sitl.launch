@@ -61,8 +61,6 @@
         args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
 
 
-
-
     <!-- MAVROS -->
     <arg name="ns" default="/"/>
     <group ns="$(arg ns)">

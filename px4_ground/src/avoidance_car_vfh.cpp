@@ -284,7 +284,7 @@ int main(int argc, char **argv)
     ros::Subscriber homePos_sub = nh.subscribe<mavros_msgs::HomePosition>("/mavros/home_position/home", 100, home_pos_cb);
     ros::Subscriber head_sub = nh.subscribe<std_msgs::Float64>("/mavros/global_position/compass_hdg", 100, heading_cb);
 
-ros::Publisher local_pos_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 100);
+	ros::Publisher local_pos_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 100);
     // Frequency [20Hz]
     ros::Rate rate(20.0);
 	while (ros::ok() && !current_state.connected) {

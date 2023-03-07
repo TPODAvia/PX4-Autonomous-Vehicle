@@ -1,14 +1,100 @@
 <?xml version="1.0"?>
 <launch>
 
-		<!-- Our node to control the drone -->
-    <node pkg="clover" type="control_vel.py" name="offb_node_py" required="true" output="screen" />
+    <!-- MAVROS posix SITL environment launch script -->
+    <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
+    <!-- vehicle pose -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0.5"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="0"/>
+    <!-- vehicle model and world -->
+    <arg name="est" default="ekf2"/>
+    <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
+    <arg name="vehicle" default="iris"/>
+    <!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_ground)/worlds/empty.world"/>
+    <arg name="sdf" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
 
-		<!-- Our control keyboard -->
-    <node pkg="px4_ground" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
+    <!-- gazebo configs -->
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="paused" default="false"/>
+    <arg name="respawn_gazebo" default="false"/>
+    <!-- MAVROS configs -->
+    <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
+    <arg name="respawn_mavros" default="false"/>
+    <!-- PX4 configs -->
+    <arg name="interactive" default="true"/>
+
+    <!-- PX4 SITL and Gazebo -->
+    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+    <env name="PX4_ESTIMATOR" value="$(arg est)" />
+
+    <!-- PX4 SITL -->
+    <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
+    <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
+    <node name="sitl" pkg="px4" type="px4"
+        args="$(find px4)/build/px4_sitl_default/etc -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/>
+
+
+    <!-- Gazebo sim -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="world_name" value="$(arg world)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="respawn_gazebo" value="$(arg respawn_gazebo)"/>
+    </include>
+
+    <!-- gazebo model -->
+    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model"
+    args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+
+
+    <!-- box spawner. To make this work you need to unpause enviroment manually -->
+    <!-- <arg name="box" default="box1kg"/>
+	  <arg name="arena2" default="$(find px4_ground)/models/$(arg box)/$(arg box).sdf"/>
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
+
+
+
+    <!-- MAVROS -->
+    <arg name="fcu_conn" default="sitl"/>
+    <arg name="fcu_ip" default="127.0.0.1"/>
+    <arg name="fcu_sys_id" default="1"/>
+    <arg name="gcs_bridge" default="tcp"/>
+
+    <arg name="ns" default="/"/>
+    <group ns="$(arg ns)">
+        <include file="$(find mavros)/launch/node.launch">
+            <arg name="pluginlists_yaml" value="$(find mavros)/launch/px4_pluginlists.yaml" />
+            <!-- Need to change the config file to get the tf topic and get local position in terms of local origin -->
+            <arg name="config_yaml" value="$(find global_planner)/resource/px4_config.yaml" />
+            <arg name="fcu_url" value="$(arg fcu_url)" />
+            <arg name="gcs_url" value="" />
+            <arg name="tgt_system" value="1" />
+            <arg name="tgt_component" value="1" />
+        </include>
+    </group>
+
+
+    <!-- QGroundControl launch -->
+    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+
+
+    <!-- Keyboard control node -->
+    <arg name="node_start_delay" default="15.0" />  
+    <node pkg="px4_ground" type="keyboard_control_px4.py" name="PX4_control" required="true" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />
+
 
 		<!-- Wind plugin -->
-    <!-- <node pkg="px4_ground" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
+    <!-- <node pkg="px4_ground" type="wind.py" name="wind_node" required="true" output="screen" /> -->
 
 </launch>
 <!-- Include the MAVROS node with SITL and Gazebo -->

@@ -14,7 +14,7 @@ import time
 
 if __name__ == '__main__':
     #print('Apply programmed perturbation to vehicle', rospy.get_namespace())
-    rospy.init_node('set_body_wrench')
+    rospy.init_node('wind_node')
 
     if rospy.is_shutdown():
         print('ROS master not running!')

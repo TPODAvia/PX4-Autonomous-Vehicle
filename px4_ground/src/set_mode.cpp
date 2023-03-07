@@ -39,6 +39,11 @@ int main(int argc, char **argv)
     //  This topic comes from flight control (via /plugins/sys_status.cpp)
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("/mavros/state", 10, state_cb);
 
+    double mode = -1;
+    nh.getParam("output_mode", mode);
+    cout << "default_mode" << mode << endl;
+
+
     // 【Service】Modify system mode
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
 
@@ -63,8 +68,15 @@ int main(int argc, char **argv)
             case 0:
                 cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>--------<<<<<<<<<<<<<<<<<<<<<<<<<<< "<< endl;
                 cout << "Input the mode:  0 for Arm,1 for TAKEOFF, 2 for OFFBOARD,3 for LAND, 4 for POSCTL,5 for MISSION  "<<endl;
-                cin >> flag_1;
-
+                if (mode != -1)
+                {
+                    flag_1 = mode;
+                }
+                else
+                {
+                    cin >> flag_1;
+                }
+ 
                 //1000 Landing can also point to other quests
                 if (flag_1 == 0)
                 {

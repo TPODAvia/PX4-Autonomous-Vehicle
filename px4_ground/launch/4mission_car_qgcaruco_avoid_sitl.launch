@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- 
+How to use: 
+rosrun mavros mavsys mode -c OFFBOARD
+rosrun mavros mavsafety arm
+-->
+
+<launch>
+    <arg name="use_three_point_msg" default="true" />
+    <arg name="use_stereo_simulation" default="false" />
+    <arg name="mavros_transformation" default="0" />
+    <!-- air vehicle only: iris, typhoon_h480 etc -->
+    <arg name="vehicle" default="acker_rover"/>
+    <!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_ground)/worlds/city.world"/>
+    <arg name="point_cloud_topic" default="/camera/depth/points" />
+    <arg name="start_pos_x" default="0.5" />
+    <arg name="start_pos_y" default="0.5" />
+    <arg name="start_pos_z" default="3.5" />
+
+    <param name="use_sim_time" value="true" />
+
+    <!-- Dynamic Reconfiguration Server -->
+    <!-- <node pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" name="rqt_reconfigure" /> -->
+
+    <!-- Ros transformation -->
+    <node pkg="tf" type="static_transform_publisher" name="tf_local_origin"
+          args="0 0 0 $(arg mavros_transformation) 0 0 world local_origin 10"/>
+    <node pkg="tf" type="static_transform_publisher" name="tf_camera"
+          args="0 0 0 -1.57 0 -1.57 fcu camera_link 10"/>
+
+    <!-- Mavros and Sitl -->
+    <include file="$(find px4_ground)/launch/1mavros_posix_sitl.launch">
+        <arg name="vehicle" value="$(arg vehicle)"/>
+        <arg name="world" value="$(arg world)"/>
+    </include>
+
+    <!-- Global planner -->
+    <include file="$(find global_planner)/launch/global_planner_octomap.launch" >
+        <arg name="use_three_point_msg" default="false"/>
+        <arg name="point_cloud_topic" value="$(arg point_cloud_topic)" />
+        <arg name="start_pos_x" value="$(arg start_pos_x)" />
+        <arg name="start_pos_y" value="$(arg start_pos_y)" />
+        <arg name="start_pos_z" value="$(arg start_pos_z)" />
+    </include>
+
+
+    <!-- Run a node for handling data from simulated stereo-camera -->
+    <!-- <group if="$(arg use_stereo_simulation)">
+        <node ns="stereo" pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc"/>
+    </group> -->
+
+    <!-- RViz -->
+    <node pkg="rviz" type="rviz" output="screen" name="rviz" respawn="true"
+          args="-d $(find px4_ground)/config/rviz/AirMapping.rviz" />
+
+</launch>

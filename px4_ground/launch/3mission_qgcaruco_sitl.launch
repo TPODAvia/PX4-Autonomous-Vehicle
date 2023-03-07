@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
     <!-- vehicle pose -->
@@ -12,7 +13,7 @@
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="diff_rover"/>
+    <arg name="vehicle" default="iris"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_ground)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_ground)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
@@ -36,7 +37,7 @@
     <!-- PX4 SITL -->
     <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
     <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
-    <node name="sitl" pkg="px4" type="px4" output="screen"
+    <node name="sitl" pkg="px4" type="px4"
         args="$(find px4)/build/px4_sitl_default/etc -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/>
 
 
@@ -51,16 +52,44 @@
     </include>
 
     <!-- gazebo model -->
-    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" 
+    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model"
     args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
 
 
+    <!-- box spawner. To make this work you need to unpause enviroment manually -->
+    <!-- <arg name="box" default="box1kg"/>
+	<arg name="arena2" default="$(find px4_ground)/models/$(arg box)/$(arg box).sdf"/>
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
 
-   <!-- Setup  -->
+
+   <!-- MavRos  -->
     <arg name="fcu_conn" default="sitl"/>
     <arg name="fcu_ip" default="127.0.0.1"/>
     <arg name="fcu_sys_id" default="1"/>
     <arg name="gcs_bridge" default="tcp"/>
+    <arg name="pluginlists_yaml" value="$(find mavros)/launch/px4_pluginlists.yaml" />
+    <!-- Need to change the config file to get the tf topic and get local position in terms of local origin -->
+    <arg name="config_yaml" value="$(find global_planner)/resource/px4_config.yaml" />
+    <arg name="fcu_url" value="$(arg fcu_url)" />
+    <arg name="gcs_url" value="" />
+    <arg name="tgt_system" value="1" />
+    <arg name="tgt_component" value="1" />
+    
+    <!-- log formatting -->
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
+
+    <include file="$(find clover)/launch/0mavros.launch">
+        <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+        <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+        <arg name="fcu_sys_id" value="$(arg fcu_sys_id)"/>
+        <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+    </include>
+
+    <!-- QGroundControl launch -->
+    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+
+    <!-- Setup -->
     <arg name="web_video_server" default="true"/>
     <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
@@ -71,19 +100,7 @@
     <arg name="blocks" default="false"/>
     <arg name="rc" default="false"/>
     <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
-
     <arg name="simulator" default="true"/> <!-- flag that we are operating on a simulated drone -->
-
-    <!-- log formatting -->
-    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
-
-    <!-- mavros -->
-    <include file="$(find clover)/launch/0mavros.launch">
-        <arg name="fcu_conn" value="$(arg fcu_conn)"/>
-        <arg name="fcu_ip" value="$(arg fcu_ip)"/>
-        <arg name="fcu_sys_id" value="$(arg fcu_sys_id)"/>
-        <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
-    </include>
 
     <!-- web video server -->
     <node name="web_video_server" pkg="web_video_server" type="web_video_server" if="$(arg web_video_server)" required="false" respawn="true" respawn_delay="5">
@@ -137,7 +154,7 @@
     </node>
 
 		<!-- Our Aruco landing -->
-	<node pkg="clover" type="control_vel.py" name="offb_node_py" required="true" output="screen" />
+	<node pkg="clover" type="some_aruco_landing.py" name="some_aruco_landing_node" required="true" output="screen" />
 
 		<!-- Wind plugin -->
     <!-- <node pkg="clover" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
