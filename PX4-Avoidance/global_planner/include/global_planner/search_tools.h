@@ -259,7 +259,7 @@ bool reverseSearch(GlobalPlanner* global_planner, const Cell& t) {
     }
   }
   // TODO: return?
-  return;
+  return 0;
 }
 
 // A* to find a path from s to t, true iff it found a path
