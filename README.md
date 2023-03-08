@@ -63,9 +63,9 @@ chmod +x ROS1-installation/ROS.sh
 sudo ./ROS1-installation/ROS.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
-```
-```
 source /opt/ros/noetic/setup.bash
+```
+```
 sudo apt install build-essential git python3-pip python3-rosdep -y
 sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
@@ -73,6 +73,8 @@ sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 sudo apt install libeigen3-dev -y
 sudo apt install ros-noetic-hector-trajectory-server -y
+```
+```
 cd ~
 git clone https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
@@ -83,12 +85,9 @@ sudo make install
 sudo ldconfig
 ```
 
-### Install YOLOv7 dependencies
+### Install YOLOv8 dependencies
 
 ```
-pip3 install numpy==1.21
-pip3 install torch torchvision pandas
-
 sudo apt-get install python3-scipy -y
 sudo apt-get install ros-noetic-vision-msgs -y
 sudo apt-get install ros-noetic-geometry-msgs -y
@@ -111,6 +110,9 @@ catkin_make
 ```
 ```
 cd ~/catkin_ws/src
+
+git clone https://github.com/TPODAvia/yolov8_ros.git
+
 git init
 git remote add origin http://git.promcars.ru/promavto-drone/px4-repository.git
 git pull origin main
@@ -126,20 +128,30 @@ sudo rosdep init
 ```
 rosdep update
 rosdep install --from-paths src --ignore-src -y
-
+```
+```
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
-sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov7-ros/requirements.txt
+sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
 ### Install PX4-Autopilot
 ```
 git clone --recursive --depth 1 --branch v1.12.3 https://github.com/PX4/PX4-Autopilot.git ~/PX4-Autopilot
-ln -s ~/PX4-Autopilot ~/catkin_ws/src/
-ln -s ~/PX4-Autopilot/Tools/sitl_gazebo ~/catkin_ws/src/
-ln -s ~/PX4-Autopilot/mavlink ~/catkin_ws/src/
 
 cd ~/catkin_ws/src/PX4-Autopilot/Tools/setup
 sudo ./ubuntu.sh
 ```
+go to the .barcsh and add at the end files:
+
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+. ~/PX4-Autopilot/Tools/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default
+
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/models:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/worlds
+
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/PX4-Autopilot
+
+
 ```
 pip3 install --user toml
 ```
@@ -198,7 +210,7 @@ run the launch file with your defined vehicle
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 0launch_model_only.launch
+roslaunch px4_sim 0launch_model_only.launch
 ```
 You can change the vehicle type <arg name="vehicle" default="r1_rover"/>
 Now, If everything is fine close all and moving to the next step.
@@ -211,7 +223,7 @@ roscore
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 1mavros_posix_sitl.launch
+roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
 
 Remember that you can change the vehicle type.
@@ -222,7 +234,7 @@ Open Qground Control(QGC) or run ./QGroundControl.AppImage
 
 ### 3) Run the predefined mission
 
-In QGC you can add a predefined mission in the path ~/px4_ground/mission and run the mission as usual.
+In QGC you can add a predefined mission in the path ~/px4_sim/mission and run the mission as usual.
 
 ### 4) Run in mission mode with mavros.
 In the terminal 1 run:
@@ -232,9 +244,9 @@ roscore
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 1mavros_posix_sitl.launch
+roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
-Now go to the path ../px4_ground/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
+Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
 
 Example: chmod +x control_vel.py
 
@@ -243,16 +255,16 @@ In the terminal 3 run:
 source devel/setup.bash
 rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
-rosrun px4_ground wind.py
-rosrun px4_ground control_vel.py
-rosrun px4_ground mavros_offboard_posctl_test.py
+rosrun px4_sim wind.py
+rosrun px4_sim control_vel.py
+rosrun px4_sim mavros_offboard_posctl_test.py
 ```
 ``Note: others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.``
 
 The option is to run launch file instead of python node.
 In the terminal 3 run: (Options)
 ```
-roslaunch px4_ground 3mission_multi_offb.launch
+roslaunch px4_sim 3mission_multi_offb.launch
 ```
 Now, If everything is fine close all and moving to the next step.
 
@@ -264,13 +276,13 @@ roscore
 For air vehicle run:
 In the terminal 2 run:
 ```
-roslaunch px4_ground 2obs_avoidance_air.launch
+roslaunch px4_sim 2obs_avoidance_air.launch
 ```
 
 For ground vehicle run:
 In the terminal 2 run: (Option)
 ```
-roslaunch px4_ground 2obs_avoidance_ground2.launch
+roslaunch px4_sim 2obs_avoidance_ground2.launch
 ```
 In the terminal 3 run:
 ```
@@ -294,7 +306,7 @@ Note: MH_01_easy cab be download here: http://robotics.ethz.ch/~asl-datasets/ijr
 ### 7) Run multiple UAV with mavros.
 In the terminal 1 run:
 ```
-roslaunch px4_ground 4multi_uav_mavros_sitl.launch
+roslaunch px4_sim 4multi_uav_mavros_sitl.launch
 ```
 Still in development...
 
@@ -304,14 +316,14 @@ Still in development...
 You can create custom airframe for HITL simulations and save them in airframe_hitl folder. Names of created airframe file should consist of number code followed by model name (e.g. 6011_typhoon_h480). After run in terminal: 
 
 ```
-ln -fs ~/catkin_ws/src/px4_ground/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
+ln -fs ~/catkin_ws/src/px4_sim/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 ```
 
 ### Enabling motors in hitl
 By default motors output is blocked in hitl mode. To unblock it, run in terminal:
 
 ```
-cd ~/catkin_ws/src/px4_ground/hitl_setup/
+cd ~/catkin_ws/src/px4_sim/hitl_setup/
 ./hitl_setup
 ```
 Follow the instructions of the script to achieve the desired state of operation of the motors.
@@ -331,24 +343,44 @@ A successful run will end with output similar to:
 [954/954] Creating /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default/px4_fmu-v4_default.px4
 ```
 The first part of the build target `px4_fmu-v4` indicates the firmware for a particular flight controller hardware. The following list shows the build commands for the [Pixhawk standard](https://docs.px4.io/main/en/flight_controller/autopilot_pixhawk_standard.html) boards:
-- Holybro Pixhawk 6X (FMUv6X): `make px4_fmu-v6x_default`
-- Holybro Pixhawk 6C (FMUv6C): `make px4_fmu-v6c_default`
-- Holybro Pix32 v6 (FMUv6C): `make px4_fmu-v6c_default`
-- Holybro Pixhawk 5X (FMUv5X): `make px4_fmu-v5x_default`
-- Pixhawk 4 (FMUv5): `make px4_fmu-v5_default`
-- Pixhawk 4 Mini (FMUv5): `make px4_fmu-v5_default`
-- CUAV V5+ (FMUv5): `make px4_fmu-v5_default`
-- CUAV V5 nano (FMUv5): `make px4_fmu-v5_default`
-- Pixracer (FMUv4): `make px4_fmu-v4_default`
-- Pixhawk 3 Pro: `make px4_fmu-v4pro_default`
-- Pixhawk Mini: `make px4_fmu-v3_default`
-- Pixhawk 2 (Cube Black) (FMUv3): `make px4_fmu-v3_default`
-- mRo Pixhawk (FMUv3): `make px4_fmu-v3_default` (supports 2MB Flash)
-- Holybro pix32 (FMUv2): `make px4_fmu-v2_default`
-- Pixfalcon (FMUv2): `make px4_fmu-v2_default`
-- Dropix (FMUv2): `make px4_fmu-v2_default`
-- Pixhawk 1 (FMUv2): `make px4_fmu-v2_default`
-- Pixhawk 1 with 2 MB flash: `make px4_fmu-v3_default`
+
+-Holybro Pixhawk 6X (FMUv6X): `make px4_fmu-v6x_default`
+
+-Holybro Pixhawk 6C (FMUv6C): `make px4_fmu-v6c_default`
+
+-Holybro Pix32 v6 (FMUv6C): `make px4_fmu-v6c_default`
+
+-Holybro Pixhawk 5X (FMUv5X): `make px4_fmu-v5x_default`
+
+-Pixhawk 4 (FMUv5): `make px4_fmu-v5_default`
+
+-Pixhawk 4 Mini (FMUv5): `make px4_fmu-v5_default`
+
+-CUAV V5+ (FMUv5): `make px4_fmu-v5_default`
+
+-CUAV V5 nano (FMUv5): `make px4_fmu-v5_default`
+
+-Pixracer (FMUv4): `make px4_fmu-v4_default`
+
+-Pixhawk 3 Pro: `make px4_fmu-v4pro_default`
+
+-Pixhawk Mini: `make px4_fmu-v3_default`
+
+-Pixhawk 2 (Cube Black) (FMUv3): `make px4_fmu-v3_default`
+
+-mRo Pixhawk (FMUv3): `make px4_fmu-v3_default` (supports 2MB Flash)
+
+-Holybro pix32 (FMUv2): `make px4_fmu-v2_default`
+
+-Pixfalcon (FMUv2): `make px4_fmu-v2_default`
+
+-Dropix (FMUv2): `make px4_fmu-v2_default`
+
+-Pixhawk 1 (FMUv2): `make px4_fmu-v2_default`
+
+-Pixhawk 1 with 2 MB flash: `make px4_fmu-v3_default`
+
+
 Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards) are provided in the documentation for the individual [flight controller boards](https://docs.px4.io/main/en/flight_controller/).
 
 

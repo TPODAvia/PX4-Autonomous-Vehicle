@@ -1,8 +1,0 @@
-torch>=1.10.0
-torchvision
-opencv-python
-seaborn
-thop
-requests
-tqdm
-pyyaml

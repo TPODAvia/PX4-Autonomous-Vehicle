@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="paused" default="true"/>
+	<arg name="gui" default="true"/>
+	<!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+
+	<!-- Start Gazebo -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="world_name" default="$(arg world)" />
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="verbose" value="true"/>
+	</include>
+
+
+	<!-- any vehicle: iris, diff_rover, avia_vtol, typhoon_h480 etc -->
+	<arg name="vehicle" default="iris"/>
+
+	<arg name="arena" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+  	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena) -sdf -z 0.5 -model $(arg vehicle)" />
+
+
+	<!-- box spawner. To make this work you need to unpause env manually -->
+	<!-- <arg name="box" default="box10kg"/>
+	<arg name="arena2" default="$(find px4_sim)/models/$(arg box)/$(arg box).sdf"/>
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
+
+
+
+	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 1.571 0 0 /map /chassis 100" /> -->
+	<!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+		<param name="robot_description" command="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+		<param name="publish_frequency" type="double" value="20" />
+	</node> -->
+	<!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/> -->
+
+</launch>
