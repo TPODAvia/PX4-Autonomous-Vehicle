@@ -1,3 +1,10 @@
+<?xml version="1.0"?>
+<!-- 
+How to use: 
+rosrun mavros mavsys mode -c OFFBOARD
+rosrun mavros mavsafety arm
+-->
+
 <launch>
 
     <arg name="world_file_name"    default="simple_obstacle" />

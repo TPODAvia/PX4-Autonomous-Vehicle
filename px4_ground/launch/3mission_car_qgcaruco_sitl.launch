@@ -1,4 +1,5 @@
-
+<?xml version="1.0"?>
+<launch>
     <!-- MAVROS posix SITL environment launch script -->
     <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
     <!-- vehicle pose -->
@@ -150,3 +151,5 @@
     <node name="rc" pkg="clover" type="rc" output="screen" if="$(arg rc)" clear_params="true">
         <param name="use_fake_gcs" value="false"/>
     </node>
+
+</launch>
