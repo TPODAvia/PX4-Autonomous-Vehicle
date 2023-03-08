@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(px4_ground)
+project(px4_sim)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,17 +8,38 @@ project(px4_ground)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
-  mavros_extras
-  move_base_msgs
-  roscpp
+  gazebo_ros
+  urdf
   rospy
-  tf
+  message_generation  
+  roscpp
+  geometry_msgs
+  sensor_msgs
+  mavros
+  nav_msgs
+  std_msgs
+  std_srvs
+  tf2_ros
+  tf2_eigen
+  mavros_msgs
+  actionlib
+  trajectory_msgs
+  pluginlib
+
 )
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(cmake_modules REQUIRED)
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+add_definitions(${EIGEN_DEFINITIONS})
 
+# adding all python scripts in script folder
+file(GLOB python_scripts_DIR
+      "script/*.py"
+)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -73,7 +94,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   move_base_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -106,9 +127,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES px4_ground
-#  CATKIN_DEPENDS actionlib mavros_extras move_base_msgs roscpp rospy tf
+  INCLUDE_DIRS include
+#  LIBRARIES px4_sim
+#  CATKIN_DEPENDS gazebo_ros urdf
 #  DEPENDS system_lib
 )
 
@@ -119,13 +140,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+ include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/px4_ground.cpp
+#   src/${PROJECT_NAME}/px4_sim.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -136,7 +157,24 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/px4_ground_node.cpp)
+#add_executable(${PROJECT_NAME}_node src/keyboard_control.cpp)
+
+
+add_executable(position_to_mavros_node src/position_to_mavros.cpp)
+add_executable(set_mode_node src/set_mode.cpp)
+add_executable(collision_avoidance_vfh_node src/collision_avoidance_vfh.cpp)
+add_executable(avoidance_car_vfh_node src/avoidance_car_vfh.cpp)
+add_executable(circular_node src/circular.cpp)
+add_executable(circular_car_node src/circular_car.cpp)
+add_executable(ros_nav_quadrotor_node src/ros_nav_quadrotor.cpp)
+add_executable(mission_car_offboard_node src/mission_car_offboard.cpp)
+# add_executable(landing_quadrotor_node src/landing_quadrotor.cpp)
+# add_executable(tracking_quadrotor_node src/tracking_quadrotor.cpp)
+add_executable(auto_2d_nav_node src/auto_2d_nav.cpp)
+add_executable(figure_8_circle_node src/figure_8_circle.cpp)
+
+
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,6 +191,48 @@ include_directories(
 #   ${catkin_LIBRARIES}
 # )
 
+target_link_libraries(position_to_mavros_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(set_mode_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(collision_avoidance_vfh_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(avoidance_car_vfh_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(circular_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(circular_car_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(ros_nav_quadrotor_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(mission_car_offboard_node
+  ${catkin_LIBRARIES}
+)
+# target_link_libraries(landing_quadrotor_node
+#   ${catkin_LIBRARIES}
+# )
+# target_link_libraries(tracking_quadrotor_node
+#   ${catkin_LIBRARIES}
+# )
+target_link_libraries(auto_2d_nav_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(figure_8_circle_node
+  ${catkin_LIBRARIES}
+)
+
+
+
+
+
+
 #############
 ## Install ##
 #############
@@ -167,11 +247,33 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
+catkin_install_python(PROGRAMS ${python_scripts_DIR}
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
 # install(TARGETS ${PROJECT_NAME}_node
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
+install(TARGETS  position_to_mavros_node
+  set_mode_node
+  collision_avoidance_vfh_node
+  avoidance_car_vfh_node
+  circular_node circular_car_node 
+  ros_nav_quadrotor_node 
+  mission_car_offboard_node
+  # landing_quadrotor_node
+  # tracking_quadrotor_node
+  auto_2d_nav_node
+  figure_8_circle_node
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+
+
 
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
@@ -187,6 +289,15 @@ include_directories(
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
 # )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+)
+install(DIRECTORY
+  launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -200,7 +311,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_px4_ground.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_px4_sim.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

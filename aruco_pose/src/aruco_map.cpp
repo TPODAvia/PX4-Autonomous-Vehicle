@@ -430,7 +430,7 @@ publish_debug:
 		int num_markers = board_->dictionary->bytesList.rows;
 		if (num_markers <= id) {
 			NODELET_ERROR("Marker id %d is not in dictionary; current dictionary contains %d markers. "
-			              "Please see https://github.com/CopterExpress/clover/blob/master/aruco_pose/README.md#parameters for details",
+			              "Please see https://github.com/CopterExpress/px4_air/blob/master/aruco_pose/README.md#parameters for details",
 					  id, num_markers);
 			return;
 		}
@@ -550,7 +550,7 @@ publish_debug:
 
 	void paramCallback(aruco_pose::MapConfig &config, uint32_t level)
 	{
-		// https://github.com/CopterExpress/clover/commit/2cd334c474e3ed04ef65ca1ba7f08ab535a3dc6d#diff-942723f9452c398ae93f1a91427f9a7b614be5e5871f8a3e590f324d804f0d58R356
+		// https://github.com/CopterExpress/px4_air/commit/2cd334c474e3ed04ef65ca1ba7f08ab535a3dc6d#diff-942723f9452c398ae93f1a91427f9a7b614be5e5871f8a3e590f324d804f0d58R356
 		enabled_ = config.enabled;
 		if (type_ == "map" && config.map != map_) {
 			map_ = config.map;

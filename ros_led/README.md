@@ -19,6 +19,6 @@ sudo chmod +s $(catkin_find ws281x ws281x_node)
 
 ## Additional information
 
-These packages are used in [Clover drone ROS platform](https://github.com/CopterExpress/clover). Read more in the [Clover documentation](https://clover.coex.tech/en/leds.html).
+These packages are used in [px4_air drone ROS platform](https://github.com/CopterExpress/px4_air). Read more in the [px4_air documentation](https://px4_air.coex.tech/en/leds.html).
 
 RPi binaries (armhf, ROS Melodic/Noetic, Buster) are available at http://packages.coex.tech.

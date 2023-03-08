@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- MAVROS posix SITL environment launch script -->
+    <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
+    <!-- vehicle pose -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0.5"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="0"/>
+    <!-- vehicle model and world -->
+    <arg name="est" default="ekf2"/>
+    <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
+    <arg name="vehicle" default="frame450"/>
+    <!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+
+    <!-- gazebo configs -->
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="paused" default="false"/>
+    <arg name="respawn_gazebo" default="false"/>
+    <!-- MAVROS configs -->
+    <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
+    <arg name="respawn_mavros" default="false"/>
+    <!-- PX4 configs -->
+    <arg name="interactive" default="true"/>
+
+    <!-- PX4 SITL and Gazebo -->
+    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+    <env name="PX4_ESTIMATOR" value="$(arg est)" />
+
+    <!-- PX4 SITL -->
+    <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
+    <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
+    <node name="sitl" pkg="px4" type="px4" output="screen"
+        args="$(find px4)/build/px4_sitl_default/etc -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/>
+
+
+    <!-- Gazebo sim -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="world_name" value="$(arg world)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="respawn_gazebo" value="$(arg respawn_gazebo)"/>
+    </include>
+
+    <!-- gazebo model -->
+    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" 
+    args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+
+
+
+   <!-- Setup  -->
+    <arg name="fcu_conn" default="sitl"/>
+    <arg name="fcu_ip" default="127.0.0.1"/>
+    <arg name="fcu_sys_id" default="1"/>
+    <arg name="gcs_bridge" default="tcp"/>
+    <arg name="web_video_server" default="true"/>
+    <arg name="rosbridge" default="true"/>
+    <arg name="main_camera" default="true"/>
+    <arg name="optical_flow" default="true"/>
+    <arg name="aruco" default="false"/>
+    <arg name="rangefinder_vl53l1x" default="true"/>
+    <arg name="led" default="true"/>
+    <arg name="blocks" default="false"/>
+    <arg name="rc" default="false"/>
+    <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
+
+    <arg name="simulator" default="false"/> <!-- flag that we are operating on a simulated drone -->
+
+    <!-- log formatting -->
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
+
+    <!-- mavros -->
+    <include file="$(find px4_air)/launch/0mavros.launch">
+        <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+        <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+        <arg name="fcu_sys_id" value="$(arg fcu_sys_id)"/>
+        <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+    </include>
+
+    <!-- web video server -->
+    <node name="web_video_server" pkg="web_video_server" type="web_video_server" if="$(arg web_video_server)" required="false" respawn="true" respawn_delay="5">
+        <param name="default_stream_type" value="ros_compressed"/>
+        <param name="publish_rate" value="1.0"/>
+    </node>
+
+    <!-- aruco markers -->
+    <include file="$(find aruco_pose)/launch/aruco.launch" if="$(eval aruco or force_init)">
+        <arg name="force_init" value="$(arg force_init)"/>
+        <arg name="disable" value="$(eval not aruco)"/>
+    </include>
+
+    <!-- optical flow -->
+    <node pkg="nodelet" type="nodelet" name="optical_flow" args="load px4_air/optical_flow main_camera_nodelet_manager" if="$(arg optical_flow)" clear_params="true" output="screen" respawn="true">
+        <remap from="image_raw" to="main_camera/image_raw"/>
+        <remap from="camera_info" to="main_camera/camera_info"/>
+        <param name="calc_flow_gyro" value="true"/>
+        <param name="roi_rad" value="0.8"/>
+        <param name="disable_on_vpe" value="false"/>
+    </node>
+
+    <!-- simplified offboard control -->
+    <node name="simple_offboard" pkg="px4_air" type="simple_offboard" output="screen" clear_params="true">
+        <param name="reference_frames/main_camera_optical" value="map"/>
+    </node>
+
+    <!-- main camera -->
+    <include file="$(find px4_air)/launch/0main_camera.launch" if="$(arg main_camera)">
+        <arg name="simulator" value="$(arg simulator)"/>
+    </include>
+
+    <!-- rosbridge -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" if="$(eval rosbridge or rc)"/>
+
+    <!-- tf2 republisher for web visualization -->
+    <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher" output="screen" if="$(arg rosbridge)"/>
+
+    <!-- vl53l1x ToF rangefinder -->
+    <node name="rangefinder" pkg="vl53l1x" type="vl53l1x_node" output="screen" if="$(eval rangefinder_vl53l1x and not simulator)">
+        <param name="frame_id" value="rangefinder"/>
+        <param name="min_signal" value="0.4"/>
+        <param name="pass_statuses" type="yaml" value="[0, 6, 7, 11]"/>
+    </node>
+
+
+
+    <!-- rc backend -->
+    <node name="rc" pkg="px4_air" type="rc" output="screen" if="$(arg rc)" clear_params="true">
+        <!-- Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
+        <param name="use_fake_gcs" value="false"/>
+    </node>
+
+
+
+		<!-- Our node to control the mission -->
+    <node pkg="px4_air" type="mission.py" name="offb_node_py" required="true" output="screen" />
+
+		<!-- Our Aruco landing -->
+	<node pkg="px4_air" type="aruco_landing.py" name="offb_node_py" required="true" output="screen" />
+
+		<!-- Our Manual control -->
+    <node pkg="px4_air" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
+
+		<!-- Wind plugin -->
+    <!-- <node pkg="px4_air" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
+
+</launch>
+<!-- Include the MAVROS node with SITL and Gazebo -->

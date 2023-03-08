@@ -136,13 +136,22 @@ sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.
 ### Install PX4-Autopilot
 ```
 git clone --recursive --depth 1 --branch v1.12.3 https://github.com/PX4/PX4-Autopilot.git ~/PX4-Autopilot
-ln -s ~/PX4-Autopilot ~/catkin_ws/src/
-ln -s ~/PX4-Autopilot/Tools/sitl_gazebo ~/catkin_ws/src/
-ln -s ~/PX4-Autopilot/mavlink ~/catkin_ws/src/
 
 cd ~/catkin_ws/src/PX4-Autopilot/Tools/setup
 sudo ./ubuntu.sh
 ```
+go to the .barcsh and add at the end files:
+
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+
+. ~/PX4-Autopilot/Tools/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default
+
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/models:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/worlds
+
+export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/PX4-Autopilot
+
+
 ```
 pip3 install --user toml
 ```
@@ -201,7 +210,7 @@ run the launch file with your defined vehicle
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 0launch_model_only.launch
+roslaunch px4_sim 0launch_model_only.launch
 ```
 You can change the vehicle type <arg name="vehicle" default="r1_rover"/>
 Now, If everything is fine close all and moving to the next step.
@@ -214,7 +223,7 @@ roscore
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 1mavros_posix_sitl.launch
+roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
 
 Remember that you can change the vehicle type.
@@ -225,7 +234,7 @@ Open Qground Control(QGC) or run ./QGroundControl.AppImage
 
 ### 3) Run the predefined mission
 
-In QGC you can add a predefined mission in the path ~/px4_ground/mission and run the mission as usual.
+In QGC you can add a predefined mission in the path ~/px4_sim/mission and run the mission as usual.
 
 ### 4) Run in mission mode with mavros.
 In the terminal 1 run:
@@ -235,9 +244,9 @@ roscore
 In the terminal 2 run:
 ```
 source devel/setup.bash 
-roslaunch px4_ground 1mavros_posix_sitl.launch
+roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
-Now go to the path ../px4_ground/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
+Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
 
 Example: chmod +x control_vel.py
 
@@ -246,16 +255,16 @@ In the terminal 3 run:
 source devel/setup.bash
 rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
-rosrun px4_ground wind.py
-rosrun px4_ground control_vel.py
-rosrun px4_ground mavros_offboard_posctl_test.py
+rosrun px4_sim wind.py
+rosrun px4_sim control_vel.py
+rosrun px4_sim mavros_offboard_posctl_test.py
 ```
 ``Note: others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.``
 
 The option is to run launch file instead of python node.
 In the terminal 3 run: (Options)
 ```
-roslaunch px4_ground 3mission_multi_offb.launch
+roslaunch px4_sim 3mission_multi_offb.launch
 ```
 Now, If everything is fine close all and moving to the next step.
 
@@ -267,13 +276,13 @@ roscore
 For air vehicle run:
 In the terminal 2 run:
 ```
-roslaunch px4_ground 2obs_avoidance_air.launch
+roslaunch px4_sim 2obs_avoidance_air.launch
 ```
 
 For ground vehicle run:
 In the terminal 2 run: (Option)
 ```
-roslaunch px4_ground 2obs_avoidance_ground2.launch
+roslaunch px4_sim 2obs_avoidance_ground2.launch
 ```
 In the terminal 3 run:
 ```
@@ -297,7 +306,7 @@ Note: MH_01_easy cab be download here: http://robotics.ethz.ch/~asl-datasets/ijr
 ### 7) Run multiple UAV with mavros.
 In the terminal 1 run:
 ```
-roslaunch px4_ground 4multi_uav_mavros_sitl.launch
+roslaunch px4_sim 4multi_uav_mavros_sitl.launch
 ```
 Still in development...
 
@@ -307,14 +316,14 @@ Still in development...
 You can create custom airframe for HITL simulations and save them in airframe_hitl folder. Names of created airframe file should consist of number code followed by model name (e.g. 6011_typhoon_h480). After run in terminal: 
 
 ```
-ln -fs ~/catkin_ws/src/px4_ground/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
+ln -fs ~/catkin_ws/src/px4_sim/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 ```
 
 ### 2) Enabling motors in hitl
 By default motors output is blocked in hitl mode. To unblock it, run in terminal:
 
 ```
-cd ~/catkin_ws/src/px4_ground/hitl_setup/
+cd ~/catkin_ws/src/px4_sim/hitl_setup/
 ./hitl_setup
 ```
 Follow the instructions of the script to achieve the desired state of operation of the motors.
