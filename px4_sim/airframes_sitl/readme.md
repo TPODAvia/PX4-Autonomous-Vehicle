@@ -35,8 +35,6 @@ If the quad is unstable, it is probably due to bad controller gains. Tweak them 
 
 
 
-
-
 To setup your SITL simulation you need to provide symbolic link to your airframe configuration file.
 It can be done by using this comand:
 

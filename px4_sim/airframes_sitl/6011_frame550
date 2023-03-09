@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# @name Typhoon H480 SITL
+# @name Frame 550
 #
 # @type Hexarotor x
 #
@@ -8,27 +8,100 @@
 . ${R}etc/init.d/rc.mc_defaults
 
 
-# Hexarotor setting
-
-param set-default MC_PITCHRATE_P 0.0800
-param set-default MC_PITCHRATE_I 0.0400
-param set-default MC_PITCHRATE_D 0.0010
-param set-default MC_PITCH_P 9.0
+###############################################
+# Attitude & rate gains
+###############################################
+# Roll
+param set-default MC_ROLL_P 3.0
 param set-default MC_ROLLRATE_P 0.0800
 param set-default MC_ROLLRATE_I 0.0400
 param set-default MC_ROLLRATE_D 0.0010
-param set-default MC_ROLL_P 9.0
-param set-default MPC_XY_VEL_I_ACC 4
-param set-default MPC_XY_VEL_P_ACC 3
+param set-default MC_ROLLRATE_MAX 220
 
+# Pitch
+param set-default MC_PITCH_P 6.0
+param set-default MC_PITCHRATE_P 0.0800
+param set-default MC_PITCHRATE_I 0.0400
+param set-default MC_PITCHRATE_D 0.0010
+param set-default MC_PITCHRATE_MAX 220
+
+# Yaw
+param set-default MC_YAW_P 2.8
+param set-default MC_YAWRATE_P 0.2
+param set-default MC_YAWRATE_I 0.1
+param set-default MC_YAWRATE_D 0
+param set-default MC_YAWRATE_FF 0
+param set-default MC_YAWRATE_MAX 200
+
+###############################################
+# Multirotor Position Gains
+###############################################
+param set-default MPC_ACC_HOR 8
+param set-default MPC_THR_MIN 0.06
+param set-default MPC_THR_HOVER 0.3
+# altitude control gains
+param set-default MPC_Z_P 1
+param set-default MPC_Z_VEL_P_ACC 4
+param set-default MPC_Z_VEL_I_ACC 0.4
+# position control gains
+param set-default MPC_XY_P 0.9500
+param set-default MPC_XY_VEL_P_ACC 1.8
+param set-default MPC_XY_VEL_I_ACC 0.4
+param set-default MPC_XY_VEL_D_ACC 0.2
+# etc gains
+param set-default MPC_TKO_RAMP_T 0.4
+param set-default MPC_TKO_SPEED 1.5
+param set-default MPC_VEL_MANUAL 5
+
+# Filter settings
+param set-default IMU_DGYRO_CUTOFF 90
+param set-default IMU_GYRO_CUTOFF 100
+
+# Thrust curve (avoids the need for TPA)
+param set-default THR_MDL_FAC 0.25
+
+# Minimum take off altitude
+param set-default MIS_TAKEOFF_ALT 1.1
+
+#####################################
+# EKF
+#####################################
+# Height fusion as 0: Barometer, 1: GPS, 2: Range Sensor, 3: Vision
+param set-default EKF2_HGT_MODE 1
+
+# Enable optical flow and GPS
+param set-default EKF2_AID_MASK 1
+param set-default EKF2_RNG_AID 1
+param set-default EKF2_MAG_TYPE 1
+param set-default EKF2_OF_QMIN 80
+
+# Battery
+# Source 0: Power Module, 1: External
+param set-default BAT_SOURCE 0
+param set-default BAT_N_CELLS 4
+
+# Return mode loiter altitude
 param set-default RTL_DESCEND_ALT 10
 
+# Camera trigger parameters
 param set-default TRIG_INTERFACE 3
 param set-default TRIG_MODE 4
 param set-default MNT_MODE_IN 4
 param set-default MNT_MODE_OUT 2
 param set-default MAV_PROTO_VER 2
 
+# Manual control parameters
+param set-default RC2_TRIM 1000
+param set-default COM_FLTMODE1 2
+param set-default RC_MAP_ROLL 1
+param set-default RC_MAP_THROTTLE 2
+param set-default RC_MAP_PITCH 3
+param set-default RC_MAP_YAW 4
+param set-default RC_MAP_FLTMODE 5
+param set-default RC_CHAN_CNT 8
+
+# Set the hexacopter type
 set MAV_TYPE 13
 
+# Set Mixer
 set MIXER hexa_x

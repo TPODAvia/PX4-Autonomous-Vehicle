@@ -702,43 +702,30 @@
 
 
     <!-- Diff Drive Plugin -->
-<?ignore
-    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      <!-- Plugin update rate in Hz -->
-      <updateRate>30</updateRate>
-      <!-- Name of left joint, defaults to `left_joint` -->
-      <leftJoint>left_wheel_hinge</leftJoint>
-      <!-- Name of right joint, defaults to `right_joint` -->
-      <rightJoint>right_wheel_hinge</rightJoint>
-      <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-      <wheelSeparation>0.66</wheelSeparation>
-      <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
-      <wheelDiameter>0.2</wheelDiameter>
-      <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
-      <wheelAcceleration>1.0</wheelAcceleration>
-      <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-      <wheelTorque>400</wheelTorque>
-      <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
-      <commandTopic>cmd_vel</commandTopic>
-      <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-      <odometryTopic>robotodom</odometryTopic>
-      <!-- Odometry frame, defaults to `odom` -->
-      <odometryFrame>robotodom</odometryFrame>
-      <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-      <robotBaseFrame>base_footprint</robotBaseFrame>
-      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-      <odometrySource>1</odometrySource>
-      <!-- Set to true to publish transforms for the wheel links, defaults to false -->
-      <publishWheelTF>true</publishWheelTF>
-      <!-- Set to true to publish transforms for the odometry, defaults to true -->
-      <publishOdom>true</publishOdom>
-      <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-      <publishWheelJointState>true</publishWheelJointState>
-      <!-- Set to true to swap right and left wheels, defaults to true -->
-      <legacyMode>false</legacyMode>
-    </plugin>
+    <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 
-?>
+      <updateRate>30</updateRate>
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <rightJoint>right_wheel_hinge</rightJoint>
+
+      <wheelSeparation>0.66</wheelSeparation>
+      <wheelDiameter>0.2</wheelDiameter>
+
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <wheelTorque>400</wheelTorque>
+
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>robotodom</odometryTopic>
+
+      <odometryFrame>robotodom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+
+      <odometrySource>1</odometrySource>
+      <publishWheelTF>true</publishWheelTF>
+      <publishOdom>true</publishOdom>
+      <publishWheelJointState>true</publishWheelJointState>
+      <legacyMode>false</legacyMode>
+    </plugin> -->
 
 
 
@@ -771,8 +758,8 @@
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
 
-        <channel name="left_front_wheel_drive">
-          <input_index>1</input_index>
+        <channel name="left_wheel_drive">
+          <input_index>0</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
@@ -790,7 +777,7 @@
           </joint_control_pid>
         </channel>
 
-        <channel name="right_front_wheel_drive">
+        <channel name="right_wheel_drive">
           <input_index>5</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
@@ -808,6 +795,9 @@
             <cmdMin>-1200</cmdMin>
           </joint_control_pid>
         </channel>
+
+
+
       </control_channels>
     </plugin>
 

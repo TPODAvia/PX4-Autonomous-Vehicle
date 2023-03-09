@@ -44,7 +44,7 @@ command_cotrol
 CTRL-C to quit
 
 """
-speed_control = 1600;
+speed_control = 1800
 cur_target_rc_yaw = OverrideRCIn()
 mavros_state = State()
 armServer = rospy.ServiceProxy('/mavros/cmd/arming', CommandBool)
@@ -56,11 +56,11 @@ def __init__():
 	print("Initialized")
 def RCInOverride(channel0,channel1,channel2,channel3):
 	target_RC_yaw = OverrideRCIn()
-	target_RC_yaw.channels[0] = channel0
-	target_RC_yaw.channels[1] = channel1
-	target_RC_yaw.channels[2] = channel2
-	target_RC_yaw.channels[3] = channel3
-	target_RC_yaw.channels[4] = 1100
+	target_RC_yaw.channels[0] = channel0 # Steering wheel Channel
+	target_RC_yaw.channels[1] = channel1 # Throtle Channel
+	target_RC_yaw.channels[2] = 0
+	target_RC_yaw.channels[3] = 0
+
 	return target_RC_yaw
 
 def mavros_state_callback(msg):
@@ -109,26 +109,27 @@ def command_control():
 
 def action_control():
 	global speed_control
-	#throttle
+
 	if mavros_state.mode == 'MANUAL':
+		#throttle
 		if key == 'i'or key == 'I':
 			channel1 = speed_control
 		elif key == 'k'or key == 'K':
-			channel1 = 3000 - speed_control
+			channel1 = 1850 - speed_control
 		else :
-			channel1 = 1000
+			channel1 = 800
 		#yaw
 		if key == 'j' or key == 'J':
-			channel3 = speed_control
+			channel0 = 3000 - speed_control
 		elif key == 'l' or key == 'L':
-			channel3 = 3000 - speed_control
+			channel0 = speed_control
 		else:
-			channel3 = 1500
+			channel0 = 1500
 	else:
-		channel1 = 1500
-		channel3 = 1500
+		channel1 = 800
+		channel0 = 1500
 	global cur_target_rc_yaw
-	cur_target_rc_yaw = RCInOverride(1000,channel1,1000,channel3)
+	cur_target_rc_yaw = RCInOverride(channel0,channel1,1000,1000)
 
 	if key == 'h' or key == 'H':
 		speed_control = speed_control + 10
