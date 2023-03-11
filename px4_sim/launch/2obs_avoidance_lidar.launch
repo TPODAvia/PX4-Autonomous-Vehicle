@@ -13,11 +13,11 @@
     <!-- Any world: empty, flat, city, forest etc -->
 	<arg name="world" default="$(find px4_sim)/worlds/city.world"/>
 
-	<!-- Ground vehicle only: acker_rover, diff_rover, balance_bot, tank -->
+	<!-- Ground vehicles only: acker_rover, diff_rover, balance_bot, tank -->
 	<arg name="vehicle" default="diff_rover"/>
 
     <!-- Gazebo enviroment -->
-    <include file="$(find px4_sim)/launch/0launch_model_only.launch">
+    <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
         <arg name="vehicle" value="$(arg vehicle)"/>
 		<arg name="world" value="$(arg world)"/>
     </include>
@@ -104,10 +104,10 @@
 		<param name="initial_pose_a"            value="0"/>
 	</node>
 
+	<!--  **************** RC Offboard Control ****************  -->
+	<node pkg="px4_sim" type="cmd_vel_mavros_node" name="cmd_vel_mavros_node" output="screen">
+
 	  <!--  **************** Visualisation ****************  -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_sim)/config/cfg/rviz_navigation.rviz"/>
-	
-	<!--  **************** Keyboard Control ****************  -->
-	<!-- <node pkg="offboard_py" type="keyboard.py" name="offb_node_py" required="true" output="screen" /> -->
 
 </launch>

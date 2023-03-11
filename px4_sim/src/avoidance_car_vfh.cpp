@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 	}
 	printf("init ok!\n");
 
-while (ros::ok())
+	while (ros::ok())
 	{
 		while (ros::ok() && !current_state.guided)
 		{
@@ -314,7 +314,7 @@ while (ros::ok())
 		printf("guild ok\n");
 		//**********************************************pose vextor container***********************************************
 		std::vector<geometry_msgs::PoseStamped> pose;
-//		printf("wp size=%d\n", waypoints.waypoints.size());
+		//printf("wp size=%d\n", waypoints.waypoints.size());
 		for (int index = 0; index < waypoints.waypoints.size(); index++)//Convert the waypoint information under GPS to the expected position information under ENU
 		{
 			geometry_msgs::PoseStamped p;
