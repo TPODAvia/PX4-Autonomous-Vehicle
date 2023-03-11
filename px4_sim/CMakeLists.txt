@@ -172,6 +172,7 @@ add_executable(mission_car_offboard_node src/mission_car_offboard.cpp)
 # add_executable(tracking_quadrotor_node src/tracking_quadrotor.cpp)
 add_executable(auto_2d_nav_node src/auto_2d_nav.cpp)
 add_executable(figure_8_circle_node src/figure_8_circle.cpp)
+add_executable(cmd_vel_mavros_node src/cmd_vel_mavros.cpp)
 
 
 
@@ -227,7 +228,9 @@ target_link_libraries(auto_2d_nav_node
 target_link_libraries(figure_8_circle_node
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(cmd_vel_mavros_node
+  ${catkin_LIBRARIES}
+)
 
 
 
@@ -256,17 +259,20 @@ catkin_install_python(PROGRAMS ${python_scripts_DIR}
 # install(TARGETS ${PROJECT_NAME}_node
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
-install(TARGETS  position_to_mavros_node
+install(TARGETS  
+  position_to_mavros_node
   set_mode_node
   collision_avoidance_vfh_node
   avoidance_car_vfh_node
-  circular_node circular_car_node 
+  circular_node 
+  circular_car_node 
   ros_nav_quadrotor_node 
   mission_car_offboard_node
   # landing_quadrotor_node
   # tracking_quadrotor_node
   auto_2d_nav_node
   figure_8_circle_node
+  cmd_vel_mavros_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
