@@ -137,6 +137,7 @@ def action_control():
 	elif key == 'g' or key == 'G':
 		speed_control = speed_control - 10
 		print('Current control speed :',speed_control)
+
 if __name__=="__main__":
 	settings = termios.tcgetattr(sys.stdin)
 	print (msg)

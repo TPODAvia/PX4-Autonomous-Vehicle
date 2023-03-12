@@ -759,7 +759,7 @@
       <control_channels>
 
         <channel name="left_wheel_drive">
-          <input_index>0</input_index>
+          <input_index>5</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
@@ -778,7 +778,7 @@
         </channel>
 
         <channel name="right_wheel_drive">
-          <input_index>5</input_index>
+          <input_index>0</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>

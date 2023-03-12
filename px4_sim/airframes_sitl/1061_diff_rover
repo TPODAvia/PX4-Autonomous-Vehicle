@@ -69,11 +69,11 @@ param set-default GND_WHEEL_BASE 0.02
 param set-default BAT1_N_CELLS 4
 
 # Manual control parameters
-param set-default RC2_TRIM 1000
-param set-default COM_FLTMODE1 2
-param set-default RC_MAP_ROLL 1
-param set-default RC_MAP_THROTTLE 2
-param set-default RC_MAP_PITCH 3
-param set-default RC_MAP_YAW 4
-param set-default RC_MAP_FLTMODE 5
-param set-default RC_CHAN_CNT 8
+# param set-default RC2_TRIM 1000
+# param set-default COM_FLTMODE1 2
+# param set-default RC_MAP_ROLL 1
+# param set-default RC_MAP_THROTTLE 2
+# param set-default RC_MAP_PITCH 3
+# param set-default RC_MAP_YAW 4
+# param set-default RC_MAP_FLTMODE 5
+# param set-default RC_CHAN_CNT 8

@@ -12,7 +12,7 @@
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="frame550"/>
+    <arg name="vehicle" default="diff_rover"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>

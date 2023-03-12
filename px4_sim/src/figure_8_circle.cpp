@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 
     ros::Rate rate(RATE);
 
-    while(ros::ok() && current_state.connected){
+    while(ros::ok() && !current_state.connected){
         ros::spinOnce();
         rate.sleep();
         ROS_INFO("\rconnecting to FCU...");
