@@ -10,13 +10,13 @@
 # Ackerman Drive rover setting
 
 # 1-sigma IMU gyro switch-on bias rad/s
-# param set-default EKF2_GBIAS_INIT 0.01
+param set-default EKF2_GBIAS_INIT 0.01
 
 # 1-sigma tilt angle in deg uncertanity after gravity vector alingment
-# param set-default EKF2_ANGERR_INIT 0.01
+param set-default EKF2_ANGERR_INIT 0.01
 
 # Magnetometer fusion 0: Automatic, 1: Magnetic heading, 2: 3-axis, 3: VTOL custom, 4: MC Custom, 5: None
-# param set-default EKF2_MAG_TYPE 1
+param set-default EKF2_MAG_TYPE 1
 
 # The minimal distance in meters that next way point will activate
 param set-default GND_L1_DIST 5
