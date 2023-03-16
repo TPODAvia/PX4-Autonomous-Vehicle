@@ -11,7 +11,7 @@
 
       <inertial>
         <pose>0 0 0.02 0 0 0</pose>
-        <mass>19.76</mass>
+        <mass>109.76</mass>
         <inertia>
           <ixx>1</ixx>
           <ixy>0</ixy>
@@ -296,7 +296,7 @@
       <inertial>
         <!-- place holder -->
         <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>0.1</mass>
+        <mass>0.01</mass>
         <inertia>
           <ixx>0.00001</ixx>
           <ixy>0</ixy>
@@ -384,7 +384,7 @@
 
       <inertial>
         <pose>-0.041 0 -0.081 0 0 0</pose>
-        <mass>0.1</mass>
+        <mass>0.001</mass>
         <inertia>
           <ixx>0.00001</ixx>
           <ixy>0</ixy>
@@ -471,7 +471,7 @@
       <inertial>
         <!-- place holder -->
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.1</mass>
+        <mass>0.0001</mass>
         <inertia>
           <ixx>0.0001</ixx>
           <ixy>0</ixy>
@@ -481,31 +481,6 @@
           <izz>0.0001</izz>
         </inertia>
       </inertial>
-
-      <collision name='cgo3_camera_collision'>
-        <pose>0 0 0 0 0 0</pose>
-        <geometry>
-          <sphere>
-            <radius>0.035</radius>
-          </sphere>
-        </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
-            </ode>
-          </friction>
-          <contact>
-            <ode>
-              <kp>1e+8</kp>
-              <kd>1</kd>
-              <max_vel>0.01</max_vel>
-              <min_depth>0.001</min_depth>
-            </ode>
-          </contact>
-        </surface>
-      </collision>
 
       <visual name='cgo3_camera_visual'>
         <pose>0 0 0 0 0 0</pose>
