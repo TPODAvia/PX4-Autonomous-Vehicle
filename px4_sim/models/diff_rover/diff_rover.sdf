@@ -421,7 +421,7 @@
         </geometry>
       </visual>
 
-      <sensor name="laser" type="ray">
+      <!-- <sensor name="laser" type="ray">
         <pose>0 0 0 0 -0 0</pose>
         <ray>
           <scan>
@@ -449,7 +449,7 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>false</visualize>
-      </sensor>
+      </sensor> -->
 
       <!-- <sensor type="ray" name="TeraRanger">
           <pose>0 0 0 0 0 0</pose>
@@ -515,7 +515,7 @@
 
     <!--FPV Camera -->
 
-    <link name='camera_link'>
+    <!-- <link name='camera_link'>
       <pose>-0.05 0 0.1 0 0 3.14</pose>
 
       <inertial>
@@ -568,7 +568,7 @@
         <visualize>1</visualize>
 
         <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
-          <!-- <robotNamespace></robotNamespace> -->
+          <robotNamespace></robotNamespace>
           <alwaysOn>true</alwaysOn>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -587,8 +587,6 @@
           <distortionT2>0.0</distortionT2>
         </plugin>
 
-        <!-- GStreamer camera plugin (needs a lot of CPU! Consider lowering the
-            camera image size) -->
         <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
           <robotNamespace></robotNamespace>
           <udpPort>5600</udpPort>
@@ -599,14 +597,14 @@
       <kinematic>0</kinematic>
     </link>
 
-    <joint type="fixed" name="camera_joint"> <!--can be revolute type-->
+    <joint type="fixed" name="camera_joint">
       <parent>body_link</parent>
       <child>camera_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint>
+    </joint> -->
 
 
 
@@ -625,7 +623,7 @@
 
     <!-- Detph Camera -->
 
-    <link name="realsense_link">
+    <!-- <link name="realsense_link">
       <pose>0.15 0 0.1 0 0 0</pose>
 
       <inertial>
@@ -685,14 +683,14 @@
       </sensor>
     </link>
 
-    <joint type="fixed" name="realsense_joint"> <!--can be revolute type-->
+    <joint type="fixed" name="realsense_joint">
       <parent>body_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint>
+    </joint> -->
 
 
 
@@ -759,7 +757,7 @@
       <control_channels>
 
         <channel name="left_wheel_drive">
-          <input_index>0</input_index>
+          <input_index>5</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
@@ -778,7 +776,7 @@
         </channel>
 
         <channel name="right_wheel_drive">
-          <input_index>5</input_index>
+          <input_index>0</input_index>
           <input_offset>0</input_offset>
           <input_scaling>40</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>

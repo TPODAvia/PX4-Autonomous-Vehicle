@@ -26,7 +26,7 @@
     <param name="/use_sim_time" value="true"/>
 
     <!--  ************** SLAM Mapping ***************  -->
-	<node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
+	<node pkg="hector_mapping" type="hector_mapping" name="hector_mapping">
 		
 		<param name="pub_odometry" value="true"/>    
 		<!-- Frame names -->
@@ -73,7 +73,7 @@
  	<node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0.1 0 0 0 base_frame lidar 100"/>
 
     <!--  ************** Navigation ***************  -->
-	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base">
   	  	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="global_costmap" />
   	 	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
   		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/local_costmap_params.yaml" command="load" />
@@ -92,11 +92,11 @@
 
 
 	<!--  ****** Maps *****  -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/maze.yaml" output="screen">
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/maze.yaml">
                 <param name="frame_id" value="map"/>
 	</node>
 
-	<node pkg="amcl" type="amcl" name="amcl" output="screen">
+	<node pkg="amcl" type="amcl" name="amcl">
 		<rosparam file="$(find px4_sim)/config/cfg/amcl_params.yaml" command="load" />
 
 	    <param name="initial_pose_x"            value="2"/>
@@ -104,8 +104,10 @@
 		<param name="initial_pose_a"            value="0"/>
 	</node>
 
+
 	<!--  **************** RC Offboard Control ****************  -->
-	<node pkg="px4_sim" type="cmd_vel_mavros_node" name="cmd_vel_mavros_node" output="screen">
+    <!-- <arg name="node_start_delay" default="30.0" />   -->
+	<!-- <node pkg="px4_sim" type="cmd_vel_mavros_node" name="cmd_vel_mavros_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/> -->
 
 	  <!--  **************** Visualisation ****************  -->
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_sim)/config/cfg/rviz_navigation.rviz"/>

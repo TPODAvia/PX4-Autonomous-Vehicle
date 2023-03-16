@@ -3,7 +3,7 @@
 # @name Differancial Balancing Robot
 #
 
-sh /etc/init.d/rc.rover_defaults
+. ${R}etc/init.d/rc.rover_defaults
 
 # 1-sigma IMU gyro switch-on bias rad/s
 param set-default EKF2_GBIAS_INIT 0.01

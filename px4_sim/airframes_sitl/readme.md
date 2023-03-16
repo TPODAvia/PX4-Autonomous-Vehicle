@@ -39,3 +39,16 @@ To setup your SITL simulation you need to provide symbolic link to your airframe
 It can be done by using this comand:
 
 ln -fs ~/catkin_ws/src/px4_sim/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
+
+
+
+
+
+To make our airframes workable we need to delete other files:
+
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/1043_standard_vtol_drop
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/1042_tiltrotor
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/10016_iris
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/6011_typhoon_h480
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/1061_r1_rover
+rm -i ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/1060_rover

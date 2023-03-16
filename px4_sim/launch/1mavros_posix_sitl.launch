@@ -11,14 +11,14 @@
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
-    <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="frame550"/>
+    <!-- any vehicle: iris, frame450, acker_rover, diff_rover, avia_vtol, typhoon_h480 etc -->
+    <arg name="vehicle" default="acker_rover"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
 
     <!-- gazebo configs -->
-    <arg name="gui" default="true"/>
+    <arg name="gui" default="false"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
     <arg name="paused" default="false"/>
