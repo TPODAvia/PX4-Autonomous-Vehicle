@@ -161,7 +161,7 @@
       <child>left_wheel</child>
       <parent>body_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -266,7 +266,7 @@
       <child>right_wheel</child>
       <parent>body_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -421,7 +421,7 @@
         </geometry>
       </visual>
 
-      <!-- <sensor name="laser" type="ray">
+      <sensor name="laser" type="ray">
         <pose>0 0 0 0 -0 0</pose>
         <ray>
           <scan>
@@ -449,7 +449,7 @@
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>false</visualize>
-      </sensor> -->
+      </sensor>
 
       <!-- <sensor type="ray" name="TeraRanger">
           <pose>0 0 0 0 0 0</pose>
@@ -515,7 +515,7 @@
 
     <!--FPV Camera -->
 
-    <!-- <link name='camera_link'>
+    <link name='camera_link'>
       <pose>-0.05 0 0.1 0 0 3.14</pose>
 
       <inertial>
@@ -604,7 +604,7 @@
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint> -->
+    </joint>
 
 
 
@@ -757,15 +757,15 @@
       <control_channels>
 
         <channel name="left_wheel_drive">
-          <input_index>5</input_index>
+          <input_index>0</input_index>
           <input_offset>0</input_offset>
-          <input_scaling>40</input_scaling>
+          <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
           <joint_name>left_wheel_hinge</joint_name>
           <joint_control_pid>
-            <p>0.1</p>
+            <p>0.7</p>
             <i>0</i>
             <d>0</d>
             <iMax>800</iMax>
@@ -776,15 +776,15 @@
         </channel>
 
         <channel name="right_wheel_drive">
-          <input_index>0</input_index>
+          <input_index>5</input_index>
           <input_offset>0</input_offset>
-          <input_scaling>40</input_scaling>
+          <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
           <joint_name>right_wheel_hinge</joint_name>
           <joint_control_pid>
-            <p>0.1</p>
+            <p>0.7</p>
             <i>0</i>
             <d>0</d>
             <iMax>800</iMax>

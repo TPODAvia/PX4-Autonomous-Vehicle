@@ -20,6 +20,10 @@
     <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
         <arg name="vehicle" value="$(arg vehicle)"/>
 		<arg name="world" value="$(arg world)"/>
+		<arg name="x" default="0"/>
+		<arg name="y" default="0"/>
+		<arg name="z" default="0.15"/>
+		<arg name="paused" default="false"/>
     </include>
 
     <!--  ************** Global Parameters ***************  -->
