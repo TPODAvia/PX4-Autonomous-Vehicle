@@ -53,42 +53,42 @@
 # param set-default MPC_TKO_SPEED 1.5
 # param set-default MPC_VEL_MANUAL 5
 
-# # Filter settings
-# param set-default IMU_DGYRO_CUTOFF 90
-# param set-default IMU_GYRO_CUTOFF 100
+# Filter settings
+param set-default IMU_DGYRO_CUTOFF 90
+param set-default IMU_GYRO_CUTOFF 100
 
-# # # Thrust curve (avoids the need for TPA)
-# param set-default THR_MDL_FAC 0.25
+# # Thrust curve (avoids the need for TPA)
+param set-default THR_MDL_FAC 0.25
 
-# # Minimum take off altitude
-# param set-default MIS_TAKEOFF_ALT 1.1
+# Minimum take off altitude
+param set-default MIS_TAKEOFF_ALT 1.1
 
 # #####################################
 # # EKF
 # #####################################
-# #Height fusion as 0: Barometer, 1: GPS, 2: Range Sensor, 3: Vision
-# param set-default EKF2_HGT_MODE 1
+#Height fusion as 0: Barometer, 1: GPS, 2: Range Sensor, 3: Vision
+param set-default EKF2_HGT_MODE 1
 
-# # Enable optical flow and GPS
-# param set-default EKF2_AID_MASK 1
-# param set-default EKF2_RNG_AID 1
-# param set-default EKF2_MAG_TYPE 1
-# param set-default EKF2_OF_QMIN 80
+# Enable optical flow and GPS
+param set-default EKF2_AID_MASK 1
+param set-default EKF2_RNG_AID 1
+param set-default EKF2_MAG_TYPE 1
+param set-default EKF2_OF_QMIN 80
 
-# # Battery
-# # Source 0: Power Module, 1: External
-# param set-default BAT_SOURCE 0
-# param set-default BAT_N_CELLS 4
+# Battery
+# Source 0: Power Module, 1: External
+param set-default BAT_SOURCE 0
+param set-default BAT_N_CELLS 4
 
-# # Return mode loiter altitude
-# param set-default RTL_DESCEND_ALT 5
+# Return mode loiter altitude
+param set-default RTL_DESCEND_ALT 10
 
-# # Camera trigger parameters
-# param set-default TRIG_INTERFACE 3
-# param set-default TRIG_MODE 4
-# param set-default MNT_MODE_IN 4
-# param set-default MNT_MODE_OUT 2
-# param set-default MAV_PROTO_VER 2
+# Camera trigger parameters
+param set-default TRIG_INTERFACE 3
+param set-default TRIG_MODE 4
+param set-default MNT_MODE_IN 4
+param set-default MNT_MODE_OUT 2
+param set-default MAV_PROTO_VER 2
 
 # # Manual control parameters
 # param set-default RC2_TRIM 1000
