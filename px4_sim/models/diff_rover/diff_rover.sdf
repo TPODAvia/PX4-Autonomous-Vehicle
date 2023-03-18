@@ -623,7 +623,7 @@
 
     <!-- Detph Camera -->
 
-    <!-- <link name="realsense_link">
+    <link name="realsense_link">
       <pose>0.15 0 0.1 0 0 0</pose>
 
       <inertial>
@@ -690,7 +690,7 @@
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint> -->
+    </joint>
 
 
 
@@ -713,9 +713,9 @@
 
 
 
+    <!-- Stereo Camera -->
 
-
-    <link name="stereo_link">
+    <!-- <link name="stereo_link">
       <pose>0.1 0 0.1 0 0 0</pose>
  
       <inertial>
@@ -806,7 +806,7 @@
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint>
+    </joint> -->
 
 
 
