@@ -74,7 +74,18 @@ sudo apt install libpcl1 ros-noetic-octomap-* -y
 sudo apt install libeigen3-dev -y
 sudo apt install ros-noetic-hector-trajectory-server -y
 ```
+
 ```
+I',m trying to fix orb slam catkin_make error:
+
+Hey all, just tried 3.3.2 (2017 Jan) downgraded from 3.4 and its working.
+1: in terminal remove your current eigen3 folder with "sudo rm -rf /usr/local/include/eigen3"
+2. Download and extract this -> http://bitbucket.org/eigen/eigen/get/3.3.2.tar.bz2
+3. cd into the extracted folder and in terminal "mkdir build && cd build" then "cmake .." then "sudo make install"
+
+
+
+
 cd ~
 git clone https://github.com/stevenlovegrove/Pangolin.git
 cd Pangolin
