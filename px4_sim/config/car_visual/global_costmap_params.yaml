@@ -1,0 +1,17 @@
+global_costmap:
+  global_frame: local_origin
+  robot_base_frame: fcu
+  update_frequency: 5.0
+  publish_frequency: 0.5
+  static_map: true
+  rolling_window: false
+ 
+  transform_tolerance: 0.5
+  plugins:
+    - {name: static_layer,            type: "costmap_2d::StaticLayer"}
+    - {name: obstacle_layer,          type: "costmap_2d::VoxelLayer"}
+    - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
+
+
+
+

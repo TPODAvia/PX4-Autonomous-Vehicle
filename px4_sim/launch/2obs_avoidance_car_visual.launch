@@ -37,39 +37,53 @@
       <arg name="start_pos_z" value="0.15" />
   </include>>
 
+
     <!--  ************** Laser to Base_link tf transform ***************  -->
- 	<node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0.1 0 0 0 base_frame lidar 100"/>
+ 	<node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0.1 0 0 0 fcu lidar 100"/>
 
     <!--  ************** Navigation ***************  -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base">
-  	  	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="global_costmap" />
-  	 	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/local_costmap_params.yaml" command="load" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/global_costmap_params.yaml" command="load" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find px4_sim)/config/car_visual/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find px4_sim)/config/car_visual/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find px4_sim)/config/car_visual/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find px4_sim)/config/car_visual/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find px4_sim)/config/car_visual/teb_local_planner_params.yaml" command="load" />
 
-		<!-- <param name="base_global_planner" value="global_planner/GlobalPlanner" />-->
 		<param name="planner_frequency" value="1.0" />
 		<param name="planner_patience" value="5.0" /> 
 
 		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 		<param name="controller_frequency" value="5.0" />
 		<param name="controller_patience" value="15.0" />
+
+
+    <param name="global_costmap/global_frame" value="local_origin" />
+    <param name="global_costmap/robot_base_frame" value="fcu" />
+    <param name="local_costmap/global_frame" value="local_origin" />
+    <param name="local_costmap/robot_base_frame" value="fcu" />
+
+
+    <remap from="odom" to="/odometry/filtered" />
+    <remap from="cmd_vel" to="/robot/nav_vel"/>
 		
 	</node>
 
 
+
 	<!--  ****** Maps *****  -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/maze.yaml">
-                <param name="frame_id" value="map"/>
+  <!-- <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 local_origin map 10"/> -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/map/maze.yaml">
+    <param name="frame_id" value="local_origin"/>
 	</node>
 
 	<node pkg="amcl" type="amcl" name="amcl">
-		<rosparam file="$(find px4_sim)/config/cfg/amcl_params.yaml" command="load" />
+		<rosparam file="$(find px4_sim)/config/car_visual/amcl_params.yaml" command="load" />
 
 	  <param name="initial_pose_x"            value="2"/>
 		<param name="initial_pose_y"            value="2"/>
 		<param name="initial_pose_a"            value="0"/>
+
+    <remap from="/scan" to="/base_scan"/>
 	</node>
 
 
