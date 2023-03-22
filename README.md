@@ -470,5 +470,7 @@ rosrun mavros mavsafety arm
 
 #### Takeoff from current position (work in progress)
 rosrun mavros mavcmd takeoffcur 0 0 0
+rosrun mavros mavcmd local_takeoff <yaw> <z>
 
 #### Land
+rosrun mavros mavcmd local_land <x> <y> <yaw> <z>
