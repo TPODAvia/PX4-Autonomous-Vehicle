@@ -50,6 +50,10 @@
               <slip2>1.0</slip2>
             </ode>
           </friction>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e6</threshold>
+          </bounce>
         </surface>
       </collision>
 
@@ -134,6 +138,7 @@
                 <max_vel>0.0</max_vel>
                 <kp>1.0e6</kp>
                 <kd>100.0</kd>
+                <minDepth>0.001</minDepth>
               </ode>
             </contact>
           </surface>
@@ -239,6 +244,7 @@
                 <max_vel>0.0</max_vel>
                 <kp>1.0e6</kp>
                 <kd>100.0</kd>
+                <minDepth>0.001</minDepth>
               </ode>
             </contact>
           </surface>

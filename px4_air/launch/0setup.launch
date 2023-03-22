@@ -1,29 +1,22 @@
 <launch>
-    <arg name="fcu_conn" default="sitl"/>
+    <!-- mavros -->
+    <arg name="fcu_conn" default="usb"/>
     <arg name="fcu_ip" default="127.0.0.1"/>
-    <arg name="fcu_sys_id" default="1"/>
     <arg name="gcs_bridge" default="tcp"/>
+
     <arg name="web_video_server" default="true"/>
     <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
     <arg name="optical_flow" default="true"/>
-    <arg name="aruco" default="false"/>
+    <arg name="aruco" default="true"/>
     <arg name="rangefinder_vl53l1x" default="true"/>
-    <arg name="led" default="true"/>
-    <arg name="blocks" default="false"/>
     <arg name="rc" default="false"/>
     <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
-
-    <arg name="simulator" default="false"/> <!-- flag that we are operating on a simulated drone -->
-
-    <!-- log formatting -->
-    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
 
     <!-- mavros -->
     <include file="$(find px4_air)/launch/0mavros.launch">
         <arg name="fcu_conn" value="$(arg fcu_conn)"/>
         <arg name="fcu_ip" value="$(arg fcu_ip)"/>
-        <arg name="fcu_sys_id" value="$(arg fcu_sys_id)"/>
         <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
     </include>
 
@@ -55,7 +48,7 @@
 
     <!-- main camera -->
     <include file="$(find px4_air)/launch/0main_camera.launch" if="$(arg main_camera)">
-        <arg name="simulator" value="$(arg simulator)"/>
+        <arg name="fcu_conn" default="$(arg fcu_conn)" />
     </include>
 
     <!-- rosbridge -->
@@ -65,17 +58,15 @@
     <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher" output="screen" if="$(arg rosbridge)"/>
 
     <!-- vl53l1x ToF rangefinder -->
-    <node name="rangefinder" pkg="vl53l1x" type="vl53l1x_node" output="screen" if="$(eval rangefinder_vl53l1x and not simulator)">
+    <node name="rangefinder" pkg="vl53l1x" type="vl53l1x_node" output="screen" if="$(eval fcu_conn == 'usb' or fcu_conn == 'uart')">
         <param name="frame_id" value="rangefinder"/>
         <param name="min_signal" value="0.4"/>
         <param name="pass_statuses" type="yaml" value="[0, 6, 7, 11]"/>
     </node>
 
-
-
     <!-- rc backend -->
+    <!-- Use fake GCS. Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
     <node name="rc" pkg="px4_air" type="rc" output="screen" if="$(arg rc)" clear_params="true">
-        <!-- Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
         <param name="use_fake_gcs" value="false"/>
     </node>
 
