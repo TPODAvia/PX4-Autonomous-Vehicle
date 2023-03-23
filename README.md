@@ -68,6 +68,7 @@ source /opt/ros/noetic/setup.bash
 ```
 sudo apt install build-essential git python3-pip python3-rosdep -y
 sudo apt install libpcl1 ros-noetic-octomap-* -y
+sudo apt-get install ros-noetic-hector-slam -y
 ```
 
 ### Install YOLOv8 dependencies
@@ -117,7 +118,7 @@ sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.
 ```
 git clone --recursive --depth 1 --branch v1.12.3 https://github.com/PX4/PX4-Autopilot.git ~/PX4-Autopilot
 
-cd ~/catkin_ws/src/PX4-Autopilot/Tools/setup
+cd ~/PX4-Autopilot/Tools/setup
 sudo ./ubuntu.sh
 ```
 go to the .barcsh and add at the end files:
@@ -177,6 +178,8 @@ Close the gazebo simulation then restart your Ubuntu
 # Starting Guide
 
 ### 1) Now the enviroment is done. Test the sdf models first.
+
+ln -fs ~/catkin_ws/src/px4_sim/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 
 Go to the catkin_ws first
 ```

@@ -72,7 +72,7 @@
 
 	<!--  ****** Maps *****  -->
   <!-- <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 local_origin map 10"/> -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/map/maze.yaml">
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/maps/maze.yaml">
     <param name="frame_id" value="local_origin"/>
 	</node>
 

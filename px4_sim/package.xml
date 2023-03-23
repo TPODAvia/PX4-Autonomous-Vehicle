@@ -81,7 +81,11 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>actionlib</exec_depend>
   <exec_depend>move_base_msgs</exec_depend>
-  <!-- <exec_depend>prometheus_msgs</exec_depend> -->
+  <exec_depend>stage_ros</exec_depend>
+  <exec_depend>teb_local_planner</exec_depend>
+  <exec_depend>move_base</exec_depend>
+  <exec_depend>map_server</exec_depend>
+  <exec_depend>amcl</exec_depend>
 
   <!-- <depend>ar_track_alvar_msgs</depend> -->
 

@@ -96,7 +96,7 @@
 
 
 	<!--  ****** Maps *****  -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/maze.yaml">
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/maps/maze.yaml">
                 <param name="frame_id" value="map"/>
 	</node>
 
