@@ -46,7 +46,7 @@ import math
 import numpy as np
 from geometry_msgs.msg import PoseStamped, Quaternion
 from mavros_msgs.msg import ParamValue
-from mavros_test_common import MavrosTestCommon
+from px4_sim.script.mavros_common_test import MavrosTestCommon
 from pymavlink import mavutil
 from six.moves import xrange
 from std_msgs.msg import Header

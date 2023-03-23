@@ -49,6 +49,7 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+
   <build_depend>gazebo_ros</build_depend>
   <build_depend>gazebo_plugins</build_depend>
   <build_depend>urdf</build_depend>
@@ -58,6 +59,7 @@
   <build_depend>tf</build_depend>
   <build_depend>actionlib</build_depend>
   <build_depend>move_base_msgs</build_depend>
+  <build_depend>ar_track_alvar_msgs</build_depend>
   <!-- <build_depend>prometheus_msgs</build_depend> -->
 
 
@@ -81,6 +83,7 @@
   <exec_depend>move_base_msgs</exec_depend>
   <!-- <exec_depend>prometheus_msgs</exec_depend> -->
 
+  <!-- <depend>ar_track_alvar_msgs</depend> -->
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

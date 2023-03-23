@@ -44,7 +44,7 @@ PKG = 'px4'
 import rospy
 from geometry_msgs.msg import Quaternion, Vector3
 from mavros_msgs.msg import AttitudeTarget
-from mavros_test_common import MavrosTestCommon
+from px4_sim.script.mavros_common_test import MavrosTestCommon
 from pymavlink import mavutil
 from six.moves import xrange
 from std_msgs.msg import Header

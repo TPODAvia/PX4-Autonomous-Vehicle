@@ -91,6 +91,7 @@ cd ~/catkin_ws/src
 
 git clone https://github.com/TPODAvia/yolov8_ros.git
 git clone https://github.com/okalachev/vl53l1x_ros
+git clone https://github.com/machinekoder/ar_track_alvar.git -b noetic-devel
 
 git init
 git remote add origin http://git.promcars.ru/promavto-drone/px4-repository.git

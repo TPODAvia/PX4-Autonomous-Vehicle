@@ -1,3 +1,4 @@
+#pragma once
 #include <ros/ros.h>
 #include <iostream>
 #include <mavros_msgs/CommandBool.h>

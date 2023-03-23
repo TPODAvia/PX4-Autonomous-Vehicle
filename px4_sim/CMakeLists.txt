@@ -25,6 +25,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   trajectory_msgs
   pluginlib
+  ar_track_alvar_msgs
 
 )
 
@@ -128,6 +129,7 @@ file(GLOB python_scripts_DIR
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
+  # CATKIN_DEPENDS ar_track_alvar_msgs
 #  LIBRARIES px4_sim
 #  CATKIN_DEPENDS gazebo_ros urdf
 #  DEPENDS system_lib
@@ -168,8 +170,8 @@ add_executable(circular_node src/circular.cpp)
 add_executable(circular_car_node src/circular_car.cpp)
 add_executable(ros_nav_quadrotor_node src/ros_nav_quadrotor.cpp)
 add_executable(mission_car_offboard_node src/mission_car_offboard.cpp)
-# add_executable(landing_quadrotor_node src/landing_quadrotor.cpp)
-# add_executable(tracking_quadrotor_node src/tracking_quadrotor.cpp)
+add_executable(landing_quadrotor_node src/landing_quadrotor.cpp)
+add_executable(tracking_quadrotor_node src/tracking_quadrotor.cpp)
 add_executable(auto_2d_nav_node src/auto_2d_nav.cpp)
 add_executable(figure_8_circle_node src/figure_8_circle.cpp)
 add_executable(cmd_vel_mavros_node src/cmd_vel_mavros.cpp)
@@ -216,12 +218,12 @@ target_link_libraries(ros_nav_quadrotor_node
 target_link_libraries(mission_car_offboard_node
   ${catkin_LIBRARIES}
 )
-# target_link_libraries(landing_quadrotor_node
-#   ${catkin_LIBRARIES}
-# )
-# target_link_libraries(tracking_quadrotor_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(landing_quadrotor_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(tracking_quadrotor_node
+  ${catkin_LIBRARIES}
+)
 target_link_libraries(auto_2d_nav_node
   ${catkin_LIBRARIES}
 )
@@ -268,8 +270,8 @@ install(TARGETS
   circular_car_node 
   ros_nav_quadrotor_node 
   mission_car_offboard_node
-  # landing_quadrotor_node
-  # tracking_quadrotor_node
+  landing_quadrotor_node
+  tracking_quadrotor_node
   auto_2d_nav_node
   figure_8_circle_node
   cmd_vel_mavros_node
