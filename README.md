@@ -399,8 +399,15 @@ Now you can start gazebo HITL simulation. You should be able to use QGroundContr
 # Working with Raspberry Pi
 
 1) install the image ubuntu 20.04 server for raspberry
+https://cdimage.ubuntu.com/releases/focal/release/
 
-2) sudo nano /etc/netplan/50-cloud-init.yaml
+or install my image for raspberry pi 4
+
+2) To connecto to local wifi network run:
+
+sudo nano /etc/netplan/50-cloud-init.yaml
+
+add this line to the file:
 
 wifis:
   wlan0:
@@ -410,10 +417,12 @@ wifis:
             password: "pass"
     dhcp4: true
 
-3) check sintax
+3) We should check the sintax for the errors
+
 sudo netplan -debug generate
 
-4) open basrc to make colorfull terminal:
+4) We need to mofify terminal UI for the colorful visualization:
+
  nano ~/.bashrc
   ucomment line force_color_prompt=yes
 press "ctrl + x", press "y", press "enter", write in terminal: exit
@@ -424,7 +433,6 @@ press "ctrl + x", press "y", press "enter", write in terminal: exit
 
 7) rm -d -r px4_sim
 
-force_color_prompt=yes
 
 
 #### PX4 launch command
@@ -445,7 +453,7 @@ https://docs.px4.io/v1.9.0/en/peripherals/mavlink_peripherals.html
 If you want to override the fcu_url value in the launch file you can do:
 roslaunch mavros px4.launch fcu_url:=/dev/ttyS0:921600
 
-#### Broadcast to QGroundControl running on another compuater on same network
+#### Broadcast to QGroundControl running on another computer on same network
 <arg name="gcs_url" default="udp://:14556@192.168.43.40:14550" />
 
 #### Change ROS_MASTER_URI to connect to ROS master on another computer (on the same network)
