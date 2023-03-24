@@ -1,5 +1,17 @@
 # This is the project contains Gazebo SITL control for multiple vehicles
 
+# User Guide
+
+[Installing a Desktop Ubuntu for Simulation](doc/InstallDesktop.md)
+
+[Installing a Server Ubuntu for Raspberry Pi](doc/InstallDevice.md)
+
+[Working with SITL](doc/ManualSITL.md)
+
+[Working with HITL](doc/ManualHITL.md)
+
+[Working with Raspberry Pi](doc/ManualRPI.md)
+
 # Inroduction
 
 This project contains autonomous UAVs and cars with PX4 autopilot software.
@@ -31,19 +43,6 @@ UAV pipeline
 
 Ground vehicle pipeline
 ![alt text](./doc/car_pipeline.jpg)
-
-
-# User Guide
-
-[Installing a Desktop Ubuntu for Simulation](doc/InstallDesktop.md)
-
-[Installing a Server Ubuntu for Raspberry Pi](doc/InstallDevice.md)
-
-[Working with SITL](doc/ManualSITL.md)
-
-[Working with HITL](doc/ManualHITL.md)
-
-[Working with Raspberry Pi](doc/ManualRPI.md)
 
 
 # Licence
