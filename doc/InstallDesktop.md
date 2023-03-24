@@ -1,5 +1,10 @@
 # Installing Guide
 
+
+#### Install virtual box in pc (optional
+)
+https://www.virtualbox.org/wiki/Downloads
+
 In this txt file manually change the the ubuntu name for your pc. In this example is "vboxuser"
 
 If the problem appeard with permission for user:
@@ -14,9 +19,8 @@ Write in there and save it
 vboxuser ALL=(ALL:ALL) ALL
 %vboxuser ALL=(ALL) ALL
 ```
-Close the teminal. Then in the new terminal run
 
-### Install ROS
+#### Install ROS
 ```
 sudo apt install git python3-pip -y
 ```
@@ -31,12 +35,12 @@ source ~/.bashrc
 source /opt/ros/noetic/setup.bash
 ```
 ```
-sudo apt install build-essential git python3-pip python3-rosdep -y
+sudo apt install build-essential python3-rosdep -y
 sudo apt install libpcl1 ros-noetic-octomap-* -y
 sudo apt-get install ros-noetic-hector-slam -y
 ```
 
-### Install YOLOv8 dependencies
+#### Install YOLOv8 dependencies
 
 ```
 sudo apt-get install python3-scipy -y
@@ -45,7 +49,7 @@ sudo apt-get install ros-noetic-geometry-msgs -y
 sudo apt-get install ros-noetic-usb-cam -y
 ```
 
-### Install the workspace
+#### Install the workspace
 ```
 cd ~/catkin_ws
 catkin_make
@@ -79,7 +83,7 @@ rosdep install --from-paths src --ignore-src -y
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
-### Install PX4-Autopilot
+#### Install PX4-Autopilot
 ```
 git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 
@@ -87,6 +91,7 @@ pip3 install --user toml
 pip3 install kconfiglib
 pip3 install --user jsonschema
 sudo apt install gcc-arm-none-eab
+sudo apt install libopencv-dev python-jinja2 protobuf-compiler -y
 sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
 make px4_sitl gazebo-classic
@@ -111,9 +116,8 @@ cd ~/catkin_ws
 source devel/setup.bash
 catkin_make
 ```
-if catkin_make fails just catkin_make again :)
 
-### Install QGroundControl
+#### Install QGroundControl
 ```
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
@@ -129,17 +133,4 @@ cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
 ```
 
-Fixing Octomap server problem
-```
-sudo apt install libopencv-dev python-jinja2 protobuf-compiler -y
-export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/catkin_ws/src/avoidance/sim/models
-export QT_X11_NO_MITSHM=1
-```
-### Install SITL enviroment
-And this is the final step
-```
-cd ~/PX4-Autopilot
-export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11
-make px4_sitl gazebo
-```
-Close the gazebo simulation then restart your Ubuntu
+Close and restart your Ubuntu

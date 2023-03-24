@@ -1,8 +1,11 @@
 # Starting Guide
 
-### 1) Now the enviroment is done. Test the sdf models first.
+#### 1) Test the sdf models.
 
+Adding airframe configurations
+```
 ln -fs ~/catkin_ws/src/px4_sim/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
+```
 
 Go to the catkin_ws first
 ```
@@ -15,41 +18,44 @@ roscore
 run the launch file with your defined vehicle
 In the terminal 2 run:
 ```
-source devel/setup.bash 
 roslaunch px4_sim 0launch_model_only.launch
 ```
-You can change the vehicle type <arg name="vehicle" default="r1_rover"/>
-Now, If everything is fine close all and moving to the next step.
+You can change the vehicle type 
+```
+<arg name="vehicle" default="r1_rover"/>
+```
+Change world file if necessary
+```
+<arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+```
 
-### 2) Run with PX4 SITL.
+#### 2) Run with PX4 SITL.
 In the terminal 1 run:
 ```
 roscore
 ```
 In the terminal 2 run:
 ```
-source devel/setup.bash 
 roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
 
 Remember that you can change the vehicle type.
-<arg name="vehicle" default="vector"/>
-Open Qground Control(QGC) or run ./QGroundControl.AppImage
+```
+<arg name="vehicle" default="frame450"/>
+```
+Now we can use Qground Control(QGC) or run ./QGroundControl.AppImage
 
-``Note: for r1_rover you need to change some parameters in QGC. Now you can run a PX4 vehicle in Gazebo enviroment.``
-
-### 3) Run the predefined mission
+#### 3) Run the predefined mission
 
 In QGC you can add a predefined mission in the path ~/px4_sim/mission and run the mission as usual.
 
-### 4) Run in mission mode with mavros.
+#### 4) Run in mission mode with mavros.
 In the terminal 1 run:
 ```
 roscore
 ```
 In the terminal 2 run:
 ```
-source devel/setup.bash 
 roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
 Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
@@ -70,11 +76,11 @@ rosrun px4_sim mavros_offboard_posctl_test.py
 The option is to run launch file instead of python node.
 In the terminal 3 run: (Options)
 ```
-roslaunch px4_sim 3mission_multi_offb.launch
+roslaunch px4_sim 3mission_qgcaruco_sitl.launch
 ```
 Now, If everything is fine close all and moving to the next step.
 
-### 5) Run the SLAM Navigation
+#### 5) Run the Avoidance Navigation
 In the terminal 1 run:
 ```
 roscore
@@ -82,36 +88,28 @@ roscore
 For air vehicle run:
 In the terminal 2 run:
 ```
-roslaunch px4_sim 2obs_avoidance_air.launch
+roslaunch px4_sim 2obs_avoidance_air_local.launch
 ```
 
 For ground vehicle run:
 In the terminal 2 run: (Option)
 ```
-roslaunch px4_sim 2obs_avoidance_ground2.launch
+roslaunch px4_sim 2obs_avoidance_car_lidar.launch
 ```
 In the terminal 3 run:
 ```
-source devel/setup.bash
 rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
 ```
 
-### 6) Run ORB-SLAM navigation
-In one terminal:
+#### 6) Run Avoidance Mission
+In the terminal run:
 ```
-roslaunch orb_slam3_ros euroc_mono_inertial.launch
+roslaunch px4_sim 4mission_followme_sitl.launch
 ```
-In another terminal:
-```
-rosbag play MH_01_easy.bag
-```
-
-Note: MH_01_easy cab be download here: http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/MH_01_easy/MH_01_easy.bag
     
-### 7) Run multiple UAV with mavros.
-In the terminal 1 run:
+#### 7) Run multiple UAV with mavros.
+In the terminal run:
 ```
-roslaunch px4_sim 4multi_uav_mavros_sitl.launch
+roslaunch px4_sim 5multi_uav_auto_sitl.launch
 ```
-Still in development...

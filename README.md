@@ -3,11 +3,11 @@
 # Inroduction
 
 This project contains autonomous UAVs and cars with PX4 autopilot software.
-The folder is provided SITL(Software in the loop), HITL(Hardware in the loop) and folder for the real autonomous too.
+The folder is provided SITL(Software in the loop), HITL(Hardware in the loop) and folder for the real autonomous too. All the setup is for Ubuntu 20.04.5 and ROS Noetic.
 
 Some realization in this project:
 
-- custom model and configuration in Gazebo for PX4
+- custom models and configuration in Gazebo for PX4
 - Q Ground Control compatible and automatic mission accomplishment
 - Atomatic mission with avoidance algorithms
 - Swarm mission
@@ -35,13 +35,15 @@ Ground vehicle pipeline
 
 # User Guide
 
-[this subtext1](doc/InstallDesktop.md)
+[Installing a Desktop Ubuntu for Simulation](doc/InstallDesktop.md)
 
-[this subtext2](doc/InstallDevice.md)
+[Installing a Server Ubuntu for Raspberry Pi](doc/InstallDevice.md)
 
-[this subtext4](doc/ManualSITL.md)
+[Working with SITL](doc/ManualSITL.md)
 
-[this subtext3](doc/ManualHITL.md)
+[Working with HITL](doc/ManualHITL.md)
+
+[Working with Raspberry Pi](doc/ManualRPI.md)
 
 
 # Licence
