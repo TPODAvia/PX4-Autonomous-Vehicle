@@ -12,7 +12,7 @@
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, frame450, acker_rover, diff_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="iris"/>
+    <arg name="vehicle" default="typhoon_h480"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
@@ -30,7 +30,7 @@
     <arg name="interactive" default="true"/>
 
     <!-- PX4 SITL and Gazebo -->
-    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+    <env name="PX4_SIM_MODEL" value="gazebo-classic_$(arg vehicle)" />
     <env name="PX4_ESTIMATOR" value="$(arg est)" />
 
     <!-- PX4 SITL -->

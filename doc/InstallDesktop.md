@@ -1,8 +1,7 @@
 # Installing Guide
 
 
-#### Install virtual box in pc (optional
-)
+#### Install virtual box in pc (optional)
 https://www.virtualbox.org/wiki/Downloads
 
 In this txt file manually change the the ubuntu name for your pc. In this example is "vboxuser"
@@ -102,13 +101,13 @@ sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 # export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11
 make px4_sitl gazebo-classic
 ```
-go to the .barcsh and add at the end files:
+go to the .barcsh and add at the end files and eve it:
 
 ---------------------------------------------------------------------------------
 ```
 . ~/PX4-Autopilot/Tools/simulation/gazebo-classic/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default
 
-export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}: ~/catkin_ws/src/PX4-Avoidance/avoidance/sim/models: ~/catkin_ws/src/PX4-Avoidance/avoidance/sim/worlds
+export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/models:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/worlds
 
 export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/PX4-Autopilot
 ```
@@ -130,7 +129,7 @@ sudo apt install libqt5gui5 -y
 sudo apt install libfuse2 -y
 xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
 ```
-wait for some second
+wait for some seconds
 ```
 cd
 cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage

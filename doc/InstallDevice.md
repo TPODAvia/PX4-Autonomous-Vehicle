@@ -130,7 +130,7 @@ https://cdimage.ubuntu.com/releases/focal/release/
 sudo nano /etc/netplan/50-cloud-init.yaml
 
 add this line to the file:
-
+```
 wifis:
   wlan0:
     optional: true
@@ -138,21 +138,26 @@ wifis:
         "your-ssid":
             password: "pass"
     dhcp4: true
-
+```
 #### We should check the sintax for the errors
 
 sudo netplan -debug generate
 
 #### We need to mofify terminal UI for the colorful visualization:
-
+```
  nano ~/.bashrc
   ucomment line force_color_prompt=yes
+```
 press "ctrl + x", press "y", press "enter", write in terminal: exit
 
 #### Encrease swap file:
 https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04
 
+
 #### Install ROS
+```
+sudo apt update
+```
 ```
 sudo apt install git python3-pip -y
 ```
@@ -160,16 +165,16 @@ sudo apt install git python3-pip -y
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 git clone https://github.com/TPODAvia/ROS1-installation.git
-chmod +x ROS1-installation/ROS.sh
-sudo ./ROS1-installation/ROS.sh
+chmod +x ROS1-installation/ROS_server.sh
+sudo ./ROS1-installation/ROS_server.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
 ```
 ```
 sudo apt install build-essential python3-rosdep -y
-sudo apt install libpcl1 ros-noetic-octomap-* -y
 sudo apt-get install ros-noetic-hector-slam -y
+sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
 #### Install YOLOv8 dependencies
@@ -198,13 +203,6 @@ git clone https://github.com/machinekoder/ar_track_alvar.git -b noetic-devel
 git init
 git remote add origin https://github.com/TPODAvia/PX4-Autonomous-Vehicle.git
 git pull origin main
-
-```
-Simulations and Gazebo dependencies are not necessary for Ubuntu Server
-
-```
-cd ~/catkin_ws/src/
-sudo rm -r px4_sim
 ```
 
 Restart the PC then continue
@@ -222,16 +220,7 @@ rosdep install --from-paths src --ignore-src -y
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
-#### Install PX4-Autopilot
-```
-/pip3 install --user toml
-/pip3 install kconfiglib
-/pip3 install --user jsonschema
-/sudo apt install gcc-arm-none-eab
-/sudo apt install libopencv-dev python-jinja2 protobuf-compiler -y
-sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
-```
 ```
 cd ~/catkin_ws
 source devel/setup.bash
@@ -240,13 +229,19 @@ catkin_make
 
 #### Install QGroundControl
 ```
-/sudo usermod -a -G dialout $USER
-/sudo apt-get remove modemmanager -y
-/sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
-/sudo apt install libqt5gui5 -y
-/sudo apt install libfuse2 -y
+# cd
+# sudo usermod -a -G dialout $USER
+# sudo apt-get remove modemmanager -y
+# sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
+# sudo apt install libqt5gui5 -y
+# sudo apt install libfuse2 -y
+# xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
 ```
 
-Close and restart your Ubuntu
-
 # Custom image building for Ubuntu Server
+
+sudo mount /dev/sda1 /mnt/external
+sudo dd if=/dev/mmcblk0p2 | sudo gzip -9 > ~/backup.img.gz
+lsblk
+sudo cp ~/filename.img.gz ~/backup/hello
+exfat
