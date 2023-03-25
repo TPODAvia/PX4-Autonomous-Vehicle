@@ -1,8 +1,7 @@
 # Installing Guide
 
 
-#### Install virtual box in pc (optional
-)
+#### Install virtual box in pc (optional)
 https://www.virtualbox.org/wiki/Downloads
 
 In this txt file manually change the the ubuntu name for your pc. In this example is "vboxuser"
@@ -22,6 +21,9 @@ vboxuser ALL=(ALL:ALL) ALL
 
 #### Install ROS
 ```
+sudo apt update
+```
+```
 sudo apt install git python3-pip -y
 ```
 ```
@@ -36,8 +38,8 @@ source /opt/ros/noetic/setup.bash
 ```
 ```
 sudo apt install build-essential python3-rosdep -y
-sudo apt install libpcl1 ros-noetic-octomap-* -y
 sudo apt-get install ros-noetic-hector-slam -y
+sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
 #### Install YOLOv8 dependencies
@@ -85,31 +87,31 @@ sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.
 ```
 #### Install PX4-Autopilot
 ```
+cd
 git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 
 pip3 install --user toml
 pip3 install kconfiglib
 pip3 install --user jsonschema
-sudo apt install gcc-arm-none-eab
+# sudo apt install gcc-arm-none-eab
 sudo apt install libopencv-dev python-jinja2 protobuf-compiler -y
 sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
+~/PX4-Autopilot/Tools/setup/ubuntu.sh
+# export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11
 make px4_sitl gazebo-classic
 ```
-go to the .barcsh and add at the end files:
+go to the .barcsh and add at the end files and eve it:
 
------------------------------------------------------------------------------------
-
-source /opt/ros/noetic/setup.bash
-source ~/catkin_ws/devel/setup.bash
-
+---------------------------------------------------------------------------------
+```
 . ~/PX4-Autopilot/Tools/simulation/gazebo-classic/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default
 
 export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/models:~/catkin_ws/src/PX4-Avoidance/avoidance/sim/worlds
 
 export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/PX4-Autopilot
-
------------------------------------------------------------------------------------
+```
+---------------------------------------------------------------------------------
 
 ```
 cd ~/catkin_ws
@@ -119,16 +121,17 @@ catkin_make
 
 #### Install QGroundControl
 ```
+cd
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
 sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
 sudo apt install libqt5gui5 -y
 sudo apt install libfuse2 -y
 xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
+```
+wait for some seconds
+```
 cd
-```
-wait for some second
-```
 cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
 ```
