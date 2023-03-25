@@ -79,6 +79,52 @@
       <velocity_decay/>
       <self_collide>0</self_collide>
 
+      <collision name='caster_collision_ghost1'>
+        <pose>0.3 0 0 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.06</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.45</mu2>
+              <slip1>1.0</slip1>
+              <slip2>1.0</slip2>
+            </ode>
+          </friction>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e6</threshold>
+          </bounce>
+        </surface>
+      </collision>
+
+      <collision name='caster_collision_ghost2'>
+        <pose>-0.3 0 0 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.06</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.45</mu2>
+              <slip1>1.0</slip1>
+              <slip2>1.0</slip2>
+            </ode>
+          </friction>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e6</threshold>
+          </bounce>
+        </surface>
+      </collision>
+
     </link>
 
 
@@ -126,6 +172,21 @@
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
             <name>Gazebo/DarkGrey</name>
+          </script>
+        </material>
+      </visual>
+
+      <visual name='head_camera_visual'> 
+        <pose>0.02 0 0 1.57 0 0</pose>
+        <geometry>
+          <box>                                
+            <size>0.02 0.02 0.2</size>
+          </box>
+        </geometry> 
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Blue</name>
           </script>
         </material>
       </visual>

@@ -34,6 +34,29 @@
         </material>
       </visual>
 
+      <collision name='caster_collision_ghost'>
+        <pose>0.3 0 -0.03 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.05</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>0.45</mu2>
+              <slip1>1.0</slip1>
+              <slip2>1.0</slip2>
+            </ode>
+          </friction>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e6</threshold>
+          </bounce>
+        </surface>
+      </collision>
+
       <collision name='caster_collision'>
         <pose>-0.15 0 -0.05 0 0 0</pose>
         <geometry>
