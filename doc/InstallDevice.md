@@ -140,9 +140,9 @@ wifis:
     dhcp4: true
 ```
 #### We should check the sintax for the errors
-
+```
 sudo netplan -debug generate
-
+```
 #### We need to mofify terminal UI for the colorful visualization:
 ```
  nano ~/.bashrc
@@ -153,6 +153,14 @@ press "ctrl + x", press "y", press "enter", write in terminal: exit
 #### Encrease swap file:
 https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04
 
+Restart the device
+
+### SSH control
+
+Instal Putty to your desktop
+https://www.putty.org/
+
+Connect to ssh with ip: 192.168.1.6
 
 #### Install ROS
 ```
@@ -165,8 +173,8 @@ sudo apt install git python3-pip -y
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 git clone https://github.com/TPODAvia/ROS1-installation.git
-chmod +x ROS1-installation/ROS_server.sh
-sudo ./ROS1-installation/ROS_server.sh
+chmod +x ROS1-installation/ROS_Raspbian.sh
+sudo ./ROS1-installation/ROS_Raspbian.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
@@ -240,8 +248,10 @@ catkin_make
 
 # Custom image building for Ubuntu Server
 
+```
 sudo mount /dev/sda1 /mnt/external
 sudo dd if=/dev/mmcblk0p2 | sudo gzip -9 > ~/backup.img.gz
 lsblk
 sudo cp ~/filename.img.gz ~/backup/hello
 exfat
+```

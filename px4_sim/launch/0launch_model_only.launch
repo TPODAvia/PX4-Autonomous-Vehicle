@@ -15,7 +15,7 @@
 
 
 	<!-- any vehicle: iris, diff_rover, avia_vtol, typhoon_h480 etc -->
-	<arg name="vehicle" default="balance_bot"/>
+	<arg name="vehicle" default="iris"/>
 
 	<arg name="arena" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
   	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
