@@ -6,7 +6,7 @@
 
 [Installing the Pixhawk Autopilot](docs/InstallAutopilot.md)
 
-[Installing the Server Ubuntu on the companion computer](docs/InstallDevice.md)
+[Installing the Server Ubuntu on the companion computer](docs/InstallRPI.md)
 
 [Working with SITL](docs/ManualSITL.md)
 

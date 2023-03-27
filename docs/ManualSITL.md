@@ -7,7 +7,7 @@ Adding airframe configurations
 ln -fs ~/catkin_ws/src/px4_sim/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 ```
 
-Go to the catkin_ws first
+Go to the catkin_ws
 ```
 cd ~/catkin_ws
 ```
@@ -15,7 +15,8 @@ In the terminal 1 run:
 ```
 roscore
 ```
-run the launch file with your defined vehicle
+Run the launch file with your defined vehicle
+
 In the terminal 2 run:
 ```
 roslaunch px4_sim 0launch_model_only.launch
@@ -24,7 +25,7 @@ You can change the vehicle type
 ```
 <arg name="vehicle" default="r1_rover"/>
 ```
-Change world file if necessary
+Change world if necessary
 ```
 <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
 ```
@@ -60,7 +61,10 @@ roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
 > **Note** Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
 
-Example: chmod +x control_vel.py
+Example: 
+```
+chmod +x control_vel.py
+```
 
 In the terminal 3 run:
 ```
@@ -74,7 +78,7 @@ rosrun px4_sim mavros_offboard_posctl_test.py
 > **Note**  others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.
 
 The option is to run launch file instead of python node.
-In the terminal 3 run: (Options)
+In the terminal 3 run: (options)
 ```
 roslaunch px4_sim 3mission_qgcaruco_sitl.launch
 ```
@@ -102,13 +106,13 @@ rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
 ```
 
-#### 6) Run Avoidance Mission
+#### 6) Run Avoidance Missions
 In the terminal run:
 ```
 roslaunch px4_sim 4mission_followme_sitl.launch
 ```
     
-#### 7) Run multiple UAV with mavros.
+#### 7) Run multiple UAVs with mavros.
 In the terminal run:
 ```
 roslaunch px4_sim 5multi_uav_auto_sitl.launch

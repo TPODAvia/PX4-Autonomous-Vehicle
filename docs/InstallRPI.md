@@ -61,9 +61,9 @@ sudo reboot
 Install the Putty software to your desktop
 https://www.putty.org/
 
-Connect to ssh with ip: 192.168.1.6
+Connect to ssh with IP: 192.168.1.6
 
-![alt text](./putty.jpg)
+![alt text](./putty.jpeg)
 
 #### Install ROS
 ```
