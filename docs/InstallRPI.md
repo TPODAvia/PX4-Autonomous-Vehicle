@@ -131,7 +131,7 @@ rosdep install --from-paths src --ignore-src -y
 ```
 ```s
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
-sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
+#sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
 
 ```s
@@ -143,6 +143,7 @@ catkin_make
 #### Install QGroundControl
 
 ```s
+cd
 sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 ```
 
