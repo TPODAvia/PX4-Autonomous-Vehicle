@@ -18,7 +18,7 @@ This will reposition the vehicle.
 
 > **Note**  PX4 can be used with a number of other [Simulators](../simulation/README.md), including [Gazebo](../sim_gazebo_gz/README.md), [Gazebo Classic](../sim_gazebo_classic/README.md) and [AirSim](../simulation/airsim.md). These are also started with *make* - e.g.
 
-```
+```s
 make px4_sitl gazebo-classic
 ```
 
@@ -77,13 +77,13 @@ This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraz
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB.
 For example
 
-```
+```s
 make px4_fmu-v4_default upload
 ```
 
 A successful run will end with this output:
 
-```
+```s
 Erase  : [====================] 100.0%
 Program: [====================] 100.0%
 Verify : [====================] 100.0%
@@ -97,7 +97,7 @@ Rebooting.
 Build commands for other boards are given the [board-specific flight controller pages](../flight_controller/README.md) (usually under a heading *Building Firmware*).
 
 You can also list all configuration targets using the command:
-```
+```s
 make list_config_targets
 ```
 
