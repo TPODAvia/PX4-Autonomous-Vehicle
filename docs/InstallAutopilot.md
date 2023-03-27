@@ -1,24 +1,5 @@
 
-# Working with Autonomous Device
-
-## Install Autopilot controllers
-
-In your desktop Ubuntu go to the PX4-Autopilot folder then build and upload firmware to a flight controler.
-
-cd ~/PX4-Autopilot
-
-The drone can be landed by typing `commander land` and the whole simulation can be stopped by doing **CTRL+C** (or by entering `shutdown`).
-
-Flying the simulation with the ground control station is closer to the real operation of the vehicle.
-Click on a location in the map while the vehicle is flying (takeoff flight mode) and enable the slider. 
-This will reposition the vehicle.
-
-
-> **Note**  PX4 can be used with a number of other Simulators, including Gazebo and Gazebo Classic. These are also started with *make* - e.g.
-
-```s
-make px4_sitl gazebo-classic
-```
+# Working with Autopilot controllers
 
 #### NuttX / Pixhawk Based Boards
 
