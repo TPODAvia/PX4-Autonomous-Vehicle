@@ -4,7 +4,7 @@
 
 There are several 2 ways to build raspberry pi system. Easiest of courece is to download the image that we are provided.
 
-We are tested and provided several ![images](https://drive.google.com/drive/folders/1ff6Cl5y6kWvpjLPnML8qoepN1H--mvBu?usp=share_link):
+We are tested and provided several images (https://drive.google.com/drive/folders/1ff6Cl5y6kWvpjLPnML8qoepN1H--mvBu?usp=share_link):
 - Raspberry Pi Model 4B 4G RAM
 - Raspberry Pi Model 3B
 
