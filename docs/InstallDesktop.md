@@ -1,25 +1,34 @@
-# Installing Guide
+# Installing Ubuntu 20.04 Desktop Guide
 
 
-#### Install virtual box in pc (optional)
+#### Install a virtual box in your PC (optional)
+
+I will provide some recoureces for windows users. If you are using Linux then you can skip some guides.
+
+See the instruction from another resources to install virtualbox with Ubuntu 20.04
+
 https://www.virtualbox.org/wiki/Downloads
 
-In this txt file manually change the the ubuntu name for your pc. In this example is "vboxuser"
-
 If the problem appeard with permission for user:
+
 open the terminal:
 
 ```
 su root
 nano /etc/sudoers
 ```
-Write in there and save it
+Write in there this codes
 ```
 vboxuser ALL=(ALL:ALL) ALL
 %vboxuser ALL=(ALL) ALL
 ```
 
+![alt text](./root.png)
+
+Save the file and write "exit"
+
 #### Install ROS
+
 ```
 sudo apt update
 ```
@@ -70,8 +79,6 @@ git remote add origin https://github.com/TPODAvia/PX4-Autonomous-Vehicle.git
 git pull origin main
 ```
 
-Restart the PC then continue
-
 ```
 cd ~/catkin_ws
 source /opt/ros/noetic/setup.bash
@@ -113,6 +120,10 @@ export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:~/PX4-Autopilot
 ```
 ---------------------------------------------------------------------------------
 
+In the end of bashrc you should see this:
+
+![alt text](./bashrc.png)
+
 ```
 cd ~/catkin_ws
 source devel/setup.bash
@@ -136,4 +147,7 @@ cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
 ```
 
-Close and restart your Ubuntu
+Close and restart your Ubuntu:
+```
+sudo reboot
+```

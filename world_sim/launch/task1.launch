@@ -19,7 +19,7 @@
     <arg name="yaw" value="0" unless="$(eval route=='route1')" />
 
     <!-- Gazebo World file to load -->
-    <arg name="world_name" default="$(find custom_world)worlds/parc_task1.world" />
+    <arg name="world_name" default="$(find world_sim)worlds/parc_task1.world" />
 
 
     <!-- ========================= Simulator ========================= -->
@@ -34,7 +34,7 @@
     </include>
 
     <!-- Show Goal Location in Gazebo -->
-    <node name="spawn_goal_location" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find custom_world)/models/goal_location/model.sdf -sdf 
+    <node name="spawn_goal_location" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-file $(find world_sim)/models/goal_location/model.sdf -sdf 
                   -model goal_location
                   -x     -12.32
                   -y      10.9

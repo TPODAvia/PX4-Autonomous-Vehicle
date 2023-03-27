@@ -1,6 +1,6 @@
-# Install software for the computer 
+# Install Ubuntu 20.04 Server for the companion computer 
 
-## Build from Raspberry Pi image
+## Build from our Raspberry Pi images
 
 There are several 2 ways to build raspberry pi system. Easiest of courece is to download the image that we are provided.
 
@@ -10,14 +10,15 @@ We are tested and provided several images:
 
 ## Build from Source(optional)
 
-#### install the image ubuntu 20.04 server for raspberry
+#### Install the image ubuntu 20.04 server for raspberry
 https://cdimage.ubuntu.com/releases/focal/release/
 
 
 #### To connecto to local wifi network run:
 
+```
 sudo nano /etc/netplan/50-cloud-init.yaml
-
+```
 add this line to the file:
 ```
 wifis:
@@ -28,6 +29,10 @@ wifis:
             password: "pass"
     dhcp4: true
 ```
+The yaml should look like this:
+
+![alt text](./wifi.jpeg)
+
 #### We should check the sintax for the errors
 ```
 sudo netplan -debug generate
@@ -35,21 +40,30 @@ sudo netplan -debug generate
 #### We need to mofify terminal UI for the colorful visualization:
 ```
  nano ~/.bashrc
-  ucomment line force_color_prompt=yes
+```
+uncomment the line: 
+```
+force_color_prompt=yes
 ```
 press "ctrl + x", press "y", press "enter", write in terminal: exit
 
 #### Encrease swap file:
+See this instructions for the details
 https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04
 
 Restart the device
+```
+sudo reboot
+```
 
 ### SSH control
 
-Instal Putty to your desktop
+Install the Putty software to your desktop
 https://www.putty.org/
 
 Connect to ssh with ip: 192.168.1.6
+
+![alt text](./putty.jpg)
 
 #### Install ROS
 ```
@@ -62,8 +76,8 @@ sudo apt install git python3-pip -y
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/src
 git clone https://github.com/TPODAvia/ROS1-installation.git
-chmod +x ROS1-installation/ROS_Raspbian.sh
-sudo ./ROS1-installation/ROS_Raspbian.sh
+chmod +x ROS1-installation/ROS_server.sh
+sudo ./ROS1-installation/ROS_server.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
@@ -101,18 +115,15 @@ git remote add origin https://github.com/TPODAvia/PX4-Autonomous-Vehicle.git
 git pull origin main
 ```
 
-Restart the PC then continue
-
 ```
 cd ~/catkin_ws
 source /opt/ros/noetic/setup.bash
 sudo rosdep init
 ```
-Now we need to delete gazebo-related packege because it's not neeeded here
+Now we need to delete gazebo-related package because it's not neeeded here
 ```
 sudo rm -r px4_sim
 sudo rm -r world_sim
-sudo rm -r learning_tf2
 ```
 ```
 rosdep update
@@ -141,21 +152,26 @@ sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 # xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
 ```
 
-# Custom image building for Ubuntu Server
+# Custom image building for the Ubuntu Server
 
-go to the cmd and type
+For Linux users there are really simple instructions on the enternet how to do it but for Windows users there are some "hacks" how we can create an image backup for our companion computer
+
+Go to the cmd and type:
 ```
 "C:\Program Files\Oracle\VirtualBox\VBoxManage" internalcommands createrawvmdk -filename "c:/Hard Disks/sdcard.vmdk" -rawdisk "\\.\PHYSICALDRIVE1"
-
 ```
+![alt text](./cmd.jpeg)
 
-install GParted in ubuntu
+Go to Ubuntu:
+install GParted
 ```
 sudo apt install gparted
 ```
 Resize image there
 
-Install win32 disk imager
+![alt text](./gparted.jpeg)
 
-create image there
+Switch back to Windows and install "win32 disk imager". It's a simple way to create backup file.
 
+Remember to check "Read Only Allocated Partitions"
+![alt text](./win32.jpeg)

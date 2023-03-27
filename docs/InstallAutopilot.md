@@ -3,7 +3,7 @@
 
 ## Install Autopilot controllers
 
-In you desktop Ubuntu go to the PX4-Autopilot folder then build and upload firmware to a flight controler.
+In your desktop Ubuntu go to the PX4-Autopilot folder then build and upload firmware to a flight controler.
 
 cd ~/PX4-Autopilot
 

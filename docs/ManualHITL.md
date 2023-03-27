@@ -72,9 +72,7 @@ The first part of the build target `px4_fmu-v4` indicates the firmware for a par
 Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards) are provided in the documentation for the individual [flight controller boards](https://docs.px4.io/main/en/flight_controller/).
 
 
-## Note 
-The `_default` suffix is the firmware _configuration_. This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraze_crazyflie`, etc.).
-##
+> **Note**  The `_default` suffix is the firmware _configuration_. This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraze_crazyflie`, etc.).
 
 ### Uploading Firmware (Flashing the board)
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB. For example:
@@ -93,10 +91,10 @@ Rebooting.
 ### Setting up HITL
 Select Airframe. To do this open **Setup --> *Airframes**
 Select a compatible airframe you want to test. Generally you'll select _HILStar_ for Fixed Wing/X-Plane simulator and a _HIL QuadCopter_ option for copters (and jMAVSim or Gazebo). Then click **Apply and Restart** on top-right of the _Airframe_ _Setup_ page.
-![HITL Airframe setup](./doc/qgc_hil_config.png)
+![HITL Airframe setup](./qgc_hil_config.png)
 
 Calibrate your RC or Joystick, if needed. You can control simulation with a QGroundControl Virtual Joystick aswell.
 Then setup **UDP** connection. Under the _General_ tab of the settings menu, uncheck all _AutoConnect_ boxes except for **UDP**. 
-![HITL QGC Autoconnect](./doc/qgc_hitl_autoconnect.png)
+![HITL QGC Autoconnect](./qgc_hitl_autoconnect.png)
 
 Now you can start gazebo HITL simulation. You should be able to use QGroundControl to run missions and otherwise control the vehicle.

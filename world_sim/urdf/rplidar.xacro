@@ -13,7 +13,7 @@
       <visual>
         <origin xyz="0 0 -0.03125" rpy="1.5707 0 0" />
         <geometry>
-          <mesh filename="package://custom_world/meshes/rplidar.dae" scale="0.001 0.001 0.001" />
+          <mesh filename="package://world_sim/meshes/rplidar.dae" scale="0.001 0.001 0.001" />
         </geometry>
       </visual>
 

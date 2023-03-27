@@ -3,8 +3,8 @@
 
   <!-- Includes -->
   <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro" />
-  <xacro:include filename="$(find custom_world)/urdf/_d435.gazebo.xacro" />
-  <xacro:include filename="$(find custom_world)/urdf/rplidar.xacro" />
+  <xacro:include filename="$(find world_sim)/urdf/_d435.gazebo.xacro" />
+  <xacro:include filename="$(find world_sim)/urdf/rplidar.xacro" />
 
   <!-- Realsense sensor -->
   <xacro:sensor_d435i parent="base_link" use_nominal_extrinsics="true">

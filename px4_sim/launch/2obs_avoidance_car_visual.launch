@@ -43,11 +43,11 @@
 
     <!--  ************** Navigation ***************  -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base">
-    <rosparam file="$(find px4_sim)/config/car_visual/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find px4_sim)/config/car_visual/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find px4_sim)/config/car_visual/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find px4_sim)/config/car_visual/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find px4_sim)/config/car_visual/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find px4_ground)/config/car_visual/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find px4_ground)/config/car_visual/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find px4_ground)/config/car_visual/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find px4_ground)/config/car_visual/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find px4_ground)/config/car_visual/teb_local_planner_params.yaml" command="load" />
 
 		<param name="planner_frequency" value="1.0" />
 		<param name="planner_patience" value="5.0" /> 
@@ -72,12 +72,12 @@
 
 	<!--  ****** Maps *****  -->
   <!-- <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 local_origin map 10"/> -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/maps/maze.yaml">
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_ground)/maps/maze.yaml">
     <param name="frame_id" value="local_origin"/>
 	</node>
 
 	<node pkg="amcl" type="amcl" name="amcl">
-		<rosparam file="$(find px4_sim)/config/car_visual/amcl_params.yaml" command="load" />
+		<rosparam file="$(find px4_ground)/config/car_visual/amcl_params.yaml" command="load" />
 
 	  <param name="initial_pose_x"            value="2"/>
 		<param name="initial_pose_y"            value="2"/>

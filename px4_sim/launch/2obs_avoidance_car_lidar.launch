@@ -78,11 +78,11 @@
 
     <!--  ************** Navigation ***************  -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base">
-  	  	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="global_costmap" />
-  	 	<rosparam file="$(find px4_sim)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/local_costmap_params.yaml" command="load" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/global_costmap_params.yaml" command="load" />
-  		<rosparam file="$(find px4_sim)/config/cfg/diff_drive/teb_local_planner_params.yaml" command="load" />
+  	  	<rosparam file="$(find px4_ground)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find px4_ground)/config/cfg/diff_drive/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find px4_ground)/config/cfg/diff_drive/local_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find px4_ground)/config/cfg/diff_drive/global_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find px4_ground)/config/cfg/diff_drive/teb_local_planner_params.yaml" command="load" />
 
 		<!-- <param name="base_global_planner" value="global_planner/GlobalPlanner" />-->
 		<param name="planner_frequency" value="1.0" />
@@ -96,12 +96,12 @@
 
 
 	<!--  ****** Maps *****  -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_sim)/maps/maze.yaml">
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_ground)/maps/maze.yaml">
                 <param name="frame_id" value="map"/>
 	</node>
 
 	<node pkg="amcl" type="amcl" name="amcl">
-		<rosparam file="$(find px4_sim)/config/cfg/amcl_params.yaml" command="load" />
+		<rosparam file="$(find px4_ground)/config/cfg/amcl_params.yaml" command="load" />
 
 	    <param name="initial_pose_x"            value="2"/>
 		<param name="initial_pose_y"            value="2"/>
@@ -114,6 +114,6 @@
 	<!-- <node pkg="px4_sim" type="cmd_vel_mavros_node" name="cmd_vel_mavros_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/> -->
 
 	  <!--  **************** Visualisation ****************  -->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_sim)/config/cfg/rviz_navigation.rviz"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_ground)/config/cfg/rviz_navigation.rviz"/>
 
 </launch>

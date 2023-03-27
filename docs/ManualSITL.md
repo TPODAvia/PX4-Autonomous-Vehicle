@@ -58,7 +58,7 @@ In the terminal 2 run:
 ```
 roslaunch px4_sim 1mavros_posix_sitl.launch
 ```
-Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
+> **Note** Now go to the path ../px4_sim/src you need to get the permision to all pythons files. I mean chmod +x to all python file in the /src path.
 
 Example: chmod +x control_vel.py
 
@@ -71,7 +71,7 @@ rosrun px4_sim wind.py
 rosrun px4_sim control_vel.py
 rosrun px4_sim mavros_offboard_posctl_test.py
 ```
-``Note: others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.``
+> **Note**  others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.
 
 The option is to run launch file instead of python node.
 In the terminal 3 run: (Options)

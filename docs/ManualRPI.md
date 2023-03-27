@@ -15,7 +15,7 @@ If using the telemetry 2 port on Pixhawk you need this.
 For using the telemetry 2 port you need the following params as specified at the bottom of this page:
 https://docs.px4.io/v1.9.0/en/peripherals/mavlink_peripherals.html
 
-If you want to override the fcu_url value in the launch file you can do:
+> **Note** If you want to override the fcu_url value in the launch file you can do:
 roslaunch mavros px4.launch fcu_url:=/dev/ttyS0:921600
 
 #### Broadcast to QGroundControl running on another computer on same network

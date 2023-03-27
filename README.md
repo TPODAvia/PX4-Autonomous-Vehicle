@@ -2,15 +2,17 @@
 
 # User Guide
 
-[Installing a Desktop Ubuntu for Simulation](doc/InstallDesktop.md)
+[Installing the Desktop Ubuntu for the simulation](docs/InstallDesktop.md)
 
-[Installing a Server Ubuntu for Raspberry Pi](doc/InstallDevice.md)
+[Installing the Pixhawk Autopilot](docs/InstallAutopilot.md)
 
-[Working with SITL](doc/ManualSITL.md)
+[Installing the Server Ubuntu on the companion computer](docs/InstallDevice.md)
 
-[Working with HITL](doc/ManualHITL.md)
+[Working with SITL](docs/ManualSITL.md)
 
-[Working with Raspberry Pi](doc/ManualRPI.md)
+[Working with HITL](docs/ManualHITL.md)
+
+[Working with Raspberry Pi](docs/ManualRPI.md)
 
 # Inroduction
 
@@ -21,28 +23,33 @@ Some realization in this project:
 
 - custom models and configuration in Gazebo for PX4
 - Q Ground Control compatible and automatic mission accomplishment
-- Atomatic mission with avoidance algorithms
+- Automatic mission with avoidance algorithms
 - Swarm mission
 
 Examples:
 
-UAV with avoidance module
-![alt text](./doc/uav.jpg)
+#### UAV with avoidance module
 
-Ground vehicle with avoidance module
-![alt text](./doc/car.jpg)
+![alt text](./docs/uav.jpg)
 
+#### Ground vehicle with avoidance module
 
-UAV or ground vehicle swarm
-![alt text](./doc/swarm.jpg)
+![alt text](./docs/car.jpg)
 
 
-UAV pipeline
-![alt text](./doc/uav_pipeline.jpg)
+#### UAV or ground vehicle swarm
+
+![alt text](./docs/swarm.jpg)
 
 
-Ground vehicle pipeline
-![alt text](./doc/car_pipeline.jpg)
+#### UAV pipeline
+
+![alt text](./docs/uav_pipeline.jpg)
+
+
+#### Ground vehicle pipeline
+
+![alt text](./docs/car_pipeline.jpg)
 
 
 # Licence

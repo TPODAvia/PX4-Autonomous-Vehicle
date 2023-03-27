@@ -80,8 +80,8 @@
     </xacro:scout_wheel_type2>
 
     <!-- Additional definitions -->
-    <xacro:include filename="$(find custom_world)/urdf/sensors.xacro" />
+    <xacro:include filename="$(find world_sim)/urdf/sensors.xacro" />
 
     <!-- Gazebo definitions  -->
-    <xacro:include filename="$(find custom_world)/urdf/robot_gazebo.xacro" />
+    <xacro:include filename="$(find world_sim)/urdf/robot_gazebo.xacro" />
 </robot>
