@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Pixhawk setup -->
+    <include file="$(find px4_air)/launch/0setup.launch">
+		<arg name="fcu_conn" default="usb"/>
+		<arg name="fcu_ip" default="127.0.0.1"/>
+		<arg name="gcs_bridge" default="tcp"/>
+    </include>
+
+		<!-- Our Aruco takeoff and landing -->
+	<!-- <node pkg="px4_sim" type="aruco_fly.py" name="offb_node_py" required="true" output="screen" /> -->
+
+		<!-- Our node to control the drone -->
+    <node pkg="px4_sim" type="mavros_offboard_posctl_test.py" name="offb_node_py" required="true" output="screen" />
+
+		<!-- Our control keyboard -->
+    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" /> -->
+
+		<!-- Wind plugin -->
+    <!-- <node pkg="px4_sim" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
+
+</launch>
+<!-- Include the MAVROS node with SITL and Gazebo -->
