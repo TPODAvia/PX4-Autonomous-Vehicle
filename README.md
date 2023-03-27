@@ -24,31 +24,26 @@ Some realization in this project:
 - custom models and configuration in Gazebo for PX4
 - Q Ground Control compatible and automatic mission accomplishment
 - Automatic mission with avoidance algorithms
-- Swarm mission
+- Swarm missions
 
 Examples:
 
-#### UAV with avoidance module
-
+### UAV with avoidance module:
 ![alt text](./docs/uav.jpg)
 
-#### Ground vehicle with avoidance module
-
+### Ground vehicle with avoidance module:
 ![alt text](./docs/car.jpg)
 
 
-#### UAV or ground vehicle swarm
-
+### UAV or ground vehicle swarm:
 ![alt text](./docs/swarm.jpg)
 
 
-#### UAV pipeline
-
+### UAV pipeline:
 ![alt text](./docs/uav_pipeline.jpg)
 
 
-#### Ground vehicle pipeline
-
+### Ground vehicle pipeline:
 ![alt text](./docs/car_pipeline.jpg)
 
 
