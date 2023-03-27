@@ -122,8 +122,8 @@ sudo rosdep init
 ```
 Now we need to delete gazebo-related package because it's not neeeded here
 ```s
-sudo rm -r px4_sim
-sudo rm -r world_sim
+sudo rm -r src/px4_sim
+sudo rm -r src/world_sim
 ```
 ```s
 rosdep update
