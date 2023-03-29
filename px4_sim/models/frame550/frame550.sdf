@@ -567,7 +567,7 @@
             <width>3840</width>
             <height>2160</height>
             <maximum_zoom>8.0</maximum_zoom>
-            <video_uri>5600</video_uri>
+            <video_uri>udp://127.0.0.1:5600</video_uri>
             <system_id>1</system_id>
             <cam_component_id>100</cam_component_id>
             <mavlink_cam_udp_port>14530</mavlink_cam_udp_port>
@@ -1112,7 +1112,7 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
+      <motorConstant>0.00009</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>5</motorNumber>
@@ -1209,8 +1209,8 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
-      <momentConstant>0.08</momentConstant>
+      <motorConstant>0.000085</motorConstant>
+      <momentConstant>0.08</momentConstant><momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber>
       <rotorDragCoefficient>0.26807</rotorDragCoefficient>
@@ -1311,7 +1311,7 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
+      <motorConstant>0.00009</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber>
@@ -1408,7 +1408,7 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
+      <motorConstant>0.00009</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber>
@@ -1511,7 +1511,7 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
+      <motorConstant>0.00009</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber>
@@ -1613,7 +1613,7 @@
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
       <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>0.00028</motorConstant>
+      <motorConstant>0.00009</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>

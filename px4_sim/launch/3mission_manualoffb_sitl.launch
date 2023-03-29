@@ -13,7 +13,7 @@
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="iris"/>
+    <arg name="vehicle" default="frame450"/>
     <arg name="box_activate" default="false"/>
     <!-- box1kg or box10kg -->
     <arg name="box" default="box1kg"/> 
@@ -34,7 +34,7 @@
     <arg name="interactive" default="true"/>
 
     <!-- PX4 SITL and Gazebo -->
-    <env name="PX4_SIM_MODEL" value="gazebo-classic_$(arg vehicle)" />
+    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
     <env name="PX4_ESTIMATOR" value="$(arg est)" />
 
     <!-- PX4 SITL -->
@@ -68,19 +68,19 @@
 
 
 	<!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/0setup.launch">
+    <include file="$(find px4_air)/launch/0mavros.launch">
 		<arg name="fcu_conn" default="sitl"/>
 		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default="tcp"/>
+		<arg name="gcs_bridge" default=""/>
     </include>
 
 
     <!-- QGroundControl launch -->
-    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+    <!-- <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " /> -->
 
     <!-- Keyboard control node -->
     <arg name="node_start_delay" default="15.0" />  
-    <node pkg="px4_sim" type="keyboard_control_px4.py" name="PX4_control" required="true" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " />
+    <!-- <node pkg="px4_sim" type="keyboard_control_px4.py" name="PX4_control" required="true" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " /> -->
 
 
 	<!-- Wind plugin -->

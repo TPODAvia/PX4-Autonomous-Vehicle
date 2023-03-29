@@ -2,9 +2,9 @@
 <launch>
 	<arg name="paused" default="true"/>
 	<arg name="gui" default="true"/>
+
 	<!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
-
 	<!-- Start Gazebo -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="paused" value="$(arg paused)"/>
@@ -15,19 +15,19 @@
 
 
 	<!-- any vehicle: iris, diff_rover, avia_vtol, typhoon_h480 etc -->
-	<arg name="vehicle" default="iris"/>
-
+	<arg name="vehicle" default="frame450"/>
 	<arg name="arena" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
   	<node name="sdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-file $(arg arena) -sdf -z 0.15 -model $(arg vehicle)" />
 
-
-	<!-- box spawner. To make this work you need to unpause env manually -->
-	<!-- <arg name="box" default="box10kg"/>
+    <!-- box1kg or box10kg -->
+    <arg name="box_activate" default="false"/>
+    <arg name="box" default="box1kg"/> 
+    <!-- box spawner. To make this work you need to unpause enviroment manually -->
 	<arg name="arena2" default="$(find px4_sim)/models/$(arg box)/$(arg box).sdf"/>
-  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" /> -->
-
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" if="$(eval box_activate)"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" 
+    />
 
 
 	<!-- <node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 1.571 0 0 /map /chassis 100" /> -->

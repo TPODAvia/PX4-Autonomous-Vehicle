@@ -413,7 +413,7 @@
             <width>3840</width>
             <height>2160</height>
             <maximum_zoom>8.0</maximum_zoom>
-            <video_uri>5600</video_uri>
+            <video_uri>udp://127.0.0.1:5600</video_uri>
             <system_id>1</system_id>
             <cam_component_id>100</cam_component_id>
             <mavlink_cam_udp_port>14530</mavlink_cam_udp_port>

@@ -30,7 +30,7 @@
     <arg name="interactive" default="true"/>
 
     <!-- PX4 SITL and Gazebo ////-->
-    <env name="PX4_SIM_MODEL" value="gazebo-classic_$(arg vehicle)" />
+    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
     <env name="PX4_ESTIMATOR" value="$(arg est)" />
 
     <!-- PX4 SITL -->

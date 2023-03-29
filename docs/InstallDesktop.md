@@ -95,7 +95,7 @@ sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.
 #### Install PX4-Autopilot
 ```s
 cd
-git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+git clone --recursive --depth 1 --branch v1.13.3 https://github.com/PX4/PX4-Autopilot.git ~/PX4-Autopilot
 
 pip3 install --user toml
 pip3 install kconfiglib
@@ -106,10 +106,15 @@ sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
 ~/PX4-Autopilot/Tools/setup/ubuntu.sh
 # export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11
-make px4_sitl gazebo-classic
-```
-go to the .barcsh and add at the end files and eve it:
 
+cd ~/PX4-Autopilot
+#make px4_sitl_default
+make px4_sitl gazebo
+```
+go to the .barcsh and add at the end files and save it:
+```s
+sudo nano ~/.bashrc
+```
 ---------------------------------------------------------------------------------
 ```s
 . ~/PX4-Autopilot/Tools/simulation/gazebo-classic/setup_gazebo.bash ~/PX4-Autopilot ~/PX4-Autopilot/build/px4_sitl_default

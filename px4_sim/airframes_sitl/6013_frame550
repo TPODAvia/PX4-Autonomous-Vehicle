@@ -75,11 +75,6 @@ param set-default EKF2_RNG_AID 1
 param set-default EKF2_MAG_TYPE 1
 param set-default EKF2_OF_QMIN 80
 
-# Battery
-# Source 0: Power Module, 1: External
-param set-default BAT_SOURCE 0
-param set-default BAT_N_CELLS 4
-
 # Return mode loiter altitude
 param set-default RTL_DESCEND_ALT 10
 
@@ -91,14 +86,14 @@ param set-default MNT_MODE_OUT 2
 param set-default MAV_PROTO_VER 2
 
 # # Manual control parameters
-# param set-default RC2_TRIM 1000
-# param set-default COM_FLTMODE1 2
-# param set-default RC_MAP_ROLL 1
-# param set-default RC_MAP_THROTTLE 2
-# param set-default RC_MAP_PITCH 3
-# param set-default RC_MAP_YAW 4
-# param set-default RC_MAP_FLTMODE 5
-# param set-default RC_CHAN_CNT 8
+param set-default RC2_TRIM 1000
+param set-default COM_FLTMODE1 2
+param set-default RC_MAP_ROLL 1
+param set-default RC_MAP_THROTTLE 2
+param set-default RC_MAP_PITCH 3
+param set-default RC_MAP_YAW 4
+param set-default RC_MAP_FLTMODE 5
+param set-default RC_CHAN_CNT 8
 
 # Set the hexacopter type
 set MAV_TYPE 13
