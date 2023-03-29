@@ -5,7 +5,7 @@
 
 
     <link name='body_link'>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 0.01 0 0 0</pose>
   
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -374,7 +374,7 @@
 
     </link>
 
-    <joint name='standard_vtol/imu_joint' type='revolute'>
+    <joint name='rover/imu_joint' type='revolute'>
       <child>rover/imu_link</child>
       <parent>body_link</parent>
       <axis>
@@ -652,7 +652,7 @@
 
     <!-- Detph Camera -->
 
-    <link name="realsense_link">
+    <!-- <link name="realsense_link">
       <pose>0.15 0 0.1 0 0 0</pose>
 
       <inertial>
@@ -719,7 +719,7 @@
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint>
+    </joint> -->
 
 
 

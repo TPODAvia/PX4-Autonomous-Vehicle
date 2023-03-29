@@ -11,23 +11,23 @@
 # Attitude & rate gains
 ###############################################
 # Roll
-param set-default MC_ROLL_P 9.0
-param set-default MC_ROLLRATE_P 0.0800
-param set-default MC_ROLLRATE_I 0.0400
-param set-default MC_ROLLRATE_D 0.0010
+param set-default MC_ROLL_P 6.5
+param set-default MC_ROLLRATE_P 0.0630
+param set-default MC_ROLLRATE_I 0.0840
+param set-default MC_ROLLRATE_D 0.0014
 param set-default MC_ROLLRATE_MAX 220
 
 # Pitch
-param set-default MC_PITCH_P 9.0
-param set-default MC_PITCHRATE_P 0.0800
-param set-default MC_PITCHRATE_I 0.0400
-param set-default MC_PITCHRATE_D 0.0010
+param set-default MC_PITCH_P 6.5
+param set-default MC_PITCHRATE_P 0.0660
+param set-default MC_PITCHRATE_I 0.0860
+param set-default MC_PITCHRATE_D 0.0014
 param set-default MC_PITCHRATE_MAX 220
 
 # Yaw
-param set-default MC_YAW_P 2.8
-param set-default MC_YAWRATE_P 0.2
-param set-default MC_YAWRATE_I 0.1
+param set-default MC_YAW_P 6.5
+param set-default MC_YAWRATE_P 0.07
+param set-default MC_YAWRATE_I 0.06
 param set-default MC_YAWRATE_D 0
 param set-default MC_YAWRATE_FF 0
 param set-default MC_YAWRATE_MAX 200
@@ -48,7 +48,7 @@ param set-default MPC_XY_VEL_P_ACC 1.8
 param set-default MPC_XY_VEL_I_ACC 0.4
 param set-default MPC_XY_VEL_D_ACC 0.2
 # etc gains
-param set-default MPC_TKO_RAMP_T 0.4
+param set-default MPC_TKO_RAMP_T 0.0
 param set-default MPC_TKO_SPEED 1.5
 param set-default MPC_VEL_MANUAL 5
 
