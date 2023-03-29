@@ -106,7 +106,7 @@
         <pose>-0.3 0 0 0 0 0</pose>
         <geometry>
           <sphere>
-            <radius>0.06</radius>
+            <radius>0.05</radius>
           </sphere>
         </geometry>
         <surface>
@@ -374,9 +374,8 @@
               <ode>
                 <mu>1.0</mu>
                 <mu2>0.45</mu2>
-                <fdir1>1 0 0</fdir1>
-                <slip1>0.0</slip1>
-                <slip2>0.0</slip2>
+                <slip1>1.0</slip1>
+                <slip2>1.0</slip2>
               </ode>
             </friction>
             <bounce>
@@ -500,9 +499,8 @@
               <ode>
                 <mu>1.0</mu>
                 <mu2>0.45</mu2>
-                <fdir1>1 0 0</fdir1>
-                <slip1>0.0</slip1>
-                <slip2>0.0</slip2>
+                <slip1>1.0</slip1>
+                <slip2>1.0</slip2>
               </ode>
             </friction>
             <bounce>
@@ -1126,7 +1124,7 @@
 
     <include>
       <uri>model://gps</uri>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>-0.05 0 0.3 0 0 0</pose>
       <name>gps</name>
     </include>
 
@@ -1149,7 +1147,6 @@
       <biasCorrelationTime>600</biasCorrelationTime>
       <magTopic>/mag</magTopic>
     </plugin>
-
 
 
 
@@ -1210,13 +1207,13 @@
         <channel name="left_front_wheel_drive">
           <input_index>0</input_index>
           <input_offset>0</input_offset>
-          <input_scaling>1</input_scaling>
+          <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
           <joint_name>left_bottom_wheel_hinge</joint_name>
           <joint_control_pid>
-            <p>0.1</p>
+            <p>0.7</p>
             <i>0</i>
             <d>0</d>
             <iMax>800</iMax>
@@ -1227,15 +1224,15 @@
         </channel>
 
         <channel name="right_front_wheel_drive">
-          <input_index>1</input_index>
+          <input_index>5</input_index>
           <input_offset>0</input_offset>
-          <input_scaling>1</input_scaling>
+          <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
           <joint_name>right_bottom_wheel_hinge</joint_name>
           <joint_control_pid>
-            <p>0.1</p>
+            <p>0.7</p>
             <i>0</i>
             <d>0</d>
             <iMax>800</iMax>
@@ -1245,7 +1242,7 @@
           </joint_control_pid>
         </channel>
 
-
+<!-- 
         <channel name="left_leg">
           <input_index>2</input_index>
           <input_offset>1</input_offset>
@@ -1282,7 +1279,7 @@
             <cmdMax>6</cmdMax>
             <cmdMin>-6</cmdMin>
           </joint_control_pid>
-        </channel>
+        </channel> -->
 
       </control_channels>
     </plugin>
