@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
 <launch>
+
+    <!-- box1kg or box10kg -->
+    <arg name="box_activate" default="false"/>
+    <arg name="box" default="box1kg"/> 
+    <!-- box spawner. To make this work you need to unpause enviroment manually -->
+	<arg name="arena2" default="$(find px4_sim)/models/$(arg box)/$(arg box).sdf"/>
+  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" if="$(eval box_activate)"
+        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)"  />
+
+
     <!-- Posix SITL environment launch script -->
     <!-- launches PX4 SITL, Gazebo environment, and spawns vehicle -->
     <!-- vehicle pose -->
@@ -22,7 +32,8 @@
     <arg name="gui" default="true"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
-    <arg name="paused" default="false"/>
+    <arg unless="$(arg box_activate)" name="paused" value="false"/>
+    <arg     if="$(arg box_activate)" name="paused" value="true"/>
     <arg name="respawn_gazebo" default="false"/>
     <!-- PX4 configs -->
     <arg name="interactive" default="true"/>
@@ -43,4 +54,5 @@
     </include>
     <!-- gazebo model -->
     <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+
 </launch>

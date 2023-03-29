@@ -14,7 +14,7 @@
     <arg name="pluginlists_yaml" value="$(find px4_air)/launch/px4_pluginlists.yaml" />
 	<arg name="config_yaml" value="$(find px4_air)/launch/px4_config.yaml" />
     <!-- mavros extras parameters -->
-    <arg name="viz" default="true"/>
+    <arg name="viz" default="false"/>
 
 	<node pkg="mavros" type="mavros_node" name="mavros" required="$(eval not respawn_mavros)" clear_params="true" output="$(arg log_output)" respawn="$(arg respawn_mavros)">
         <!-- UART connection -->
@@ -58,10 +58,10 @@
     </rosparam> -->
 
     <!-- Rangefinders frame -->
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="0 0 -0.05 0 1.5707963268 0 base_link rangefinder"/> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/>
 
     <!-- Copter visualization -->
-    <!-- <node name="visualization" pkg="mavros_extras" type="visualization" if="$(arg viz)">
+    <node name="visualization" pkg="mavros_extras" type="visualization" if="$(arg viz)">
         <remap to="mavros/local_position/pose" from="local_position"/>
         <remap to="mavros/setpoint_position/local" from="local_setpoint"/>
         <param name="fixed_frame_id" value="map"/>
@@ -69,6 +69,6 @@
         <param name="marker_scale" value="1"/>
         <param name="max_track_size" value="20"/>
         <param name="num_rotors" value="4"/>
-    </node> -->
+    </node>
 
 </launch>

@@ -229,8 +229,8 @@
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <updateRate>30.0</updateRate>
-          <cameraName>usb_cam</cameraName>
-          <frameName>/robot_camera_link</frameName>
+          <cameraName>main_camera</cameraName>
+          <frameName>/main_camera_frame</frameName>
           <CxPrime>320.5</CxPrime>
           <Cx>320.5</Cx>
           <Cy>240.5</Cy>
