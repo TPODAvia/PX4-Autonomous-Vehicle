@@ -76,6 +76,7 @@ distance_sensor:
       frame_id: "rangefinder"
       orientation: PITCH_270
       field_of_view: 0.5
+      sensor_position: {x:  -0.12, y:  0.0, z:  0.0}
   rangefinder_sub:
       subscriber: true
       id: 1

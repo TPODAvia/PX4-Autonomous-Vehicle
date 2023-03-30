@@ -301,7 +301,7 @@
           <alwaysOn>true</alwaysOn>
           <imageTopicName>image_raw</imageTopicName>
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <updateRate>30.0</updateRate>
+          <updateRate>60.0</updateRate>
           <cameraName>main_camera</cameraName>
           <frameName>/main_camera_frame</frameName>
           <CxPrime>320.5</CxPrime>
@@ -321,10 +321,10 @@
             <udpPort>5600</udpPort>
         </plugin>
         <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
-            <robotNamespace>typhoon_h480</robotNamespace>
+            <robotNamespace>frame450</robotNamespace>
             <interval>1</interval>
-            <width>3840</width>
-            <height>2160</height>
+            <width>640</width>
+            <height>360</height>
             <maximum_zoom>8.0</maximum_zoom>
             <video_uri>5600</video_uri>
             <system_id>1</system_id>
@@ -509,21 +509,21 @@
             </horizontal>
           </scan>
           <range>
-            <min>0.03</min>
-            <max>4</max>
+            <min>0.06</min>
+            <max>36</max>
             <resolution>0.01</resolution>
           </range>
         </ray>
         <plugin name="laser" filename="libgazebo_ros_range.so">
           <robotNamespace></robotNamespace>
-          <topicName>/rangefinder/range</topicName>
+          <topicName>/mavros/distance_sensor/rangefinder_sub</topicName>
           <frameName>rangefinder</frameName>
           <radiation>infrared</radiation>
           <fov>0.471239</fov>
           <gaussianNoise>0.001</gaussianNoise>
           <updateRate>10</updateRate>
-          <min_distance>0.01</min_distance>
-          <max_distance>4</max_distance>
+          <min_distance>0.09</min_distance>
+          <max_distance>15</max_distance>
         </plugin>
         <always_on>1</always_on>
         <update_rate>10</update_rate>

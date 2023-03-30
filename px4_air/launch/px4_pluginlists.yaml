@@ -1,12 +1,17 @@
+# See the related here:
+# https://github.com/mavlink/mavros/tree/master/mavros_extras/src/plugins
+
 plugin_blacklist:
 # common
 - safety_area
 # extras
 - image_pub
 - vibration
-- distance_sensor
-- rangefinder
+# distance_sensor
+# rangefinder
 - wheel_odometry
+- mocap
+- mocap_pose_estimate
 
 
 plugin_whitelist: []
