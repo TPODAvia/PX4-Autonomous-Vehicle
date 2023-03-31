@@ -276,26 +276,33 @@
           </script>
         </material>
       </visual>
-      <sensor name="camera_imu" type="imu">
+      <!-- <sensor name="camera_imu" type="imu">
         <always_on>1</always_on>
-      </sensor>
-      <sensor name="camera" type="camera">
+      </sensor> -->
+      <sensor type="camera" name="main_camera">
         <pose>0 0 0 0 0 0</pose>
         <camera>
-          <horizontal_fov>2.0</horizontal_fov>
+          <horizontal_fov>1.607520131906</horizontal_fov>
           <image>
             <format>R8G8B8</format>
-            <width>640</width>
-            <height>360</height>
+            <width>320</width>
+            <height>240</height>
           </image>
           <clip>
-            <near>0.05</near>
-            <far>15000</far>
+            <near>0.02</near>
+            <far>1000</far>
           </clip>
+          <distortion>
+            <k1>-0.273377</k1>
+            <k2>0.0642871</k2>
+            <k3>-0.00599387</k3>
+            <p1>-0.00086158</p1>
+            <p2>-0.000443529</p2>
+          </distortion>
         </camera>
         <always_on>1</always_on>
-        <update_rate>10</update_rate>
-        <visualize>false</visualize>
+        <update_rate>40</update_rate>
+        <visualize>true</visualize>
         <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
           <!-- <robotNamespace></robotNamespace> -->
           <alwaysOn>true</alwaysOn>
@@ -303,24 +310,26 @@
           <cameraInfoTopicName>camera_info</cameraInfoTopicName>
           <updateRate>60.0</updateRate>
           <cameraName>main_camera</cameraName>
-          <frameName>/main_camera_frame</frameName>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <hackBaseline>0</hackBaseline>
+          <frameName>main_camera_optical</frameName>
+          <CxPrime>158.0735</CxPrime>
+          <Cx>158.0735</Cx>
+          <Cy>108.513</Cy>
           <focalLength>277.191356</focalLength>
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>
           <distortionK3>0.0</distortionK3>
           <distortionT1>0.0</distortionT1>
           <distortionT2>0.0</distortionT2>
+          <minUpdateRate>38</minUpdateRate>
+          <windowSize>40</windowSize>
+          <maxStDev>0.075</maxStDev>
         </plugin>
-        <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
+        <!-- <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
             <robotNamespace></robotNamespace>
             <udpHost>127.0.0.1</udpHost>
             <udpPort>5600</udpPort>
-        </plugin>
-        <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
+        </plugin> -->
+        <!-- <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
             <robotNamespace>frame450</robotNamespace>
             <interval>1</interval>
             <width>640</width>
@@ -330,7 +339,7 @@
             <system_id>1</system_id>
             <cam_component_id>100</cam_component_id>
             <mavlink_cam_udp_port>14530</mavlink_cam_udp_port>
-        </plugin>
+        </plugin> -->
       </sensor>
     </link>
 
@@ -440,7 +449,7 @@
 
     </link>
 
-    <joint name="realsense_joint" type="fixed"> <!--can be revolute type-->
+    <joint name="realsense_joint" type="fixed">
       <parent>base_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
