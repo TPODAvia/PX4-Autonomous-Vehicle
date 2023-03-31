@@ -57,7 +57,7 @@ class px4FlightMode:
         rospy.loginfo("Mission WayPoint Cleared!")
 
     def loadMission(self):
-        os.system("rosrun mavros mavwp load /home/vboxuser/catkin_ws/src/px4_sim/mission/MC_mission_box.plan")
+        os.system("rosrun mavros mavwp load ~/catkin_ws/src/px4_ground/mission/missionwp_land.txt")
         rospy.loginfo("Mission WayPoint Loaded!")
         os.system("rosrun mavros mavwp show")
     

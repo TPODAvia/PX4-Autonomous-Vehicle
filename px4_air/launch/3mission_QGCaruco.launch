@@ -1,23 +1,57 @@
 <?xml version="1.0"?>
 <launch>
+
+	<arg name="fcu_conn" default="usb"/>
+	<arg name="fcu_ip" default="127.0.0.1"/>
+	<arg name="gcs_bridge" default="tcp"/>
 	<!-- Pixhawk setup -->
     <include file="$(find px4_air)/launch/0setup.launch">
-		<arg name="fcu_conn" default="usb"/>
-		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default="tcp"/>
+		<arg name="fcu_conn" default="$(arg fcu_conn)"/>
+		<arg name="fcu_ip" default="$(arg fcu_ip)"/>
+		<arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
     </include>
 
-		<!-- Our node to control the mission -->
-    <node pkg="px4_air" type="mission.py" name="offb_node_py" required="true" output="screen" />
+	<!-- Our Aruco Landing node -->
+	<node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen">
+		<param name="search_alt_" value = "1.5"/>	
+		<param name="markers_id_" value = "4"/>
+		<param name="desire_pose_x" value = "0"/>	
+		<param name="desire_pose_y" value = "0"/>	
+		<param name="desire_pose_z" value = "1"/>
+		<param name="desire_yaw_" value = "0"/>	
+		<param name="PidXY_p" value = "0.3"/>	
+		<param name="PidXY_d" value = "0.05"/>	
+		<param name="PidXY_i" value = "0.01"/>	
+		<param name="PidZ_p" value = "0.12"/>	
+		<param name="PidZ_d" value = "0"/>	
+		<param name="PidZ_i" value = "0.01"/>	
+		<param name="PidYaw_p" value = "0"/>	
+		<param name="PidYaw_d" value = "0"/>	
+		<param name="PidYaw_i" value = "0"/>
+		<param name="Thres_count_detect" value = "15"/>
+		<param name="Thres_count_approach" value = "15"/>	
+		<param name="Thres_count_small" value = "20"/>	
+		<param name="landing_vel" value = "-0.1"/>
+	</node>
 
-		<!-- Our Aruco landing -->
-	<node pkg="px4_air" type="aruco_landing.py" name="offb_node_py" required="true" output="screen" />
 
-		<!-- Our Manual control -->
-    <node pkg="px4_air" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
+    <!-- Aruco Tracking Node (Optional)-->
 
-		<!-- Wind plugin -->
-    <!-- <node pkg="px4_air" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
+	<!-- <node pkg="px4_ground" type="tracking_quadrotor_node" name="tracking_quadrotor_node" output="screen">
+		<param name="search_alt_" value = "1.5"/>	
+		<param name="markers_id_" value = "4"/>
+		<param name="desire_pose_x" value = "6.5"/>	
+		<param name="desire_pose_y" value = "0"/>	
+		<param name="desire_pose_z" value = "0"/>
+		<param name="PidY_p" value = "0.6"/>	
+		<param name="PidY_d" value = "0.05"/>	
+		<param name="PidY_i" value = "0.01"/>	
+		<param name="PidZ_p" value = "0.6"/>	
+		<param name="PidZ_d" value = "0.05"/>	
+		<param name="PidZ_i" value = "0.01"/>	
+		<param name="PidYaw_p" value = "0.4"/>	
+		<param name="PidYaw_d" value = "0.01"/>	
+		<param name="PidYaw_i" value = "0"/>	
+	</node> -->
 
 </launch>
-<!-- Include the MAVROS node with SITL and Gazebo -->

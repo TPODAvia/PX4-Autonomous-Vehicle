@@ -1,85 +1,29 @@
 <?xml version="1.0"?>
 <launch>
 
-    <!-- MAVROS posix SITL environment launch script -->
-    <!-- launches MAVROS, PX4 SITL, Gazebo environment, and spawns vehicle -->
-    <!-- vehicle pose -->
-    <arg name="x" default="0"/>
-    <arg name="y" default="0"/>
-    <arg name="z" default="0.5"/>
-    <arg name="R" default="0"/>
-    <arg name="P" default="0"/>
-    <arg name="Y" default="0"/>
-    <!-- vehicle model and world -->
-    <arg name="est" default="ekf2"/>
-    <!-- any vehicle: iris, frame450, acker_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="iris"/>
-    <arg name="box_activate" default="false"/>
-    <!-- box1kg or box10kg -->
-    <arg name="box" default="box1kg"/> 
-    <!-- Any world: empty, flat, city, forest etc -->
-    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
-    <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
-
-    <!-- gazebo configs -->
-    <arg name="gui" default="true"/>
-    <arg name="debug" default="false"/>
-    <arg name="verbose" default="false"/>
-    <arg name="paused" default="false"/>
-    <arg name="respawn_gazebo" default="false"/>
-    <!-- MAVROS configs -->
-    <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
-    <arg name="respawn_mavros" default="false"/>
-    <!-- PX4 configs -->
-    <arg name="interactive" default="true"/>
-
     <!-- PX4 SITL and Gazebo -->
-    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
-    <env name="PX4_ESTIMATOR" value="$(arg est)" />
+    <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
+        <!-- box spawn -->
+        <arg name="box_activate" value="false"/>
+        <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
+        <arg name="vehicle" value="frame450"/>
+        <!-- Any world: empty, flat, city, forest etc -->
+        <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
 
-    <!-- PX4 SITL -->
-    <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
-    <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
-    <node name="sitl" pkg="px4" type="px4"
-        args="$(find px4)/build/px4_sitl_default/etc -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/>
-
-
-    <!-- Gazebo sim -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="gui" value="$(arg gui)"/>
-        <arg name="world_name" value="$(arg world)"/>
-        <arg name="debug" value="$(arg debug)"/>
-        <arg name="verbose" value="$(arg verbose)"/>
-        <arg name="paused" value="$(arg paused)"/>
-        <arg name="respawn_gazebo" value="$(arg respawn_gazebo)"/>
+        <arg name="gui" default="true"/>
     </include>
 
-    <!-- gazebo model -->
-    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model"
-    args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
-
-
-    <!-- box spawner. To make this work you need to unpause enviroment manually -->
-	<arg name="arena2" default="$(find px4_sim)/models/$(arg box)/$(arg box).sdf"/>
-  	<node name="sdf_spawner2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" if="$(eval box_activate)"
-        args="-file $(arg arena2) -sdf -z 0.45 -model $(arg box)" 
-    />
-
-
-
 	<!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/0setup.launch">
+    <include file="$(find px4_air)/launch/3mission_QGCaruco.launch">
 		<arg name="fcu_conn" default="sitl"/>
 		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default="tcp"/>
+		<arg name="gcs_bridge" default=""/>
     </include>
 
 
     <!-- QGroundControl launch -->
     <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
 
-	<!-- Our Aruco landing -->
-	<node pkg="px4_sim" type="auto_aruco_landing_node" name="auto_aruco_landing_node" output="screen" />
 
 	<!-- Wind plugin -->
     <!-- <node pkg="px4_sim" type="wind.py" name="offb_node_py" output="screen" /> -->

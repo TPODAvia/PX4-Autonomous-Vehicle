@@ -14,7 +14,7 @@ PX4RosNav::PX4RosNav(const ros::NodeHandle& nh, const ros::NodeHandle& nh_privat
   nh_private_(nh_private) 
 {
   initialize();
-  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &PX4RosNav::CmdLoopCallback, this); //定义运行周期为0.1s
+  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &PX4RosNav::CmdLoopCallback, this); //Define the running cycle as 0.1s
 
   cmd_vel_sub_ = nh_private_.subscribe("/px4_vel", 1, &PX4RosNav::CmdVelCallback, this,ros::TransportHints().tcpNoDelay());
 

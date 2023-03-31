@@ -14,7 +14,7 @@ Auto2dNav::Auto2dNav(const ros::NodeHandle& nh, const ros::NodeHandle& nh_privat
   nh_private_(nh_private) 
 {
   initialize();
-  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &Auto2dNav::CmdLoopCallback, this); //定义运行周期为0.1s
+  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &Auto2dNav::CmdLoopCallback, this); //Define the running cycle as 0.1s
 
 
 }

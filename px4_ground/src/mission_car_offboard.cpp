@@ -36,7 +36,7 @@ void MissionCar::CmdLoopCallback(const ros::TimerEvent& event)
 * @param[in]  &currPose currYaw The current position and yaw angle of the car (NED coordinate system)
 *             
 * @param[in]  &expectPose expected position (NED coordinate system)
-* @param[out] 是否到达目标点
+* @param[out] &Whether to reach the target point
 *
 * @param[out] 
 **/
@@ -150,13 +150,13 @@ void MissionCar::Initialize()
 	mission_finish_ = false;
   nh_private_.param<float>("step1_Pose_x", step1_Pose_x, 0);
   nh_private_.param<float>("step1_Pose_y", step1_Pose_y, 0);
-  nh_private_.param<float>("step2_Pose_x", step2_Pose_x, 0);
-  nh_private_.param<float>("step2_Pose_y", step2_Pose_y, 0);
-  nh_private_.param<float>("step3_Pose_x", step3_Pose_x, 0);
-  nh_private_.param<float>("step3_Pose_y", step3_Pose_y, 0);
+  nh_private_.param<float>("step2_Pose_x", step2_Pose_x, 10);
+  nh_private_.param<float>("step2_Pose_y", step2_Pose_y, 10);
+  nh_private_.param<float>("step3_Pose_x", step3_Pose_x, -10);
+  nh_private_.param<float>("step3_Pose_y", step3_Pose_y, -10);
   nh_private_.param<float>("step4_Pose_x", step4_Pose_x, 0);
   nh_private_.param<float>("step4_Pose_y", step4_Pose_y, 0);
-  nh_private_.param<float>("desire_vel_",  desire_vel_, 0);
+  nh_private_.param<float>("desire_vel_",  desire_vel_, 1);
 	desire_pose_[0] = step1_Pose_x;
 	desire_pose_[1] = step1_Pose_y;
 

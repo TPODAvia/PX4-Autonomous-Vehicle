@@ -46,6 +46,7 @@ source ~/.bashrc
 source /opt/ros/noetic/setup.bash
 ```
 ```s
+sudo apt install xtrem -y
 sudo apt install build-essential python3-rosdep -y
 sudo apt-get install ros-noetic-hector-slam -y
 sudo apt install libpcl1 ros-noetic-octomap-* -y
