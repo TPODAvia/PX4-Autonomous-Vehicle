@@ -106,25 +106,26 @@ inline bool isFlipped(tf::Quaternion& q)
 	return (abs(pitch) > M_PI / 2) || (abs(roll) > M_PI / 2);
 }
 
-/* Apply a vertical to an orientation */
-inline void applyVertical(geometry_msgs::Quaternion& orientation, const geometry_msgs::Quaternion& vertical,
-                          bool flip_vertical = false, bool auto_flip = false) // editorconfig-checker-disable-line
+/* Set roll and pitch from "from" to "to", keeping yaw */
+inline void snapOrientation(geometry_msgs::Quaternion& to, const geometry_msgs::Quaternion& from, bool auto_flip = false)
 {
-	tf::Quaternion _vertical, _orientation;
-	tf::quaternionMsgToTF(vertical, _vertical);
-	tf::quaternionMsgToTF(orientation, _orientation);
+	tf::Quaternion _from, _to;
+	tf::quaternionMsgToTF(from, _from);
+	tf::quaternionMsgToTF(to, _to);
 
-	if (flip_vertical || (auto_flip && !isFlipped(_orientation))) {
-		static const tf::Quaternion flip = tf::createQuaternionFromRPY(M_PI, 0, 0);
-		_vertical *= flip; // flip vertical
+	if (auto_flip) {
+		if (!isFlipped(_from)) {
+			static const tf::Quaternion flip = tf::createQuaternionFromRPY(M_PI, 0, 0);
+			_from *= flip; // flip "from"
+		}
 	}
 
-	auto diff = tf::Matrix3x3(_orientation).transposeTimes(tf::Matrix3x3(_vertical));
+	auto diff = tf::Matrix3x3(_to).transposeTimes(tf::Matrix3x3(_from));
 	double _, yaw;
 	diff.getRPY(_, _, yaw);
 	auto q = tf::createQuaternionFromRPY(0, 0, -yaw);
-	_vertical = _vertical * q; // set yaw from orientation to vertical
-	tf::quaternionTFToMsg(_vertical, orientation); // set vertical to orientation
+	_from = _from * q; // set yaw from "to" to "from"
+	tf::quaternionTFToMsg(_from, to); // set "from" to "to"
 }
 
 inline void transformToPose(const geometry_msgs::Transform& transform, geometry_msgs::Pose& pose)

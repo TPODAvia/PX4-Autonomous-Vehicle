@@ -282,9 +282,9 @@
       <sensor type="camera" name="main_camera">
         <pose>0 0 0 0 0 0</pose>
         <camera>
-          <horizontal_fov>1.607520131906</horizontal_fov>
+          <horizontal_fov>1.6075201319067056</horizontal_fov>
           <image>
-            <format>R8G8B8</format>
+            <format>B8G8R8</format>
             <width>320</width>
             <height>240</height>
           </image>
@@ -302,34 +302,34 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>40</update_rate>
-        <visualize>true</visualize>
-        <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
-          <!-- <robotNamespace></robotNamespace> -->
+        <visualize>1</visualize>
+        <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
           <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <updateRate>60.0</updateRate>
+          <cameraTopicName>camera_info</cameraTopicName>
+          <updateRate>40</updateRate>
           <cameraName>main_camera</cameraName>
           <frameName>main_camera_optical</frameName>
           <CxPrime>158.0735</CxPrime>
           <Cx>158.0735</Cx>
           <Cy>108.513</Cy>
-          <focalLength>277.191356</focalLength>
+          <!-- <focalLength>????</focalLength> -->
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>
           <distortionK3>0.0</distortionK3>
           <distortionT1>0.0</distortionT1>
           <distortionT2>0.0</distortionT2>
+          <!-- throttling_camera specific options start here -->
           <minUpdateRate>38</minUpdateRate>
           <windowSize>40</windowSize>
           <maxStDev>0.075</maxStDev>
         </plugin>
-        <!-- <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
+        <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
             <robotNamespace></robotNamespace>
             <udpHost>127.0.0.1</udpHost>
             <udpPort>5600</udpPort>
-        </plugin> -->
-        <!-- <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
+        </plugin>
+        <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">
             <robotNamespace>frame450</robotNamespace>
             <interval>1</interval>
             <width>640</width>
@@ -339,7 +339,7 @@
             <system_id>1</system_id>
             <cam_component_id>100</cam_component_id>
             <mavlink_cam_udp_port>14530</mavlink_cam_udp_port>
-        </plugin> -->
+        </plugin>
       </sensor>
     </link>
 
