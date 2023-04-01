@@ -2,6 +2,7 @@
 <sdf version='1.4'>
   <world name='default'>
     <include>
+      <pose>0 0 -1 0 0 0</pose>
       <uri>model://ground_plane</uri>
     </include>
 
@@ -94,7 +95,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>10 10 0 0 0 0</pose>
+      <pose>10 10 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_0'>
       <static>1</static>
@@ -139,7 +140,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>10 -10 0 0 0 0</pose>
+      <pose>10 -10 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_1'>
       <static>1</static>
@@ -184,7 +185,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-10 10 0 0 0 0</pose>
+      <pose>-10 10 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_2'>
       <static>1</static>
@@ -229,7 +230,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-10 -10 0 0 0 0</pose>
+      <pose>-10 -10 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_3'>
       <static>1</static>
@@ -274,7 +275,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-10 -30 0 0 0 0</pose>
+      <pose>-10 -30 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_4'>
       <static>1</static>
@@ -364,7 +365,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>30 -30 0 0 0 0</pose>
+      <pose>30 -30 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_6'>
       <static>1</static>
@@ -409,7 +410,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>30 10 0 0 0 0</pose>
+      <pose>30 10 -0.05 0 0 0</pose>
     </model>
     <model name='asphalt_plane_7'>
       <static>1</static>
@@ -454,7 +455,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>30 -10 0 0 0 0</pose>
+      <pose>30 -10 -0.05 0 0 0</pose>
     </model>
     <model name='Fast Food'>
       <static>1</static>
@@ -594,7 +595,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-5 0 0 0 0 0</pose>
+      <pose>-5 0 -0.08 0 0 0</pose>
     </model>
     <model name='drc_practice_yellow_parking_block_0'>
       <static>1</static>
@@ -631,7 +632,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-5 -2.5 0 0 0 0</pose>
+      <pose>-5 -2.5 -0.08 0 0 0</pose>
     </model>
     <model name='drc_practice_yellow_parking_block_1'>
       <static>1</static>
@@ -668,7 +669,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-5 2.5 0 0 0 0</pose>
+      <pose>-5 2.5 -0.08 0 0 0</pose>
     </model>
     <model name='drc_practice_yellow_parking_block_2'>
       <static>1</static>
@@ -705,7 +706,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-4 2.5 0 0 0 0</pose>
+      <pose>-4 2.5 -0.08 0 0 0</pose>
     </model>
     <model name='drc_practice_yellow_parking_block_3'>
       <static>1</static>
@@ -742,7 +743,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-4 0 0 0 0 0</pose>
+      <pose>-4 0 -0.08 0 0 0</pose>
     </model>
     <model name='drc_practice_yellow_parking_block_4'>
       <static>1</static>
@@ -779,7 +780,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>-4 -2.5 0 0 0 0</pose>
+      <pose>-4 -2.5 -0.08 0 0 0</pose>
     </model>
     <model name='House 1'>
       <static>1</static>
@@ -826,7 +827,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>13 16 0 0 0 0</pose>
+      <pose>13 16 -0.08 0 0 0</pose>
     </model>
     <model name='House 1b'>
       <static>1</static>
@@ -873,7 +874,7 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-      <pose>13 0 0 0 0 0</pose>
+      <pose>13 0 -0.08 0 0 0</pose>
     </model>
     <model name='House 2'>
       <static>1</static>
@@ -2314,9 +2315,9 @@
         </link>
       </model>
       <model name='asphalt_plane_0'>
-        <pose>10 -10 0 0 0 0</pose>
+        <pose>10 -10 -0.1 0 0 0</pose>
         <link name='link'>
-          <pose>10 -10 0 0 0 0</pose>
+          <pose>10 -10 -0.1 0 0 0</pose>
           <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 0 0</acceleration>
           <wrench>0 0 0 0 0 0</wrench>

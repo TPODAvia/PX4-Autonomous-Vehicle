@@ -55,5 +55,8 @@ param set-default PWM_MAIN_FUNC2 201
 param set-default PWM_MAIN_FUNC6 101
 param set-default PWM_MAIN_FUNC7 101
 
+# Set to rover
+set MAV_TYPE 10
+
 # Mixer
 set MIXER_FILE skip

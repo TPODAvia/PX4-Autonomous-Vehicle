@@ -108,5 +108,7 @@ param set-default RC_MAP_YAW 4
 param set-default RC_MAP_FLTMODE 5
 param set-default RC_CHAN_CNT 8
 
+# Set to Quadrotor
+set MAV_TYPE 2
 
 set MIXER quad_x
