@@ -1,4 +1,4 @@
-# taken from: https://github.com/mavlink/mavros/blob/master/libmavconn/cmake/Modules/FindGeographicLib.cmake
+# taken from: https://github.com/mavlink/mavros/blob/master/libmavconn/cmake/Modules/CheckGeographicLibDatasets.cmake
 
 # Look for GeographicLib
 #

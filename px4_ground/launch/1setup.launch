@@ -7,14 +7,13 @@
     <arg name="web_video_server" default="true"/>
     <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
-    <arg name="optical_flow" default="true"/>
     <arg name="aruco" default="true"/>
     <arg name="rangefinder_vl53l1x" default="true"/>
     <arg name="rc" default="true"/>
     <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
 
     <!-- mavros -->
-    <include file="$(find px4_air)/launch/0mavros.launch">
+    <include file="$(find px4_ground)/launch/0mavros.launch">
         <arg name="fcu_conn" value="$(arg fcu_conn)"/>
         <arg name="fcu_ip" value="$(arg fcu_ip)"/>
         <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
@@ -32,22 +31,13 @@
         <arg name="disable" value="$(eval not aruco)"/>
     </include>
 
-    <!-- optical flow -->
-    <node pkg="nodelet" type="nodelet" name="optical_flow" args="load px4_air/optical_flow main_camera_nodelet_manager" if="$(arg optical_flow)" clear_params="true" output="screen" respawn="true">
-        <remap from="image_raw" to="main_camera/image_raw"/>
-        <remap from="camera_info" to="main_camera/camera_info"/>
-        <param name="calc_flow_gyro" value="true"/>
-        <param name="roi_rad" value="0.8"/>
-        <param name="disable_on_vpe" value="false"/>
-    </node>
-
     <!-- simplified offboard control -->
-    <node name="simple_offboard" pkg="px4_air" type="simple_offboard" output="screen" clear_params="true">
+    <!-- <node name="simple_offboard" pkg="px4_ground" type="simple_offboard" output="screen" clear_params="true">
         <param name="reference_frames/main_camera_optical" value="map"/>
-    </node>
+    </node> -->
 
     <!-- main camera -->
-    <include file="$(find px4_air)/launch/0main_camera.launch" if="$(arg main_camera)">
+    <include file="$(find px4_ground)/launch/0main_camera.launch" if="$(arg main_camera)">
         <arg name="fcu_conn" default="$(arg fcu_conn)" />
     </include>
 
@@ -66,7 +56,7 @@
 
     <!-- rc backend -->
     <!-- Use fake GCS. Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
-    <node name="rc" pkg="px4_air" type="rc" output="screen" if="$(arg rc)" clear_params="true">
+    <node name="rc" pkg="px4_ground" type="rc" output="screen" if="$(arg rc)" clear_params="true">
         <param name="use_fake_gcs" value="false"/>
     </node>
 

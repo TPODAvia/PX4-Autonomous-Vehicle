@@ -4,25 +4,25 @@
 
   <model name='frames550'>
  
-    <pose>0 0 0.3 0 0 0</pose>
+    <pose>0 0 0.1 0 0 0</pose>
 
     <link name='base_link'>
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0.02 0 0 0</pose>
-        <mass>19.76</mass>
+        <mass>10.76</mass>
         <inertia>
-          <ixx>2.04</ixx>
+          <ixx>0.06</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>2.96</iyy>
+          <iyy>0.06</iyy>
           <iyz>0</iyz>
-          <izz>4.93</izz>
+          <izz>0.1</izz>
         </inertia>
       </inertial>
 
-      <visual name='base_link_visual'>
+      <!-- <visual name='base_link_visual'>
         <pose>0 0 0 1.57 0 0</pose>
         <geometry>
           <mesh>
@@ -36,9 +36,9 @@
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
-      </visual>
+      </visual> -->
 
-      <visual name='box_link_visual'>
+      <!-- <visual name='box_link_visual'>
         <pose>0.4 -0.35 0.21 -1.57 0 1.57</pose>
         <geometry>
           <mesh>
@@ -52,7 +52,7 @@
             <uri>file://media/materials/scripts/gazebo.material</uri>
           </script>
         </material>
-      </visual>
+      </visual> -->
 
       <collision name='base_link_collision'>
         <pose>0 0 0 0 0 0</pose>
@@ -214,14 +214,14 @@
       <inertial>
         <!-- place holder -->
         <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>1</mass>
+        <mass>0.1</mass>
         <inertia>
-          <ixx>0.001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -296,14 +296,14 @@
       <inertial>
         <!-- place holder -->
         <pose>-0.041 0 -0.162 0 0 0</pose>
-        <mass>0.1</mass>
+        <mass>0.01</mass>
         <inertia>
-          <ixx>0.0001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.0001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -384,14 +384,14 @@
 
       <inertial>
         <pose>-0.041 0 -0.081 0 0 0</pose>
-        <mass>0.01</mass>
+        <mass>0.001</mass>
         <inertia>
-          <ixx>0.0001</ixx>
+          <ixx>0.00001</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.0001</iyy>
+          <iyy>0.00001</iyy>
           <iyz>0</iyz>
-          <izz>0.0001</izz>
+          <izz>0.00001</izz>
         </inertia>
       </inertial>
 
@@ -471,7 +471,7 @@
       <inertial>
         <!-- place holder -->
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.001</mass>
+        <mass>0.0001</mass>
         <inertia>
           <ixx>0.0001</ixx>
           <ixy>0</ixy>
@@ -634,14 +634,14 @@
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>0.15</mass>
+        <mass>0.015</mass>
         <inertia>
-          <ixx>4.15e-4</ixx>
+          <ixx>4.15e-6</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>2.407e-4</iyy>
+          <iyy>2.407e-6</iyy>
           <iyz>0</iyz>
-          <izz>2.407e-4</izz>
+          <izz>2.407e-6</izz>
         </inertia>
       </inertial>
 
@@ -672,7 +672,7 @@
           </range>
         </ray>
 
-        <plugin name="laser" filename="libgazebo_ros_range.so">
+        <!-- <plugin name="laser" filename="libgazebo_ros_range.so">
           <robotNamespace></robotNamespace>
           <topicName>/mavros/distance_sensor/rangefinder_sub</topicName>
           <frameName>rangefinder</frameName>
@@ -682,7 +682,7 @@
           <updateRate>10</updateRate>
           <min_distance>0.09</min_distance>
           <max_distance>15</max_distance>
-        </plugin>
+        </plugin> -->
 
         <always_on>1</always_on>
         <update_rate>10</update_rate>
@@ -718,7 +718,7 @@
     <!-- drone left leg -->
 
     <link name="left_leg">
-    <pose>0 -0.15 -0.07 0 0 0</pose>
+    <pose>0 -0.15 -0.1 0 0 0</pose>
 
       <inertial>
         <pose>0 -0.14314 -0.207252 0 0 0</pose>
@@ -732,6 +732,58 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
+
+      <collision name='collision'>
+        <pose>-0.005 -0.14314 -0.207252 0 1.56893 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.012209</radius>
+            <length>0.3</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+
+      <collision name='collision_bar'>
+        <pose>0.00052 -0.08503 -0.121187 -0.501318 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.00914984</radius>
+            <length>0.176893</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
 
       <visual name='base_link_left_leg'>
         <pose>0 0 0 0 0 0</pose>
@@ -796,7 +848,7 @@
     <!-- drone right leg -->
 
     <link name="right_leg">
-      <pose>0 0.15 -0.07 0 0 0</pose>
+      <pose>0 0.15 -0.1 0 0 0</pose>
 
       <inertial>
         <pose>0 0.14314 -0.207252 0 0 0</pose>
@@ -810,6 +862,58 @@
           <izz>0.001</izz>
         </inertia>
       </inertial>
+
+      <collision name='collision'>
+        <pose>-0.005 0.14314 -0.207252 0 1.56893 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.012209</radius>
+            <length>0.3</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+
+      <collision name='collision_bar'>
+        <pose>0.00052 0.08503 -0.121187 0.501318 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.00914984</radius>
+            <length>0.176893</length>
+          </cylinder>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <kp>1e+8</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
 
       <visual name='base_link_right_leg'>
         <pose>0 0 0 0 0 0</pose>
@@ -948,14 +1052,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1010,8 +1114,8 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>5</motorNumber>
@@ -1045,14 +1149,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1107,8 +1211,8 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant><momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>4</motorNumber>
@@ -1147,14 +1251,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1209,8 +1313,8 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>3</motorNumber>
@@ -1244,14 +1348,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1306,8 +1410,8 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>2</motorNumber>
@@ -1347,14 +1451,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1409,8 +1513,8 @@
       <turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>1</motorNumber>
@@ -1449,14 +1553,14 @@
 
       <inertial>
         <pose>0 0 0.05 0 0 0</pose>
-        <mass>0.9</mass>
+        <mass>0.09</mass>
         <inertia>
-          <ixx>5e-04</ixx>
+          <ixx>9.75e-07</ixx>
           <ixy>0</ixy>
           <ixz>0</ixz>
-          <iyy>0.04</iyy>
+          <iyy>0.000273104</iyy>
           <iyz>0</iyz>
-          <izz>0.04</izz>
+          <izz>0.000274004</izz>
         </inertia>
       </inertial>
 
@@ -1511,8 +1615,8 @@
       <turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp>
       <timeConstantDown>0.025</timeConstantDown>
-      <maxRotVelocity>2720</maxRotVelocity>
-      <motorConstant>3.14858e-05</motorConstant>
+      <maxRotVelocity>1500</maxRotVelocity>
+      <motorConstant>1.14858e-05</motorConstant>
       <momentConstant>0.08</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic>
       <motorNumber>0</motorNumber>

@@ -15,16 +15,16 @@
     <!-- vehicle pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
-    <arg name="z" default="0.2"/>
+    <arg name="z" default="0.1"/>
     <arg name="R" default="0"/>
     <arg name="P" default="0"/>
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <arg name="est" default="ekf2"/>
     <!-- any vehicle: iris, frame450, acker_rover, diff_rover, avia_vtol, typhoon_h480 etc -->
-    <arg name="vehicle" default="frame450"/>
+    <arg name="vehicle" default="frame550"/>
     <!-- Any world: empty, flat, city, forest etc -->
-    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="world" default="$(find px4_sim)/worlds/asphalt.world"/>
     <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
     <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
 
@@ -32,7 +32,7 @@
     <arg name="gui" default="true"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
-    <arg unless="$(arg box_activate)" name="paused" value="false"/>
+    <arg unless="$(arg box_activate)" name="paused" value="true"/>
     <arg     if="$(arg box_activate)" name="paused" value="true"/>
     <arg name="respawn_gazebo" default="false"/>
     <!-- PX4 configs -->
@@ -54,5 +54,8 @@
     </include>
     <!-- gazebo model -->
     <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+
+    <!-- QGroundControl launch -->
+    <!-- <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " /> -->
 
 </launch>
