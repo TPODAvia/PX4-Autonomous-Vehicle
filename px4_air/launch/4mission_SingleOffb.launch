@@ -5,7 +5,7 @@
     <arg name="fcu_ip" default="127.0.0.1"/>
     <arg name="gcs_bridge" default="tcp"/>
 	<!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/0setup.launch">
+    <include file="$(find px4_air)/launch/1setup.launch">
 		<arg name="fcu_conn" default="$(arg fcu_conn)"/>
 		<arg name="fcu_ip" default="$(arg fcu_ip)"/>
 		<arg name="gcs_bridge" default="$(arg gcs_bridge)"/>

@@ -32,7 +32,7 @@
     <arg name="gui" default="true"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
-    <arg unless="$(arg box_activate)" name="paused" value="true"/>
+    <arg unless="$(arg box_activate)" name="paused" value="false"/>
     <arg     if="$(arg box_activate)" name="paused" value="true"/>
     <arg name="respawn_gazebo" default="false"/>
     <!-- PX4 configs -->

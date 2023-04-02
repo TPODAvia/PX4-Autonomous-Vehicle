@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 	  <!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/0setup.launch">
+    <include file="$(find px4_air)/launch/1setup.launch">
       <arg name="fcu_conn" default="usb"/>
       <arg name="fcu_ip" default="127.0.0.1"/>
       <arg name="gcs_bridge" default="tcp"/>

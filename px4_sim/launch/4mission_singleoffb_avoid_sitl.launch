@@ -6,7 +6,7 @@
         <!-- box spawn -->
         <arg name="box_activate" value="false"/>
         <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
-        <arg name="vehicle" value="frame450"/>
+        <arg name="vehicle" value="iris_obs_avoid"/>
         <!-- Any world: empty, flat, city, forest etc -->
         <arg name="world" value="$(find px4_sim)/worlds/empty.world"/>
 
@@ -15,11 +15,12 @@
 
 	<!-- Pixhawk setup -->
     <include file="$(find px4_air)/launch/5mission_SingleOffb_Avoid.launch">
-		<arg name="fcu_conn" default="sitl"/>
-		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default=""/>
+		<arg name="fcu_conn" value="sitl"/>
+		<arg name="fcu_ip" value="127.0.0.1"/>
+		<arg name="gcs_bridge" value=""/>
     </include>
 
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find local_planner)/resource/local_planner.rviz" />
 
     <!-- QGroundControl launch -->
     <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />

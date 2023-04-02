@@ -1,20 +1,33 @@
 <?xml version="1.0"?>
 <launch>
 	  <!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/0setup.launch">
+    <include file="$(find px4_air)/launch/1setup.launch">
       <arg name="fcu_conn" default="usb"/>
       <arg name="fcu_ip" default="127.0.0.1"/>
       <arg name="gcs_bridge" default="tcp"/>
     </include>
 
-		<!-- Our node to control the drone -->
-    <node pkg="px4_sim" type="YOLOdetect.py" name="offb_node_py" required="true" output="screen" />
+    <arg name="world_file_name"    default="simple_obstacle" />
+    <arg name="pointcloud_topics" default="[/camera/depth/points]"/>
 
-		<!-- Our control keyboard -->
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="keyb_node_py" required="true" output="screen" />
 
-		<!-- Wind plugin -->
-    <!-- <node pkg="px4_sim" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->
+    <!-- Define a static transform from a camera internal frame to the fcu for every camera used -->
+    <node pkg="tf" type="static_transform_publisher" name="tf_depth_camera"
+          args="0 0 0 -1.57 0 -1.57 fcu camera_link 10"/>
+
+    <!-- Load custom console configuration -->
+    <env name="ROSCONSOLE_CONFIG_FILE" value="$(find local_planner)/resource/custom_rosconsole.conf"/>
+
+    <!-- Launch local planner -->
+    <arg name="manager"             default="local_planner_manager"/>
+
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="local_planner_nodelet" args="load LocalPlannerNodelet $(arg manager)" output="screen">
+      <param name="goal_x_param" value="17" />
+      <param name="goal_y_param" value="15"/>
+      <param name="goal_z_param" value="3" />
+      <param name="world_name" value="$(find avoidance)/sim/worlds/$(arg world_file_name).yaml" />
+      <rosparam param="pointcloud_topics" subst_value="True">$(arg pointcloud_topics)</rosparam>
+    </node>
 
 </launch>
-<!-- Include the MAVROS node with SITL and Gazebo -->

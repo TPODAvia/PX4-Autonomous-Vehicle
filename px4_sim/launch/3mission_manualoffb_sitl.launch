@@ -15,9 +15,9 @@
 
 	<!-- Pixhawk setup -->
     <include file="$(find px4_air)/launch/2mission_ManualOffb.launch">
-		<arg name="fcu_conn" default="sitl"/>
-		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default=""/>
+		<arg name="fcu_conn" value="sitl"/>
+		<arg name="fcu_ip" value="127.0.0.1"/>
+		<arg name="gcs_bridge" value=""/>
     </include>
 
 
