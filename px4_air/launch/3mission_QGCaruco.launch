@@ -35,23 +35,4 @@
 	</node>
 
 
-    <!-- Aruco Tracking Node (Optional)-->
-
-	<!-- <node pkg="px4_ground" type="tracking_quadrotor_node" name="tracking_quadrotor_node" output="screen">
-		<param name="search_alt_" value = "1.5"/>	
-		<param name="markers_id_" value = "4"/>
-		<param name="desire_pose_x" value = "6.5"/>	
-		<param name="desire_pose_y" value = "0"/>	
-		<param name="desire_pose_z" value = "0"/>
-		<param name="PidY_p" value = "0.6"/>	
-		<param name="PidY_d" value = "0.05"/>	
-		<param name="PidY_i" value = "0.01"/>	
-		<param name="PidZ_p" value = "0.6"/>	
-		<param name="PidZ_d" value = "0.05"/>	
-		<param name="PidZ_i" value = "0.01"/>	
-		<param name="PidYaw_p" value = "0.4"/>	
-		<param name="PidYaw_d" value = "0.01"/>	
-		<param name="PidYaw_i" value = "0"/>	
-	</node> -->
-
 </launch>

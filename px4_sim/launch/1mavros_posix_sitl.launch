@@ -26,14 +26,20 @@
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
     <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
-    <env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+
+    <arg name="avoidance" default="false"/>
+    <!-- Parameters config -->
+    <env unless="$(arg avoidance)" name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+    <env     if="$(arg avoidance)" name="PX4_SIM_MODEL" value="$(arg vehicle)_avoid" />
+
 
     <!-- gazebo configs -->
+    <arg unless="$(arg box_activate)" name="paused" value="false"/>
+    <arg     if="$(arg box_activate)" name="paused" value="true"/>
+
     <arg name="gui" default="true"/>
     <arg name="debug" default="false"/>
     <arg name="verbose" default="false"/>
-    <arg unless="$(arg box_activate)" name="paused" value="false"/>
-    <arg     if="$(arg box_activate)" name="paused" value="true"/>
     <arg name="respawn_gazebo" default="false"/>
     <!-- PX4 configs -->
     <arg name="interactive" default="true"/>

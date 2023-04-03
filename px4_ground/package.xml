@@ -77,9 +77,7 @@
   <exec_depend>map_server</exec_depend>
   <exec_depend>amcl</exec_depend>
 
-  <!-- Package format specifier version 2.0 allows specifying dependencies for both
-   build- and runtime in a single <depend> element -->
-  <!-- <depend>message_generation</depend>
+  <depend>message_generation</depend>
   <depend>std_srvs</depend>
   <depend>tf</depend>
   <depend>tf2</depend>
@@ -93,7 +91,6 @@
   <depend>geographiclib</depend>
   <depend>nodelet</depend>
   <depend>mavros</depend>
-  <depend>mavros_extras</depend>
   <depend>cv_camera</depend>
   <depend>cv_bridge</depend>
   <depend>rosbridge_server</depend>
@@ -101,15 +98,13 @@
   <depend>tf2_web_republisher</depend>
   <depend>libxml2</depend>
   <depend>libxslt</depend>
-  <depend condition="$ROS_PYTHON_VERSION == 2">python-lxml</depend>
-  <depend condition="$ROS_PYTHON_VERSION == 3">python3-lxml</depend>
+  <depend>python3-lxml</depend>
   <depend>dynamic_reconfigure</depend>
   <exec_depend>python-pymavlink</exec_depend>
-  <test_depend>ros_pytest</test_depend> -->
+  <test_depend>ros_pytest</test_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
-    <nodelet plugin="${prefix}/nodelet_plugins.xml" />
     <!-- Other tools can request additional information be placed here -->
   </export>
 </package>

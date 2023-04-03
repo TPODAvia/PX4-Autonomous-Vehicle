@@ -11,8 +11,8 @@
 	<arg name="log_output" default="screen" />
 	<arg name="fcu_protocol" default="v2.0" />
 	<arg name="respawn_mavros" default="false" />
-    <arg name="pluginlists_yaml" value="$(find px4_air)/launch/px4_pluginlists.yaml" />
-	<arg name="config_yaml" value="$(find px4_air)/launch/px4_config.yaml" />
+    <arg name="pluginlists_yaml" default="$(find px4_air)/launch/px4_pluginlists.yaml" />
+	<arg name="config_yaml" default="$(find px4_air)/launch/px4_config.yaml" />
     <!-- mavros extras parameters -->
     <arg name="viz" default="false"/>
 
@@ -48,17 +48,9 @@
 		<rosparam command="load" file="$(arg pluginlists_yaml)" />
 		<rosparam command="load" file="$(arg config_yaml)" />
 	</node>
-
-    <!-- remapped distance_sensor config -->
-    <!-- <rosparam param="$(arg distance_sensor_remap)" if="$(eval bool(distance_sensor_remap))">
-        subscriber: true
-        id: 1
-        orientation: PITCH_270
-        covariance: 1  # cm
-    </rosparam> -->
-
+    
     <!-- Rangefinders frame -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/>
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/> -->
 
     <!-- Copter visualization -->
     <node name="visualization" pkg="mavros_extras" type="visualization" if="$(arg viz)">

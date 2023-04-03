@@ -1,5 +1,0 @@
-<library path="lib/libpx4_air">
-   <class name="px4_air/optical_flow" type="OpticalFlow" base_class_type="nodelet::Nodelet">
-      <description/>
-   </class>
-</library>
