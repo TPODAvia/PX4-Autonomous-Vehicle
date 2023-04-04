@@ -5,7 +5,7 @@
 
 
     <link name='body_link'>
-      <pose>0 0 0.005 0 0 0</pose>
+      <pose>0 0 0.008 0 0 0</pose>
   
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -474,7 +474,8 @@
         </ray>
         <plugin name="laser" filename="libgazebo_ros_laser.so"> 
         <topicName>/base_scan</topicName> 
-        <frameName>lidar</frameName> </plugin> 
+        <frameName>lidar</frameName> 
+        </plugin> 
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>false</visualize>
@@ -493,7 +494,7 @@
                   <max_angle>0.14835</max_angle>
                 </horizontal>
                 <vertical>
-                  <samples>1</samples>
+                  <samples>10</samples>
                   <resolution>1</resolution> 
                   <min_angle>-0.0014835</min_angle>
                   <max_angle>0.14835</max_angle> 
@@ -505,7 +506,7 @@
                 <resolution>0.02</resolution>
             </range>
           </ray>
-          <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+          <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
             <gaussianNoise>0.005</gaussianNoise>
             <alwaysOn>true</alwaysOn>
             <updateRate>50</updateRate>
@@ -514,6 +515,7 @@
             <radiation>INFRARED</radiation>
             <fov>0.2967</fov>
           </plugin>
+          <visualize>true</visualize>
       </sensor>   -->
     </link>
 
@@ -544,8 +546,8 @@
 
     <!--FPV Camera -->
 
-    <!-- <link name='camera_link'>
-      <pose>-0.05 0 0.1 0 0 3.14</pose>
+    <link name='camera_link'>
+      <pose>0.1 0 0.08 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -568,57 +570,55 @@
         </geometry>
       </visual>
 
-      <sensor name='camera' type='camera'>
-        <camera name='__default__'>
-          <horizontal_fov>1.047</horizontal_fov>
+      <sensor type="camera" name="main_camera">
+        <pose>0 0 0 0 0 0</pose>
+        <camera>
+          <horizontal_fov>1.6075201319067056</horizontal_fov>
           <image>
+            <format>B8G8R8</format>
             <width>320</width>
             <height>240</height>
           </image>
           <clip>
-            <near>0.1</near>
-            <far>100</far>
+            <near>0.02</near>
+            <far>1000</far>
           </clip>
-          <lens>
-            <type>custom</type>
-            <custom_function>
-              <c1>1.05</c1>
-              <c2>4</c2>
-              <f>1</f>
-              <fun>tan</fun>
-            </custom_function>
-            <scale_to_hfov>1</scale_to_hfov>
-            <cutoff_angle>3.1415</cutoff_angle>
-            <env_texture_size>1080</env_texture_size>
-          </lens>
+          <distortion>
+            <k1>-0.273377</k1>
+            <k2>0.0642871</k2>
+            <k3>-0.00599387</k3>
+            <p1>-0.00086158</p1>
+            <p2>-0.000443529</p2>
+          </distortion>
         </camera>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>40</update_rate>
         <visualize>1</visualize>
-
-        <plugin name='camera_plugin' filename='libgazebo_ros_camera.so'>
-          <robotNamespace></robotNamespace>
+        <plugin name="camera_plugin" filename="libgazebo_ros_camera.so">
           <alwaysOn>true</alwaysOn>
           <imageTopicName>image_raw</imageTopicName>
-          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-          <updateRate>30.0</updateRate>
+          <cameraTopicName>camera_info</cameraTopicName>
+          <updateRate>40</updateRate>
           <cameraName>main_camera</cameraName>
-          <frameName>/main_camera_frame</frameName>
-          <CxPrime>320.5</CxPrime>
-          <Cx>320.5</Cx>
-          <Cy>240.5</Cy>
-          <hackBaseline>0</hackBaseline>
-          <focalLength>277.191356</focalLength>
+          <frameName>main_camera_optical</frameName>
+          <CxPrime>158.0735</CxPrime>
+          <Cx>158.0735</Cx>
+          <Cy>108.513</Cy>
+          <!-- <focalLength>????</focalLength> -->
           <distortionK1>0.0</distortionK1>
           <distortionK2>0.0</distortionK2>
           <distortionK3>0.0</distortionK3>
           <distortionT1>0.0</distortionT1>
           <distortionT2>0.0</distortionT2>
+          <!-- throttling_camera specific options start here -->
+          <minUpdateRate>38</minUpdateRate>
+          <windowSize>40</windowSize>
+          <maxStDev>0.075</maxStDev>
         </plugin>
-
         <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
-          <robotNamespace></robotNamespace>
-          <udpPort>5600</udpPort>
+            <robotNamespace></robotNamespace>
+            <udpHost>127.0.0.1</udpHost>
+            <udpPort>5600</udpPort>
         </plugin>
 
       </sensor>
@@ -633,7 +633,7 @@
       <axis>
         <xyz>0 0 1</xyz>
       </axis>
-    </joint> -->
+    </joint>
 
 
 

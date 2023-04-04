@@ -28,6 +28,7 @@
   <depend>sensor_msgs</depend>
   <depend>rostest</depend>
   <depend>dynamic_reconfigure</depend>
+  <depend>cv_camera</depend>
 
   <test_depend>image_publisher</test_depend>
   <test_depend>ros_pytest</test_depend>

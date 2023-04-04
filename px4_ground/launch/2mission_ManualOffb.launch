@@ -12,7 +12,7 @@
     </include>
 
     <!-- Keyboard control node -->
-    <arg name="node_start_delay" default="15.0" />  
-    <node pkg="px4_ground" type="keyboard_control_car_px4.py" name="PX4_control" required="true" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'" />
+    <!-- <arg name="node_start_delay" default="15.0" />   -->
+    <!-- <node pkg="px4_ground" type="keyboard_control_car_px4.py" name="PX4_control" required="true" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'" /> -->
 
 </launch>

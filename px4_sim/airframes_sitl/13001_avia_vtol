@@ -75,6 +75,9 @@ param set-default RC_MAP_AUX1 8
 param set-default RC_MAP_AUX2 9
 param set-default RC_MAP_AUX3 10
 
+# enable offboard flights without rc
+param set-default COM_RCL_EXCEPT 4
+
 # Set to standard VTOL
 set MAV_TYPE 22
 

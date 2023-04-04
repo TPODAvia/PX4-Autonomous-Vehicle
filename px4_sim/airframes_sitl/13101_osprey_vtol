@@ -67,6 +67,10 @@ param set-default VT_B_TRANS_DUR 8
 param set-default VT_TILT_TRANS 0.6
 
 
+# enable offboard flights without rc
+param set-default COM_RCL_EXCEPT 4
+
+
 # VT_TYPE: tailsitter, 1: tiltrotor, 2: standard
 param set-default VT_TYPE 1
 

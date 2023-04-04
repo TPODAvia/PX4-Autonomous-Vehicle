@@ -17,7 +17,7 @@ obstacle_layer:
  track_unknown_space: true
  combination_method: 1
 
- observation_sources: base_scan
+ observation_sources: slam_cloud
  laser_scan_sensor: {data_type: LaserScan, topic: scan, marking: true, clearing: true}
 
 

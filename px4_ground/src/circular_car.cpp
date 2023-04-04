@@ -85,7 +85,7 @@ void run_state_update(void)
 	switch(RunState)
 	{
 		case WAITING:
-			if(current_state.mode != "OFFBOARD" || current_state.armed == false)//等待offboard模式
+			if(current_state.mode != "OFFBOARD" || current_state.armed == false)//Wait for offboard mode
 			{
 				pos_target[0] = pos_drone[0];
 				pos_target[1] = pos_drone[1];
@@ -94,8 +94,8 @@ void run_state_update(void)
 				temp_pos_drone[1] = pos_drone[1];
 				temp_pos_drone[2] = pos_drone[2];
 				send_pos_setpoint(pos_target, 0);
-				cout << "current_x"<< pos_target[0]<<endl;
-				cout << "current_y"<< pos_target[1]<<endl;
+				cout << "current_x: "<< pos_target[0]<<endl;
+				cout << "current_y: "<< pos_target[1]<<endl;
 			}
 			else
 			{

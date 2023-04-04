@@ -15,7 +15,6 @@
       <arg name="x" default="0"/>
       <arg name="y" default="0"/>
       <arg name="z" default="0.16"/>  
-      <arg name="paused" default="false"/>
   </include>
 
   <arg name="pointcloud_topics" default="[/camera/depth/points]"/>

@@ -1,181 +1,166 @@
 /***************************************************************************************************************************
 *
-* Author: TPODAvia
-* Email: thepowerofdarknes2000@gmail.com
-* Time: 2023.03.11
-* Description: Control mavros system via cmd_vel topic
-*  
+rosservice call /mavros/setpoint_velocity/mav_frame         "mav_frame: 1000"
+srv file:
+uint8 FRAME_GLOBAL=0
+uint8 FRAME_LOCAL_NED=1
+uint8 FRAME_MISSION=2
+uint8 FRAME_GLOBAL_RELATIVE_ALT=3
+uint8 FRAME_LOCAL_ENU=4
+uint8 FRAME_GLOBAL_INT=5
+uint8 FRAME_GLOBAL_RELATIVE_ALT_INT=6
+uint8 FRAME_LOCAL_OFFSET_NED=7
+uint8 FRAME_BODY_NED=8
+uint8 FRAME_BODY_OFFSET_NED=9
+uint8 FRAME_GLOBAL_TERRAIN_ALT=10
+uint8 FRAME_GLOBAL_TERRAIN_ALT_INT=11
+uint8 FRAME_BODY_FRD=12
+uint8 FRAME_RESERVED_13=13
+uint8 FRAME_RESERVED_14=14
+uint8 FRAME_RESERVED_15=15
+uint8 FRAME_RESERVED_16=16
+uint8 FRAME_RESERVED_17=17
+uint8 FRAME_RESERVED_18=18
+uint8 FRAME_RESERVED_19=19
+uint8 FRAME_LOCAL_FRD=20
+uint8 FRAME_LOCAL_FLU=21
+uint8 mav_frame
+
+* Author: bingo
+* Email: bingobin.lw@gmail.com
+* Time: 2019.12.31
+* Description: Autonomous circular trajectory in offboard mode for amov_car
 ***************************************************************************************************************************/
 
 #include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
-#include <std_msgs/String.h>
-
+#include <math.h>
+#include <string>
+#include <vector>
 #include <iostream>
-#include <sstream>
-
-// topic header file
-// #include <geometry_msgs/PoseStamped.h>
+#include <stdio.h>
+#include <mavros_msgs/PositionTarget.h>
 #include <mavros_msgs/CommandBool.h>
-#include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
-#include <mavros_msgs/OverrideRCIn.h>
-
-
+#include <mavros_msgs/SetMode.h>
+#include <mavros_msgs/SetMavFrame.h>
+#include <Eigen/Eigen>
+#include <geometry_msgs/TwistStamped.h>
+#include <geometry_msgs/Twist.h>
 using namespace std;
-mavros_msgs::State current_state;  // The current state of the vehicle [including the locked state mode] (read from the flight control)
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Callback<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-void state_cb(const mavros_msgs::State::ConstPtr& msg)
+mavros_msgs::SetMode mode_cmd;
+mavros_msgs::SetMavFrame set_mav_frm;
+ros::Publisher local_vel_pub;
+ros::ServiceClient set_mode_client;
+ros::ServiceClient mav_frame_client;
+ros::ServiceClient arming_client;
+mavros_msgs::CommandBool arm_cmd;
+
+enum Drone
 {
-    current_state = *msg;
+  	WAITING,			//Wait for offboard mode
+	CHECKING,			//Check the status of the car
+	RUN,			    //Run
+};
+
+Drone RunState = WAITING; //Initial state WAITING
+
+
+//Receive the current status of the car from the flight controller
+mavros_msgs::State current_state;
+void state_cb(const mavros_msgs::State::ConstPtr& msg) 
+{
+	current_state = *msg;
 }
 
-float linx, liny, linz, angX, angY, angZ;
-
+//Receive linear and angular speeds from /cmd_vel topic
+float linX, angZ;
 void VelocityCallback(const geometry_msgs::Twist& msg2){
-   //Using the callback function just for subscribing  
-   //Subscribing the message and converting to RC command in 'linx' and 'angZ'
-//    float check = msg2.linear.x;
-
-//    if (check < 0.0)
-//    {
-//         linx = 10;
-//    }
-//    else if (check == 0.0)
-//    {
-//         linx = 0;
-//    }
-//    else if (check > 0.0)
-//    {
-//         linx = 300 + (msg2.linear.x)*4500;
-//    }
-
-//    angZ = 1500 + (msg2.angular.z)*100;
-      linx = msg2.linear.x;
-      liny = msg2.linear.y;
-      linz = msg2.linear.z;
-      angX = msg2.angular.x;
-      angY = msg2.angular.y;
+      linX = msg2.linear.x;
       angZ = msg2.angular.z;
-
 }
+
+
+
+// state machine update
+void run_state_update(void)
+{
+
+	switch(RunState)
+	{
+		case WAITING:
+			if(current_state.mode != "OFFBOARD" || current_state.armed == false)//Wait for offboard mode
+			{
+				cout << "Offboard mode and Arming should be true "<<endl;
+			}
+			else
+			{
+                cout << "CHECKING enabled "<<endl;
+                set_mav_frm.request.FRAME_BODY_NED;
+                cout << "Set frame id to BODY_NED: " << set_mav_frm.request.FRAME_BODY_NED <<endl;
+                mav_frame_client.call(set_mav_frm);
+				RunState = CHECKING;
+			}
+			cout << "WAITING" <<endl;
+			break;
+
+		case CHECKING:
+			if(0 == 0) 			//If there is no position information, perform locking
+			{
+				cout << "Check error, make sure have local location" <<endl;
+                arm_cmd.request.value = false;
+                arming_client.call(arm_cmd);
+				RunState = WAITING;	
+			}
+			else
+			{
+				RunState = RUN;
+			}
+			cout << "CHECKING" <<endl;
+			break;
+
+        case RUN:
+        {
+            geometry_msgs::TwistStamped cmd_vel;
+            cmd_vel.twist.linear.x = linX;
+            cmd_vel.twist.angular.z = angZ;
+            local_vel_pub.publish(cmd_vel);
+            
+            cout << "RUN" <<endl;
+            cout << "The linear speed is: "<< cmd_vel.twist.linear.x <<endl;
+            cout << "The angular speed is: "<< cmd_vel.twist.angular.z <<endl;
+            break;
+        }
+	}
+
+}				
 
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "cmd_vel_mavros_node");
-    ros::NodeHandle n;
-
-    ros::Subscriber state_sub = n.subscribe<mavros_msgs::State>("/mavros/state", 10, state_cb);  
-    ros::Subscriber cmd_sub = n.subscribe("/cmd_vel", 1000, &VelocityCallback); 
-    ros::Publisher cmd_pub = n.advertise<geometry_msgs::Twist>("/mavros/setpoint_velocity/cmd_vel_unstamped", 1000);
-    ros::Publisher cntrl_pub = n.advertise<mavros_msgs::OverrideRCIn>("/mavros/rc/override", 1000);
-    ros::ServiceClient set_mode_client = n.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
-    ros::ServiceClient arming_client = n.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
-    // ros::Publisher local_pos_pub = n.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local", 10);
-    
-    //the setpoint publishing rate MUST be faster than 2Hz
+    ros::NodeHandle nh("~");
+    //  frequency [20Hz]
     ros::Rate rate(20.0);
 
-    mavros_msgs::SetMode mode_cmd;
-    mavros_msgs::CommandBool arm_cmd;
-    mavros_msgs::SetMode offb_set_mode;
+    ros::Subscriber cmd_sub = nh.subscribe("/cmd_vel", 1000, &VelocityCallback); 
+    ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("/mavros/state", 10, state_cb);
+    ros::Publisher local_vel_pub = nh.advertise<geometry_msgs::TwistStamped>("mavros/setpoint_velocity/cmd_vel", 10);
 
-
-
-    while(ros::ok() && !current_state.connected){
-        ros::spinOnce();
-        rate.sleep();
-        ROS_INFO("\rconnecting to FCU...");
-    }
-
-    //send a few setpoints before starting
-    geometry_msgs::Twist control;
-    geometry_msgs::Twist precontrol;
-    precontrol.linear.x = 0; 
-    precontrol.linear.y = 0; 
-    precontrol.linear.z = 0; 
-    precontrol.angular.x = 0;
-    precontrol.angular.y = 0;
-    precontrol.angular.z = 0;
-
-    
-    for(int i = 100; ros::ok() && i > 0; --i){
-        cmd_pub.publish(precontrol);
-        ros::spinOnce();
-        rate.sleep();
-    }
-
-    // geometry_msgs::PoseStamped pose;
-    // pose.pose.position.x = 0;
-    // pose.pose.position.y = 0;
-    // pose.pose.position.z = 2;
-
-    // //send a few setpoints before starting
-    // for(int i = 100; ros::ok() && i > 0; --i){
-    //     local_pos_pub.publish(pose);
-    //     ros::spinOnce();
-    //     rate.sleep();
-    // }
-
-
-
-    offb_set_mode.request.custom_mode = "OFFBOARD";
+    // [Service] Modify the system mode
+    set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
+    mav_frame_client = nh.serviceClient<mavros_msgs::SetMavFrame>("/mavros/setpoint_velocity/mav_frame");
+    arming_client = nh.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
 
     arm_cmd.request.value = true;
-
-    ros::Time last_request = ros::Time::now();
-
     while(ros::ok())
     {
-
-        if( current_state.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0)))
-        {
-            if( set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent)
-            {
-                ROS_INFO("Offboard enabled");
-            }
-            last_request = ros::Time::now();
-        } 
-        else 
-        {
-            if( !current_state.armed && (ros::Time::now() - last_request > ros::Duration(5.0)))
-            {
-                if( arming_client.call(arm_cmd) && arm_cmd.response.success)
-                {
-                    ROS_INFO("Vehicle armed");
-                }
-                last_request = ros::Time::now();
-            }
-        } 
-        
-        // mavros_msgs::OverrideRCIn control;  
-        // control.channels[0] = angZ;     //Turn wheel command
-        // control.channels[1] = linx;     //Throttle command
-        // control.channels[2] = 0;         
-        // control.channels[3] = 0;      
-        // control.channels[4] = 0;
-        // control.channels[5] = 0;
-        // control.channels[6] = 0;
-        // control.channels[7] = 0;
-        // cntrl_pub.publish(control);
-        
-        // local_pos_pub.publish(pose);
-
-        control.linear.x = linx; 
-        control.linear.y = liny; 
-        control.linear.z = linz; 
-        control.angular.x = angX;
-        control.angular.y = angY;
-        control.angular.z = angZ;
-        cmd_pub.publish(control);
-        // cout << "Parameters!!!" <<endl;
-        // cout << angZ << " and " << linx << endl;
-        // angZ = 1500;
-        // linx = 0;
-        ros::spinOnce();
-        rate.sleep();
+			run_state_update();
+	 		ros::spinOnce();
+      rate.sleep();
     }
+
     return 0;
+
 }
+

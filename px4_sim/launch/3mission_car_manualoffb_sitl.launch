@@ -22,7 +22,7 @@
 
 
     <!-- QGroundControl launch -->
-    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+    <!-- <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " /> -->
 
 	<!-- Wind plugin -->
     <!-- <node pkg="px4_sim" type="wind.py" name="offb_node_py" required="true" output="screen" /> -->

@@ -79,7 +79,6 @@
 
   <depend>message_generation</depend>
   <depend>std_srvs</depend>
-  <depend>tf</depend>
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
   <depend>tf2_geometry_msgs</depend>

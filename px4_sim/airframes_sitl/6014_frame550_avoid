@@ -48,6 +48,9 @@ param set-default MAV_PROTO_VER 2
 param set-default COM_OBS_AVOID 1
 param set-default MPC_XY_CRUISE 5.0
 
+# enable offboard flights without rc
+param set-default COM_RCL_EXCEPT 4
+
 # Manual control parameters
 param set-default RC2_TRIM 1000
 param set-default COM_FLTMODE1 2

@@ -57,6 +57,24 @@ param set-default PWM_MAIN_FUNC2 101
 param set-default PWM_MAIN_FUNC6 102
 param set-default PWM_MAIN_FUNC7 102
 
+# Manual control
+param set-default COM_RC_IN_MODE 3
+param set-default RC2_TRIM 1000
+param set-default COM_FLTMODE1 2
+param set-default RC_MAP_ROLL 1
+param set-default RC_MAP_THROTTLE 2
+param set-default RC_MAP_PITCH 3
+param set-default RC_MAP_YAW 4
+param set-default RC_MAP_FLTMODE 5
+param set-default RC_CHAN_CNT 8
+
+# Failsafe disable
+# param set-default NAV_DLL_ACT = 0
+# param set-default NAV_RCL_ACT = 3
+
+# enable offboard flights without rc
+param set-default COM_RCL_EXCEPT 4
+
 # Set to rover
 set MAV_TYPE 10
 

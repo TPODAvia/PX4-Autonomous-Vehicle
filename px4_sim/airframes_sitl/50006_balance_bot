@@ -57,6 +57,10 @@ param set-default PWM_MAIN_FUNC2 101
 param set-default PWM_MAIN_FUNC6 102
 param set-default PWM_MAIN_FUNC7 102
 
+# enable offboard flights without rc
+param set-default COM_RCL_EXCEPT 4
+
+
 # Set to rover
 set MAV_TYPE 10
 

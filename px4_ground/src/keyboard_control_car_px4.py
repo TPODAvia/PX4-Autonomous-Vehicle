@@ -44,7 +44,7 @@ command_cotrol
 CTRL-C to quit
 
 """
-speed_control = 1800
+speed_control = 1600
 cur_target_rc_yaw = OverrideRCIn()
 mavros_state = State()
 armServer = rospy.ServiceProxy('/mavros/cmd/arming', CommandBool)
@@ -115,7 +115,7 @@ def action_control():
 		if key == 'i'or key == 'I':
 			channel1 = speed_control
 		elif key == 'k'or key == 'K':
-			channel1 = 1850 - speed_control
+			channel1 = 1650 - speed_control
 		else :
 			channel1 = 800
 		#yaw
@@ -125,6 +125,13 @@ def action_control():
 			channel0 = speed_control
 		else:
 			channel0 = 1500
+		#combination_foward
+		if key == 'u' or key == 'U':
+			channel0 = 3000 - speed_control
+			channel1 = speed_control
+		elif key == 'o' or key == 'O':
+			channel0 = speed_control
+			channel1 = speed_control
 	else:
 		channel1 = 800
 		channel0 = 1500
