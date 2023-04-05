@@ -10,19 +10,23 @@
  -->
 <launch>
 
-    <!-- Any world: empty, flat, city, forest etc -->
-	<arg name="world" default="$(find px4_sim)/worlds/city.world"/>
-
-	<!-- Ground vehicles only: acker_rover, diff_rover, balance_bot, tank -->
-	<arg name="vehicle" default="diff_rover"/>
-
-    <!-- Gazebo enviroment -->
+    <!-- PX4 SITL and Gazebo -->
     <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
-        <arg name="vehicle" value="$(arg vehicle)"/>
-		<arg name="world" value="$(arg world)"/>
-		<arg name="x" default="0"/>
-		<arg name="y" default="0"/>
-		<arg name="z" default="0.1"/>
+        <!-- box spawn -->
+        <arg name="box_activate" value="false"/>
+        <!-- any rovers: acker_rover, diff_rover -->
+        <arg name="vehicle" value="diff_rover"/>
+        <!-- Any world: empty, flat, city, forest etc -->
+        <arg name="world" value="$(find px4_sim)/worlds/flat.world"/>
+
+        <arg name="gui" default="false"/>
+    </include>
+
+    <include file="$(find mavros)/launch/px4.launch">
+        <!-- GCS link is provided by SITL -->
+        <arg name="gcs_url" value=""/>
+        <arg name="fcu_url" value="udp://:14540@localhost:14557"/>
+        <arg name="respawn_mavros" value="false"/>
     </include>
 
     <!--  ************** Global Parameters ***************  -->

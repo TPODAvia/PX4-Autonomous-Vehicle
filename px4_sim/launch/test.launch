@@ -1,6 +1,0 @@
-<launch>
-    <!-- Keyboard control node -->
-    <arg name="node_start_delay" default="15.0" />  
-    <!-- QGroundControl launch -->
-    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="xterm -e bash -c '../QGroundControl.AppImage' 'sleep $(arg node_start_delay); $0 $@'" />
-</launch>
