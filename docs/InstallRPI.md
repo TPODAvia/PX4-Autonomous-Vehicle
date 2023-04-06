@@ -120,7 +120,7 @@ source ~/.bashrc
 ```s
 cd ~/catkin_ws/src
 
-# git clone https://github.com/TPODAvia/yolov8_ros.git
+git clone https://github.com/TPODAvia/yolov8_ros.git
 git clone https://github.com/okalachev/vl53l1x_ros
 git clone https://github.com/machinekoder/ar_track_alvar.git -b noetic-devel
 
@@ -145,7 +145,7 @@ rosdep install --from-paths src --ignore-src -y
 ```
 ```s
 sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/requirements.txt
-#sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
+sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.txt
 ```
 
 ```s
