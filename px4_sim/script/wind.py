@@ -14,7 +14,9 @@ import time
 
 if __name__ == '__main__':
     #print('Apply programmed perturbation to vehicle', rospy.get_namespace())
-    rospy.init_node('wind_node')
+    rospy.init_node('wind_node', anonymous=False)
+
+    vehicle_name = rospy.get_param("~vehicle_name", "frame450" )
 
     if rospy.is_shutdown():
         print('ROS master not running!')
@@ -32,7 +34,11 @@ if __name__ == '__main__':
 
     ns = rospy.get_namespace().replace('/', '')
 
-    body_name = '%svector::chassis' % ns
+
+    body_name = '%s{}::base_link'.format(vehicle_name) % ns
+
+    print("The force is appied to the link: ")
+    print(body_name)
 
     starting_time = 0.0
     print('Starting time= {} s'.format(starting_time))
@@ -50,9 +56,11 @@ if __name__ == '__main__':
     tx=0
     ty=0
     tz=0
+    # applying dirturbance scalling
+    n = 0.1
     while 1:
-        force = [fx+random.randint(-30,30), fy+random.randint(-30,30), fz+random.randint(-3,3)]
-        torque = [tx+random.randint(-3,3), ty+random.randint(-3,3), tz+random.randint(-3,3)]
+        force = [fx+random.randint(-10,10)*n, fy+random.randint(-10,10)*n, fz+random.randint(-10,10)*n]
+        torque = [tx+random.randint(-10,10)*n, ty+random.randint(-10,10)*n, tz+random.randint(-10,10)*n]
         print('Force [N]=', force)
         print('Torque [N]=', torque)
         wrench = Wrench()
@@ -67,6 +75,7 @@ if __name__ == '__main__':
             rospy.Duration(duration))
         time.sleep(1)
 
+    # Uncomment for debug
     # if success:
     #     print('Body wrench perturbation applied!')
     #     print('\tFrame: ', body_name)

@@ -53,7 +53,7 @@ roslaunch px4_sim 0launch_model_only.launch
 ```
 You can change the vehicle type 
 ```s
-<arg name="vehicle" default="r1_rover"/>
+<arg name="vehicle" default="diff_rover"/>
 ```
 Change world if necessary
 ```s
@@ -102,7 +102,7 @@ source devel/setup.bash
 rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
 rosrun px4_sim wind.py
-rosrun px4_sim control_vel.py
+rosrun px4_sim mavros_vel_test.py
 rosrun px4_sim mavros_offboard_posctl_test.py
 ```
 > **Note**  others python scripts is experimental. If the OFFBOARD is running, you won't be able to run a QGC mission plan.
@@ -136,7 +136,7 @@ rosrun mavros mavsys mode -c OFFBOARD
 rosrun mavros mavsafety arm
 ```
 
-#### 6) Run Avoidance Missions
+#### 6) Run Missions with collision avoidance
 In the terminal run:
 ```s
 roslaunch px4_sim 4mission_followme_sitl.launch

@@ -4,7 +4,7 @@
   <model name="diff_rover">
 
 
-    <link name='body_link'>
+    <link name='base_link'>
       <pose>0 0 0.008 0 0 0</pose>
   
       <inertial>
@@ -20,7 +20,7 @@
         </inertia>
       </inertial>
 
-      <visual name='body_link_visual'>
+      <visual name='base_link_visual'>
         <geometry>
           <box>
             <size>0.4 0.5 0.1</size>
@@ -187,7 +187,7 @@
     <joint type="revolute" name="left_wheel_hinge">
       <pose>0 0 0 0 0 0</pose>
       <child>left_wheel</child>
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 -1 0</xyz>
         <limit>
@@ -293,7 +293,7 @@
     <joint type="revolute" name="right_wheel_hinge">
       <pose>0 0 0 0 0 0</pose>
       <child>right_wheel</child>
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 -1 0</xyz>
         <limit>
@@ -334,7 +334,7 @@
 
     <joint name='gps_joint' type='fixed'>
         <child>gps::link</child>
-        <parent>body_link</parent>
+        <parent>base_link</parent>
     </joint>
 
 
@@ -376,7 +376,7 @@
 
     <joint name='rover/imu_joint' type='revolute'>
       <child>rover/imu_link</child>
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <axis>
         <xyz>1 0 0</xyz>
         <limit>
@@ -522,7 +522,7 @@
     <joint type="fixed" name="lidar_joint">
       <pose>0 0 0 0 0 0</pose>
       <child>lidar_link</child>
-      <parent>body_link</parent>
+      <parent>base_link</parent>
     </joint>
 
 
@@ -627,7 +627,7 @@
     </link>
 
     <joint type="fixed" name="camera_joint">
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <child>camera_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
@@ -713,7 +713,7 @@
     </link>
 
     <joint type="fixed" name="realsense_joint">
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <child>realsense_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
@@ -829,7 +829,7 @@
     </link>
 
     <joint type="fixed" name="stereo_joint">
-      <parent>body_link</parent>
+      <parent>base_link</parent>
       <child>stereo_link</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>

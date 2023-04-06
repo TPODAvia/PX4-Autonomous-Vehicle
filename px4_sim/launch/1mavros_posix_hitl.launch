@@ -72,4 +72,11 @@
         </include>
     </group>
 
+	<!-- Wind plugin -->
+	<!-- <arg name="node_start_delay" default="10.0" />  
+    <node pkg="px4_sim" type="wind.py" name="offb_node_py" output="screen"  launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
+		<param name="vehicle_name" value="$(arg vehicle)" />
+	</node> -->
+
+
 </launch>

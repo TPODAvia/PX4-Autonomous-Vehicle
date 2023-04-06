@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
-  <model name="rover">
+  <model name="acker_rover">
     <static>false</static>
 
     <link name="base_link">

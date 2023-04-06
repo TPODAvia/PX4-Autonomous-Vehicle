@@ -112,14 +112,14 @@ int main(int argc, char **argv)
     }
 
 
-
-    geometry_msgs::TwistStamped vel;
-    vel.twist.linear.x = 0;
-    vel.twist.linear.y = 0;
-    vel.twist.linear.z = 0;
-    vel.twist.angular.x = 0;
-    vel.twist.angular.y = 0;
-    vel.twist.angular.z = 0;
+    // This is expiremtal for publishing velocity to fmu but it didn't work
+    // geometry_msgs::TwistStamped vel;
+    // vel.twist.linear.x = 0;
+    // vel.twist.linear.y = 0;
+    // vel.twist.linear.z = 0;
+    // vel.twist.angular.x = 0;
+    // vel.twist.angular.y = 0;
+    // vel.twist.angular.z = 0;
 
     //send a few setpoints before starting
     // for(int i = 100; ros::ok() && i > 0; --i){
@@ -145,6 +145,7 @@ int main(int argc, char **argv)
 
     while(ros::ok()){
 
+        // Switch to MANUAL and arming the vehicle
         if( current_state.mode != "MANUAL" &&
             (ros::Time::now() - last_request > ros::Duration(5.0))){
             if( set_mode_client.call(offb_set_mode) &&
@@ -163,16 +164,17 @@ int main(int argc, char **argv)
             }
         }
 
+        //Publishing rc override
 
-        rc_pub.channels[0] = 1500 - angZ*500;
-        rc_pub.channels[1] = 1000 + linX*2000;
+        rc_pub.channels[0] = 1500 - angZ*500; // Steeering wheel
+        rc_pub.channels[1] = 1000 + linX*2000; // Throttle
         rc_pub.channels[2] = 1500;
         rc_pub.channels[3] = 1500;
         rc_pub.channels[4] = 1500;
         rc_pub.channels[5] = 1500;
         rc_pub.channels[6] = 1500;
 
-        std::cout << "Parameter is: " << linX << " and " << angZ << std::endl;
+        std::cout << "Parameter is:  linX = " << linX << " and angZ = " << angZ << std::endl;
 
 
         abababab_pub.publish(rc_pub);
