@@ -14,7 +14,7 @@ We are tested and provided several images (https://drive.google.com/drive/folder
 https://cdimage.ubuntu.com/releases/focal/release/
 
 
-#### To connecto to local wifi network run:
+#### To connect to local wifi network run:
 
 ```s
 sudo nano /etc/netplan/50-cloud-init.yaml
@@ -37,8 +37,21 @@ The yaml should look like this:
 ```s
 sudo netplan -debug generate
 ```
+
+#### To connect to desktop with Ethernet cable:
+Both desktop and Raspberry Pi should have IP adresses from the range 169.254.x.x to be ready to connect via ssh. You can verify IP adresses with this commands:
+for Windows
+```s
+ipconfig
+```
+and for Linux (may require net-tools to be installed)
+```s
+ifconfig -a
+```
+
 #### We need to mofify terminal UI for the colorful visualization:
 ```s
+ls -la ~/ | more
  nano ~/.bashrc
 ```
 uncomment the line: 
