@@ -147,3 +147,32 @@ In the terminal run:
 ```s
 roslaunch px4_sim 5multi_uav_auto_sitl.launch
 ```
+
+#### 8) Upload flight plan via QGroundControl
+
+Once both the Gazebo and QGroundControl windows have appeared (QGroundControl should show the drone location near San
+Carlos airport), use QGroundControl to upload the sample `~/ksql_airport_px4.plan` flight plan that is included inside the
+Docker container, and then start the mission.
+
+#### 9) Simulate GPS failure
+
+Wait until the drone has risen to its final mission altitude. You should see a visualization of the GISNav-estimated
+field of view projected on the ground appear. You can then try disabling GPS through your [MAVLink Shell][5]
+*(accessible e.g. through QGroundControl > Analyze Tools > MAVLink Console)*:
+
+```
+failure gps off
+```
+
+The drone should now continue to complete its mission *GNSS-free* with GISNav substituting for GPS.
+
+You can check if PX4 is receiving the mock GPS position estimates by typing the following in the MAVLink shell:
+
+```
+listener sensor_gps
+```
+
+If the printed GPS message has a `satellites_used` field value of `255`, your PX4 is receiving the mock GPS node output
+as expected. QGroundControl will most likely show 0 satellites used next to the GPS icon as shown in the demo video.
+
+[5]: https://docs.px4.io/main/en/debug/mavlink_shell.html#qgroundcontrol
