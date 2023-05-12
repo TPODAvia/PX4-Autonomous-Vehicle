@@ -11,8 +11,29 @@
 		<arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
     </include>
 
+	<node pkg="tf" type="static_transform_publisher" name="tf_camera"
+			args="0 0 0 -1.57 0 0 main_camera_optical main_camera_tag 10"/>
+
+	<arg name="marker_size" default="40" />
+	<arg name="max_new_marker_error" default="0.08" />
+	<arg name="max_track_error" default="0.2" />
+	<arg name="cam_image_topic" default="/main_camera/image_raw" />
+	<arg name="cam_info_topic" default="/main_camera/camera_info" />
+	<arg name="output_frame" default="/main_camera_tag" />
+
+	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+		<param name="marker_size"           type="double" value="$(arg marker_size)" />
+		<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+		<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+		<param name="output_frame"          type="string" value="$(arg output_frame)" />
+
+		<remap from="camera_image"  to="$(arg cam_image_topic)" />
+		<remap from="camera_info"   to="$(arg cam_info_topic)" />
+	</node>
+
+
 	<!-- Our Aruco Landing node -->
-	<node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen">
+	<!-- <node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen">
 		<param name="search_alt_" value = "1.5"/>	
 		<param name="markers_id_" value = "4"/>
 		<param name="desire_pose_x" value = "0"/>	
@@ -32,7 +53,7 @@
 		<param name="Thres_count_approach" value = "15"/>	
 		<param name="Thres_count_small" value = "20"/>	
 		<param name="landing_vel" value = "-0.1"/>
-	</node>
+	</node> -->
 
 
 </launch>

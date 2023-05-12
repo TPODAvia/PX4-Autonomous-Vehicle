@@ -12,7 +12,8 @@
     </include>
 
     <!-- Missions by preloaded waypoints -->
-    <node pkg="px4_ground" type="mavros_mission_px4.py" name="mavros_mission_px4" output="screen">
+    <arg name="node_start_delay" default="15.0" />  
+    <node pkg="px4_ground" type="mavros_mission_px4.py" name="mavros_mission_px4" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
     </node>
 
     <!-- Optional missions -->

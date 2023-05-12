@@ -8,9 +8,9 @@
         <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
         <arg name="vehicle" value="frame450"/>
         <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
+        <arg name="world" value="$(find px4_sim)/worlds/precision_landing.world"/>
 
-        <arg name="gui" default="true"/>
+        <arg name="gui" default="false"/>
     </include>
 
 	<!-- Pixhawk setup -->

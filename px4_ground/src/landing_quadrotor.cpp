@@ -46,6 +46,9 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 {
   Eigen::Vector4d s_PidOut;
 
+	cout << "currentPos" << endl;
+	cout << currentPos << endl;
+
 	/*pid control in X direction*/
 	s_PidItemX.difference = expectPos[0] - currentPos[0];
 	s_PidItemX.intergral += s_PidItemX.difference;
@@ -54,11 +57,11 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemX.intergral <= -100) 
 		s_PidItemX.intergral = -100;
 	s_PidItemX.differential =  s_PidItemX.difference  - s_PidItemX.tempDiffer;
-  s_PidItemX.tempDiffer = s_PidItemX.difference;
+  	s_PidItemX.tempDiffer = s_PidItemX.difference;
 //	cout << "s_PidItemX.tempDiffer: " << s_PidItemX.tempDiffer << endl;
 //	cout << "s_PidItemX.differential: " << s_PidItemX.differential << endl;
-
 	s_PidOut[0] = s_PidXY.p*s_PidItemX.difference + s_PidXY.d*s_PidItemX.differential + s_PidXY.i*s_PidItemX.intergral;
+
 	/*pid control in Y direction*/
 	s_PidItemY.difference = expectPos[1] - currentPos[1];
 	s_PidItemY.intergral += s_PidItemY.difference;
@@ -67,7 +70,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemY.intergral <= -100) 
 		s_PidItemY.intergral = -100;
 	s_PidItemY.differential =  s_PidItemY.difference  - s_PidItemY.tempDiffer;
-  s_PidItemY.tempDiffer = s_PidItemY.difference;
+  	s_PidItemY.tempDiffer = s_PidItemY.difference;
 	s_PidOut[1] = s_PidXY.p*s_PidItemY.difference + s_PidXY.d*s_PidItemY.differential + s_PidXY.i*s_PidItemY.intergral;
 
 	/*pid control in Z direction*/
@@ -78,7 +81,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemZ.intergral <= -100) 
 		s_PidItemZ.intergral = -100;
 	s_PidItemZ.differential =  s_PidItemZ.difference  - s_PidItemZ.tempDiffer;
-  s_PidItemZ.tempDiffer = s_PidItemZ.difference;
+  	s_PidItemZ.tempDiffer = s_PidItemZ.difference;
 	s_PidOut[2] = s_PidZ.p*s_PidItemZ.difference + s_PidZ.d*s_PidItemZ.differential + s_PidZ.i*s_PidItemZ.intergral;
 
 	/*pid control of Yaw direction*/
@@ -89,7 +92,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemYaw.intergral <= -100) 
 		s_PidItemYaw.intergral = -100;
 	s_PidItemYaw.differential =  s_PidItemYaw.difference  - s_PidItemYaw.tempDiffer;
-  s_PidItemYaw.tempDiffer = s_PidItemYaw.difference;
+  	s_PidItemYaw.tempDiffer = s_PidItemYaw.difference;
 	s_PidOut[3] = s_PidYaw.p*s_PidItemYaw.difference + s_PidYaw.d*s_PidItemYaw.differential + s_PidYaw.i*s_PidItemYaw.intergral;
 
 	return s_PidOut;
@@ -114,7 +117,7 @@ void PX4Landing::CmdLoopCallback(const ros::TimerEvent& event)
 void PX4Landing::LandingStateUpdate()
 {
 
-//	desire_vel_ = LandingPidProcess(ar_pose_,markers_yaw_,desire_pose_,0);
+	// desire_vel_ = LandingPidProcess(ar_pose_,markers_yaw_,desire_pose_,0);
 	// cout << "desire_vel_[0]:  "<< desire_vel_[0] <<endl;
 	// cout << "desire_vel_[1]:  "<< desire_vel_[1] <<endl;
 	// cout << "desire_vel_[2]:  "<< desire_vel_[2] <<endl;
@@ -331,21 +334,20 @@ void PX4Landing::LandingStateUpdate()
 				desire_yawVel_ = desire_vel_[3];
 				OffboardControl_.send_body_velxyz_setpoint(desire_xyVel_,desire_yawVel_);
 				cout << "ARUCO BIG" << endl;
-				
+
 			}
 
 			break;
 		case LANDOVER:
 			{
 				desire_vel_ = LandingPidProcess(ar_pose_small_,markers_yaw_,desire_pose_,desire_yaw_);
-				desire_xyVel_[0] = 0.7*desire_vel_[0];
-				desire_xyVel_[1] = 0.7*desire_vel_[1];
-				desire_xyVel_[2] = desire_vel_[2];
+				desire_xyVel_[0] = desire_vel_[0];
+				desire_xyVel_[1] = desire_vel_[1];
+				desire_xyVel_[2] = 0.8*desire_vel_[2];
 				desire_yawVel_ = desire_vel_[3];
 				OffboardControl_.send_body_velxyz_setpoint(desire_xyVel_,desire_yawVel_);
 				cout << "ARUCO SMALL" << endl;
-
-				if(ar_pose_small_[2] <= 0.3)
+				if(ar_pose_small_[2] <= 0.45)
 				{
 					LandingState = LAND;
 					cout << "Land" << endl;
@@ -361,6 +363,9 @@ void PX4Landing::LandingStateUpdate()
 				mode_cmd_.request.custom_mode = "AUTO.LAND";
         		set_mode_client_.call(mode_cmd_);
 				LandingState = WAITING;
+				ros::Duration(20.0).sleep();
+				ros::shutdown();
+
 			}
 
 
@@ -390,9 +395,9 @@ void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPt
       		tf::quaternionMsgToTF(item.pose.pose.orientation,quat);
       		tf::Matrix3x3(quat).getRPY(temp_roll,temp_pitch,temp_yaw);
 			markers_yaw_ = temp_yaw;
-//			cout << "ar_pose_[0]:"  << ar_pose_[0] << endl;
-//			cout << "ar_pose_[1]:"  << ar_pose_[1] << endl;
-//			cout << "ar_pose_[2]:"  << ar_pose_[2] << endl;
+//			cout << "ar_pose_[0]:"  << ar_pose_small_[0] << endl;
+//			cout << "ar_pose_[1]:"  << ar_pose_small_[1] << endl;
+//			cout << "ar_pose_[2]:"  << ar_pose_small_[2] << endl;
 //			cout << "markers_yaw_: "  << markers_yaw_ << endl;
 		}
 		if(item.id == 4)
@@ -405,9 +410,9 @@ void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPt
       		tf::quaternionMsgToTF(item.pose.pose.orientation,quat);
       		tf::Matrix3x3(quat).getRPY(temp_roll,temp_pitch,temp_yaw);
 			markers_yaw_ = temp_yaw;
-//			cout << "ar_pose_[0]:"  << ar_pose_[0] << endl;
-//			cout << "ar_pose_[1]:"  << ar_pose_[1] << endl;
-//			cout << "ar_pose_[2]:"  << ar_pose_[2] << endl;
+//			cout << "ar_pose_[0]:"  << ar_pose_big_[0] << endl;
+//			cout << "ar_pose_[1]:"  << ar_pose_big_[1] << endl;
+//			cout << "ar_pose_[2]:"  << ar_pose_big_[2] << endl;
 //			cout << "markers_yaw_: "  << markers_yaw_ << endl;
 		}
 	}
