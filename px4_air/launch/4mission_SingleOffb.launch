@@ -35,4 +35,7 @@
 		<param name="desire_posz_" value = "1"/>				
 	</node> -->
 
+	<node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+	</node>
+
 </launch>

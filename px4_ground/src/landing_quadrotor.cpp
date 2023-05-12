@@ -6,8 +6,10 @@
 * Description: Realize the precise landing of px4 quadrotor AR code
 ***************************************************************************************************************************/
 #include "landing_quadrotor.h"
+
 using namespace std;
 using namespace Eigen;
+
 PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private):
   nh_(nh),
   nh_private_(nh_private) {
@@ -21,8 +23,13 @@ PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_priv
   rel_alt_sub_ = nh_private_.subscribe("/mavros/global_position/rel_alt", 1, &PX4Landing::Px4RelAltCallback,this,ros::TransportHints().tcpNoDelay());
 
   state_sub_ = nh_private_.subscribe("/mavros/state", 1, &PX4Landing::Px4StateCallback,this,ros::TransportHints().tcpNoDelay());
+  
+  waypoints_sub = nh_private_.subscribe("/mavros/mission/waypoints", 1, &PX4Landing::Waypoints_cb,this,ros::TransportHints().tcpNoDelay());
+ 
   //【Service】Modify system mode
   set_mode_client_ = nh_private_.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
+
+
 
 }
 
@@ -133,6 +140,30 @@ void PX4Landing::LandingStateUpdate()
 	switch(LandingState)
 	{
 		case WAITING:
+
+			if (px4_state_.mode == "MISSION" || px4_state_.mode =="AUTO.MISSION") {
+
+				last_waypoint = waypoint_list.waypoints[waypoint_list.waypoints.size() - 1];
+				is_current = last_waypoint.is_current;
+
+				if (last_waypoint.command == 21 && is_current == true)
+				{
+					cout << "Landing waypoint reached " << last_waypoint.command << endl;	
+				}
+				else 
+				{
+					break;
+				}
+			}
+			else if (px4_state_.mode == "AUTO.LAND" || px4_state_.mode == "LAND") {
+				ROS_INFO("Vehicle is in landing mode");
+				aruco_landing = true;
+			} else if (px4_state_.mode == "OFFBOARD" && aruco_landing == true) {
+				ROS_INFO("Vehicle is in OFFBOARD landing");
+			} else {
+				aruco_landing = false;
+				break;
+			}
 
 			if(detect_state == true && px4_state_.mode == "AUTO.RTL")
 			{
@@ -364,7 +395,8 @@ void PX4Landing::LandingStateUpdate()
         		set_mode_client_.call(mode_cmd_);
 				LandingState = WAITING;
 				ros::Duration(20.0).sleep();
-				ros::shutdown();
+				aruco_landing = false;
+				// ros::shutdown();
 
 			}
 
@@ -438,6 +470,10 @@ void PX4Landing::Px4RelAltCallback(const std_msgs::Float64::ConstPtr& msg)
 void PX4Landing::Px4StateCallback(const mavros_msgs::State::ConstPtr& msg)
 {
 	px4_state_ = *msg;
+}
+
+void PX4Landing::Waypoints_cb(const mavros_msgs::WaypointList::ConstPtr& msg) {
+    waypoint_list = *msg;
 }
 
 /*initialization*/

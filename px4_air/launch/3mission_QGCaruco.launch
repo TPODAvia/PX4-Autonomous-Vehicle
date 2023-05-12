@@ -21,7 +21,7 @@
 	<arg name="cam_info_topic" default="/main_camera/camera_info" />
 	<arg name="output_frame" default="/main_camera_tag" />
 
-	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false">
 		<param name="marker_size"           type="double" value="$(arg marker_size)" />
 		<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
 		<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
@@ -33,8 +33,9 @@
 
 
 	<!-- Our Aruco Landing node -->
-	<!-- <node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen">
-		<param name="search_alt_" value = "1.5"/>	
+    <arg name="node_start_delay" default="15.0" />  
+	<node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+		<!-- <param name="search_alt_" value = "1.5"/>	
 		<param name="markers_id_" value = "4"/>
 		<param name="desire_pose_x" value = "0"/>	
 		<param name="desire_pose_y" value = "0"/>	
@@ -52,8 +53,8 @@
 		<param name="Thres_count_detect" value = "15"/>
 		<param name="Thres_count_approach" value = "15"/>	
 		<param name="Thres_count_small" value = "20"/>	
-		<param name="landing_vel" value = "-0.1"/>
-	</node> -->
+		<param name="landing_vel" value = "-0.1"/> -->
+	</node>
 
 
 </launch>
