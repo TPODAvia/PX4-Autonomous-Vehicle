@@ -16,7 +16,7 @@
 	<arg name="node_start_delay" default="20.0" />  
 
 	<!-- Our node to control the drone -->
-	<node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" />
+	<!-- <node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" /> -->
 
 	<!-- Tag vertical tracking node -->
 	<!-- <node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">

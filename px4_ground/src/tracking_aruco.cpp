@@ -118,7 +118,8 @@ int main(int argc, char **argv)
             }
             last_request = ros::Time::now();
         }
-
+        else
+        { trigger = true; }
 
         if( current_state.mode != "OFFBOARD" && trigger &&
             (ros::Time::now() - last_request > ros::Duration(5.0))){
