@@ -12,7 +12,7 @@ PX4Tracking::PX4Tracking(const ros::NodeHandle& nh, const ros::NodeHandle& nh_pr
   nh_(nh),
   nh_private_(nh_private) {
   Initialize();
-  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &PX4Tracking::CmdLoopCallback, this); //周期为0.1s
+  cmdloop_timer_ = nh_.createTimer(ros::Duration(0.1), &PX4Tracking::CmdLoopCallback, this); //The period is 0.1s
   //Subscribe to the position directly in front of the aircraft relative to the QR code
   ar_pose_sub_ = nh_private_.subscribe("/ar_pose_marker", 1, &PX4Tracking::ArPoseCallback, this,ros::TransportHints().tcpNoDelay());
 
