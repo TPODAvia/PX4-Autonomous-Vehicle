@@ -27,7 +27,7 @@
     <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find local_planner)/resource/local_planner.rviz" />
 
     <!-- QGroundControl launch -->
-    <!-- <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " /> -->
+    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
 
 	<!-- Wind plugin -->
 	<!-- <arg name="node_start_delay" default="10.0" />  

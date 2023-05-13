@@ -11,6 +11,7 @@
 		<arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
     </include>
 
+	<!-- Tag tracking node -->
 	<node pkg="tf" type="static_transform_publisher" name="tf_camera"
 			args="0 0 0 -1.57 0 0 main_camera_optical main_camera_tag 10"/>
 
@@ -30,7 +31,6 @@
 		<remap from="camera_image"  to="$(arg cam_image_topic)" />
 		<remap from="camera_info"   to="$(arg cam_info_topic)" />
 	</node>
-
 
 	<!-- Our Aruco Landing node -->
     <arg name="node_start_delay" default="15.0" />  
