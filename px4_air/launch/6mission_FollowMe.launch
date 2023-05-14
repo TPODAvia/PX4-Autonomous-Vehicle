@@ -4,22 +4,45 @@
 	<arg name="fcu_conn" default="usb"/>
 	<arg name="fcu_ip" default="127.0.0.1"/>
 	<arg name="gcs_bridge" default="tcp"/>
+
+	<!-- Define the fly_mode argument with a default value: aruco_mode or yolo_mode -->
+	<arg name="fly_mode" default="aruco_mode"/>
+
+	<!-- Set aruco and yolo arguments based on the fly_mode argument -->
+	<arg name="aruco_mode" value="true" if="$(eval fly_mode == 'aruco_mode')"/>
+	<arg name="yolo_mode" value="false" if="$(eval fly_mode == 'aruco_mode')"/>
+	<arg name="aruco_mode" value="false" if="$(eval fly_mode == 'yolo_mode')"/>
+	<arg name="yolo_mode" value="true" if="$(eval fly_mode == 'yolo_mode')"/>
+
 	<!-- Pixhawk setup -->
 	<include file="$(find px4_air)/launch/1setup.launch">
 		<arg name="fcu_conn" default="$(arg fcu_conn)"/>
 		<arg name="fcu_ip" default="$(arg fcu_ip)"/>
 		<arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
-		<arg name="aruco" default="false"/>
+		<arg name="aruco" default="$(arg aruco_mode)"/>
 	</include>
+
+	<!-- Depht camera setup -->
+
+    <node pkg="yolov8_ros" type="yolo_ros.py" name="yolov8_node" output="screen" if="$(arg yolo_mode)">
+        <!-- topic name to subscribe to -->
+        <param name="img_topic" type="str" value="/camera/rgb/image_raw" />
+        <!-- topic name for the detection output -->
+        <param name="center_depth_topic" type="str" value="/camera/depth/image_raw" />
+        <param name="queue_size" type="int" value="1" />
+        <!-- flag whether to also publish image with the visualized detections -->
+        <param name="visualize" type="bool" value="False" />
+ 
+    </node>
 
 	<!-- Timer setup -->
 	<arg name="node_start_delay" default="20.0" />  
 
 	<!-- Our node to control the drone -->
-	<!-- <node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" /> -->
+	<node pkg="px4_ground" type="tracking_yolo_node" name="tracking_yolo_node" if="$(arg yolo_mode)" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" />
 
 	<!-- Tag vertical tracking node -->
-	<!-- <node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-	</node> -->
+	<node pkg="px4_ground" type="tracking_aruco_node" name="tracking_aruco_node" if="$(arg aruco_mode)" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+	</node>
 
 </launch>

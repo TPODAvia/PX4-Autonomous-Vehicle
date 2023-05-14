@@ -6,20 +6,52 @@
 #include <mavros_msgs/PositionTarget.h>
 #include <mavros_msgs/Altitude.h>
 
+#include "yolov8_ros_msgs/DepthPoints.h"
+
 mavros_msgs::State current_state;
 void state_cb(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
 }
 
-float desired_alt = 5.0;
+float desired_alt = 3.0;
 float desired_alt_vel = 0.0;
 void altitudeCallback(const mavros_msgs::Altitude::ConstPtr& msg)
 {
-    ROS_INFO("Altitude: mon: %f, amon: %f, rel: %f, terr: %f, gnd: %f",
-             msg->monotonic, msg->amsl, msg->local, msg->relative, msg->terrain);
+    // ROS_INFO("Altitude: mon: %f, amon: %f, rel: %f, terr: %f, gnd: %f",
+    //          msg->monotonic, msg->amsl, msg->local, msg->relative, msg->terrain);
     desired_alt_vel = desired_alt - msg->local;
 
-    std::cout << "desired_alt_vel: " << desired_alt_vel  << std::endl;
+    // std::cout << "desired_alt_vel: " << desired_alt_vel  << std::endl;
+}
+
+float x;
+float y;
+float depth;
+void yolo_cb(const yolov8_ros_msgs::DepthPoints& msg)
+{   
+    // Access the fields of the custom message
+    // int num_points = msg.depth_point;
+    std::vector<yolov8_ros_msgs::DepthPoint> depth_points = msg.depth_point;
+
+    // Process the depth points as needed
+    for (const auto& point : depth_points) {
+
+        if (point.Class == "sports ball")
+        {
+            x = point.offset_center_x;
+            y = point.offset_center_y;
+            depth = point.depth;
+            // std::cout << "x: " << x << ", y: " << y << ", depth: " << depth << std::endl;
+            return;
+        }
+        else
+        {
+            x = 0;
+            y = 0;
+            depth = 0;
+        }
+
+    }
 }
 
 int main(int argc, char **argv) {
@@ -27,6 +59,7 @@ int main(int argc, char **argv) {
     ros::NodeHandle nh;
 
     ros::Subscriber altitude_sub = nh.subscribe("/mavros/altitude", 10, altitudeCallback);
+    ros::Subscriber yolo_sub = nh.subscribe("yolov8/DepthPoints", 10, yolo_cb);
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("mavros/state", 10, state_cb);
     ros::Publisher local_pos_pub = nh.advertise<geometry_msgs::PoseStamped>("mavros/setpoint_position/local", 10);
     ros::Publisher setpoint_raw_local_pub = nh.advertise<mavros_msgs::PositionTarget>("mavros/setpoint_raw/local", 10);
@@ -49,7 +82,7 @@ int main(int argc, char **argv) {
 
     }
 
-
+    // Send a few setpoints before starting
     geometry_msgs::PoseStamped pose;
     pose.pose.position.x = 0;
     pose.pose.position.y = 0;
@@ -71,15 +104,14 @@ int main(int argc, char **argv) {
                                 mavros_msgs::PositionTarget::IGNORE_AFZ |
                                 mavros_msgs::PositionTarget::FORCE |
                                 mavros_msgs::PositionTarget::IGNORE_YAW;
-    position_target.position.z = 5.0; // Somehow this didnt even work
+    position_target.position.z = 5.0; // Somehow this didn't even work
     position_target.velocity.x = 0.0;
     position_target.velocity.y = 0.0;
     position_target.velocity.z = desired_alt_vel;
-    position_target.yaw_rate = 0.3; // Example yaw rate value
+    position_target.yaw_rate = 0.3;
     position_target.header.stamp = ros::Time::now();
 
     offb_set_mode.request.custom_mode = "OFFBOARD";
-
     mavros_msgs::CommandBool arm_cmd;
     arm_cmd.request.value = true;
 
@@ -98,7 +130,9 @@ int main(int argc, char **argv) {
             last_request = ros::Time::now();
         }
         else
-        { trigger = true; }
+        { 
+            trigger = true; 
+        }
 
         if( current_state.mode != "OFFBOARD" && trigger &&
             (ros::Time::now() - last_request > ros::Duration(5.0))){
@@ -109,9 +143,23 @@ int main(int argc, char **argv) {
             last_request = ros::Time::now();
         } 
 
-        position_target.velocity.x = 1.0;
-        position_target.velocity.z = 0.8*desired_alt_vel;
-        position_target.yaw_rate = 0.1;
+        if (depth == 0)
+        {
+            position_target.velocity.x = 0.0;
+        }
+        else if (depth > 6) // Fly forward
+        {
+            position_target.velocity.x = depth/100 -  0.15;
+        }
+        else // Fly backward with a scalled velocity
+        {
+            position_target.velocity.x = depth/1000 - 0.015;
+        }  
+        position_target.velocity.z = desired_alt_vel;
+        position_target.yaw_rate = 0 - x/10000;
+
+        // std::cout << position_target << std::endl;
+        // std::cout << "x: " << x << ", y: " << y << ", depth: " << depth << std::endl;
         setpoint_raw_local_pub.publish(position_target);
 
         ros::spinOnce();

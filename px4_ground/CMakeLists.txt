@@ -228,6 +228,7 @@ target_link_libraries(tracking_yolo_node
 
 add_dependencies(landing_quadrotor_node ${catkin_EXPORTED_TARGETS})
 add_dependencies(tracking_quadrotor_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(tracking_yolo_node ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
