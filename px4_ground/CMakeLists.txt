@@ -166,6 +166,7 @@ add_executable(figure_8_circle_node src/figure_8_circle.cpp)
 add_executable(cmd_vel_mavros_node src/cmd_vel_mavros.cpp)
 add_executable(tracking_aruco_node src/tracking_aruco.cpp)
 add_executable(tracking_yolo_node src/tracking_yolo.cpp)
+add_executable(tracking_yolo_car_node src/tracking_yolo_car.cpp)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -225,10 +226,14 @@ target_link_libraries(tracking_aruco_node
 target_link_libraries(tracking_yolo_node
   ${catkin_LIBRARIES}
 )
+target_link_libraries(tracking_yolo_car_node
+  ${catkin_LIBRARIES}
+)
 
 add_dependencies(landing_quadrotor_node ${catkin_EXPORTED_TARGETS})
 add_dependencies(tracking_quadrotor_node ${catkin_EXPORTED_TARGETS})
 add_dependencies(tracking_yolo_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(tracking_yolo_car_node ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
@@ -265,6 +270,7 @@ install(TARGETS
   cmd_vel_mavros_node
   tracking_aruco_node
   tracking_yolo_node
+  tracking_yolo_car_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

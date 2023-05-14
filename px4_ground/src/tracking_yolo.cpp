@@ -41,6 +41,13 @@ void yolo_cb(const yolov8_ros_msgs::DepthPoints& msg)
             x = point.offset_center_x;
             y = point.offset_center_y;
             depth = point.depth;
+            if (depth > 17)
+            {
+                x = 0;
+                y = 0;
+                depth = 0;
+            }
+
             // std::cout << "x: " << x << ", y: " << y << ", depth: " << depth << std::endl;
             return;
         }

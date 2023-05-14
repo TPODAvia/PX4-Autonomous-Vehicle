@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
 <launch>
 
-	  <!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/1setup.launch">
-      <arg name="fcu_conn" default="usb"/>
-      <arg name="fcu_ip" default="127.0.0.1"/>
-      <arg name="gcs_bridge" default="tcp"/>
-    </include>
+  <arg name="fcu_conn" default="usb"/>
+  <arg name="fcu_ip" default="127.0.0.1"/>
+  <arg name="gcs_bridge" default="tcp"/>
+  <arg name="config_yaml" default="$(find px4_air)/launch/px4_config_avoid.yaml" />
+
+  <!-- mavros -->
+  <include file="$(find px4_ground)/launch/0mavros.launch">
+      <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+      <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+      <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+      <arg name="config_yaml" value="$(arg config_yaml)"/>
+  </include>
 
   <arg name="pointcloud_topics" default="[/camera/depth/points]"/>
   <arg name="camera_frame_id" default="camera_link"/>
@@ -25,7 +31,7 @@
       <arg name="start_pos_x" value="0" />
       <arg name="start_pos_y" value="0" />
       <arg name="start_pos_z" value="0.15" />
-  </include>>
+  </include>
 
 
     <!--  ************** Laser to Base_link tf transform ***************  -->
