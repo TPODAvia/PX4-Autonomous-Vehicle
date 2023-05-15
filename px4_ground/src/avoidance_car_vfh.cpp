@@ -268,7 +268,7 @@ void gps_cb(const sensor_msgs::NavSatFix::ConstPtr &msg)
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "avoidance_car_vfh");
-    ros::NodeHandle nh("~");
+    ros::NodeHandle nh;
 	scan_distance_max = 6.0;//The valid range of lidar in vfh. Obstacles over 2.1m are not considered
 	scan_distance_min = 0.1;//Obstacles smaller than 0.1m are not considered
 	angle_resolution = 1.0;//This value and sector_value determine how many vectors there are in vfh (360/angle_resolution/sector_value=12)
@@ -277,8 +277,8 @@ int main(int argc, char **argv)
 	sector_scale = 10;//Judge whether [360-sector_scale, 360] and [0, sector_scale] ahead are safe
 	Uavp.x = 0;
 	Uavp.y = 0;
-	mavros_msgs::SetMode return_set_mode;
-	return_set_mode.request.custom_mode = "AUTO.RTL";
+	mavros_msgs::SetMode client_set_mode;
+	client_set_mode.request.custom_mode = "OFFBOARD";
 
     ros::Subscriber gps_sub = nh.subscribe("/mavros/global_position/global",100,gps_cb);
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>("/mavros/state", 100, state_cb);
@@ -289,7 +289,9 @@ int main(int argc, char **argv)
     ros::Subscriber head_sub = nh.subscribe<std_msgs::Float64>("/mavros/global_position/compass_hdg", 100, heading_cb);
 
 	ros::Publisher local_pos_pub = nh.advertise<mavros_msgs::PositionTarget>("/mavros/setpoint_raw/local", 100);
-	ros::ServiceClient set_mode_client_return = nh.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
+    ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
+            ("mavros/cmd/arming");
+	ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
     // Frequency [20Hz]
     ros::Rate rate(20.0);
 	while (ros::ok() && !current_state.connected) {
@@ -297,7 +299,7 @@ int main(int argc, char **argv)
 		rate.sleep();
 	}
 
-	std::cout << "Please set the waypoint in QGC before running this program." << init_mask << endl;
+	std::cout << "Please set the waypoint in QGC before running this program." << endl;
 	std::cout << "Set the mode to hold and wait a moment" << endl;
 	while (ros::ok())
 	{
@@ -312,195 +314,238 @@ int main(int argc, char **argv)
 
 	std::cout << "init ok!" << endl;
 
-	while (ros::ok())
+
+	while (ros::ok() && !current_state.guided)
 	{
-		while (ros::ok() && !current_state.guided)
-		{
-			ros::spinOnce();
-			rate.sleep();
-		}
-		std::cout << "guild ok" << endl;
+		ros::spinOnce();
+		rate.sleep();
+	}
+	std::cout << "guild ok" << endl;
 
-		std::vector<geometry_msgs::PoseStamped> pose;
-		std::cout << "wp size=" << waypoints.waypoints.size() << endl;
+	std::vector<geometry_msgs::PoseStamped> pose;
+	std::cout << "wp size=" << waypoints.waypoints.size() << endl;
 
-		for (int index = 0; index < waypoints.waypoints.size(); index++)//Convert the waypoint information under GPS to the expected position information under ENU
-		{
-			geometry_msgs::PoseStamped p;
-			GeographicLib::Geocentric earth(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
+	for (int index = 0; index < waypoints.waypoints.size(); index++)//Convert the waypoint information under GPS to the expected position information under ENU
+	{
+		geometry_msgs::PoseStamped p;
+		GeographicLib::Geocentric earth(GeographicLib::Constants::WGS84_a(), GeographicLib::Constants::WGS84_f());
 
-			Eigen::Vector3d goal_gps(waypoints.waypoints[index].x_lat, waypoints.waypoints[index].y_long, 0);
+		Eigen::Vector3d goal_gps(waypoints.waypoints[index].x_lat, waypoints.waypoints[index].y_long, 0);
 
-			Eigen::Vector3d current_ecef;
+		Eigen::Vector3d current_ecef;
 
-			earth.Forward(current_gps.x(), current_gps.y(), current_gps.z(),
+		earth.Forward(current_gps.x(), current_gps.y(), current_gps.z(),
 
-				current_ecef.x(), current_ecef.y(), current_ecef.z());
+			current_ecef.x(), current_ecef.y(), current_ecef.z());
 
-			Eigen::Vector3d goal_ecef;
+		Eigen::Vector3d goal_ecef;
 
-			earth.Forward(goal_gps.x(), goal_gps.y(), goal_gps.z(),
+		earth.Forward(goal_gps.x(), goal_gps.y(), goal_gps.z(),
 
-				goal_ecef.x(), goal_ecef.y(), goal_ecef.z());
+			goal_ecef.x(), goal_ecef.y(), goal_ecef.z());
 
-			Eigen::Vector3d ecef_offset = goal_ecef - current_ecef;
+		Eigen::Vector3d ecef_offset = goal_ecef - current_ecef;
 
-			Eigen::Vector3d enu_offset = mavros::ftf::transform_frame_ecef_enu(ecef_offset, current_gps);
+		Eigen::Vector3d enu_offset = mavros::ftf::transform_frame_ecef_enu(ecef_offset, current_gps);
 
-			Eigen::Affine3d sp;
+		Eigen::Affine3d sp;
 
-			Eigen::Quaterniond q;
+		Eigen::Quaterniond q;
 
-			q = Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitX())
+		q = Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitX())
 
-				* Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitY())
+			* Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitY())
 
-				* Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitZ());
+			* Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitZ());
 
-			sp.translation() = current_local_pos + enu_offset;
+		sp.translation() = current_local_pos + enu_offset;
 
-			sp.linear() = q.toRotationMatrix();
-			//*******************************Store data in the vector container****************************************
-			Eigen::Vector3d testv(sp.translation());
-			p.pose.position.x = testv[0];
-			p.pose.position.y = testv[1];
-			std::cout << "wp" << index << " " << p.pose.position.x << " " << p.pose.position.y << endl;
-			pose.push_back(p);
-		}
+		sp.linear() = q.toRotationMatrix();
+		//*******************************Store data in the vector container****************************************
+		Eigen::Vector3d testv(sp.translation());
+		p.pose.position.x = testv[0];
+		p.pose.position.y = testv[1];
+		std::cout << "wp" << index << " " << p.pose.position.x << " " << p.pose.position.y << endl;
+		pose.push_back(p);
+	}
 
-		std::cout << "The vehicle is ready. Please Arm and swith to OFFBOARD Mode" << pose.size() << endl;
+	mavros_msgs::PositionTarget pos_target;
+	pos_target.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
+	pos_target.position.x = 0;
+	pos_target.position.y = 0;
+	pos_target.position.z = 1;
+	pos_target.type_mask = mavros_msgs::PositionTarget::IGNORE_VX
+						| mavros_msgs::PositionTarget::IGNORE_VY
+						| mavros_msgs::PositionTarget::IGNORE_VZ
+						| mavros_msgs::PositionTarget::IGNORE_AFX
+						| mavros_msgs::PositionTarget::IGNORE_AFY
+						| mavros_msgs::PositionTarget::IGNORE_AFZ
+						| mavros_msgs::PositionTarget::FORCE;
 
-		bool continue_outer_loop = true;
-		mavros_msgs::PositionTarget pos_target;
+	for(int i = 100; ros::ok() && i > 0; --i){
+		local_pos_pub.publish(pos_target);
+		ros::spinOnce();
+		rate.sleep();
+	}
 
-		for (int i = 0; i < pose.size(); i++)
-		{	
+	mavros_msgs::CommandBool arm_cmd;
+	arm_cmd.request.value = true;
 
-			std::cout << "Task number: " << i << endl;
-			while (ros::ok() && continue_outer_loop) {
-				local_pos_updated = false;
-				scan_updated = false;
-				heading_updated = false;
+	ros::Time last_request = ros::Time::now();
 
-				while (ros::ok())
-				{
-					ros::spinOnce();//Wait for the subscription update to complete
-					if (local_pos_updated && scan_updated && heading_updated)
-					{
-						break;
-					}
-					rate.sleep();
+	while(ros::ok()){
+		if( current_state.mode != "OFFBOARD" &&
+			(ros::Time::now() - last_request > ros::Duration(5.0))){
+			if( set_mode_client.call(client_set_mode) &&
+				client_set_mode.response.mode_sent){
+				ROS_INFO("Offboard enabled");
+			}
+			last_request = ros::Time::now();
+		} else {
+			if( !current_state.armed &&
+				(ros::Time::now() - last_request > ros::Duration(5.0))){
+				if( arming_client.call(arm_cmd) &&
+					arm_cmd.response.success){
+					ROS_INFO("Vehicle armed");
+					break;
 				}
-
-				if (fabs(local_pos.pose.position.x - pose[i].pose.position.x) < 1.0 &&
-					fabs(local_pos.pose.position.y - pose[i].pose.position.y) < 1.0)
-				{
-					std::cout << "Arrived" << endl;
-					break;//The distance between the current position and the expected waypoint is less than 1m, then exit the waypoint task
-				}
-
-				Point2D goal;
-				goal.x = pose[i].pose.position.x;// read desired position
-				goal.y = pose[i].pose.position.y;
-				// std::cout << "goal: " << goal.x << " " << goal.y << endl;
-
-				float direction = CalculDirection(goal);//According to the distribution of obstacles and the desired position, get the desired heading
-
-
-				if (direction >= -0.5)
-				{
-					if (direction > 180)
-					{
-						direction -= 360;
-					}
-					float arc = 3.1415 / 180 * direction;
-					pos_target.type_mask = 	mavros_msgs::PositionTarget::IGNORE_VX | 
-											mavros_msgs::PositionTarget::IGNORE_VY | 
-											mavros_msgs::PositionTarget::IGNORE_VZ;
-        			pos_target.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
-					pos_target.position.x = local_pos.pose.position.x + 5* cos(arc);
-					pos_target.position.y = local_pos.pose.position.y + 5* sin(arc);
-					std::cout << "pos_target.position.x: " << pos_target.position.x << endl;
-					std::cout << "pos_target.position.y: " << pos_target.position.y << endl;
-					std::cout << "local_pos.pose.position.x: " << local_pos.pose.position.x << endl;
-					std::cout << "local_pos.pose.position.y: " << local_pos.pose.position.y << endl;
-					local_pos_pub.publish(pos_target);
-
-					ros::Time last_request = ros::Time::now();
-					
-					while (ros::ok()) 
-					{
-						local_pos_updated = false;
-						scan_updated = false;
-						heading_updated = false;
-
-						while (ros::ok())
-						{
-							ros::spinOnce();//Wait for the subscription update to complete
-							if (local_pos_updated && scan_updated && heading_updated)
-							{
-								break;
-							}
-							rate.sleep();
-						}
-
-						if (fabs(local_pos.pose.position.x - pose[i].pose.position.x) < 1.0 &&
-							fabs(local_pos.pose.position.y - pose[i].pose.position.y) < 1.0)
-						{
-							std::cout << "Arrive at the waypoint " << i << endl;
-							break;
-						}
-
-						if (ros::Time::now() - last_request > ros::Duration(3.0))
-						{
-							std::cout << "Time out update" << endl;
-							break;
-						}
-
-						if (IsFrontSafety() == false)
-						{
-							std::cout << "Obstacle ahead" << endl;
-							break;
-						}
-
-						local_pos_pub.publish(pos_target);
-					}
-				}
-				else
-				{
-					std::cout << "Direction Error." << direction << endl;
-					pos_target.type_mask = 	mavros_msgs::PositionTarget::IGNORE_VX | 
-											mavros_msgs::PositionTarget::IGNORE_VY | 
-											mavros_msgs::PositionTarget::IGNORE_VZ;
-        			pos_target.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
-					pos_target.position.x = 0;
-					pos_target.position.y = 0;
- 					local_pos_pub.publish(pos_target);
-				}
+				last_request = ros::Time::now();
 			}
 		}
-
-		// AUTO.RTL mode is not supported in Gazebo simulation
-		// while (ros::ok()) {
-		
-		// 	if (current_state.mode != "AUTO.RTL") 
-		// 	{
-		// 		if (set_mode_client_return.call(return_set_mode) && return_set_mode.response.mode_sent) 
-		// 		{
-		// 			ROS_INFO("Return mode enabled");
-		// 			break;
-		// 		}
-		// 	}
-		// 	local_pos_pub.publish(pos_target);
-
-		// 	ros::spinOnce();
-		// 	rate.sleep();
-		// }
-
-		std::cout << "Task Over" << endl;
+		local_pos_pub.publish(pos_target);
+		ros::spinOnce();
 		rate.sleep();
-		ros::shutdown();
 	}
+
+	bool continue_outer_loop = true;
+	for (int i = 0; i < pose.size(); i++)
+	{	
+
+		std::cout << "Task number: " << i << endl;
+		while (ros::ok() && continue_outer_loop) {
+			local_pos_updated = false;
+			scan_updated = false;
+			heading_updated = false;
+
+			while (ros::ok())
+			{
+				ros::spinOnce();//Wait for the subscription update to complete
+				if (local_pos_updated && scan_updated && heading_updated)
+				{
+					break;
+				}
+				rate.sleep();
+			}
+
+			if (fabs(local_pos.pose.position.x - pose[i].pose.position.x) < 1.0 &&
+				fabs(local_pos.pose.position.y - pose[i].pose.position.y) < 1.0)
+			{
+				std::cout << "Arrived" << endl;
+				break;//The distance between the current position and the expected waypoint is less than 1m, then exit the waypoint task
+			}
+
+			Point2D goal;
+			goal.x = pose[i].pose.position.x;// read desired position
+			goal.y = pose[i].pose.position.y;
+			// std::cout << "goal: " << goal.x << " " << goal.y << endl;
+
+			float direction = CalculDirection(goal);//According to the distribution of obstacles and the desired position, get the desired heading
+
+
+			if (direction >= -0.5)
+			{
+				if (direction > 180)
+				{
+					direction -= 360;
+				}
+				float arc = 3.1415 / 180 * direction;
+				// pos_target.type_mask = 	mavros_msgs::PositionTarget::IGNORE_VX | 
+				// 						mavros_msgs::PositionTarget::IGNORE_VY | 
+				// 						mavros_msgs::PositionTarget::IGNORE_VZ;
+				// pos_target.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
+				pos_target.position.x = local_pos.pose.position.x + 5* cos(arc);
+				pos_target.position.y = local_pos.pose.position.y + 5* sin(arc);
+				std::cout << "pos_target.position.x: " << pos_target.position.x << endl;
+				std::cout << "pos_target.position.y: " << pos_target.position.y << endl;
+				std::cout << "local_pos.pose.position.x: " << local_pos.pose.position.x << endl;
+				std::cout << "local_pos.pose.position.y: " << local_pos.pose.position.y << endl;
+				local_pos_pub.publish(pos_target);
+
+				ros::Time last_request = ros::Time::now();
+				
+				while (ros::ok()) 
+				{
+					local_pos_updated = false;
+					scan_updated = false;
+					heading_updated = false;
+
+					while (ros::ok())
+					{
+						ros::spinOnce();//Wait for the subscription update to complete
+						if (local_pos_updated && scan_updated && heading_updated)
+						{
+							break;
+						}
+						rate.sleep();
+					}
+
+					if (fabs(local_pos.pose.position.x - pose[i].pose.position.x) < 1.0 &&
+						fabs(local_pos.pose.position.y - pose[i].pose.position.y) < 1.0)
+					{
+						std::cout << "Arrive at the waypoint " << i << endl;
+						break;
+					}
+
+					if (ros::Time::now() - last_request > ros::Duration(3.0))
+					{
+						std::cout << "Time out update" << endl;
+						break;
+					}
+
+					if (IsFrontSafety() == false)
+					{
+						std::cout << "Obstacle ahead" << endl;
+						break;
+					}
+
+					local_pos_pub.publish(pos_target);
+				}
+			}
+			else
+			{
+				std::cout << "Direction Error." << direction << endl;
+				// pos_target.type_mask = 	mavros_msgs::PositionTarget::IGNORE_VX | 
+				// 						mavros_msgs::PositionTarget::IGNORE_VY | 
+				// 						mavros_msgs::PositionTarget::IGNORE_VZ;
+				// pos_target.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
+				pos_target.position.x = 0;
+				pos_target.position.y = 0;
+				local_pos_pub.publish(pos_target);
+			}
+		}
+	}
+
+	client_set_mode.request.custom_mode = "AUTO.RTL";
+	while (ros::ok()) {
+	
+		if (current_state.mode != "AUTO.RTL") 
+		{
+			if (set_mode_client.call(client_set_mode) && client_set_mode.response.mode_sent) 
+			{
+				ROS_INFO("Return mode enabled");
+				break;
+			}
+		}
+		local_pos_pub.publish(pos_target);
+
+		ros::spinOnce();
+		rate.sleep();
+	}
+
+	std::cout << "Task Over" << endl;
+	rate.sleep();
+	ros::shutdown();
+
 
     return 0;
 }
