@@ -19,10 +19,10 @@
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>
-	<group>	
+	<!-- <group>	
 		<node pkg="swarms" type="square" name="square4" output="screen" ns="/drone4">
 			<param name="namespace" value="/drone4"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
-	</group>
+	</group> -->
 </launch>

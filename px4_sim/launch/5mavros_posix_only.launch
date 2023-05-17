@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Posix SITL environment launch script -->
+    <!-- launches PX4 SITL, Gazebo environment, and spawns vehicle -->
+    <!-- vehicle pose -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="0"/>
+    <!-- vehicle model and world -->
+    <!-- <arg name="est" default="ekf2"/> -->
+    <arg name="ID" default="1"/>
+    <!-- any vehicle: iris, frame450, acker_rover, diff_rover, avia_vtol, typhoon_h480 etc -->
+    <arg name="vehicle" default="frame450"/>
+    <!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+
+    <arg name="avoidance" default="false"/>
+    <!-- Parameters config -->
+    <env unless="$(arg avoidance)" name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+    <env     if="$(arg avoidance)" name="PX4_SIM_MODEL" value="$(arg vehicle)_avoid" />
+
+
+    <!-- gazebo configs -->
+    <arg name="paused" value="false"/>
+
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="respawn_gazebo" default="false"/>
+    <!-- PX4 configs -->
+    <arg name="interactive" default="true"/>
+    <!-- PX4 SITL -->
+    <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
+    <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
+    <!-- <node name="sitl_$(arg ID)" pkg="px4" type="px4" output="screen"
+        args="$(find px4)/build/px4_sitl_default/etc 
+        -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/> -->
+
+    <node name="sitl_$(arg ID)" pkg="px4" type="px4" output="screen" args="$(find px4)/build/px4_sitl_default/etc 
+    -s etc/init.d-posix/rcS 
+    -i $(arg ID) 
+    -w sitl_$(arg vehicle)_$(arg ID) 
+    $(arg px4_command_arg1)" required="true"/>
+
+    <!-- gazebo model -->
+    <node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" 
+    args="-sdf -file $(arg sdf) -model $(arg vehicle)$(arg ID) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+</launch>
