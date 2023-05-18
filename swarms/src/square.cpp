@@ -13,7 +13,7 @@ int main(int argc, char** argv)
   	// wait for FCU connection
 	wait4connect();
 
-	//wait for used to switch to mode GUIDED
+	//wait for used to switch to mode OFFBORAD
 	wait4start();
 
 	//create local reference frame 
@@ -29,31 +29,42 @@ int main(int argc, char** argv)
 	nextWayPoint.y = 0;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = 0;
+	nextWayPoint.global_control = 0;
 	waypointList.push_back(nextWayPoint);
+
 	nextWayPoint.x = 5;
 	nextWayPoint.y = 0;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = -90;
+	nextWayPoint.global_control = 0;
 	waypointList.push_back(nextWayPoint);
+
 	nextWayPoint.x = 5;
 	nextWayPoint.y = 5;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = 0;
+	nextWayPoint.global_control = 0;
 	waypointList.push_back(nextWayPoint);
+
 	nextWayPoint.x = 0;
 	nextWayPoint.y = 5;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = 90;
+	nextWayPoint.global_control = 1;
 	waypointList.push_back(nextWayPoint);
+
 	nextWayPoint.x = 0;
 	nextWayPoint.y = 0;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = 180;
+	nextWayPoint.global_control = 1;
 	waypointList.push_back(nextWayPoint);
+
 	nextWayPoint.x = 0;
 	nextWayPoint.y = 0;
 	nextWayPoint.z = 3;
 	nextWayPoint.psi = 0;
+	nextWayPoint.global_control = 1;
 	waypointList.push_back(nextWayPoint);
 
 
@@ -68,7 +79,7 @@ int main(int argc, char** argv)
 		{
 			if (counter < waypointList.size())
 			{
-				set_destination(waypointList[counter].x,waypointList[counter].y,waypointList[counter].z, waypointList[counter].psi);
+				set_destination(waypointList[counter].x,waypointList[counter].y,waypointList[counter].z, waypointList[counter].psi, waypointList[counter].global_control);
 				counter++;	
 			}else{
 				//land after all waypoints are reached

@@ -2,7 +2,7 @@
 
 <sdf version='1.6'>
 
-  <model name="frame450_1">
+  <model name="frame450">
 
     <pose>0 0 0.1 0 0 0</pose>
 
@@ -335,10 +335,10 @@
             <width>640</width>
             <height>360</height>
             <maximum_zoom>8.0</maximum_zoom>
-            <video_uri>5601</video_uri>
+            <video_uri>5600</video_uri>
             <system_id>1</system_id>
             <cam_component_id>100</cam_component_id>
-            <mavlink_cam_udp_port>14531</mavlink_cam_udp_port>
+            <mavlink_cam_udp_port>14530</mavlink_cam_udp_port>
         </plugin>
       </sensor>
     </link>
@@ -525,7 +525,7 @@
         </ray>
         <plugin name="laser" filename="libgazebo_ros_range.so">
           <robotNamespace></robotNamespace>
-          <topicName>/uav1/mavros/distance_sensor/rangefinder_sub</topicName>
+          <topicName>/uav0/mavros/distance_sensor/rangefinder_sub</topicName>
           <frameName>rangefinder</frameName>
           <radiation>infrared</radiation>
           <fov>0.471239</fov>
@@ -1195,8 +1195,8 @@
       <magSubTopic>/mag</magSubTopic>
       <baroSubTopic>/baro</baroSubTopic>
       <mavlink_addr>INADDR_ANY</mavlink_addr>
-      <mavlink_tcp_port>4561</mavlink_tcp_port>
-      <mavlink_udp_port>14561</mavlink_udp_port>
+      <mavlink_tcp_port>4560</mavlink_tcp_port>
+      <mavlink_udp_port>14560</mavlink_udp_port>
       <serialEnabled>0</serialEnabled>
       <serialDevice>/dev/ttyACM0</serialDevice>
       <baudRate>921600</baudRate>

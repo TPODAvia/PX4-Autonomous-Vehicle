@@ -2,15 +2,7 @@
 <launch>
 
     <!-- Posix SITL environment launch script -->
-    <!-- launches PX4 SITL, Gazebo environment, and spawns vehicle -->
-    <!-- vehicle pose -->
-    <!-- <arg name="x" default="0"/>
-    <arg name="y" default="0"/>
-    <arg name="z" default="0.1"/>
-    <arg name="R" default="0"/>
-    <arg name="P" default="0"/>
-    <arg name="Y" default="0"/> -->
-    <!-- vehicle model and world -->
+    <!-- vehicle model: only frame450 are available for swarming -->
     <arg name="vehicle" default="frame450"/>
     <!-- Any world: empty, flat, city, forest etc -->
     <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
@@ -30,58 +22,35 @@
 
     <!-- UAV0 -->
     <group ns="uav0">
-        <!-- PX4 SITL and Gazebo -->
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" default="0"/>
-            <arg name="x" value="1"/>
+            <arg name="x" value="0"/>
             <arg name="y" value="0"/>
             <arg name="z" value="0"/>
             <arg name="R" value="0"/>
             <arg name="P" value="0"/>
             <arg name="Y" value="0"/>
             <arg name="vehicle" value="$(arg vehicle)"/>
-            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_0.sdf"/>
             <arg name="avoidance" default="false"/>
-            <!-- <arg name="mavlink_udp_port" value="14561"/> -->
-            <!-- <arg name="mavlink_tcp_port" value="4561"/> -->
-
-            <!-- <arg name="gst_udp_port" value="5600"/> -->
-            <!-- <arg name="video_uri" value="5600"/> -->
-            <!-- <arg name="mavlink_cam_udp_port" value="14530"/> -->
-
         </include>
 
-        <!-- Pixhawk setup -->
-        <!-- <include file="$(find px4_air)/launch/3mission_QGCaruco.launch"> -->
-            <!-- <arg name="fcu_conn" value="sitl"/> -->
-            <!-- <arg name="fcu_ip" value="127.0.0.1"/> -->
-            <!-- <arg name="tgt_system" value="1"/> -->
-            <!-- <arg name="gcs_bridge" value=""/> -->
-        <!-- </include> -->
+        <arg name="fcu_conn" default="sitl"/>
+        <arg name="fcu_ip" default="127.0.0.1"/>
+        <arg name="gcs_bridge" default=""/>
+        <arg name="tgt_system" default="1" />
+        <include file="$(find px4_air)/launch/0mavros.launch">
+            <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+            <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+            <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+            <arg name="tgt_system" value="$(arg tgt_system)" />
+        </include>
     </group>
 
     <!-- UAV1 -->
-    <group ns="uav1">
+    <!-- <group ns="uav1">
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" default="1"/>
-            <arg name="x" value="2"/>
-            <arg name="y" value="0"/>
-            <arg name="z" value="0"/>
-            <arg name="R" value="0"/>
-            <arg name="P" value="0"/>
-            <arg name="Y" value="0"/>
-            <arg name="vehicle" value="$(arg vehicle)"/>
-            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_1.sdf"/>
-            <arg name="avoidance" default="false"/>
-
-        </include>
-    </group>
-
-    <!-- UAV2 -->
-    <!-- <group ns="uav2">
-        <arg name="ID" value="2"/>
-        <arg name="fcu_url" default="udp://:14542@localhost:14582"/>
-        <include file="$(find px4_sim)/launch/1mavros_copy.launch">
             <arg name="x" value="0"/>
             <arg name="y" value="1"/>
             <arg name="z" value="0"/>
@@ -89,27 +58,49 @@
             <arg name="P" value="0"/>
             <arg name="Y" value="0"/>
             <arg name="vehicle" value="$(arg vehicle)"/>
-            <arg name="mavlink_udp_port" value="14562"/>
-            <arg name="mavlink_tcp_port" value="4562"/>
-            <arg name="ID" value="$(arg ID)"/>
-            <arg name="gst_udp_port" value="$(eval 5600 + arg('ID'))"/>
-            <arg name="video_uri" value="$(eval 5600 + arg('ID'))"/>
-            <arg name="mavlink_cam_udp_port" value="$(eval 14530 + arg('ID'))"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_1.sdf"/>
+            <arg name="avoidance" default="false"/>
         </include>
-        <include file="$(find mavros)/launch/px4.launch">
-            <arg name="fcu_url" value="$(arg fcu_url)"/>
-            <arg name="gcs_url" value=""/>
-            <arg name="tgt_system" value="$(eval 1 + arg('ID'))"/>
-            <arg name="tgt_component" value="1"/>
+
+        <arg name="fcu_conn" default="sitl"/>
+        <arg name="fcu_ip" default="127.0.0.1"/>
+        <arg name="gcs_bridge" default=""/>
+        <include file="$(find px4_air)/launch/1setup.launch">
+            <arg name="fcu_conn" default="$(arg fcu_conn)"/>
+            <arg name="fcu_ip" default="$(arg fcu_ip)"/>
+            <arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
+            <arg name="tgt_system" value="1"/>
         </include>
+
     </group> -->
-    
+
+
+	<!-- Timer setup -->
+	<!-- <arg name="node_start_delay" default="20.0" /> -->
+
+	<!-- Swarm master setup -->
+    <!-- <include file="$(find swarms)/launch/multi_square_sol.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+    </include> -->
+
     <!-- QGroundControl launch -->
     <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
 
 </launch>
-<!-- to add more UAVs (up to 10):
+<!-- 
+To add more UAVs (up to 10):
 Increase the id
 Change the name space
 Set the FCU to default="udp://:14540+id@localhost:14550+id"
-Set the malink_udp_port to 14560+id) -->
+Set the malink_udp_port to 14560+id) 
+
+Note:
+To add more UAVs, you need to change some parameters.
+For the camera, you need to change the following parameters in the sdf file:
+    <video_uri>
+    <system_id>
+    <mavlink_cam_udp_port>
+
+For the mavlink, you need to change these parameters:
+    <mavlink_udp_port>
+    <mavlink_tcp_port>
+-->

@@ -4,6 +4,7 @@
     <arg name="fcu_ip" default="127.0.0.1"/>
     <arg name="gcs_bridge" default="tcp"/>
     <arg name="config_yaml" default="$(find px4_air)/launch/px4_config_avoid.yaml" />
+    <arg name="tgt_system" default="1" />
 
     <!-- mavros -->
     <include file="$(find px4_air)/launch/0mavros.launch">

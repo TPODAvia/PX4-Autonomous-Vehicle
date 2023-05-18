@@ -40,7 +40,8 @@ geometry_msgs::PoseStamped waypoint_g;
 float current_heading_g;
 float local_offset_g;
 float correction_heading_g = 0;
-float local_desired_heading_g; 
+float local_desired_heading_g;
+int drone_id_g = 0;
 
 
 
@@ -66,6 +67,7 @@ struct gnc_api_waypoint{
 	float y; ///< distance in y with respect to your reference frame
 	float z; ///< distance in z with respect to your reference frame
 	float psi; ///< rotation about the third axis of your reference frame
+	bool global_control; ///< true if you want to control all drone globally
 };
 
 //get armed state
@@ -152,13 +154,14 @@ void set_heading(float heading)
   waypoint_g.pose.orientation.y = qy;
   waypoint_g.pose.orientation.z = qz;
 }
+
 // set position to fly to in the local frame
 /**
 \ingroup control_functions
 This function is used to command the drone to fly to a waypoint. These waypoints should be specified in the local reference frame. This is typically defined from the location the drone is launched. Psi is counter clockwise rotation following the drone’s reference frame defined by the x axis through the right side of the drone with the y axis through the front of the drone. 
 @returns n/a
 */
-void set_destination(float x, float y, float z, float psi)
+void set_destination(float x, float y, float z, float psi, bool global)
 {
 	set_heading(psi);
 	//transform map to local
@@ -179,6 +182,7 @@ void set_destination(float x, float y, float z, float psi)
 	local_pos_pub.publish(waypoint_g);
 	
 }
+
 void set_destination_lla(float lat, float lon, float alt, float heading)
 {
 	geographic_msgs::GeoPoseStamped lla_msg;
@@ -208,6 +212,7 @@ void set_destination_lla(float lat, float lon, float alt, float heading)
 	lla_msg.pose.orientation.z = qz;
 	global_lla_pos_pub.publish(lla_msg);
 }
+
 void set_destination_lla_raw(float lat, float lon, float alt, float heading)
 {
 	mavros_msgs::GlobalPositionTarget lla_msg;
@@ -249,21 +254,79 @@ int wait4connect()
 }
 /**
 \ingroup control_functions
-Wait for strat will hold the program until the user signals the FCU to enther mode guided. This is typically done from a switch on the safety pilot’s remote or from the ground control station.
+Wait for strat will hold the program until the user signals the FCU to enther mode OFFBOARD. This is typically done from a switch on the safety pilot’s remote or from the ground control station.
 @returns 0 - mission started
 @returns -1 - failed to start mission
 */
 int wait4start()
 {
-	ROS_INFO("Waiting for user to set mode to GUIDED");
-	while(ros::ok() && current_state_g.mode != "GUIDED")
+	ROS_INFO("Waiting for user to set mode to OFFBOARD");
+    ros::Rate rate(20.0);
+
+    mavros_msgs::SetMode offb_set_mode;
+	mavros_msgs::CommandBool arm_cmd;
+	arm_cmd.request.value = true;
+	ros::Time last_request = ros::Time::now();
+	offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
+	std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
+
+	while(ros::ok())
 	{
+		if(current_state_g.mode != "AUTO.TAKEOFF")
+		{
+			set_mode_client.call(offb_set_mode);
+		}
+
+		if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+			if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+				ROS_INFO("Vehicle armed");
+				break;
+			}
+			last_request = ros::Time::now();
+		}
+		rate.sleep();
+	}
+	
+    // Send a few setpoints before starting
+    geometry_msgs::PoseStamped pose;
+    pose.pose.position.x = 0;
+    pose.pose.position.y = 0;
+    pose.pose.position.z = 5;
+
+    for (int i = 100; ros::ok() && i > 0; --i) {
+        local_pos_pub.publish(pose);
+        ros::spinOnce();
+        rate.sleep();
+    }
+
+	std::cout << "Waiting for OFFBOARD Mode..." <<std::endl;
+	offb_set_mode.request.custom_mode = "OFFBOARD";
+
+	while(ros::ok() && current_state_g.mode != "OFFBOARD")
+	{
+
+        if (current_state_g.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+            if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
+                ROS_INFO("OFFBOARD mode enabled");
+            }
+            last_request = ros::Time::now();
+        } else {
+            if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+                if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+                    ROS_INFO("Vehicle armed");
+                }
+                last_request = ros::Time::now();
+            }
+        }
+
+		local_pos_pub.publish(pose);
 	    ros::spinOnce();
-	    ros::Duration(0.01).sleep();
+	    // ros::Duration(0.01).sleep();
+		rate.sleep();
   	}
-  	if(current_state_g.mode == "GUIDED")
+  	if(current_state_g.mode == "OFFBOARD")
 	{
-		ROS_INFO("Mode set to GUIDED. Mission starting");
+		ROS_INFO("Mode set to OFFBOARD. Mission starting");
 		return 0;
 	}else{
 		ROS_INFO("Error starting mission!!");
@@ -297,6 +360,12 @@ int initialize_local_frame()
 		local_offset_pose_g.x = local_offset_pose_g.x + current_pose_g.pose.pose.position.x;
 		local_offset_pose_g.y = local_offset_pose_g.y + current_pose_g.pose.pose.position.y;
 		local_offset_pose_g.z = local_offset_pose_g.z + current_pose_g.pose.pose.position.z;
+
+		geometry_msgs::PoseStamped pose;
+		pose.pose.position.x = 0;
+		pose.pose.position.y = 0;
+		pose.pose.position.z = 5;
+		local_pos_pub.publish(pose);
 		// ROS_INFO("current heading%d: %f", i, local_offset_g/i);
 	}
 	local_offset_pose_g.x = local_offset_pose_g.x/30;
@@ -311,7 +380,7 @@ int initialize_local_frame()
 int arm()
 {
 	//intitialize first waypoint of mission
-	set_destination(0,0,0,0);
+	set_destination(0,0,0,0,0);
 	for(int i=0; i<100; i++)
 	{
 		local_pos_pub.publish(waypoint_g);
@@ -348,7 +417,7 @@ The takeoff function will arm the drone and put the drone in a hover above the i
 int takeoff(float takeoff_alt)
 {
 	//intitialize first waypoint of mission
-	set_destination(0,0,takeoff_alt,0);
+	set_destination(0,0,takeoff_alt,0,0);
 	for(int i=0; i<100; i++)
 	{
 		local_pos_pub.publish(waypoint_g);
@@ -424,7 +493,7 @@ int check_waypoint_reached(float pos_tolerance=0.3, float heading_tolerance=0.01
 }
 /**
 \ingroup control_functions
-this function changes the mode of the drone to a user specified mode. This takes the mode as a string. ex. set_mode("GUIDED")
+this function changes the mode of the drone to a user specified mode. This takes the mode as a string. ex. set_mode("OFFBOARD")
 @returns 1 - mode change successful
 @returns 0 - mode change not successful
 */
@@ -462,7 +531,7 @@ int land()
 }
 /**
 \ingroup control_functions
-This function is used to change the speed of the vehicle in guided mode. it takes the speed in meters per second as a float as the input
+This function is used to change the speed of the vehicle in OFFBOARD mode. it takes the speed in meters per second as a float as the input
 @returns 0 for success
 */
 int set_speed(float speed__mps)
