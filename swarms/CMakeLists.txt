@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   mavros_msgs
   rospy
   sensor_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -212,14 +213,8 @@ install(DIRECTORY include/${PROJECT_NAME}/
 add_executable(square src/square.cpp)
 target_link_libraries(square ${catkin_LIBRARIES})
 
-add_executable(gnc_example src/gnc_tutorial.cpp)
-target_link_libraries(gnc_example ${catkin_LIBRARIES})
-
-add_executable(set_wp src/set_wp.cpp)
-target_link_libraries(set_wp ${catkin_LIBRARIES})
-
-add_executable(Matrix src/Matrix.cpp)
-target_link_libraries(Matrix ${catkin_LIBRARIES})
+add_executable(swarm_master src/swarm_master.cpp)
+target_link_libraries(swarm_master ${catkin_LIBRARIES})
 
 #add_executable(sub_sol src/subscriber_sol.cpp)
 #target_link_libraries(sub_sol ${catkin_LIBRARIES})

@@ -1,0 +1,9 @@
+<launch>
+
+    <node pkg="swarms" type="broadcast" name="broadcast" output="screen">
+    </node>
+
+    <node pkg="swarms" type="swarm_master" name="swarm_master" output="screen">
+    </node>
+
+</launch>
