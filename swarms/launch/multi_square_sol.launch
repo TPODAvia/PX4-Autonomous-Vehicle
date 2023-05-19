@@ -2,7 +2,7 @@
 	<group>
 		<node pkg="swarms" type="square" name="square1" output="screen" ns="/drone1">
 			<param name="namespace" value="/uav"/>
-			<param name="drone_id" value="0"/>
+			<param name="drone_id_g" value="0"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group>

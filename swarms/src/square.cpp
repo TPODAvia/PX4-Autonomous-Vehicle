@@ -11,15 +11,7 @@ float local_offset_g;
 float correction_heading_g = 0;
 float local_desired_heading_g;
 int drone_id_g;
-
-tf2_ros::Buffer tf_buffer;
-tf2_ros::TransformListener tf_listener(tf_buffer);
-tf2_ros::TransformBroadcaster tf_broadcaster;
-
 int n = 8; // Number of broadcasters
-
-std::vector<geometry_msgs::TransformStamped> transforms(n);
-
 
 ros::Publisher local_pos_pub;
 ros::Publisher global_lla_pos_pub;
@@ -169,6 +161,7 @@ This function is used to command the drone to fly to a waypoint. These waypoints
 void set_destination(float x, float y, float z, float psi)
 {
 
+
 	// get global offset angle
 	// calculate rotation
 	// wait until done
@@ -177,40 +170,7 @@ void set_destination(float x, float y, float z, float psi)
 	// publish the new position
 	if (drone_id_g == 0)
 	{
-		for (int i = 0; i < n; ++i)
-		{
 
-			std::pair<int, int> loc;
-			size_t list_size;
-			std::tie(loc, list_size) = get_loc(i);
-
-			// Set the parent frame for the transform to "camera_link"
-			transforms[i].header.frame_id = "base_link";
-
-			// Set the child frame for the transform
-			transforms[i].child_frame_id = "offset_" + std::to_string(i + 1);
-
-			// Set the translation offsets for the transform
-			transforms[i].transform.translation.x = loc.first;
-			transforms[i].transform.translation.y = loc.second;
-			transforms[i].transform.translation.z = 0.0;
-
-			// Set the rotation to identity (no rotation) for the transform
-			tf2::Quaternion quat;
-			quat.setRPY(0, 0, 0);
-
-			transforms[i].transform.rotation.x = quat.x();
-			transforms[i].transform.rotation.y = quat.y();
-			transforms[i].transform.rotation.z = quat.z();
-			transforms[i].transform.rotation.w = quat.w();
-		}
-
-		ros::Time now = ros::Time::now();
-		for (int i = 0; i < n; ++i)
-		{
-		transforms[i].header.stamp = now;
-		tf_broadcaster.sendTransform(transforms[i]);
-		}
 
 		set_heading(psi);
 		//transform map to local
@@ -233,50 +193,6 @@ void set_destination(float x, float y, float z, float psi)
 	}
 	else
 	{
-		std::string source_frame = "map";
-		std::string target_frame = "offset_" + std::to_string(drone_id_g);
-		geometry_msgs::TransformStamped transform_stamped;
-		try
-		{
-			transform_stamped = tf_buffer.lookupTransform(source_frame, target_frame, ros::Time(0));
-		}
-		catch (tf2::TransformException &ex)
-		{
-			ROS_ERROR("%s", ex.what());
-			ros::Duration(1.0).sleep();
-		}
-
-		// ROS_INFO("Translation: x = %f, y = %f, z = %f",
-		// 		transform_stamped.transform.translation.x,
-		// 		transform_stamped.transform.translation.y,
-		// 		transform_stamped.transform.translation.z);
-
-		// ROS_INFO("Rotation: x = %f, y = %f, z = %f, w = %f",
-		// 		transform_stamped.transform.rotation.x,
-		// 		transform_stamped.transform.rotation.y,
-		// 		transform_stamped.transform.rotation.z,
-		// 		transform_stamped.transform.rotation.w);
-
-		//transform map to local
-		// float deg2rad = (M_PI/180);
-		// float Xlocal = x*cos((correction_heading_g + local_offset_g - 90)*deg2rad) - y*sin((correction_heading_g + local_offset_g - 90)*deg2rad);
-		// float Ylocal = x*sin((correction_heading_g + local_offset_g - 90)*deg2rad) + y*cos((correction_heading_g + local_offset_g - 90)*deg2rad);
-		// float Zlocal = z;
-
-		// x = Xlocal + correction_vector_g.position.x + local_offset_pose_g.x;
-		// y = Ylocal + correction_vector_g.position.y + local_offset_pose_g.y;
-		// z = Zlocal + correction_vector_g.position.z + local_offset_pose_g.z;
-		// ROS_INFO("Destination set to x: %f y: %f z: %f origin frame", x, y, z);
-
-		waypoint_g.pose.position.x = transform_stamped.transform.translation.x;
-		waypoint_g.pose.position.y = transform_stamped.transform.translation.y;
-		waypoint_g.pose.position.z = transform_stamped.transform.translation.z;
-
-		waypoint_g.pose.orientation.w = transform_stamped.transform.rotation.w;
-		waypoint_g.pose.orientation.x = transform_stamped.transform.rotation.x;
-		waypoint_g.pose.orientation.y = transform_stamped.transform.rotation.y;
-		waypoint_g.pose.orientation.z = transform_stamped.transform.rotation.z;
-
 		local_pos_pub.publish(waypoint_g);		
 	}
 
@@ -307,127 +223,6 @@ int wait4connect()
 	}
 	
 	
-}
-
-/**
-\ingroup control_functions
-Wait for strat will hold the program until the user signals the FCU to enther mode OFFBOARD. This is typically done from a switch on the safety pilot’s remote or from the ground control station.
-@returns 0 - mission started
-@returns -1 - failed to start mission
-*/
-int wait4start()
-{
-	ROS_INFO("Waiting for user to set mode to OFFBOARD");
-    ros::Rate rate(20.0);
-
-    mavros_msgs::SetMode offb_set_mode;
-	mavros_msgs::CommandBool arm_cmd;
-	arm_cmd.request.value = true;
-	ros::Time last_request = ros::Time::now();
-	offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
-	std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
-
-	while(ros::ok())
-	{
-		if(current_state_g.mode != "AUTO.TAKEOFF")
-		{
-			set_mode_client.call(offb_set_mode);
-		}
-
-		if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-			if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
-				ROS_INFO("Vehicle armed");
-				break;
-			}
-			last_request = ros::Time::now();
-		}
-		rate.sleep();
-	}
-
-	//intitialize first waypoint of mission
-	set_destination(0,0,5,0);
-	for(int i=0; i<100; i++)
-	{
-		local_pos_pub.publish(waypoint_g);
-		ros::spinOnce();
-		ros::Duration(0.01).sleep();
-	}
-	// arming
-	ROS_INFO("Arming drone");
-	mavros_msgs::CommandBool arm_request;
-	arm_request.request.value = true;
-	while (!current_state_g.armed && !arm_request.response.success && ros::ok())
-	{
-		ros::Duration(.1).sleep();
-		arming_client.call(arm_request);
-		local_pos_pub.publish(waypoint_g);
-	}
-	if(arm_request.response.success)
-	{
-		ROS_INFO("Arming Successful");	
-	}else{
-		ROS_INFO("Arming failed with %d", arm_request.response.success);
-		return -1;	
-	}
-
-	//request takeoff
-	
-	mavros_msgs::CommandTOL srv_takeoff;
-	srv_takeoff.request.altitude = 5;
-	if(takeoff_client.call(srv_takeoff)){
-		sleep(3);
-		ROS_INFO("takeoff sent %d", srv_takeoff.response.success);
-	}else{
-		ROS_ERROR("Failed Takeoff");
-		return -2;
-	}
-
-
-    // Send a few setpoints before starting
-    geometry_msgs::PoseStamped pose;
-    pose.pose.position.x = 0;
-    pose.pose.position.y = 0;
-    pose.pose.position.z = 5;
-
-    for (int i = 100; ros::ok() && i > 0; --i) {
-        local_pos_pub.publish(pose);
-        ros::spinOnce();
-        rate.sleep();
-    }
-
-	std::cout << "Waiting for OFFBOARD Mode..." <<std::endl;
-	offb_set_mode.request.custom_mode = "OFFBOARD";
-
-	while(ros::ok() && current_state_g.mode != "OFFBOARD")
-	{
-
-        if (current_state_g.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-            if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
-                ROS_INFO("OFFBOARD mode enabled");
-            }
-            last_request = ros::Time::now();
-        } else {
-            if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-                if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
-                    ROS_INFO("Vehicle armed");
-                }
-                last_request = ros::Time::now();
-            }
-        }
-
-		local_pos_pub.publish(pose);
-	    ros::spinOnce();
-	    // ros::Duration(0.01).sleep();
-		rate.sleep();
-  	}
-  	if(current_state_g.mode == "OFFBOARD")
-	{
-		ROS_INFO("Mode set to OFFBOARD. Mission starting");
-		return 0;
-	}else{
-		ROS_INFO("Error starting mission!!");
-		return -1;	
-	}
 }
 
 /**
@@ -476,15 +271,119 @@ int initialize_local_frame()
 
 /**
 \ingroup control_functions
+Wait for strat will hold the program until the user signals the FCU to enther mode OFFBOARD. This is typically done from a switch on the safety pilot’s remote or from the ground control station.
+@returns 0 - mission started
+@returns -1 - failed to start mission
+*/
+int wait4start()
+{
+    ros::Rate rate(20.0);
+
+    mavros_msgs::SetMode offb_set_mode;
+	mavros_msgs::CommandBool arm_cmd;
+	arm_cmd.request.value = true;
+	ros::Time last_request = ros::Time::now();
+	offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
+	ROS_INFO("Setting to TAKEOFF Mode...");
+
+	while(ros::ok())
+	{
+		if(current_state_g.mode != "AUTO.TAKEOFF")
+		{
+			set_mode_client.call(offb_set_mode);
+		}
+
+		if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+			if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+				ROS_INFO("Vehicle armed");
+				break;
+			}
+			last_request = ros::Time::now();
+		}
+		rate.sleep();
+	}
+
+	//intitialize first waypoint of mission
+	set_destination(0,0,5,0);
+
+	for(int i=0; i<100; i++)
+	{
+		local_pos_pub.publish(waypoint_g);
+		ros::spinOnce();
+		ros::Duration(0.01).sleep();
+	}
+
+	// arming
+	ROS_INFO("Arming drone");
+	mavros_msgs::CommandBool arm_request;
+	arm_request.request.value = true;
+	while (!current_state_g.armed && !arm_request.response.success && ros::ok())
+	{
+		ros::Duration(.1).sleep();
+		arming_client.call(arm_request);
+		local_pos_pub.publish(waypoint_g);
+		if(arm_request.response.success)
+		{
+			ROS_INFO("Arming Successful");
+		}
+		else
+		{
+			ROS_INFO("Arming failed with %d", arm_request.response.success);
+			// ros::shutdown();
+		}
+	}
+
+	// ROS_INFO("Waiting for user to set mode to OFFBOARD");
+	offb_set_mode.request.custom_mode = "OFFBOARD";
+	while(ros::ok() && current_state_g.mode != "OFFBOARD")
+	{
+
+        if (current_state_g.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+            if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
+                ROS_INFO("OFFBOARD mode enabled");
+            }
+            last_request = ros::Time::now();
+        } else {
+            if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
+                if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+                    ROS_INFO("Vehicle armed");
+                }
+                last_request = ros::Time::now();
+            }
+        }
+
+		set_destination(0,0,5,0);
+	    ros::spinOnce();
+	    // ros::Duration(0.01).sleep();
+		rate.sleep();
+  	}
+
+  	if(current_state_g.mode == "OFFBOARD")
+	{
+		ROS_INFO("Mode set to OFFBOARD. Mission starting");
+		return 0;
+	}else{
+		ROS_INFO("Error starting mission!!");
+		return -1;	
+	}
+}
+
+/**
+\ingroup control_functions
 This function returns an int of 1 or 0. THis function can be used to check when to request the next waypoint in the mission. 
 @return 1 - waypoint reached 
 @return 0 - waypoint not reached
 */
-int check_waypoint_reached(float pos_tolerance=0.3, float heading_tolerance=0.01)
+int check_waypoint_reached(float pos_tolerance=0.3, float heading_tolerance=0.01, tf2_ros::TransformBroadcaster &tf_broadcaster, std::vector<geometry_msgs::TransformStamped> &transforms, int n, ros::Publisher &local_pos_pub, geometry_msgs::PointStamped &waypoint_g)
 {
+	tf2_ros::Buffer tf_buffer;
+	tf2_ros::TransformListener tf_listener(tf_buffer);
+	tf2_ros::TransformBroadcaster tf_broadcaster;
+	std::vector<geometry_msgs::TransformStamped> transforms(n);
+
 	ros::Time now = ros::Time::now();
 
-	if (drone_id_g = 0)
+	if (drone_id_g == 0)
 	{
 		ros::Time now = ros::Time::now();
 		for (int i = 0; i < n; ++i)
@@ -544,26 +443,6 @@ int check_waypoint_reached(float pos_tolerance=0.3, float heading_tolerance=0.01
 
 /**
 \ingroup control_functions
-this function changes the mode of the drone to a user specified mode. This takes the mode as a string. ex. set_mode("OFFBOARD")
-@returns 1 - mode change successful
-@returns 0 - mode change not successful
-*/
-int set_mode(std::string mode)
-{
-	mavros_msgs::SetMode srv_setMode;
-    srv_setMode.request.base_mode = 0;
-    srv_setMode.request.custom_mode = mode.c_str();
-    if(set_mode_client.call(srv_setMode)){
-      ROS_INFO("setmode send ok");
-	  return 0;
-    }else{
-      ROS_ERROR("Failed SetMode");
-      return -1;
-    }
-}
-
-/**
-\ingroup control_functions
 this function changes the mode of the drone to land
 @returns 1 - mode change successful
 @returns 0 - mode change not successful
@@ -581,6 +460,58 @@ int land()
   }
 }
 
+void setupTransforms(std::vector<geometry_msgs::TransformStamped> &transforms, int n)
+{
+
+	if (drone_id_g == 0)
+	{
+
+		for (int i = 0; i < n; ++i)
+		{
+			std::pair<int, int> loc;
+			size_t list_size;
+			std::tie(loc, list_size) = get_loc(i);
+
+			transforms[i].header.frame_id = "base_link";
+			transforms[i].child_frame_id = "offset_" + std::to_string(i + 1);
+			transforms[i].transform.translation.x = loc.first;
+			transforms[i].transform.translation.y = loc.second;
+			transforms[i].transform.translation.z = 0.0;
+
+			tf2::Quaternion quat;
+			quat.setRPY(0, 0, 0);
+
+			transforms[i].transform.rotation.x = quat.x();
+			transforms[i].transform.rotation.y = quat.y();
+			transforms[i].transform.rotation.z = quat.z();
+			transforms[i].transform.rotation.w = quat.w();
+		}
+	}
+	else
+	{
+		std::string source_frame = "map";
+  		std::string target_frame = "offset_" + std::to_string(drone_id_g);
+		geometry_msgs::TransformStamped transform_stamped;
+		try
+		{
+			transform_stamped = tf_buffer.lookupTransform(source_frame, target_frame, ros::Time(0));
+		}
+		catch (tf2::TransformException &ex)
+		{
+			ROS_ERROR("%s", ex.what());
+			ros::Duration(1.0).sleep();
+		}
+
+		waypoint_g.pose.position.x = transform_stamped.transform.translation.x;
+		waypoint_g.pose.position.y = transform_stamped.transform.translation.y;
+		waypoint_g.pose.position.z = transform_stamped.transform.translation.z;
+
+		waypoint_g.pose.orientation.w = transform_stamped.transform.rotation.w;
+		waypoint_g.pose.orientation.x = transform_stamped.transform.rotation.x;
+		waypoint_g.pose.orientation.y = transform_stamped.transform.rotation.y;
+		waypoint_g.pose.orientation.z = transform_stamped.transform.rotation.z;
+	}
+}
 
 /**
 \ingroup control_functions
@@ -593,7 +524,9 @@ int init_publisher_subscriber(ros::NodeHandle controlnode)
 	if (!controlnode.hasParam("namespace") || !controlnode.hasParam("drone_id_g"))
 	{
 
-		ROS_INFO("using default namespace");
+		ROS_INFO("Please setup the namespace and drone_id_g parameters");
+		ros::shutdown();
+
 	}else{
 		controlnode.getParam("namespace", ros_namespace);
 		controlnode.getParam("drone_id_g", drone_id_g);
@@ -619,13 +552,15 @@ int init_publisher_subscriber(ros::NodeHandle controlnode)
 }
 
 
-
 int main(int argc, char** argv)
 {
 	//initialize ros 
 	ros::init(argc, argv, "gnc_node");
 	ros::NodeHandle gnc_node("~");
-	
+    int n = 5; // Number of transforms
+    std::vector<geometry_msgs::TransformStamped> transforms(n);
+
+
 	//initialize control publisher/subscribers
 	init_publisher_subscriber(gnc_node);
 
@@ -633,11 +568,11 @@ int main(int argc, char** argv)
 	wait4connect();
 
 	//create local reference frame 
-	initialize_local_frame();
+	// initialize_local_frame();
 
 	//wait for used to switch to mode OFFBORAD
 	wait4start();
-
+	
 	//specify some waypoints 
 	std::vector<gnc_api_waypoint> waypointList;
 	gnc_api_waypoint nextWayPoint;
@@ -685,11 +620,12 @@ int main(int argc, char** argv)
 	{
 		ros::spinOnce();
 		rate.sleep();
-		if(check_waypoint_reached(.3) == 1)
+		if(check_waypoint_reached(.3, tf_broadcaster, transforms, n, local_pos_pub, waypoint_g) == 1)
 		{
 			if (counter < waypointList.size())
 			{
 				// init function here!!!!!
+				setupTransforms(transforms, n);
 				set_destination(waypointList[counter].x,waypointList[counter].y,waypointList[counter].z, waypointList[counter].psi);
 				counter++;	
 			}else{
