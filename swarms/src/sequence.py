@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-
-########################################################################################
-# AMOV
-# px4+mavros:load a mission using waypoints file(.txt),don't support .plan format file
-# author: Eason Yi
-# email:  eason473867143@gmail.com
-# time:   04/08/2020
-# v1.0
-########################################################################################
-
 import rospy
 import time
 import os
@@ -141,8 +130,44 @@ def main():
     PX4modes.setArm()
 
     sub = rospy.Subscriber('mavros/mission/reached',WaypointReached,WP_callback)
+    # drone_init = rospy.Subscriber(drone_name + i +'mavros/mission/reached',WaypointReached,check_drones_init)
 
     rospy.spin()
+
+def check_drones_init():
+
+    running = True
+    ready = True
+    trigger_event = False
+    get_ready = False
+    drone_id = 0
+
+
+    for i in range(0,drone_num):
+
+        if running == True and ready == True and trigger_event == True:
+            get_ready = True
+        elif running == False and ready == True:
+            get_ready = True
+
+    for i in range(0,drone_num):
+        if not i == my_drone_id:
+            do running task
+
+first - in mission
+second - ready
+third - trigger
+
+if [(0,1,0),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
+then [(1,1,0),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
+if [(1,1,1),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
+then [(1,1,1),(1,1,0),(0,1,0),(0,1,0),(0,1,0)]
+if [(0,1,0),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
+then [(1,1,0),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
+if [(1,1,1),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
+then [(1,1,1),(1,1,1),(1,1,0),(0,1,0),(0,1,0)]
+if [(1,1,1),(1,1,1),(1,0,0),(0,1,0),(0,1,0)]
+then [(1,1,1),(1,1,1),(1,0,0),(1,1,0),(0,1,0)]
 
 if __name__ == '__main__':
         try:
