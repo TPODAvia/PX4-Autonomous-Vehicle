@@ -6,7 +6,12 @@ from mavros import command
 from mavros.utils import *
 from mavros_msgs.msg import *
 from mavros_msgs.srv import *
+from std_msgs.msg import String
+import re
 
+# Initialize global variables
+ready_drones_count = 0
+available_drones = set()
 mavros.set_namespace()
 
 class px4FlightMode:
@@ -129,45 +134,63 @@ def main():
     #PX4modes.setTakeoff()
     PX4modes.setArm()
 
+    # Create a String message
+    swarm_data = String()
+    swarm_data.data = "Drone 0 Leader Reached"
+
+    # Create a publisher and subscriber
+    my_drone_id_ready_pub = rospy.Publisher("/drone_id_ready", String, queue_size=10)
+    my_drone_id_ready_sub = rospy.Subscriber("/drone_id_ready", String, message_callback)
     sub = rospy.Subscriber('mavros/mission/reached',WaypointReached,WP_callback)
     # drone_init = rospy.Subscriber(drone_name + i +'mavros/mission/reached',WaypointReached,check_drones_init)
+    # Publish the message
 
-    rospy.spin()
+    rate = rospy.Rate(20)
+    while(not rospy.is_shutdown()):
+        # loop every drones and check if they are running
+        #   If (once running):
+        #         If (check the trigger):
+        #            check the drone prority
+        #            If (it is my turn):
+        #                  start the mission               
+        #   Else 
+        #         check the drone prority
+        #         if (it is my turn):
+        #               start the mission
+        my_drone_id_ready_pub.publish(swarm_data)
+        rate.sleep()
 
-def check_drones_init():
+# first - in mission
+# second - ready
+# third - trigger
+def message_callback(msg):
+    words = re.split(r'\s+', msg.data.strip())
 
-    running = True
-    ready = True
-    trigger_event = False
-    get_ready = False
-    drone_id = 0
+    drone_id = int(words[1])
+    leader_status = words[2]
+    reached_status = words[3]
+
+    # If the drone is a leader, print its ID
+    if leader_status == "Leader":
+        rospy.loginfo("Leader drone: %d", drone_id)
+
+    # If the drone reached its destination, print its ID
+    if reached_status == "Reached":
+        rospy.loginfo("Drone %d reached its destination.", drone_id)
+
+    # If the drone reached its destination, increment the ready counter and add the drone to the available set
+    if reached_status == "Reached":
+        global ready_drones_count
+        ready_drones_count += 1
+        available_drones.add(drone_id)
+
+    rospy.loginfo("Ready drones count: %d", ready_drones_count)
+    rospy.loginfo("Available drones: ")
+
+    for drone in available_drones:
+        rospy.loginfo("Drone %d", drone)
 
 
-    for i in range(0,drone_num):
-
-        if running == True and ready == True and trigger_event == True:
-            get_ready = True
-        elif running == False and ready == True:
-            get_ready = True
-
-    for i in range(0,drone_num):
-        if not i == my_drone_id:
-            do running task
-
-first - in mission
-second - ready
-third - trigger
-
-if [(0,1,0),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
-then [(1,1,0),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
-if [(1,1,1),(0,1,0),(0,1,0),(0,1,0),(0,1,0)]
-then [(1,1,1),(1,1,0),(0,1,0),(0,1,0),(0,1,0)]
-if [(0,1,0),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
-then [(1,1,0),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
-if [(1,1,1),(1,1,1),(0,1,0),(0,1,0),(0,1,0)]
-then [(1,1,1),(1,1,1),(1,1,0),(0,1,0),(0,1,0)]
-if [(1,1,1),(1,1,1),(1,0,0),(0,1,0),(0,1,0)]
-then [(1,1,1),(1,1,1),(1,0,0),(1,1,0),(0,1,0)]
 
 if __name__ == '__main__':
         try:

@@ -8,6 +8,9 @@
 		</node>
 	</group>
 
+    <!-- <node pkg="swarms" type="swarm_master" name="swarm_master" output="screen">
+    </node> -->
+
 	<!-- <group>
 		<node pkg="swarms" type="square" name="square2" output="screen" ns="/drone2">
 			<param name="namespace" value="/uav1"/>

@@ -216,6 +216,15 @@ target_link_libraries(square ${catkin_LIBRARIES})
 add_executable(swarm_master src/swarm_master.cpp)
 target_link_libraries(swarm_master ${catkin_LIBRARIES})
 
+catkin_install_python(PROGRAMS
+  src/weekly_launcher.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch/
+DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)
+
 #add_executable(sub_sol src/subscriber_sol.cpp)
 #target_link_libraries(sub_sol ${catkin_LIBRARIES})
 

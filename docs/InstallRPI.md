@@ -83,7 +83,7 @@ Connect to ssh with IP: 192.168.1.6
 sudo apt update
 ```
 ```s
-sudo apt install git python3-pip -y
+sudo apt install git python3-pip schedule -y
 ```
 ```s
 mkdir -p ~/catkin_ws/src

@@ -48,8 +48,9 @@ float local_offset_g;
 float correction_heading_g = 0;
 float local_desired_heading_g;
 int drone_id_g;
-int leader_drone_id_g;
+int leader_drone_id_g = 0;
 bool publish_my_home_position = true;
+bool first_init = true;
 int drone_nums;
 float shift_x;
 float shift_y;
@@ -57,18 +58,24 @@ float shift_alt;
 double leader_shift_x;
 double leader_shift_y;
 double leader_alt_z;
-bool leader_landing_command = false;
+
+int ready_drones_count = 0;
+std::set<int> available_drones;
+
+std_msgs::Bool leader_landing_command;
+std_msgs::String swarm_data;
 
 ros::Publisher my_home_position_pub;
 ros::Publisher local_pos_pub;
-ros::Publisher global_lla_pos_pub;
-ros::Publisher global_lla_pos_pub_raw;
-ros::Publisher my_drone_id_pub;
+// ros::Publisher global_lla_pos_pub;
+// ros::Publisher global_lla_pos_pub_raw;
+ros::Publisher my_drone_id_ready_pub;
 ros::Publisher reached_state_pub;
 ros::Publisher landing_command_pub;
 
+ros::Subscriber my_drone_id_ready_sub;
 ros::Subscriber landing_command_sub;
-ros::Subscriber currentPos;
+ros::Subscriber local_position_sub;
 ros::Subscriber state_sub;
 ros::Subscriber global_position_sub;
 
