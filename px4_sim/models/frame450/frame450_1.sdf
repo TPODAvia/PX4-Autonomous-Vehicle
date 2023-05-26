@@ -326,7 +326,7 @@
         </plugin>
         <plugin name="GstCameraPlugin" filename="libgazebo_gst_camera_plugin.so">
             <robotNamespace></robotNamespace>
-            <udpHost>127.0.0.1</udpHost>
+            <udpHost>127.0.0.2</udpHost>
             <udpPort>5600</udpPort>
         </plugin>
         <plugin name="CameraManagerPlugin" filename="libgazebo_camera_manager_plugin.so">

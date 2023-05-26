@@ -744,7 +744,7 @@ int main(int argc, char** argv)
 		init_leader(gnc_node);
 		setupTransforms(tf_broadcaster, base_link_master, transforms, drone_nums, tf_buffer, drone_id_g);
 
-		if(check_waypoint_reached() == 1 && drone_id_g == leader_drone_id_g && available_drones.size() != drone_nums)
+		if(check_waypoint_reached() == 1 && drone_id_g == leader_drone_id_g && available_drones.size() == drone_nums)
 		{
 			ROS_INFO("Waypoint reached");
 			if (counter < waypointList.size())

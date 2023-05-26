@@ -22,8 +22,9 @@
 
     <!-- UAV0 -->
     <group ns="uav0">
+        <arg name="ID" default="0"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
-            <arg name="ID" default="0"/>
+            <arg name="ID" value="$(arg ID)"/>
             <arg name="x" value="0"/>
             <arg name="y" value="0"/>
             <arg name="z" value="0"/>
@@ -31,7 +32,7 @@
             <arg name="P" value="0"/>
             <arg name="Y" value="0"/>
             <arg name="vehicle" value="$(arg vehicle)"/>
-            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_0.sdf"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_$(arg ID).sdf"/>
             <arg name="avoidance" default="false"/>
         </include>
 
@@ -40,6 +41,7 @@
         <arg name="gcs_bridge" default=""/>
         <arg name="tgt_system" default="1" />
         <include file="$(find px4_air)/launch/0mavros.launch">
+            <arg name="ID" value="$(arg ID)"/>
             <arg name="fcu_conn" value="$(arg fcu_conn)"/>
             <arg name="fcu_ip" value="$(arg fcu_ip)"/>
             <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
@@ -48,9 +50,10 @@
     </group>
 
     <!-- UAV1 -->
-    <!-- <group ns="uav1">
+    <group ns="uav1">
+        <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
-            <arg name="ID" default="1"/>
+            <arg name="ID" value="$(arg ID)"/>
             <arg name="x" value="0"/>
             <arg name="y" value="10"/>
             <arg name="z" value="0"/>
@@ -58,21 +61,22 @@
             <arg name="P" value="0"/>
             <arg name="Y" value="0"/>
             <arg name="vehicle" value="$(arg vehicle)"/>
-            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_1.sdf"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_$(arg ID).sdf"/>
             <arg name="avoidance" default="false"/>
         </include>
 
         <arg name="fcu_conn" default="sitl"/>
         <arg name="fcu_ip" default="127.0.0.1"/>
         <arg name="gcs_bridge" default=""/>
-        <include file="$(find px4_air)/launch/1setup.launch">
-            <arg name="fcu_conn" default="$(arg fcu_conn)"/>
-            <arg name="fcu_ip" default="$(arg fcu_ip)"/>
-            <arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
-            <arg name="tgt_system" value="1"/>
+        <arg name="tgt_system" default="1" />
+        <include file="$(find px4_air)/launch/0mavros.launch">
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+            <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+            <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+            <arg name="tgt_system" value="$(arg tgt_system)" />
         </include>
-
-    </group> -->
+    </group>
 
 
 	<!-- Timer setup -->
