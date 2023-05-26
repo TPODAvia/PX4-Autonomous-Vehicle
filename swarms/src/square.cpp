@@ -124,33 +124,23 @@ This function is used to command the drone to fly to a waypoint. These waypoints
 void set_destination(float x, float y, float z, float psi)
 {
 
-	if (drone_id_g == leader_drone_id_g)
-	{
+	set_heading(psi);
+	//transform map to local
+	float deg2rad = (M_PI/180);
+	float Xlocal = x*cos((correction_heading_g + local_offset_g - 90)*deg2rad) - y*sin((correction_heading_g + local_offset_g - 90)*deg2rad);
+	float Ylocal = x*sin((correction_heading_g + local_offset_g - 90)*deg2rad) + y*cos((correction_heading_g + local_offset_g - 90)*deg2rad);
+	float Zlocal = z;
 
-		set_heading(psi);
-		//transform map to local
-		float deg2rad = (M_PI/180);
-		float Xlocal = x*cos((correction_heading_g + local_offset_g - 90)*deg2rad) - y*sin((correction_heading_g + local_offset_g - 90)*deg2rad);
-		float Ylocal = x*sin((correction_heading_g + local_offset_g - 90)*deg2rad) + y*cos((correction_heading_g + local_offset_g - 90)*deg2rad);
-		float Zlocal = z;
+	x = Xlocal + correction_vector_g.position.x + local_offset_pose_g.x;
+	y = Ylocal + correction_vector_g.position.y + local_offset_pose_g.y;
+	z = Zlocal + correction_vector_g.position.z + local_offset_pose_g.z;
+	ROS_INFO("Destination set to x: %f y: %f z: %f origin frame", x, y, z);
 
-		x = Xlocal + correction_vector_g.position.x + local_offset_pose_g.x;
-		y = Ylocal + correction_vector_g.position.y + local_offset_pose_g.y;
-		z = Zlocal + correction_vector_g.position.z + local_offset_pose_g.z;
-		ROS_INFO("Destination set to x: %f y: %f z: %f origin frame", x, y, z);
+	waypoint_g.pose.position.x = x;
+	waypoint_g.pose.position.y = y;
+	waypoint_g.pose.position.z = z;
 
-		waypoint_g.pose.position.x = x;
-		waypoint_g.pose.position.y = y;
-		waypoint_g.pose.position.z = z;
-
-		local_pos_pub.publish(waypoint_g);
-
-	}
-	else
-	{
-
-		local_pos_pub.publish(waypoint_g);		
-	}
+	local_pos_pub.publish(waypoint_g);
 
 }
 
@@ -248,14 +238,17 @@ int wait4start()
 			set_mode_client.call(offb_set_mode);
 		}
 
-		if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-			if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+		if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) 
+		{
+			if (arming_client.call(arm_cmd) && arm_cmd.response.success) 
+			{
 				ROS_INFO("Vehicle armed");
 				break;
 			}
 			last_request = ros::Time::now();
 		}
-		else if (current_state_g.armed) {
+		else if (current_state_g.armed) 
+		{
 			break;
 		}
 		rate.sleep();
@@ -264,18 +257,11 @@ int wait4start()
 	//intitialize first waypoint of mission
 	set_destination(0,0,5,0);
 
-	for(int i=0; i<100; i++)
-	{
-		local_pos_pub.publish(waypoint_g);
-		ros::spinOnce();
-		ros::Duration(0.01).sleep();
-	}
-
 	// arming
 	ROS_INFO("Arming drone");
 	mavros_msgs::CommandBool arm_request;
 	arm_request.request.value = true;
-	while (!current_state_g.armed && !arm_request.response.success && ros::ok())
+	while (!current_state_g.armed && ros::ok())
 	{
 		ros::Duration(.1).sleep();
 		arming_client.call(arm_request);
@@ -283,6 +269,7 @@ int wait4start()
 		if(arm_request.response.success)
 		{
 			ROS_INFO("Arming Successful");
+			break;
 		}
 		else
 		{
@@ -291,19 +278,33 @@ int wait4start()
 		}
 	}
 
+	ROS_INFO("Offboard Start");
+	for(int i=0; i<1000; i++)
+	{
+		local_pos_pub.publish(waypoint_g);
+		ros::spinOnce();
+		ros::Duration(0.01).sleep();
+	}
+
 	// ROS_INFO("Waiting for user to set mode to OFFBOARD");
 	offb_set_mode.request.custom_mode = "OFFBOARD";
 	while(ros::ok() && current_state_g.mode != "OFFBOARD")
 	{
 
-        if (current_state_g.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-            if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
+        if (current_state_g.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) 
+		{
+            if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) 
+			{
                 ROS_INFO("OFFBOARD mode enabled");
             }
             last_request = ros::Time::now();
-        } else {
-            if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
-                if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
+        }
+		else 
+		{
+            if (!current_state_g.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) 
+			{
+                if (arming_client.call(arm_cmd) && arm_cmd.response.success) 
+				{
                     ROS_INFO("Vehicle armed");
                 }
                 last_request = ros::Time::now();
@@ -320,7 +321,9 @@ int wait4start()
 	{
 		ROS_INFO("Mode set to OFFBOARD. Mission starting");
 		return 0;
-	}else{
+	}
+	else
+	{
 		ROS_INFO("Error starting mission!!");
 		return -1;	
 	}
@@ -492,12 +495,10 @@ bool drone_exist(int drone_id, std::set<int> available_drones) {
 bool init_leader(ros::NodeHandle controlnode)
 {
 
-
-
 	for (int drone_id = 0; drone_id < drone_nums; drone_id++)
 	{
 
-    std::cout << "Is " << drone_id << " available? " << (drone_exist(drone_id, available_drones) ? "Yes" : "No") << std::endl;
+    	std::cout << "Is " << drone_id << " available? " << (drone_exist(drone_id, available_drones) ? "Yes" : "No") << std::endl;
 		if (drone_exist(drone_id, available_drones) == true && drone_id > drone_id_g)
 		{
 			if (first_init == true)
@@ -624,13 +625,14 @@ void messageCallback(const std_msgs::String::ConstPtr& msg)
         available_drones.insert(drone_id);
     }
 
-    ROS_INFO("Ready drones count: %d", ready_drones_count);
+    // ROS_INFO("Ready drones count: %d", ready_drones_count);
     ROS_INFO("Available drones: ");
     for (const auto& drone : available_drones) {
         ROS_INFO("Drone %d", drone);
     }
 
-    my_drone_id_ready_pub.publish(swarm_data);
+    // my_drone_id_ready_pub.publish(swarm_data);
+
 }
 
 /**
@@ -743,7 +745,6 @@ int main(int argc, char** argv)
 
 		init_leader(gnc_node);
 		setupTransforms(tf_broadcaster, base_link_master, transforms, drone_nums, tf_buffer, drone_id_g);
-
 		if(check_waypoint_reached() == 1 && drone_id_g == leader_drone_id_g && available_drones.size() == drone_nums)
 		{
 			ROS_INFO("Waypoint reached");

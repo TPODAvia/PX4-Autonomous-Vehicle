@@ -1,3 +1,0 @@
-<launch>
-    <node name="my_program" pkg="swarms" type="weekly_launcher.py"/>
-</launch>

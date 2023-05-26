@@ -8,6 +8,7 @@ from mavros_msgs.msg import *
 from mavros_msgs.srv import *
 from std_msgs.msg import String
 import re
+import numpy as np
 
 # Initialize global variables
 ready_drones_count = 0
@@ -116,79 +117,98 @@ def WP_callback(msg):
 
     last_wp = msg.wp_seq
 
-    
+PX4modes = px4FlightMode()    
 def main():
 
     rospy.init_node('swarm_sequence_node',anonymous=True)
 
-    PX4modes = px4FlightMode()
+    global my_drone_id
+    my_drone_id = rospy.get_param('~drone_id', 0) 
 
-    #failsafe_status = PX4modes.read_failsafe()
-    #if(failsafe_status['DL'] != 0) or (failsafe_status['RC' != 0]):
-    #    PX4modes.remove_failsafe()
-
-    PX4modes.clearMission()
-
-    PX4modes.loadMission()
-    PX4modes.setAutoMissionMode()
-    #PX4modes.setTakeoff()
-    PX4modes.setArm()
-
-    # Create a String message
-    swarm_data = String()
-    swarm_data.data = "Drone 0 Leader Reached"
+    # PX4modes.clearMission()
 
     # Create a publisher and subscriber
     my_drone_id_ready_pub = rospy.Publisher("/drone_id_ready", String, queue_size=10)
     my_drone_id_ready_sub = rospy.Subscriber("/drone_id_ready", String, message_callback)
-    sub = rospy.Subscriber('mavros/mission/reached',WaypointReached,WP_callback)
+    sub = rospy.Subscriber('mavros/mission/reached',WaypointReached, WP_callback)
     # drone_init = rospy.Subscriber(drone_name + i +'mavros/mission/reached',WaypointReached,check_drones_init)
-    # Publish the message
+    # Create a String message
+    swarm_data = String()
+    rate = rospy.Rate(2)
 
-    rate = rospy.Rate(20)
+    for i in range(100):
+        if(rospy.is_shutdown()):
+            break
+
+        swarm_data.data = f"Drone {my_drone_id} in_mission Reached"
+        my_drone_id_ready_pub.publish(swarm_data)
+        rate.sleep()
+
+
     while(not rospy.is_shutdown()):
-        # loop every drones and check if they are running
-        #   If (once running):
-        #         If (check the trigger):
-        #            check the drone prority
-        #            If (it is my turn):
-        #                  start the mission               
-        #   Else 
-        #         check the drone prority
-        #         if (it is my turn):
-        #               start the mission
+
+        swarm_data.data = f"Drone {my_drone_id} in_mission not_reached"
         my_drone_id_ready_pub.publish(swarm_data)
         rate.sleep()
 
 # first - in mission
 # second - ready
 # third - trigger
+
 def message_callback(msg):
     words = re.split(r'\s+', msg.data.strip())
 
     drone_id = int(words[1])
-    leader_status = words[2]
+    in_mission_status = words[2]
     reached_status = words[3]
+      
+    vector = [drone_id, 
+              in_mission_status == "in_mission", 
+              reached_status == "Reached"]
+    drones_vector = tuple(vector)
+    available_drones.add(drones_vector)
 
-    # If the drone is a leader, print its ID
-    if leader_status == "Leader":
-        rospy.loginfo("Leader drone: %d", drone_id)
+    print("Drones available", available_drones)
 
-    # If the drone reached its destination, print its ID
-    if reached_status == "Reached":
-        rospy.loginfo("Drone %d reached its destination.", drone_id)
+    # # rospy.loginfo("Ready drones count: %d", ready_drones_count)
+    # rospy.loginfo("Available drones: ")
 
-    # If the drone reached its destination, increment the ready counter and add the drone to the available set
-    if reached_status == "Reached":
-        global ready_drones_count
-        ready_drones_count += 1
-        available_drones.add(drone_id)
+    # for drone in available_drones:
+    #     rospy.loginfo("Drone %d", drone)
 
-    rospy.loginfo("Ready drones count: %d", ready_drones_count)
-    rospy.loginfo("Available drones: ")
+    some_variable = 5
+    for drone_id, in_mission, trigger in available_drones:
+        if in_mission:
+            if trigger:
+                drone_ids = []
+                for drone_id, in_mission, trigger in available_drones:
+                    drone_ids.append(drone_id)
+                sorted_drone_ids = sorted(drone_ids)
+                count = sum(1 for drone_id in sorted_drone_ids if drone_id < some_variable)
 
-    for drone in available_drones:
-        rospy.loginfo("Drone %d", drone)
+                if count == 0:
+                    PX4modes.loadMission()
+                    PX4modes.setAutoMissionMode()
+                    #PX4modes.setTakeoff()
+                    PX4modes.setArm()
+
+        else:
+            drone_ids = []
+            for drone_id, in_mission, trigger in available_drones:
+                drone_ids.append(drone_id)
+            sorted_drone_ids = sorted(drone_ids)
+            count = sum(1 for drone_id in sorted_drone_ids if drone_id < some_variable)
+
+    # loop every drones and check if they are in_mission
+    #   If (once in_mission):
+    #         If (check the Reached):
+    #            check the drone prority
+    #            If (it is my turn):
+    #                  start the mission               
+    #   Else 
+    #         check the drone prority
+    #         if (it is my turn):
+    #               start the mission
 
 
 

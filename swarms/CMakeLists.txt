@@ -218,6 +218,7 @@ target_link_libraries(swarm_master ${catkin_LIBRARIES})
 
 catkin_install_python(PROGRAMS
   src/weekly_launcher.py
+  src/sequence.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
