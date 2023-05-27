@@ -213,8 +213,8 @@ install(DIRECTORY include/${PROJECT_NAME}/
 add_executable(square src/square.cpp)
 target_link_libraries(square ${catkin_LIBRARIES})
 
-add_executable(swarm_master src/swarm_master.cpp)
-target_link_libraries(swarm_master ${catkin_LIBRARIES})
+# add_executable(swarm_master src/swarm_master.cpp)
+# target_link_libraries(swarm_master ${catkin_LIBRARIES})
 
 catkin_install_python(PROGRAMS
   src/weekly_launcher.py

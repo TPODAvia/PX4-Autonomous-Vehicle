@@ -1,11 +1,14 @@
+# This program provided schedules the job() function 
+# to run every Monday at 00:00 (midnight). 
+
 import schedule
 import time
 import subprocess
 import rospy
 
 launch_files = [
-    ('weekly_launch', 'weekly_node.launch'),
-    ('another_package', 'another_node.launch'),
+    ('swarms', 'drones_sequence.launch'),
+    # ('another_package', 'another_node.launch'),
     # Add more launch files here
 ]
 
