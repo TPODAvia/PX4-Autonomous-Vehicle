@@ -597,41 +597,46 @@ void landingCommandCallback(const std_msgs::Bool::ConstPtr& msg)
 
 }
 
+struct DroneData {
+    int drone_id;
+    std::string leader_status;
+    std::string reached_status;
+};
+
 // All drone should be reached
 // What the leader drone
 // What the drone is running
+int ready_drones_count = 0;
+std::vector<DroneData> available_drones;
 void messageCallback(const std_msgs::String::ConstPtr& msg)
 {
     std::istringstream iss(msg->data);
     std::vector<std::string> words{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
 
-    int drone_id = std::stoi(words[1]);
-    std::string leader_status = words[2];
-    std::string reached_status = words[3];
 
-    // If the drone is a leader, print its ID
-    if (leader_status == "Leader") {
-        ROS_INFO("Leader drone: %d", drone_id);
-    }
+	int drone_id = std::stoi(words[1]);
+	std::string leader_status = words[2];
+	std::string reached_status = words[3];
 
-    // If the drone reached its destination, print its ID
-    if (reached_status == "Reached") {
-        ROS_INFO("Drone %d reached its destination.", drone_id);
-    }
+	// If the drone is a leader, print its ID
+	if (leader_status == "Leader") 
+	{
+		ROS_INFO("Leader drone: %d", drone_id);
+		available_drones.push_back({drone_id, leader_status, reached_status});
+	}
 
-    // If the drone reached its destination, increment the ready counter and add the drone to the available set
-    if (reached_status == "Reached") {
-        ready_drones_count++;
-        available_drones.insert(drone_id);
-    }
+	// If the drone reached its destination, print its ID
+	if (reached_status == "Reached") 
+	{
+		ROS_INFO("Drone %d reached its destination.", drone_id);
+		available_drones.push_back({drone_id, reached_status, reached_status});
+	}
 
-    // ROS_INFO("Ready drones count: %d", ready_drones_count);
-    ROS_INFO("Available drones: ");
-    for (const auto& drone : available_drones) {
-        ROS_INFO("Drone %d", drone);
-    }
-
-    // my_drone_id_ready_pub.publish(swarm_data);
+	ROS_INFO("Available drones: ");
+	for (const auto& drone : available_drones) 
+	{
+		ROS_INFO("Drone %d: %s, %s", drone.drone_id, drone.leader_status, drone.reached_status);
+	}
 
 }
 

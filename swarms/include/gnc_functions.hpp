@@ -59,9 +59,6 @@ double leader_shift_x;
 double leader_shift_y;
 double leader_alt_z;
 
-int ready_drones_count = 0;
-std::set<int> available_drones;
-
 std_msgs::Bool leader_landing_command;
 std_msgs::String swarm_data;
 

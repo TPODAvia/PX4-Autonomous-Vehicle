@@ -2,12 +2,13 @@ import rospy
 import time
 import os
 import mavros
-from mavros import command
 from mavros.utils import *
 from mavros_msgs.msg import *
 from mavros_msgs.srv import *
 from std_msgs.msg import String
 import re
+from sensor_msgs.msg import BatteryState
+from mavros_msgs.msg import State
 
 # Initialize global variables
 ready_drones_count = 0
@@ -126,11 +127,13 @@ def main():
     global my_drone_id
     my_drone_id = rospy.get_param('~drone_id', 0) 
 
-    # PX4modes.clearMission()
+    PX4modes.clearMission()
 
     # Create a publisher and subscriber
     my_drone_id_ready_sub = rospy.Subscriber("/drone_id_ready", String, message_callback)
     sub = rospy.Subscriber('mavros/mission/reached',WaypointReached, WP_callback)
+    battery_sub = rospy.Subscriber("/mavros/battery", BatteryState, battery_state_cb)
+    state_sub = rospy.Subscriber("mavros/state", State, callback=state_cb)
     # drone_init = rospy.Subscriber(drone_name + i +'mavros/mission/reached',WaypointReached,check_drones_init)
     # Create a String message
     rate = rospy.Rate(2)
@@ -146,14 +149,49 @@ def main():
 
     while(not rospy.is_shutdown()):
 
-        # swarm_data.data = f"Drone {my_drone_id} not_in_mission not_reached"
-        # my_drone_id_ready_pub.publish(swarm_data)
         rate.sleep()
+
+
+
+my_mission_success = False
+trigger_state = False
+current_state = State()
+def state_cb(msg):
+    global current_state
+    current_state = msg
+    if current_state.mode in ("RETURN"):
+        # rospy.loginfo("Drone is in Return or Landing mode")
+        global trigger_state
+        trigger_state = True
+
+    if current_state.mode in ("LANDING", "AUTO.LAND"):
+        # rospy.loginfo("Drone is in Return or Landing mode")
+        global my_mission_success
+        my_mission_success = True
+
+
+
+VOLTAGE_CAPACITY = 0.0
+CRITICAL_VOLTAGE = 3.0
+def battery_state_cb(msg):
+
+    # rospy.loginfo("Battery status: %s", msg.status)
+    # rospy.loginfo("Battery voltage: %f V", msg.voltage_v)
+    global VOLTAGE_CAPACITY
+    currect_voltage = msg.voltage_v
+    if currect_voltage > VOLTAGE_CAPACITY:
+        VOLTAGE_CAPACITY = currect_voltage
+
+    if (VOLTAGE_CAPACITY - (VOLTAGE_CAPACITY - currect_voltage)*2) < CRITICAL_VOLTAGE:
+        rospy.logerr("Battery critical voltage reached")
+        global trigger_state
+        trigger_state = True
+
+
 
 first_init = True
 first_init_counter = 0
-my_mission_success = False # This need to be changed
-trigger_state = False # This need to be changed
+last_received_status = {}
 def message_callback(msg):
     words = re.split(r'\s+', msg.data.strip())
 
@@ -161,12 +199,7 @@ def message_callback(msg):
     in_mission_status = words[2]
     reached_status = words[3]
 
-    # first - in mission
-    # second - ready
-    # third - trigger
-    vector = [drone_id,
-              in_mission_status == "in_mission",
-              reached_status == "reached"]
+    vector = [drone_id, in_mission_status == "in_mission", reached_status == "reached"]
     drones_vector = tuple(vector)
 
     # Check if a drone with the same drone_id exists
@@ -184,6 +217,20 @@ def message_callback(msg):
     available_drones.add(drones_vector)
     # print("Drones available", available_drones)
 
+    # Store the last received status for the drone
+    last_received_status[drone_id] = time.time()
+
+    # Check for drone timeout and remove it if necessary
+    for drone_id, last_seen in list(last_received_status.items()):
+        current_time = time.time()
+        if current_time - last_seen >= 5:
+            for drone in available_drones:
+                if drone[0] == drone_id:
+                    available_drones.remove(drone)
+                    del last_received_status[drone_id]
+                    break
+
+    # Init the drone messages
     global first_init
     global first_init_counter
     if first_init:
@@ -192,6 +239,9 @@ def message_callback(msg):
             first_init = False
         return
 
+    # The drone trigger logic
+    global trigger_state
+    global my_mission_success
     drone_ids = []
     for drone_id, in_mission, trigger in available_drones:
         if in_mission:
@@ -199,11 +249,13 @@ def message_callback(msg):
                 print(f"Drone {my_drone_id} in mission trigger when needed")
 
                 if my_mission_success:
+                    my_mission_success = False
                     swarm_data.data = f"Drone {my_drone_id} not_in_mission not_reached"
                     my_drone_id_ready_pub.publish(swarm_data)
                     return
 
                 if trigger_state:
+                    trigger_state = False
                     swarm_data.data = f"Drone {my_drone_id} in_mission reached"
                     my_drone_id_ready_pub.publish(swarm_data)             
                 return
@@ -223,14 +275,16 @@ def message_callback(msg):
                 # print(f"Sorted drone_ids: {sorted_drone_ids}")
                 # print(f"Number of drone_ids smaller than {my_drone_id}: {count}")
 
+                # Check the priority of the drone
                 if count == 0:
                     print(f"Count is 0 {my_drone_id}")
                     swarm_data.data = f"Drone {my_drone_id} in_mission not_reached"
                     my_drone_id_ready_pub.publish(swarm_data)
-                    # PX4modes.loadMission()
-                    # PX4modes.setAutoMissionMode()
-                    # #PX4modes.setTakeoff()
-                    # PX4modes.setArm()
+                    PX4modes.clearMission()
+                    PX4modes.loadMission()
+                    PX4modes.setAutoMissionMode()
+                    #PX4modes.setTakeoff()
+                    PX4modes.setArm()
                     return
             print(f"Drone {my_drone_id} not in mission and not reached")
             swarm_data.data = f"Drone {my_drone_id} not_in_mission not_reached"
@@ -244,14 +298,16 @@ def message_callback(msg):
     # print(f"Sorted drone_ids: {sorted_drone_ids}")
     # print(f"Number of drone_ids smaller than {my_drone_id}: {count}")
 
+    # Check the priority of the drone
     if count == 0:
         print(f"Count is 0 for the drone {my_drone_id}")
         swarm_data.data = f"Drone {my_drone_id} in_mission not_reached"
         my_drone_id_ready_pub.publish(swarm_data)
-        # PX4modes.loadMission()
-        # PX4modes.setAutoMissionMode()
-        # #PX4modes.setTakeoff()
-        # PX4modes.setArm()
+        PX4modes.clearMission()
+        PX4modes.loadMission()
+        PX4modes.setAutoMissionMode()
+        #PX4modes.setTakeoff()
+        PX4modes.setArm()
 
 
 

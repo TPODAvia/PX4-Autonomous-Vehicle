@@ -11,26 +11,29 @@
 # Attitude & rate gains
 ###############################################
 # Roll
-param set-default MC_ROLLRATE_P 0.1500
-param set-default MC_ROLLRATE_I 0.0010
-param set-default MC_ROLLRATE_D 0.0210
-param set-default MC_ROLL_P 5.0
+param set-default MC_ROLLRATE_P 0.1700
+param set-default MC_ROLLRATE_I 0.02000
+param set-default MC_ROLLRATE_D 0.030
+param set-default MC_ROLL_P 5.41
 
 # Pitch
-param set-default MC_PITCHRATE_P 0.1600
-param set-default MC_PITCHRATE_I 0.0010
-param set-default MC_PITCHRATE_D 0.0110
-param set-default MC_PITCH_P 7.0
+param set-default MC_PITCHRATE_P 0.1800
+param set-default MC_PITCHRATE_I 0.02000
+param set-default MC_PITCHRATE_D 0.030
+param set-default MC_PITCH_P 5.22
 
 # Yaw
-
+# param set-default MC_YAWRATE_P 0.0017
+# param set-default MC_YAWRATE_I 0.0025
+# param set-default MC_YAWRATE_D 0.0002
+# param set-default MC_YAW_P 0.03
 
 ###############################################
 # Multirotor Position Gains
 ###############################################
 # position control gains
 param set-default MPC_XY_VEL_I_ACC 4
-param set-default MPC_XY_VEL_P_ACC 3
+param set-default MPC_XY_VEL_P_ACC 6
 
 # Return altitude
 param set-default RTL_DESCEND_ALT 10
