@@ -182,6 +182,7 @@
     <plugin name='rosbag' filename='libgazebo_multirotor_base_plugin.so'>
       <robotNamespace></robotNamespace>
       <linkName>base_link</linkName>
+
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
@@ -193,9 +194,8 @@
 
 
 
-
     <link name="box">
-      <pose>0 0 -0.24 0 0 0</pose>
+      <pose>0.0 0.0 -0.24 0 0 0</pose>
 
       <inertial>
         <mass>10</mass>
@@ -225,13 +225,32 @@
         </material>
       </visual>
 
+      <collision name="box_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.22 0.12 0.058</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+
     </link>
 
     <joint name='box_joint' type='fixed'>
       <child>box</child>
       <parent>base_link</parent>
     </joint>
-
 
 
 

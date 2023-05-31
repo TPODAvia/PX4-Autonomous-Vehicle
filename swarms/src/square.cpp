@@ -385,10 +385,10 @@ int land()
   }
 }
 
-void setupTransforms(tf2_ros::TransformBroadcaster &tf_broadcaster, geometry_msgs::TransformStamped &base_link_master, std::vector<geometry_msgs::TransformStamped> &transforms, int n, tf2_ros::Buffer &tf_buffer, int drone_id_g)
+void setupTransforms(tf2_ros::TransformBroadcaster &tf_broadcaster, geometry_msgs::TransformStamped &base_link_master, std::vector<geometry_msgs::TransformStamped> &transforms, int n, tf2_ros::Buffer &tf_buffer, int my_drone_id)
 {
 
-	if (drone_id_g == leader_drone_id_g)
+	if (my_drone_id == leader_drone_id_g)
 	{
 
 		geometry_msgs::TransformStamped base_link_master;
@@ -487,24 +487,74 @@ void leaderlocalPositionCallback(const geometry_msgs::PoseStamped::ConstPtr& msg
     leader_alt_z = msg->pose.position.z;
 }
 
-bool drone_exist(int drone_id, std::set<int> available_drones) {
-    return available_drones.find(drone_id) != available_drones.end();
+std::vector<std::tuple<int, bool, bool, ros::Time>> drone_info;
+const ros::Duration timeout(3.0);
+void messageCallback(const std_msgs::String::ConstPtr& msg)
+{
+    std::istringstream iss(msg->data);
+    std::vector<std::string> words{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
+
+	int drone_id = std::stoi(words[1]);
+	std::string leader_status = words[2];
+	std::string reached_status = words[3];
+
+    // Update the drone_info vector
+    drone_info.erase(std::remove_if(drone_info.begin(), drone_info.end(), [&](const auto& info) {
+        return std::get<0>(info) == drone_id;
+    }), drone_info.end());
+
+    drone_info.emplace_back(drone_id, leader_status == "Leader", reached_status == "Reached", ros::Time::now());
+
+	// Remove old entries
+    ros::Time now = ros::Time::now();
+    drone_info.erase(std::remove_if(drone_info.begin(), drone_info.end(), [&](const auto& info) {
+        return (now - std::get<3>(info)) > timeout;
+    }), drone_info.end());
+
+	// Sort the drone_info vector by drone_id
+    std::sort(drone_info.begin(), drone_info.end(), [&](const std::tuple<int, bool, bool, ros::Time>& a, const std::tuple<int, bool, bool, ros::Time>& b) {
+        return std::get<0>(a) < std::get<0>(b);
+    });
+
+    // // Print the updated drone_info vector
+    // for (const auto& info : drone_info)
+	// {
+	// 	ROS_INFO("Drone %d: %s, %s", std::get<0>(info), std::get<1>(info) ? "Leader" : "Follower", std::get<2>(info) ? "Reached" : "Not reached");
+	// }
+
+}
+
+bool all_drones_ready() {
+    for (const auto& info : drone_info) {
+		if (std::get<2>(info) != true) return false;
+    }
+	return true;
 }
 
 
 bool init_leader(ros::NodeHandle controlnode)
 {
 
-	for (int drone_id = 0; drone_id < drone_nums; drone_id++)
+    // Print the updated drone_info vector
+    for (const auto& info : drone_info) 
 	{
-
-    	std::cout << "Is " << drone_id << " available? " << (drone_exist(drone_id, available_drones) ? "Yes" : "No") << std::endl;
-		if (drone_exist(drone_id, available_drones) == true && drone_id > drone_id_g)
+		if (std::get<1>(info) == true)
 		{
-			if (first_init == true)
+			if (std::get<0>(info) == my_drone_id)
 			{
-				ros::Subscriber leader_global_position_sub = controlnode.subscribe<sensor_msgs::NavSatFix>(("uav" + std::to_string(drone_id) + "/mavros/global_position/global").c_str(), 10, leaderglobalPositionCallback);
-				ros::Subscriber leader_local_position_sub = controlnode.subscribe<geometry_msgs::PoseStamped>(("uav" + std::to_string(drone_id) + "/mavros/global_position/local").c_str(), 10, leaderlocalPositionCallback);
+				ROS_INFO("Drone: %d I am the leader", my_drone_id);
+				// Trigger wifi here
+				leader_drone_id_g = my_drone_id;
+				swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Leader Reached";
+				my_drone_id_ready_pub.publish(swarm_data);
+
+				return true;
+			}
+			ROS_INFO("Drone: %d I am not the leader", my_drone_id);
+			if (std::get<0>(info) != first_init_leader_id)
+			{
+				ros::Subscriber leader_global_position_sub = controlnode.subscribe<sensor_msgs::NavSatFix>(("uav" + std::to_string(std::get<0>(info)) + "/mavros/global_position/global").c_str(), 10, leaderglobalPositionCallback);
+				ros::Subscriber leader_local_position_sub = controlnode.subscribe<geometry_msgs::PoseStamped>(("uav" + std::to_string(std::get<0>(info)) + "/mavros/global_position/local").c_str(), 10, leaderlocalPositionCallback);
 				
 				ROS_INFO("Initializing swarm");
 				ros::Rate rate(20.0);
@@ -517,22 +567,22 @@ bool init_leader(ros::NodeHandle controlnode)
 
 					std::pair<int, int> loc;
 					size_t list_size;
-					std::tie(loc, list_size) = get_loc(drone_id_g);
+					std::tie(loc, list_size) = get_loc(my_drone_id);
 
 					waypoint_g.pose.position.x = shift_x + leader_shift_x + loc.first;
 					waypoint_g.pose.position.y = shift_y + leader_shift_y + loc.second;
-					waypoint_g.pose.position.z = shift_alt + leader_alt_z + drone_id_g;
+					waypoint_g.pose.position.z = shift_alt + leader_alt_z + my_drone_id;
 
 					if (check_waypoint_reached() == 1)
 					{
-						swarm_data.data = "Drone" + std::to_string(drone_id_g) + "Follover Reached";
+						swarm_data.data = "Drone" + std::to_string(my_drone_id) + "Follover Reached";
 						my_drone_id_ready_pub.publish(swarm_data);
-						first_init == false;
+						first_init_leader_id = std::get<0>(info);
 						break;
 					}
 					else
 					{
-						swarm_data.data = "Drone" + std::to_string(drone_id_g) + "Follover Not_reached";
+						swarm_data.data = "Drone" + std::to_string(my_drone_id) + "Follover Not_reached";
 						my_drone_id_ready_pub.publish(swarm_data);	
 					}
 					
@@ -547,7 +597,7 @@ bool init_leader(ros::NodeHandle controlnode)
 				tf2_ros::TransformListener tf_listener(tf_buffer);
 
 				std::string source_frame = "map";
-				std::string target_frame = "offset_" + std::to_string(drone_id_g);
+				std::string target_frame = "offset_" + std::to_string(my_drone_id);
 				geometry_msgs::TransformStamped transform_stamped;
 				try
 				{
@@ -569,20 +619,26 @@ bool init_leader(ros::NodeHandle controlnode)
 				waypoint_g.pose.orientation.z = transform_stamped.transform.rotation.z;
 
 				local_pos_pub.publish(waypoint_g);
-
-				drone_id = drone_nums;
 			}
-		}
-		else if (drone_id == drone_id_g)
-		{
-			leader_drone_id_g = drone_id_g;
-			drone_id = drone_nums;
-			swarm_data.data = "Drone " + std::to_string(drone_id_g) + " Leader Reached";
-			my_drone_id_ready_pub.publish(swarm_data);
-			// triger wifi here
+
+			return true;
 		}
 	}
 
+
+    int count = static_cast<int>(std::count_if(drone_info.begin(), drone_info.end(),
+                                                 [&](const std::tuple<int, bool, bool, ros::Time>& drone_id) {
+                                                     return std::get<0>(drone_id) < my_drone_id;
+                                                 }));
+
+    std::cout << "My drone number: " << my_drone_id << " and the priority is: " << count << std::endl;
+
+    if (count == 0)
+	{
+		swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Leader Reached";
+		my_drone_id_ready_pub.publish(swarm_data);
+	 	// triger wifi here
+	}
 	return true;
 
 }
@@ -597,49 +653,6 @@ void landingCommandCallback(const std_msgs::Bool::ConstPtr& msg)
 
 }
 
-struct DroneData {
-    int drone_id;
-    std::string leader_status;
-    std::string reached_status;
-};
-
-// All drone should be reached
-// What the leader drone
-// What the drone is running
-int ready_drones_count = 0;
-std::vector<DroneData> available_drones;
-void messageCallback(const std_msgs::String::ConstPtr& msg)
-{
-    std::istringstream iss(msg->data);
-    std::vector<std::string> words{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
-
-
-	int drone_id = std::stoi(words[1]);
-	std::string leader_status = words[2];
-	std::string reached_status = words[3];
-
-	// If the drone is a leader, print its ID
-	if (leader_status == "Leader") 
-	{
-		ROS_INFO("Leader drone: %d", drone_id);
-		available_drones.push_back({drone_id, leader_status, reached_status});
-	}
-
-	// If the drone reached its destination, print its ID
-	if (reached_status == "Reached") 
-	{
-		ROS_INFO("Drone %d reached its destination.", drone_id);
-		available_drones.push_back({drone_id, reached_status, reached_status});
-	}
-
-	ROS_INFO("Available drones: ");
-	for (const auto& drone : available_drones) 
-	{
-		ROS_INFO("Drone %d: %s, %s", drone.drone_id, drone.leader_status, drone.reached_status);
-	}
-
-}
-
 /**
 \ingroup control_functions
 This function is called at the beginning of a program and will start of the communication links to the FCU. The function requires the program's ros nodehandle as an input 
@@ -648,38 +661,38 @@ This function is called at the beginning of a program and will start of the comm
 int init_publisher_subscriber(ros::NodeHandle controlnode)
 {
 	std::string ros_namespace;
-	if (!controlnode.hasParam("namespace") && !controlnode.hasParam("drone_id_g"))
+	if (!controlnode.hasParam("namespace") && !controlnode.hasParam("my_drone_id"))
 	{
 
-		ROS_INFO("Please setup the namespace and drone_id_g parameters");
+		ROS_INFO("Please setup the namespace and my_drone_id parameters");
 		ros::shutdown();
 	}
 	else
 	{
 		controlnode.getParam("namespace", ros_namespace);
-		controlnode.getParam("drone_id_g", drone_id_g);
+		controlnode.getParam("drone_id_g", my_drone_id);
 		controlnode.getParam("drone_nums", drone_nums);
 	}
 
-	local_pos_pub = 					controlnode.advertise<geometry_msgs::PoseStamped>((ros_namespace + std::to_string(drone_id_g) + "/mavros/setpoint_position/local").c_str(), 10);
-	my_home_position_pub = 				controlnode.advertise<sensor_msgs::NavSatFix>((ros_namespace + std::to_string(drone_id_g) + "/home_position/global").c_str(), 10);
+	local_pos_pub = 					controlnode.advertise<geometry_msgs::PoseStamped>((ros_namespace + std::to_string(my_drone_id) + "/mavros/setpoint_position/local").c_str(), 10);
+	my_home_position_pub = 				controlnode.advertise<sensor_msgs::NavSatFix>((ros_namespace + std::to_string(my_drone_id) + "/home_position/global").c_str(), 10);
 	my_drone_id_ready_pub = 			controlnode.advertise<std_msgs::String>("/drone_id_ready", 10);
 	landing_command_pub = 				controlnode.advertise<std_msgs::Bool>("/leader_landing_command", 10);
 
     my_drone_id_ready_sub = 			controlnode.subscribe<std_msgs::String>("/drone_id_ready", 10, messageCallback); 
 	landing_command_sub = 				controlnode.subscribe<std_msgs::Bool>("/leader_landing_command", 10, landingCommandCallback);
-	local_position_sub = 				controlnode.subscribe<nav_msgs::Odometry>((ros_namespace + std::to_string(drone_id_g) + "/mavros/global_position/local").c_str(), 10, pose_cb);
-	global_position_sub = 				controlnode.subscribe<sensor_msgs::NavSatFix>((ros_namespace + std::to_string(drone_id_g) + "/mavros/global_position/global").c_str(), 10, globalPositionCallback);
-	state_sub = 						controlnode.subscribe<mavros_msgs::State>((ros_namespace + std::to_string(drone_id_g) + "/mavros/state").c_str(), 10, state_cb);
+	local_position_sub = 				controlnode.subscribe<nav_msgs::Odometry>((ros_namespace + std::to_string(my_drone_id) + "/mavros/global_position/local").c_str(), 10, pose_cb);
+	global_position_sub = 				controlnode.subscribe<sensor_msgs::NavSatFix>((ros_namespace + std::to_string(my_drone_id) + "/mavros/global_position/global").c_str(), 10, globalPositionCallback);
+	state_sub = 						controlnode.subscribe<mavros_msgs::State>((ros_namespace + std::to_string(my_drone_id) + "/mavros/state").c_str(), 10, state_cb);
 
-	arming_client = 					controlnode.serviceClient<mavros_msgs::CommandBool>((ros_namespace + std::to_string(drone_id_g) + "/mavros/cmd/arming").c_str());
-	land_client = 						controlnode.serviceClient<mavros_msgs::CommandTOL>((ros_namespace + std::to_string(drone_id_g) + "/mavros/cmd/land").c_str());
-	set_mode_client = 					controlnode.serviceClient<mavros_msgs::SetMode>((ros_namespace + std::to_string(drone_id_g) + "/mavros/set_mode").c_str());
-	takeoff_client = 					controlnode.serviceClient<mavros_msgs::CommandTOL>((ros_namespace + std::to_string(drone_id_g) + "/mavros/cmd/takeoff").c_str());
-	command_client = 					controlnode.serviceClient<mavros_msgs::CommandLong>((ros_namespace + std::to_string(drone_id_g) + "/mavros/cmd/command").c_str());
-	auto_waypoint_pull_client = 		controlnode.serviceClient<mavros_msgs::WaypointPull>((ros_namespace + std::to_string(drone_id_g) + "/mavros/mission/pull").c_str());
-	auto_waypoint_push_client = 		controlnode.serviceClient<mavros_msgs::WaypointPush>((ros_namespace + std::to_string(drone_id_g) + "/mavros/mission/push").c_str());
-	auto_waypoint_set_current_client = 	controlnode.serviceClient<mavros_msgs::WaypointSetCurrent>((ros_namespace + std::to_string(drone_id_g) + "/mavros/mission/set_current").c_str());
+	arming_client = 					controlnode.serviceClient<mavros_msgs::CommandBool>((ros_namespace + std::to_string(my_drone_id) + "/mavros/cmd/arming").c_str());
+	land_client = 						controlnode.serviceClient<mavros_msgs::CommandTOL>((ros_namespace + std::to_string(my_drone_id) + "/mavros/cmd/land").c_str());
+	set_mode_client = 					controlnode.serviceClient<mavros_msgs::SetMode>((ros_namespace + std::to_string(my_drone_id) + "/mavros/set_mode").c_str());
+	takeoff_client = 					controlnode.serviceClient<mavros_msgs::CommandTOL>((ros_namespace + std::to_string(my_drone_id) + "/mavros/cmd/takeoff").c_str());
+	command_client = 					controlnode.serviceClient<mavros_msgs::CommandLong>((ros_namespace + std::to_string(my_drone_id) + "/mavros/cmd/command").c_str());
+	auto_waypoint_pull_client = 		controlnode.serviceClient<mavros_msgs::WaypointPull>((ros_namespace + std::to_string(my_drone_id) + "/mavros/mission/pull").c_str());
+	auto_waypoint_push_client = 		controlnode.serviceClient<mavros_msgs::WaypointPush>((ros_namespace + std::to_string(my_drone_id) + "/mavros/mission/push").c_str());
+	auto_waypoint_set_current_client = 	controlnode.serviceClient<mavros_msgs::WaypointSetCurrent>((ros_namespace + std::to_string(my_drone_id) + "/mavros/mission/set_current").c_str());
 
 	return 0;
 }
@@ -700,9 +713,9 @@ int main(int argc, char** argv)
 	tf2_ros::Buffer tf_buffer;
 	tf2_ros::TransformListener tf_listener(tf_buffer);
 
-	wait4connect();
-	initialize_local_frame();
-	wait4start();
+	// wait4connect();
+	// initialize_local_frame();
+	// wait4start();
 	
 	//specify some waypoints 
 	std::vector<gnc_api_waypoint> waypointList;
@@ -745,12 +758,26 @@ int main(int argc, char** argv)
 
 	ros::Rate rate(20.0);
 	int counter = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Not_Leader Not_Reached";
+		my_drone_id_ready_pub.publish(swarm_data);
+		ros::spinOnce();
+		rate.sleep();
+	}
+
+	if (my_drone_id == 1)
+	{
+		ros::shutdown();
+	}
+
 	while(ros::ok())
 	{
 
 		init_leader(gnc_node);
-		setupTransforms(tf_broadcaster, base_link_master, transforms, drone_nums, tf_buffer, drone_id_g);
-		if(check_waypoint_reached() == 1 && drone_id_g == leader_drone_id_g && available_drones.size() == drone_nums)
+		setupTransforms(tf_broadcaster, base_link_master, transforms, drone_nums, tf_buffer, my_drone_id);
+		if(check_waypoint_reached() == 1 && my_drone_id == leader_drone_id_g && all_drones_ready())
 		{
 			ROS_INFO("Waypoint reached");
 			if (counter < waypointList.size())

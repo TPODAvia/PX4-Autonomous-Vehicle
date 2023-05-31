@@ -34,6 +34,13 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <std_msgs/Bool.h>
 
+#include <algorithm>
+#include <functional>
+#include <sstream>
+#include <chrono>
+#include <mutex>
+#include <condition_variable>
+
 mavros_msgs::State current_state_g;
 nav_msgs::Odometry current_pose_g;
 geometry_msgs::Pose correction_vector_g;
@@ -47,10 +54,10 @@ float current_heading_g;
 float local_offset_g;
 float correction_heading_g = 0;
 float local_desired_heading_g;
-int drone_id_g;
+int my_drone_id;
 int leader_drone_id_g = 0;
 bool publish_my_home_position = true;
-bool first_init = true;
+int first_init_leader_id;
 int drone_nums;
 float shift_x;
 float shift_y;
@@ -94,4 +101,10 @@ struct gnc_api_waypoint{
 	float y; ///< distance in y with respect to your reference frame
 	float z; ///< distance in z with respect to your reference frame
 	float psi; ///< rotation about the third axis of your reference frame
+};
+
+struct DroneData {
+    int drone_id;
+    std::string leader_status;
+    std::string reached_status;
 };
