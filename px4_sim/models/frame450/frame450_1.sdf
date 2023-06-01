@@ -1203,7 +1203,7 @@
       <qgc_addr>INADDR_ANY</qgc_addr>
       <qgc_udp_port>14550</qgc_udp_port>
       <sdk_addr>INADDR_ANY</sdk_addr>
-      <sdk_udp_port>14540</sdk_udp_port>
+      <sdk_udp_port>14541</sdk_udp_port>
       <hil_mode>0</hil_mode>
       <hil_state_level>0</hil_state_level>
       <opticalFlowSubTopic>/px4flow/link/opticalFlow</opticalFlowSubTopic>

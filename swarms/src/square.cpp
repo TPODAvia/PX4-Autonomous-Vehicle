@@ -379,7 +379,9 @@ int land()
 	leader_landing_command.data = true;
 	landing_command_pub.publish(leader_landing_command);
     return 0;
-  }else{
+  }
+  else
+  {
     ROS_ERROR("Landing failed");
     return -1;
   }
@@ -392,9 +394,9 @@ void setupTransforms(tf2_ros::TransformBroadcaster &tf_broadcaster, geometry_msg
 	{
 
 		geometry_msgs::TransformStamped base_link_master;
-		base_link_master = tf_buffer.lookupTransform("map", "base_link", ros::Time(0));
+		base_link_master = tf_buffer.lookupTransform("map", "base_link_" + std::to_string(my_drone_id), ros::Time(0));
 		base_link_master.header.stamp = ros::Time::now();
-		base_link_master.header.frame_id = "base_link";
+		base_link_master.header.frame_id = "base_link_" + std::to_string(my_drone_id);
 		base_link_master.child_frame_id = "swarm_master";
 		base_link_master.transform.translation.x = 0.0;
 		base_link_master.transform.translation.y = 0.0;
@@ -516,11 +518,11 @@ void messageCallback(const std_msgs::String::ConstPtr& msg)
         return std::get<0>(a) < std::get<0>(b);
     });
 
-    // // Print the updated drone_info vector
-    // for (const auto& info : drone_info)
-	// {
-	// 	ROS_INFO("Drone %d: %s, %s", std::get<0>(info), std::get<1>(info) ? "Leader" : "Follower", std::get<2>(info) ? "Reached" : "Not reached");
-	// }
+    // Print the updated drone_info vector
+    for (const auto& info : drone_info)
+	{
+		ROS_INFO("Drone %d: %s, %s", std::get<0>(info), std::get<1>(info) ? "Leader" : "Follower", std::get<2>(info) ? "Reached" : "Not reached");
+	}
 
 }
 
@@ -713,9 +715,9 @@ int main(int argc, char** argv)
 	tf2_ros::Buffer tf_buffer;
 	tf2_ros::TransformListener tf_listener(tf_buffer);
 
-	// wait4connect();
-	// initialize_local_frame();
-	// wait4start();
+	wait4connect();
+	initialize_local_frame();
+	wait4start();
 	
 	//specify some waypoints 
 	std::vector<gnc_api_waypoint> waypointList;
@@ -767,11 +769,6 @@ int main(int argc, char** argv)
 		rate.sleep();
 	}
 
-	if (my_drone_id == 1)
-	{
-		ros::shutdown();
-	}
-
 	while(ros::ok())
 	{
 
@@ -790,7 +787,7 @@ int main(int argc, char** argv)
 				//land after all waypoints are reached
 				land();
 				ROS_INFO("Finish Task");
-				// break;
+				break;
 			}	
 		}
 		ros::spinOnce();

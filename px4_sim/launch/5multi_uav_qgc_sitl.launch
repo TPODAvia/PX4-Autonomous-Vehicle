@@ -46,16 +46,17 @@
             <arg name="fcu_ip" value="$(arg fcu_ip)"/>
             <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
             <arg name="tgt_system" value="$(arg tgt_system)" />
+            <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
         </include>
     </group>
 
     <!-- UAV1 -->
-    <group ns="uav1">
+    <!-- <group ns="uav1">
         <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
             <arg name="x" value="0"/>
-            <arg name="y" value="10"/>
+            <arg name="y" value="5"/>
             <arg name="z" value="0"/>
             <arg name="R" value="0"/>
             <arg name="P" value="0"/>
@@ -66,17 +67,18 @@
         </include>
 
         <arg name="fcu_conn" default="sitl"/>
-        <arg name="fcu_ip" default="127.0.0.1"/>
+        <arg name="fcu_ip" default="127.0.0.2"/>
         <arg name="gcs_bridge" default=""/>
-        <arg name="tgt_system" default="1" />
+        <arg name="tgt_system" default="2" />
         <include file="$(find px4_air)/launch/0mavros.launch">
             <arg name="ID" value="$(arg ID)"/>
             <arg name="fcu_conn" value="$(arg fcu_conn)"/>
             <arg name="fcu_ip" value="$(arg fcu_ip)"/>
             <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
             <arg name="tgt_system" value="$(arg tgt_system)" />
+            <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
         </include>
-    </group>
+    </group> -->
 
 
 	<!-- Timer setup -->

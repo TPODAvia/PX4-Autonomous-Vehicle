@@ -1,16 +1,19 @@
 <launch>
 
     <node pkg="swarms" type="sequence.py" name="my_program0" output="screen">
-        <param name="drone_id" value="4" />
+        <param name="drone_id" value="0" />
+        <param name="drone_name" value="uav" />
     </node>
 
-    <node pkg="swarms" type="sequence.py" name="my_program1" output="screen">
+    <!-- <node pkg="swarms" type="sequence.py" name="my_program1" output="screen">
         <param name="drone_id" value="1" />
+        <param name="drone_name" value="uav" />
     </node>
 
     <node pkg="swarms" type="sequence.py" name="my_program2" output="screen">
         <param name="drone_id" value="2" />
-    </node>
+        <param name="drone_name" value="uav" />
+    </node> -->
 
 
 </launch>

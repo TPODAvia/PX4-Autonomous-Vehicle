@@ -57,7 +57,7 @@ float local_desired_heading_g;
 int my_drone_id;
 int leader_drone_id_g = 0;
 bool publish_my_home_position = true;
-int first_init_leader_id;
+int first_init_leader_id = -1;
 int drone_nums;
 float shift_x;
 float shift_y;
