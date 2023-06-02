@@ -51,7 +51,7 @@
     </group>
 
     <!-- UAV1 -->
-    <!-- <group ns="uav1">
+    <group ns="uav1">
         <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -78,7 +78,7 @@
             <arg name="tgt_system" value="$(arg tgt_system)" />
             <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
         </include>
-    </group> -->
+    </group>
 
 
 	<!-- Timer setup -->
