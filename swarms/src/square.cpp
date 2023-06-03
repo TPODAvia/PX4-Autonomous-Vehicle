@@ -598,14 +598,14 @@ bool init_leader(ros::NodeHandle controlnode)
 
 					if (check_waypoint_reached() == 1)
 					{
-						swarm_data.data = "Drone" + std::to_string(my_drone_id) + "Follover Reached";
+						swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Follover Reached";
 						my_drone_id_ready_pub.publish(swarm_data);
 
 						break;
 					}
 					else
 					{
-						swarm_data.data = "Drone" + std::to_string(my_drone_id) + "Follover Not_reached";
+						swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Follover Not_reached";
 						my_drone_id_ready_pub.publish(swarm_data);	
 					}
 					
@@ -646,7 +646,7 @@ bool init_leader(ros::NodeHandle controlnode)
 
 				local_pos_pub.publish(waypoint_g);
 
-				swarm_data.data = "Drone" + std::to_string(my_drone_id) + "Follover Not_reached";
+				swarm_data.data = "Drone " + std::to_string(my_drone_id) + " Follover Not_reached";
 				my_drone_id_ready_pub.publish(swarm_data);	
 			}
 
@@ -803,25 +803,25 @@ int main(int argc, char** argv)
 		if (my_drone_id == leader_drone_id_g)
 		{
 			// setupTransforms(tf_broadcaster, base_link_master, transforms, drone_nums, tf_buffer, my_drone_id);
-			std::cout << "Paramerers" << std::endl;
-			std::cout << check_waypoint_reached() << std::endl;
-			std::cout << all_drones_ready() << std::endl;
-			if(check_waypoint_reached() == 1 && all_drones_ready())
-			{
-				ROS_INFO("Waypoint reached");
-				if (counter < waypointList.size())
-				{
-					set_destination(waypointList[counter].x,waypointList[counter].y,waypointList[counter].z, waypointList[counter].psi);
-					counter++;	
-				}
-				else
-				{
-					//land after all waypoints are reached
-					land();
-					ROS_INFO("Finish Task");
-					break;
-				}	
-			}
+			// std::cout << "Paramerers" << std::endl;
+			// std::cout << check_waypoint_reached() << std::endl;
+			// std::cout << all_drones_ready() << std::endl;
+			// if(check_waypoint_reached() == 1 && all_drones_ready())
+			// {
+			// 	ROS_INFO("Waypoint reached");
+			// 	if (counter < waypointList.size())
+			// 	{
+			// 		set_destination(waypointList[counter].x,waypointList[counter].y,waypointList[counter].z, waypointList[counter].psi);
+			// 		counter++;	
+			// 	}
+			// 	else
+			// 	{
+			// 		//land after all waypoints are reached
+			// 		land();
+			// 		ROS_INFO("Finish Task");
+			// 		break;
+			// 	}	
+			// }
 		}
 
 		ros::spinOnce();

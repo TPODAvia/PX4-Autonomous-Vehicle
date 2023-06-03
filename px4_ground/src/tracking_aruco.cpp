@@ -24,11 +24,18 @@ void state_cb(const mavros_msgs::State::ConstPtr& msg){
     current_state = *msg;
 }
 
-void tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub)
+geometry_msgs::PoseStamped drone_pose;
+void local_position_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+{
+    // ROS_INFO("Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)", msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
+    drone_pose = *msg;
+}
+
+bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, std::string aruco_id)
 {
     try
     {
-        transform_stamped = buffer.lookupTransform("base_link", "aruco_71", ros::Time(0));
+        transform_stamped = buffer.lookupTransform("map", aruco_id, ros::Time(0));
     }
     catch (tf2::TransformException &ex)
     {
@@ -37,18 +44,29 @@ void tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub)
         pose_stamped.pose.position.y = 0;
         pose_stamped.pose.position.z = 10;
         setpoint_pub.publish(pose_stamped);
-        return;
+        return false;
     }
 
     // Perform manipulations on the transform_stamped
     pose_stamped.header = transform_stamped.header;
     pose_stamped.pose.position.x = transform_stamped.transform.translation.x;
     pose_stamped.pose.position.y = transform_stamped.transform.translation.y;
-    pose_stamped.pose.position.z = transform_stamped.transform.translation.z + 4.0;
+    pose_stamped.pose.position.z = -transform_stamped.transform.translation.z + 4.0;
     pose_stamped.pose.orientation = transform_stamped.transform.rotation;
 
     // Publish the result to the mavros/setpoint_position topic
     setpoint_pub.publish(pose_stamped);
+
+    float drone_pose_x = drone_pose.pose.position.x - pose_stamped.pose.position.x;
+    float drone_pose_y = drone_pose.pose.position.y - pose_stamped.pose.position.y;
+    float drone_pose_z = drone_pose.pose.position.z - pose_stamped.pose.position.z;
+    // drone_pose_x*drone_pose_x + drone_pose.pose.position.y^2 + drone_pose.pose.position.z^2 < 0.1^2;
+    float abs = drone_pose_x*drone_pose_x+drone_pose_y*drone_pose_y+drone_pose_z*drone_pose_z;
+    if (abs < 0.2*0.2)
+    {
+        return true;
+    }
+    return false;
 }
 
 
@@ -63,6 +81,8 @@ int main(int argc, char **argv)
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
+     ros::Subscriber sub = nh.subscribe("local_position/pose", 10, local_position_callback);
+
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
             ("mavros/cmd/arming");
     ros::ServiceClient set_mode_client = nh.serviceClient<mavros_msgs::SetMode>
@@ -105,7 +125,7 @@ int main(int argc, char **argv)
     offb_set_mode.request.custom_mode = "OFFBOARD";
 
     bool trigger = false;
-
+    int land_counter = 0;
     while (nh.ok())
     {
 
@@ -130,9 +150,33 @@ int main(int argc, char **argv)
             last_request = ros::Time::now();
         } 
 
+        std::string aruco_id = "aruco_71";
+        // std::string aruco_id = "aruco_72";
+        // std::string aruco_id = "aruco_73";
+        // Some function that uses the transform_stamped to perform some action
+        bool destination_state = tf_callback(buffer, setpoint_pub, aruco_id);
 
-        tf_callback(buffer, setpoint_pub);
-
+        if (destination_state)
+        {
+            // ROS_INFO("Tracking Aruco Done");
+            land_counter++;
+            if (land_counter > 200)
+            {
+                offb_set_mode.request.custom_mode = "AUTO.LAND";
+                set_mode_client.call(offb_set_mode);
+                std::cout << "Setting to LAND Mode..." <<std::endl;
+                if (current_state.mode == "AUTO.LAND")
+                {
+                    ROS_INFO("Landing...");
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // ROS_INFO("Aruco %s is not detected", aruco_id.c_str());
+            land_counter = 0;
+        }
 
         ros::spinOnce();
         rate.sleep();

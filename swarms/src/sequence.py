@@ -9,7 +9,8 @@ from std_msgs.msg import String
 import re
 from sensor_msgs.msg import BatteryState
 from mavros_msgs.msg import State
-
+# http://docs.ros.org/api/mavros_msgs/html/msg/Waypoint.html
+# Check the https://github.com/mavlink/mavros/blob/master/mavros_msgs/msg/CommandCode.msg
 # Initialize global variables
 available_drones = set()
 mavros.set_namespace()
@@ -178,7 +179,7 @@ def main():
     PX4modes.clearMission()
     PX4modes.loadMission()
     # Create a publisher and subscriber
-    my_drone_id_ready_sub = rospy.Subscriber("/drone_id_ready", String, message_callback, queue_size=10)
+    my_drone_id_ready_sub = rospy.Subscriber("/drone_id_ready", String, message_callback)
     sub = rospy.Subscriber(my_drone_name + '/mavros/mission/reached',WaypointReached, WP_callback)
     battery_sub = rospy.Subscriber(my_drone_name + "/mavros/battery", BatteryState, battery_state_cb)
     state_sub = rospy.Subscriber(my_drone_name + "/mavros/state", State, state_cb)
