@@ -29,6 +29,7 @@ void local_position_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
     // ROS_INFO("Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)", msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
     drone_pose = *msg;
+    
 }
 
 bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, std::string aruco_id)
@@ -60,9 +61,9 @@ bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, st
     float drone_pose_x = drone_pose.pose.position.x - pose_stamped.pose.position.x;
     float drone_pose_y = drone_pose.pose.position.y - pose_stamped.pose.position.y;
     float drone_pose_z = drone_pose.pose.position.z - pose_stamped.pose.position.z;
-    // drone_pose_x*drone_pose_x + drone_pose.pose.position.y^2 + drone_pose.pose.position.z^2 < 0.1^2;
     float abs = drone_pose_x*drone_pose_x+drone_pose_y*drone_pose_y+drone_pose_z*drone_pose_z;
-    if (abs < 0.2*0.2)
+    // ROS_INFO("drone_pose_x: %f, drone_pose_y: %f, drone_pose_z: %f, abs: %f", drone_pose_x, drone_pose_y, drone_pose_z, abs);
+    if (abs < 0.04)
     {
         return true;
     }
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
-     ros::Subscriber sub = nh.subscribe("local_position/pose", 10, local_position_callback);
+    ros::Subscriber sub = nh.subscribe("mavros/local_position/pose", 10, local_position_callback);
 
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
             ("mavros/cmd/arming");
