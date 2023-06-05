@@ -9,6 +9,7 @@ from std_msgs.msg import String
 import re
 from sensor_msgs.msg import BatteryState
 from mavros_msgs.msg import State
+# https://github.com/Mohit505Git/Mavros-AUTO.MISSION-mode/blob/master/wayPointMission.py
 # http://docs.ros.org/api/mavros_msgs/html/msg/Waypoint.html
 # Check the https://github.com/mavlink/mavros/blob/master/mavros_msgs/msg/CommandCode.msg
 # Initialize global variables

@@ -103,21 +103,30 @@ int main(int argc, char **argv)
     arm_cmd.request.value = true;
     ros::Time last_request = ros::Time::now();
 
-    if(current_state.mode != "AUTO.TAKEOFF")
-    {
-        offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
-        set_mode_client.call(offb_set_mode);
-        std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
-
-    }
-
-
     pose_stamped.pose.position.x = 0;
     pose_stamped.pose.position.y = 0;
     pose_stamped.pose.position.z = 2;
 
-    //send a few setpoints before starting
-    for(int i = 100; ros::ok() && i > 0; --i){
+    while(ros::ok() && drone_pose.pose.position.z < 1)
+    {
+
+        if(current_state.mode != "AUTO.TAKEOFF")
+        {
+            offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
+            set_mode_client.call(offb_set_mode);
+            std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
+
+        }
+
+        if( !current_state.armed && (ros::Time::now() - last_request > ros::Duration(5.0)))
+        {
+            if( arming_client.call(arm_cmd) && arm_cmd.response.success)
+            {
+                ROS_INFO("Vehicle armed");
+            }
+            last_request = ros::Time::now();
+        }
+
         setpoint_pub.publish(pose_stamped);
         ros::spinOnce();
         rate.sleep();
