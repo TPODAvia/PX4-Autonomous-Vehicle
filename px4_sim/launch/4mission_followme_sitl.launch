@@ -8,9 +8,10 @@
         <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
         <arg name="vehicle" value="frame450"/>
         <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/empty.world"/>
+        <!-- Node: change the yolo or aruco world depends on fly_modes -->
+        <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
 
-        <arg name="gui" default="true"/>
+        <arg name="gui" default="false"/>
     </include>
 
 	<!-- Pixhawk setup -->
@@ -18,6 +19,7 @@
 		<arg name="fcu_conn" value="sitl"/>
 		<arg name="fcu_ip" value="127.0.0.1"/>
 		<arg name="gcs_bridge" value=""/>
+	    <arg name="fly_mode" default="aruco_mode"/>
     </include>
 
 

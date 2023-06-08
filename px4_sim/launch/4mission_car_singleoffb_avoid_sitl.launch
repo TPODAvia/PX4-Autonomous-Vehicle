@@ -8,9 +8,12 @@
         <!-- any rovers: acker_rover, diff_rover -->
         <arg name="vehicle" value="diff_rover"/>
         <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/empty.world"/>
+        <arg name="world" value="$(find px4_sim)/worlds/yolo.world"/>
 
-        <arg name="gui" default="true"/>
+        <!-- avoidance trigger -->
+        <!-- <arg name="avoidance" default="true"/> -->
+        <arg name="gui" default="false"/>
+        
     </include>
 
 	<!-- Pixhawk setup -->
@@ -22,11 +25,7 @@
 
 
 	  <!--  **************** Visualisation ****************  -->
-	<!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_sim)/config/car_visual/visual_rviz.rviz"/> -->
-
-    <node pkg="rviz" type="rviz" output="screen" name="rviz" respawn="true"
-        args="-d $(find global_planner)/resource/global_planner.rviz" />
-
+	  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find px4_sim)/config/car_visual/visual_rviz.rviz"/> -->
 
     <!-- QGroundControl launch -->
     <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />

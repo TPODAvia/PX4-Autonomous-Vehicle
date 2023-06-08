@@ -9,11 +9,13 @@ project(swarms)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   mavros
+  roscpp
   std_msgs
   geometry_msgs
   mavros_msgs
   rospy
   sensor_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -23,7 +25,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -128,6 +129,7 @@ include_directories(
 #   src/${PROJECT_NAME}/swarms.cpp
 # )
 
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -180,6 +182,10 @@ include_directories(
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
 # )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -207,11 +213,18 @@ include_directories(
 add_executable(square src/square.cpp)
 target_link_libraries(square ${catkin_LIBRARIES})
 
-add_executable(gnc_example src/gnc_tutorial.cpp)
-target_link_libraries(gnc_example ${catkin_LIBRARIES})
+# add_executable(swarm_master src/swarm_master.cpp)
+# target_link_libraries(swarm_master ${catkin_LIBRARIES})
 
-add_executable(set_wp src/set_wp.cpp)
-target_link_libraries(set_wp ${catkin_LIBRARIES})
+catkin_install_python(PROGRAMS
+  src/weekly_launcher.py
+  src/sequence.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch/
+DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)
 
 #add_executable(sub_sol src/subscriber_sol.cpp)
 #target_link_libraries(sub_sol ${catkin_LIBRARIES})

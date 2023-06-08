@@ -33,7 +33,7 @@ Save the file and write "exit"
 sudo apt update
 ```
 ```s
-sudo apt install git python3-pip -y
+sudo apt install git python3-pip schedule -y
 ```
 ```s
 mkdir -p ~/catkin_ws/src

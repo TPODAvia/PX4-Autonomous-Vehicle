@@ -8,9 +8,9 @@
         <!-- any rovers: acker_rover, diff_rover -->
         <arg name="vehicle" value="diff_rover"/>
         <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/empty.world"/>
+        <arg name="world" value="$(find px4_sim)/worlds/yolo.world"/>
 
-        <arg name="gui" default="true"/>
+        <arg name="gui" default="false"/>
     </include>
 
 	<!-- Pixhawk setup -->

@@ -1,0 +1,6 @@
+<launch>
+
+<!-- This launch file provided schedules task to run every Monday at 00:00 (midnight). -->
+    <node name="my_program" pkg="swarms" type="weekly_launcher.py"  output="screen"/>
+
+</launch>

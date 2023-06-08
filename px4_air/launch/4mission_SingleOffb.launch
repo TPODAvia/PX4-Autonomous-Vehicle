@@ -12,7 +12,8 @@
     </include>
 
     <!-- Missions by preloaded waypoints -->
-    <node pkg="px4_ground" type="mavros_mission_px4.py" name="mavros_mission_px4" output="screen">
+    <arg name="node_start_delay" default="15.0" />  
+    <node pkg="px4_ground" type="mavros_mission_px4.py" name="mavros_mission_px4" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
     </node>
 
     <!-- Optional missions -->
@@ -33,5 +34,32 @@
 	<!-- <node pkg="px4_ground" type="ros_nav_quadrotor_node" name="ros_nav_quadrotor_node" output="screen">
 		<param name="desire_posz_" value = "1"/>				
 	</node> -->
+
+
+	<!-- Tag tracking node -->
+	<node pkg="tf" type="static_transform_publisher" name="tf_camera"
+			args="0 0 0 -1.57 0 0 main_camera_optical main_camera_tag 10"/>
+
+	<arg name="marker_size" default="40" />
+	<arg name="max_new_marker_error" default="0.08" />
+	<arg name="max_track_error" default="0.2" />
+	<arg name="cam_image_topic" default="/main_camera/image_raw" />
+	<arg name="cam_info_topic" default="/main_camera/camera_info" />
+	<arg name="output_frame" default="/main_camera_tag" />
+
+	<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false">
+		<param name="marker_size"           type="double" value="$(arg marker_size)" />
+		<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+		<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+		<param name="output_frame"          type="string" value="$(arg output_frame)" />
+
+		<remap from="camera_image"  to="$(arg cam_image_topic)" />
+		<remap from="camera_info"   to="$(arg cam_info_topic)" />
+	</node>
+
+
+	<!-- Precision Landing node -->
+	<node pkg="px4_ground" type="landing_quadrotor_node" name="landing_quadrotor_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+	</node>
 
 </launch>

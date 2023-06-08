@@ -30,4 +30,10 @@
     <rosparam param="pointcloud_topics" subst_value="True">$(arg pointcloud_topics)</rosparam>
   </node>
 
+  <!-- Missions by preloaded waypoints -->
+  <arg name="node_start_delay" default="15.0" />  
+  <node pkg="px4_ground" type="mavros_mission_px4.py" name="mavros_mission_px4" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+  </node>
+
+
 </launch>

@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/vboxuser/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/vboxuser/catkin_ws/src/ar_track_alvar/ar_track_alvar/include/**",
+        "/home/vboxuser/catkin_ws/src/PX4-Avoidance/avoidance/include/**",
+        "/home/vboxuser/catkin_ws/src/PX4-Avoidance/global_planner/include/**",
+        "/home/vboxuser/catkin_ws/src/mavros_humantracking/humantracking_controller/include/**",
+        "/home/vboxuser/catkin_ws/src/PX4-Avoidance/local_planner/include/**",
+        "/home/vboxuser/catkin_ws/src/mav_comm/mav_msgs/include/**",
+        "/home/vboxuser/catkin_ws/src/mav_comm/mav_planning_msgs/include/**",
+        "/home/vboxuser/catkin_ws/src/px4_ground/include/**",
+        "/home/vboxuser/catkin_ws/src/PX4-Avoidance/safe_landing_planner/include/**",
+        "/home/vboxuser/catkin_ws/src/swarms/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

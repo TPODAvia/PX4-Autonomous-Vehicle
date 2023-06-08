@@ -1,84 +1,23 @@
 <?xml version="1.0"?>
 <launch>
 
-	  <!-- Pixhawk setup -->
-    <include file="$(find px4_air)/launch/1setup.launch">
-      <arg name="fcu_conn" default="usb"/>
-      <arg name="fcu_ip" default="127.0.0.1"/>
-      <arg name="gcs_bridge" default="tcp"/>
-    </include>
+  <arg name="fcu_conn" default="usb"/>
+  <arg name="fcu_ip" default="127.0.0.1"/>
+  <arg name="gcs_bridge" default="tcp"/>
+  <arg name="config_yaml" default="$(find px4_ground)/launch/px4_config.yaml" />
 
-  <arg name="pointcloud_topics" default="[/camera/depth/points]"/>
-  <arg name="camera_frame_id" default="camera_link"/>
+  <!-- mavros -->
+  <include file="$(find px4_ground)/launch/0mavros.launch">
+      <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+      <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+      <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+      <arg name="config_yaml" value="$(arg config_yaml)"/>
+  </include>
 
-  <!-- Define a static transform from a camera internal frame to the fcu for every camera used -->
-  <!-- Ros transformation -->
-  <node pkg="tf" type="static_transform_publisher" name="tf_depth_camera"
-        args="0 0 0 -1.57 0 -1.57 fcu $(arg camera_frame_id) 10"/>
-
-
-  <!-- Launch local planner -->
-  <!-- Global planner -->
-  <include file="$(find global_planner)/launch/global_planner_octomap.launch" >
-      <arg name="pointcloud_topics" value="$(arg pointcloud_topics)" />
-      <arg name="camera_frame_id" value="$(arg camera_frame_id)" />
-      <arg name="start_pos_x" value="0" />
-      <arg name="start_pos_y" value="0" />
-      <arg name="start_pos_z" value="0.15" />
-  </include>>
-
-
-    <!--  ************** Laser to Base_link tf transform ***************  -->
- 	<node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0.1 0 0 0 fcu lidar 100"/>
-
-    <!--  ************** Navigation ***************  -->
-	<node pkg="move_base" type="move_base" respawn="false" name="move_base">
-    <rosparam file="$(find px4_ground)/config/car_visual/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find px4_ground)/config/car_visual/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find px4_ground)/config/car_visual/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find px4_ground)/config/car_visual/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find px4_ground)/config/car_visual/teb_local_planner_params.yaml" command="load" />
-
-		<param name="planner_frequency" value="1.0" />
-		<param name="planner_patience" value="5.0" /> 
-
-		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-		<param name="controller_frequency" value="5.0" />
-		<param name="controller_patience" value="15.0" />
-
-
-    <param name="global_costmap/global_frame" value="local_origin" />
-    <param name="global_costmap/robot_base_frame" value="fcu" />
-    <param name="local_costmap/global_frame" value="local_origin" />
-    <param name="local_costmap/robot_base_frame" value="fcu" />
-
-
-    <remap from="odom" to="/odometry/filtered" />
-    <remap from="cmd_vel" to="/robot/nav_vel"/>
-		
-	</node>
-
-
-
-	<!--  ****** Maps *****  -->
-  <!-- <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster" args="0 0 0 0 0 0 local_origin map 10"/> -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find px4_ground)/maps/maze.yaml">
-    <param name="frame_id" value="local_origin"/>
-	</node>
-
-	<node pkg="amcl" type="amcl" name="amcl">
-		<rosparam file="$(find px4_ground)/config/car_visual/amcl_params.yaml" command="load" />
-
-	  <param name="initial_pose_x"            value="2"/>
-		<param name="initial_pose_y"            value="2"/>
-		<param name="initial_pose_a"            value="0"/>
-
-    <remap from="/scan" to="/base_scan"/>
-	</node>
-
-
-	<!--  **************** RC Offboard Control ****************  -->
-  <arg name="node_start_delay" default="30.0" />  
-	<node pkg="px4_sim" type="cmd_vel_mavros_node" name="cmd_vel_mavros_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+	<!-- Timer setup -->
+	<arg name="node_start_delay" default="20.0" />  
+  <!-- Node to control the rover -->
+  <node pkg="px4_ground" type="avoidance_car_vfh_node" name="avoidance_car_vfh_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" >
+  </node>
 
 </launch>

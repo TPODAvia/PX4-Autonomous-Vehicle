@@ -16,6 +16,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <Eigen/Eigenvalues>
+#include <mavros_msgs/WaypointList.h>
 using namespace std;
 using namespace Eigen;
 
@@ -41,6 +42,8 @@ class PX4Landing {
   void Px4PosCallback(const geometry_msgs::PoseStamped::ConstPtr &msg);
   void Px4RelAltCallback(const std_msgs::Float64::ConstPtr &msg);
   void Px4StateCallback(const mavros_msgs::State::ConstPtr& msg);
+  void Waypoints_cb(const mavros_msgs::WaypointList::ConstPtr& msg);
+
   Eigen::Vector4d LandingPidProcess(Eigen::Vector3d &currentPos,float currentYaw,Eigen::Vector3d &expectPos,float expectYaw);
   Eigen::Vector3d temp_pos_drone;
   Eigen::Vector3d posxyz_target;     //Expect the spatial position of the aircraft
@@ -53,6 +56,10 @@ class PX4Landing {
   mavros_msgs::State px4_state_;     //the state of the aircraft
   double rel_alt_;                   //true altitude of the plane
   mavros_msgs::SetMode mode_cmd_;
+  mavros_msgs::WaypointList waypoint_list;
+  mavros_msgs::Waypoint last_waypoint;
+  bool is_current;
+  bool aruco_landing = false;
   int approach_count = 0;
   int small_count = 0;
   int detect_count = 0;
@@ -91,5 +98,6 @@ Drone LandingState = WAITING;//Initial state WAITING
   ros::Subscriber position_sub_;
   ros::Subscriber rel_alt_sub_;
   ros::Subscriber state_sub_;
+  ros::Subscriber waypoints_sub;
   ros::ServiceClient set_mode_client_;
 };

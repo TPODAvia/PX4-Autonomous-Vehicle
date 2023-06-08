@@ -12,20 +12,18 @@
     </include>
 
     <!-- Set the speed range of the car's waypoint to [0,1] -->
-	<node pkg="px4_control" type="mission_car_offboard_node" name="mission_car_offboard_node" output="screen">
+	<node pkg="px4_ground" type="mission_car_offboard_node" name="mission_car_offboard_node" output="screen">
 		<param name="step1_Pose_x" value = "0"/>	
-		<param name="step1_Pose_y" value = "2"/>
+		<param name="step1_Pose_y" value = "10"/>
 
-		<param name="step2_Pose_x" value = "1"/>	
-		<param name="step2_Pose_y" value = "2"/>
+		<param name="step2_Pose_x" value = "10"/>	
+		<param name="step2_Pose_y" value = "20"/>
 
-		<param name="step3_Pose_x" value = "1"/>	
-		<param name="step3_Pose_y" value = "0"/>
+		<param name="step3_Pose_x" value = "-10"/>	
+		<param name="step3_Pose_y" value = "-10"/>
 
 		<param name="step4_Pose_x" value = "0"/>	
 		<param name="step4_Pose_y" value = "0"/>
-
-		<param name="desire_vel_" value = "0.7"/>
 	</node>
 
 </launch>

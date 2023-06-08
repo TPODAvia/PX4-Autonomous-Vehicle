@@ -3,6 +3,7 @@
     <arg name="fcu_conn" default="usb"/>
     <arg name="fcu_ip" default="127.0.0.1"/>
     <arg name="gcs_bridge" default="tcp"/>
+    <arg name="tgt_system" default="1" />
 
     <arg name="web_video_server" default="false"/>
     <arg name="rosbridge" default="false"/>
@@ -18,6 +19,7 @@
         <arg name="fcu_conn" value="$(arg fcu_conn)"/>
         <arg name="fcu_ip" value="$(arg fcu_ip)"/>
         <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+        <arg name="tgt_system" value="$(arg tgt_system)" />
     </include>
 
     <!-- web video server -->

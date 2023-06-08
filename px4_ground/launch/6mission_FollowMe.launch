@@ -1,33 +1,27 @@
 <?xml version="1.0"?>
 <launch>
 
+    <arg name="fcu_conn" default="usb"/>
+    <arg name="fcu_ip" default="127.0.0.1"/>
+    <arg name="gcs_bridge" default="tcp"/>
 	<!-- Pixhawk setup -->
-	<include file="$(find px4_air)/launch/1setup.launch">
-		<arg name="fcu_conn" default="usb"/>
-		<arg name="fcu_ip" default="127.0.0.1"/>
-		<arg name="gcs_bridge" default="tcp"/>
-	</include>
+    <include file="$(find px4_ground)/launch/1setup.launch">
+        <arg name="fcu_conn" default="$(arg fcu_conn)"/>
+        <arg name="fcu_ip" default="$(arg fcu_ip)"/>
+        <arg name="gcs_bridge" default="$(arg gcs_bridge)"/>
+    </include>
 
-	<!-- Our node to control the drone -->
-	<!-- <node pkg="px4_sim" type="YOLOdetect.py" name="offb_node_py" required="true" output="screen" /> -->
+	<!-- Detections setup -->
+    <node pkg="yolov8_ros" type="yolo_ros.py" name="yolov8_node" output="screen">
+        <param name="img_topic" type="str" value="/camera/rgb/image_raw" />
+        <param name="center_depth_topic" type="str" value="/camera/depth/image_raw" />
+        <param name="queue_size" type="int" value="1" />
+        <param name="visualize" type="bool" value="True" />
+    </node>
 
-	<!-- Aruco Tracking Node -->
-
-	<node pkg="px4_ground" type="tracking_quadrotor_node" name="tracking_quadrotor_node" output="screen">
-		<param name="search_alt_" value = "1.5"/>	
-		<param name="markers_id_" value = "4"/>
-		<param name="desire_pose_x" value = "6.5"/>	
-		<param name="desire_pose_y" value = "0"/>	
-		<param name="desire_pose_z" value = "0"/>
-		<param name="PidY_p" value = "0.6"/>	
-		<param name="PidY_d" value = "0.05"/>	
-		<param name="PidY_i" value = "0.01"/>	
-		<param name="PidZ_p" value = "0.6"/>	
-		<param name="PidZ_d" value = "0.05"/>	
-		<param name="PidZ_i" value = "0.01"/>	
-		<param name="PidYaw_p" value = "0.4"/>	
-		<param name="PidYaw_d" value = "0.01"/>	
-		<param name="PidYaw_i" value = "0"/>	
-	</node>
+	<!-- Timer setup -->
+	<arg name="node_start_delay" default="20.0" />  
+	<!-- YOLO node to control the rover -->
+	<node pkg="px4_ground" type="tracking_yolo_car_node" name="tracking_yolo_car_node" output="screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'" />
 
 </launch>

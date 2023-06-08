@@ -6,8 +6,10 @@
 * Description: Realize the precise landing of px4 quadrotor AR code
 ***************************************************************************************************************************/
 #include "landing_quadrotor.h"
+
 using namespace std;
 using namespace Eigen;
+
 PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_private):
   nh_(nh),
   nh_private_(nh_private) {
@@ -21,8 +23,13 @@ PX4Landing::PX4Landing(const ros::NodeHandle& nh, const ros::NodeHandle& nh_priv
   rel_alt_sub_ = nh_private_.subscribe("/mavros/global_position/rel_alt", 1, &PX4Landing::Px4RelAltCallback,this,ros::TransportHints().tcpNoDelay());
 
   state_sub_ = nh_private_.subscribe("/mavros/state", 1, &PX4Landing::Px4StateCallback,this,ros::TransportHints().tcpNoDelay());
+  
+  waypoints_sub = nh_private_.subscribe("/mavros/mission/waypoints", 1, &PX4Landing::Waypoints_cb,this,ros::TransportHints().tcpNoDelay());
+ 
   //【Service】Modify system mode
   set_mode_client_ = nh_private_.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
+
+
 
 }
 
@@ -46,6 +53,9 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 {
   Eigen::Vector4d s_PidOut;
 
+	cout << "currentPos" << endl;
+	cout << currentPos << endl;
+
 	/*pid control in X direction*/
 	s_PidItemX.difference = expectPos[0] - currentPos[0];
 	s_PidItemX.intergral += s_PidItemX.difference;
@@ -54,11 +64,11 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemX.intergral <= -100) 
 		s_PidItemX.intergral = -100;
 	s_PidItemX.differential =  s_PidItemX.difference  - s_PidItemX.tempDiffer;
-  s_PidItemX.tempDiffer = s_PidItemX.difference;
+  	s_PidItemX.tempDiffer = s_PidItemX.difference;
 //	cout << "s_PidItemX.tempDiffer: " << s_PidItemX.tempDiffer << endl;
 //	cout << "s_PidItemX.differential: " << s_PidItemX.differential << endl;
-
 	s_PidOut[0] = s_PidXY.p*s_PidItemX.difference + s_PidXY.d*s_PidItemX.differential + s_PidXY.i*s_PidItemX.intergral;
+
 	/*pid control in Y direction*/
 	s_PidItemY.difference = expectPos[1] - currentPos[1];
 	s_PidItemY.intergral += s_PidItemY.difference;
@@ -67,7 +77,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemY.intergral <= -100) 
 		s_PidItemY.intergral = -100;
 	s_PidItemY.differential =  s_PidItemY.difference  - s_PidItemY.tempDiffer;
-  s_PidItemY.tempDiffer = s_PidItemY.difference;
+  	s_PidItemY.tempDiffer = s_PidItemY.difference;
 	s_PidOut[1] = s_PidXY.p*s_PidItemY.difference + s_PidXY.d*s_PidItemY.differential + s_PidXY.i*s_PidItemY.intergral;
 
 	/*pid control in Z direction*/
@@ -78,7 +88,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemZ.intergral <= -100) 
 		s_PidItemZ.intergral = -100;
 	s_PidItemZ.differential =  s_PidItemZ.difference  - s_PidItemZ.tempDiffer;
-  s_PidItemZ.tempDiffer = s_PidItemZ.difference;
+  	s_PidItemZ.tempDiffer = s_PidItemZ.difference;
 	s_PidOut[2] = s_PidZ.p*s_PidItemZ.difference + s_PidZ.d*s_PidItemZ.differential + s_PidZ.i*s_PidItemZ.intergral;
 
 	/*pid control of Yaw direction*/
@@ -89,7 +99,7 @@ Eigen::Vector4d PX4Landing::LandingPidProcess(Eigen::Vector3d &currentPos,float 
 	else if(s_PidItemYaw.intergral <= -100) 
 		s_PidItemYaw.intergral = -100;
 	s_PidItemYaw.differential =  s_PidItemYaw.difference  - s_PidItemYaw.tempDiffer;
-  s_PidItemYaw.tempDiffer = s_PidItemYaw.difference;
+  	s_PidItemYaw.tempDiffer = s_PidItemYaw.difference;
 	s_PidOut[3] = s_PidYaw.p*s_PidItemYaw.difference + s_PidYaw.d*s_PidItemYaw.differential + s_PidYaw.i*s_PidItemYaw.intergral;
 
 	return s_PidOut;
@@ -114,7 +124,7 @@ void PX4Landing::CmdLoopCallback(const ros::TimerEvent& event)
 void PX4Landing::LandingStateUpdate()
 {
 
-//	desire_vel_ = LandingPidProcess(ar_pose_,markers_yaw_,desire_pose_,0);
+	// desire_vel_ = LandingPidProcess(ar_pose_,markers_yaw_,desire_pose_,0);
 	// cout << "desire_vel_[0]:  "<< desire_vel_[0] <<endl;
 	// cout << "desire_vel_[1]:  "<< desire_vel_[1] <<endl;
 	// cout << "desire_vel_[2]:  "<< desire_vel_[2] <<endl;
@@ -130,6 +140,30 @@ void PX4Landing::LandingStateUpdate()
 	switch(LandingState)
 	{
 		case WAITING:
+
+			if (px4_state_.mode == "MISSION" || px4_state_.mode =="AUTO.MISSION") {
+
+				last_waypoint = waypoint_list.waypoints[waypoint_list.waypoints.size() - 1];
+				is_current = last_waypoint.is_current;
+
+				if (last_waypoint.command == 21 && is_current == true)
+				{
+					cout << "Landing waypoint reached " << last_waypoint.command << endl;	
+				}
+				else 
+				{
+					break;
+				}
+			}
+			else if (px4_state_.mode == "AUTO.LAND" || px4_state_.mode == "LAND") {
+				ROS_INFO("Vehicle is in landing mode");
+				aruco_landing = true;
+			} else if (px4_state_.mode == "OFFBOARD" && aruco_landing == true) {
+				ROS_INFO("Vehicle is in OFFBOARD landing");
+			} else {
+				aruco_landing = false;
+				break;
+			}
 
 			if(detect_state == true && px4_state_.mode == "AUTO.RTL")
 			{
@@ -331,21 +365,20 @@ void PX4Landing::LandingStateUpdate()
 				desire_yawVel_ = desire_vel_[3];
 				OffboardControl_.send_body_velxyz_setpoint(desire_xyVel_,desire_yawVel_);
 				cout << "ARUCO BIG" << endl;
-				
+
 			}
 
 			break;
 		case LANDOVER:
 			{
 				desire_vel_ = LandingPidProcess(ar_pose_small_,markers_yaw_,desire_pose_,desire_yaw_);
-				desire_xyVel_[0] = 0.7*desire_vel_[0];
-				desire_xyVel_[1] = 0.7*desire_vel_[1];
-				desire_xyVel_[2] = desire_vel_[2];
+				desire_xyVel_[0] = desire_vel_[0];
+				desire_xyVel_[1] = desire_vel_[1];
+				desire_xyVel_[2] = 0.8*desire_vel_[2];
 				desire_yawVel_ = desire_vel_[3];
 				OffboardControl_.send_body_velxyz_setpoint(desire_xyVel_,desire_yawVel_);
 				cout << "ARUCO SMALL" << endl;
-
-				if(ar_pose_small_[2] <= 0.3)
+				if(ar_pose_small_[2] <= 0.45)
 				{
 					LandingState = LAND;
 					cout << "Land" << endl;
@@ -361,6 +394,10 @@ void PX4Landing::LandingStateUpdate()
 				mode_cmd_.request.custom_mode = "AUTO.LAND";
         		set_mode_client_.call(mode_cmd_);
 				LandingState = WAITING;
+				ros::Duration(20.0).sleep();
+				aruco_landing = false;
+				// ros::shutdown();
+
 			}
 
 
@@ -390,9 +427,9 @@ void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPt
       		tf::quaternionMsgToTF(item.pose.pose.orientation,quat);
       		tf::Matrix3x3(quat).getRPY(temp_roll,temp_pitch,temp_yaw);
 			markers_yaw_ = temp_yaw;
-//			cout << "ar_pose_[0]:"  << ar_pose_[0] << endl;
-//			cout << "ar_pose_[1]:"  << ar_pose_[1] << endl;
-//			cout << "ar_pose_[2]:"  << ar_pose_[2] << endl;
+//			cout << "ar_pose_[0]:"  << ar_pose_small_[0] << endl;
+//			cout << "ar_pose_[1]:"  << ar_pose_small_[1] << endl;
+//			cout << "ar_pose_[2]:"  << ar_pose_small_[2] << endl;
 //			cout << "markers_yaw_: "  << markers_yaw_ << endl;
 		}
 		if(item.id == 4)
@@ -405,9 +442,9 @@ void PX4Landing::ArPoseCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPt
       		tf::quaternionMsgToTF(item.pose.pose.orientation,quat);
       		tf::Matrix3x3(quat).getRPY(temp_roll,temp_pitch,temp_yaw);
 			markers_yaw_ = temp_yaw;
-//			cout << "ar_pose_[0]:"  << ar_pose_[0] << endl;
-//			cout << "ar_pose_[1]:"  << ar_pose_[1] << endl;
-//			cout << "ar_pose_[2]:"  << ar_pose_[2] << endl;
+//			cout << "ar_pose_[0]:"  << ar_pose_big_[0] << endl;
+//			cout << "ar_pose_[1]:"  << ar_pose_big_[1] << endl;
+//			cout << "ar_pose_[2]:"  << ar_pose_big_[2] << endl;
 //			cout << "markers_yaw_: "  << markers_yaw_ << endl;
 		}
 	}
@@ -433,6 +470,10 @@ void PX4Landing::Px4RelAltCallback(const std_msgs::Float64::ConstPtr& msg)
 void PX4Landing::Px4StateCallback(const mavros_msgs::State::ConstPtr& msg)
 {
 	px4_state_ = *msg;
+}
+
+void PX4Landing::Waypoints_cb(const mavros_msgs::WaypointList::ConstPtr& msg) {
+    waypoint_list = *msg;
 }
 
 /*initialization*/
