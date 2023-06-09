@@ -46,7 +46,7 @@ nav_msgs::Odometry current_pose_g;
 geometry_msgs::Pose correction_vector_g;
 geometry_msgs::Point local_offset_pose_g;
 geometry_msgs::PoseStamped waypoint_g;
-mavros_msgs::GlobalPositionTarget my_home_position;
+sensor_msgs::NavSatFix my_home_position;
 std::vector<ros::Subscriber> drone_subscribers;
 mavros_msgs::GlobalPositionTarget leader_home_position;
 
@@ -65,6 +65,8 @@ float shift_alt;
 double leader_shift_x;
 double leader_shift_y;
 double leader_alt_z;
+std::string ros_namespace;
+geometry_msgs::PoseStamped leader_shift;
 
 std_msgs::Bool leader_landing_command;
 std_msgs::String swarm_data;
@@ -82,6 +84,8 @@ ros::Subscriber landing_command_sub;
 ros::Subscriber local_position_sub;
 ros::Subscriber state_sub;
 ros::Subscriber global_position_sub;
+ros::Subscriber leader_global_position_sub;
+ros::Subscriber leader_local_position_sub;
 
 ros::ServiceClient arming_client;
 ros::ServiceClient land_client;

@@ -50,9 +50,9 @@ bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, st
 
     // Perform manipulations on the transform_stamped
     pose_stamped.header = transform_stamped.header;
-    pose_stamped.pose.position.x = transform_stamped.transform.translation.x;
+    pose_stamped.pose.position.x = transform_stamped.transform.translation.x + 0.12;
     pose_stamped.pose.position.y = transform_stamped.transform.translation.y;
-    pose_stamped.pose.position.z = -transform_stamped.transform.translation.z + 4.0;
+    pose_stamped.pose.position.z = -transform_stamped.transform.translation.z + 5.0;
     pose_stamped.pose.orientation = transform_stamped.transform.rotation;
 
     // Publish the result to the mavros/setpoint_position topic
