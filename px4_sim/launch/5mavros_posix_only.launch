@@ -11,7 +11,7 @@
     <arg name="Y" default="0"/>
     <!-- vehicle model and world -->
     <!-- <arg name="est" default="ekf2"/> -->
-    <arg name="ID" default="1"/>
+    <arg name="ID" default="0"/>
     <!-- any vehicle: iris, frame450, acker_rover, diff_rover, avia_vtol, typhoon_h480 etc -->
     <arg name="vehicle" default="frame450"/>
     <!-- Any world: empty, flat, city, forest etc -->
@@ -36,9 +36,6 @@
     <!-- PX4 SITL -->
     <arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
     <arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
-    <!-- <node name="sitl_$(arg ID)" pkg="px4" type="px4" output="screen"
-        args="$(find px4)/build/px4_sitl_default/etc 
-        -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/> -->
 
     <node name="sitl_$(arg ID)" pkg="px4" type="px4" output="screen" args="$(find px4)/build/px4_sitl_default/etc 
     -s etc/init.d-posix/rcS 
