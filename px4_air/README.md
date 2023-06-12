@@ -8,11 +8,6 @@ Install ROS Noetic according to the [documentation](http://wiki.ros.org/noetic/I
 
 Clone this repo to directory `~/catkin_ws/src/px4_air`:
 
-```bash
-cd ~/catkin_ws/src
-git clone https://github.com/CopterExpress/px4_air.git px4_air
-```
-
 All the required ROS packages (including `mavros` and `opencv`) can be installed using `rosdep`:
 
 ```bash
@@ -36,7 +31,7 @@ curl https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 You may optionally install udev rules to provide `/dev/px4fmu` symlink to your PX4-based flight controller connected over USB. Copy `99-px4fmu.rules` to your `/lib/udev/rules.d` folder:
 
 ```bash
-cd ~/catkin_ws/src/px4_air/px4_air/udev
+cd ~/catkin_ws/src/px4_air/udev
 sudo cp 99-px4fmu.rules /lib/udev/rules.d
 ```
 
@@ -47,9 +42,7 @@ Alternatively you may change the `fcu_url` property in `mavros.launch` file to p
 To start connection to the flight controller, use:
 
 ```bash
-roslaunch px4_air px4_air.launch
+roslaunch px4_air 0mavros.launch
 ```
 
-For the simulation information see the [corresponding article](https://px4_air.coex.tech/en/simulation.html).
-
-> Note that the package is configured to connect to `/dev/px4fmu` by default (see [previous section](#manual-installation)). Install udev rules or specify path to your FCU device in `mavros.launch`.
+F> Note that the package is configured to connect to `/dev/px4fmu` by default (see [previous section](#manual-installation)). Install udev rules or specify path to your FCU device in `0mavros.launch`.

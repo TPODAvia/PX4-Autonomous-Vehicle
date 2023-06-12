@@ -217,7 +217,7 @@ This section shows how to start the *local_planner* and use it for avoidance in 
 The planner is based on the [3DVFH+](http://ceur-ws.org/Vol-1319/morse14_paper_08.pdf) algorithm.
 
 > **Note:** You *may* need to install some additional dependencies to run the following code (if not installed):
->   ```sh
+>   ```bashh
 >   sudo apt install ros-noetic-stereo-image-proc ros-noetic-image-view
 >   ```
 
