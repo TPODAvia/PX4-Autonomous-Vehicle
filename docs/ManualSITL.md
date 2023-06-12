@@ -61,6 +61,12 @@ Change world if necessary
 ```
 
 #### 2) Run with PX4 SITL.
+
+To setup your SITL simulation make sure to provide symbolic link to your airframe configuration file.
+```bash
+ln -fs ~/catkin_ws/src/px4_sim/airframes_sitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
+```
+
 In the terminal 1 run:
 ```bash
 roscore

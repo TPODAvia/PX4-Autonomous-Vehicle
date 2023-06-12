@@ -163,7 +163,7 @@ sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
 # Custom image building for the Ubuntu Server
 
-For Linux users there are really simple instructions on the enternet how to do it but for Windows users there are some "hacks" how we can create an image backup for our companion computer
+For Linux users there are really simple instructions on the internet how to do it but for Windows users there are some "hacks" how we can create an image backup for our companion computer
 
 Go to the cmd and type:
 ```
