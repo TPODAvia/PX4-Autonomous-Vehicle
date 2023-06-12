@@ -1,34 +1,27 @@
-The simulation package contains several vehicle models that can be used for simulating different missions. 
+The package is designed to run on the companion computer for rovers. 
 
-The "airframe" folder contains the necessary parameters and files required for simulating the vehicles. These files are specific to each vehicle model. 
+## How to use
 
-To simulate a mission, the launch file needs to be executed. This file contains the list of all the vehicle missions that can be simulated. 
+To ensure that the package is connected and working properly, it is recommended to run the launch file first. There are some useful tools available for debugging purposes such as `rqt_graph`, `rostopic echo`, and `rviz`.
 
-To add a new vehicle model, the corresponding startup script needs to be added to the package. This script can be found in the ~/PX4-Autopilot/ROMFS/px4fmu_common/init.d-posix/airframes/ directory.
+Here are the steps to use the package:
 
-## Air frames:
-- frame450
-- frame550
-- typhoon_h480
-- iris
-- osprey_vtol
-- avia_vtol
+1. Launch the mavros node using the following commands:
+```bash
+roslaunch px4_ground 0main_camera.launch
+roslaunch px4_ground 0mavros.launch
+```
 
+2. Launch the drone setup using the following command:
+```bash
+roslaunch px4_ground 1setup.launch
+```
 
-## Ground frames:
-- diff_rover
-- acker_rover
-- tank
-- balance_bot
-
-
-## Worlds:
-- city
-- empty
-- flat
-- forest
-- office
-- parcking
-- playground
-- playpen
-- village
+3. Launch the control missions using the following commands:
+```bash
+roslaunch px4_ground 2mission_ManualOffb.launch
+roslaunch px4_ground 3mission_QGCaruco.launch
+roslaunch px4_ground 4mission_SingleOffb.launch
+roslaunch px4_ground 5mission_SingleOffb_Avoid.launch
+roslaunch px4_ground 6mission_FollowMe.launch
+```

@@ -31,7 +31,7 @@ Once we have set up and tested the simulation, we can implement everything in th
 
 Here are some example use cases for the realizations in the project:
 
-### Custom models and envitoments
+### Custom models and enviroments
 The project provides several PX4-based models, including drones, rovers, and VTOLs. There are 13 available world environments to choose from. Custom models and environments can be created as well.
 
 ![alt text](./docs/custon_env.jpg)
