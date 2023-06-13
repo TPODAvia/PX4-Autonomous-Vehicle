@@ -21,7 +21,7 @@
 	</include>
 
     <!-- UAV0 -->
-    <group ns="uav0" launch-prefix="xterm -e">
+    <group ns="uav0">
         <arg name="ID" default="0"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -51,7 +51,7 @@
     </group>
 
     <!-- UAV1 -->
-    <group ns="uav1" launch-prefix="xterm -e">
+    <group ns="uav1">
         <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -80,16 +80,23 @@
         </include>
     </group>
 
-
-	<!-- Timer setup -->
-	<!-- <arg name="node_start_delay" default="20.0" /> -->
-
-	<!-- Swarm mission setup -->
-    <!-- 
-    <include file="$(find swarms)/launch/multi_square_sol0.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-    <include file="$(find swarms)/launch/multi_square_sol1.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-    </include> 
-    -->
+    <arg name="node_start_delay" default="20.0" />
+	<group>
+		<node pkg="swarms" type="square" name="square0" output="screen" ns="/drone0" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+			<param name="namespace" value="/uav"/>
+			<param name="drone_id_g" value="0"/>
+			<param name="drone_nums" value="9"/>
+			<param name="use_sim_time"  value="true" />
+		</node>
+	</group>
+	<group>
+		<node pkg="swarms" type="square" name="square1" output="screen" ns="/drone1" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+			<param name="namespace" value="/uav"/>
+			<param name="drone_id_g" value="1"/>
+			<param name="drone_nums" value="9"/>
+			<param name="use_sim_time"  value="true" />
+		</node>
+	</group>
 
     <node name="rviz" pkg="rviz" type="rviz" output="screen" />
 

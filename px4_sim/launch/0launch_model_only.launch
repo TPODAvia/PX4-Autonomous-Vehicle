@@ -4,7 +4,7 @@
 	<arg name="gui" default="true"/>
 
 	<!-- Any world: empty, flat, city, forest etc -->
-    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="world" default="$(find px4_sim)/worlds/yolo.world"/>
 	<!-- Start Gazebo -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="paused" value="$(arg paused)"/>

@@ -1,5 +1,9 @@
 # This is the project contains Gazebo SITL control for multiple vehicles
 
+![GitHub Repo stars](https://img.shields.io/github/stars/your-github-username/emotional-offline-voice-assistant?style=social)
+![GitHub forks](https://img.shields.io/github/forks/your-github-username/emotional-offline-voice-assistant?style=social)
+![GitHub Profile Views](https://komarev.com/ghpvc/?username=your-github-username&style=flat-square&color=blue)
+
 # Inroduction
 
 The project contains autonomous Unmanned Aerial Vehicles (UAVs) and cars with PX4 autopilot software. It provides a folder for Software in the Loop (SITL), Hardware in the Loop (HITL), and a folder for real autonomous vehicles. The setup is for Ubuntu 20.04.5 and ROS Noetic. Some realizations in this project are:
@@ -34,20 +38,19 @@ Here are some example use cases for the realizations in the project:
 ### Custom models and enviroments
 The project provides several PX4-based models, including drones, rovers, and VTOLs. There are 13 available world environments to choose from. Custom models and environments can be created as well.
 
-![alt text](./docs/custon_env.jpg)
+![alt text](./docs/Models.png)
+![alt text](./docs/Worlds.png)
 
 ### UAV with avoidance module:
 To use automatic mission with avoidance packages, the PX4 computer vision algorithms packaged as ROS nodes can be used for depth sensor fusion and obstacle avoidance. The project includes a UAV with avoidance module, which can be used for this purpose.
 
-![alt text](./docs/uav.jpg)
-
-![alt text](./docs/car.jpg)
+![alt text](./docs/Avoidance.png)
 
 
 ### UAV or ground vehicle swarm:
 For UAV or ground vehicle swarm missions, the "swarms" package provides swarm mission planning and execution tools. These tools allow you to plan and execute missions involving multiple drones.
 
-![alt text](./docs/swarm.jpg)
+![alt text](./docs/Swarms.png)
 
 # Licence
 

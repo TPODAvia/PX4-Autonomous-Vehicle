@@ -21,7 +21,7 @@
 	</include>
 
     <!-- UAV0 -->
-    <group ns="uav0" launch-prefix="xterm -e">
+    <group ns="uav0">
         <arg name="ID" default="0"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -51,7 +51,7 @@
     </group>
 
     <!-- UAV1 -->
-    <group ns="uav1" launch-prefix="xterm -e">
+    <group ns="uav1">
         <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -80,16 +80,17 @@
         </include>
     </group>
 
+    <arg name="node_start_delay" default="20.0" />
+    <node pkg="swarms" type="sequence.py" name="my_program0" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+        <param name="drone_id" value="0" />
+        <param name="drone_name" value="uav" />
+    </node>
+    <node pkg="swarms" type="sequence.py" name="my_program1" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+        <param name="drone_id" value="1" />
+        <param name="drone_name" value="uav" />
+    </node>
 
-	<!-- Timer setup -->
-	<!-- <arg name="node_start_delay" default="20.0" /> -->
 
-	<!-- Sequence mission setup -->
-    <!-- 
-    <include file="$(find swarms)/launch/drones_sequence0.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-    <include file="$(find swarms)/launch/drones_sequence1.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-    </include> 
-    -->
 
     <node name="rviz" pkg="rviz" type="rviz" output="screen" />
 

@@ -93,5 +93,3 @@ rosrun mavros mavcmd local_takeoff <yaw> <z>
 ```bash
 rosrun mavros mavcmd local_land <x> <y> <yaw> <z>
 ```
-#### Setpoint position
-```bash
