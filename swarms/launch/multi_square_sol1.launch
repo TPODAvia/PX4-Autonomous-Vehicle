@@ -1,21 +1,27 @@
 <launch>
-	<group>
+	<!-- <group>
 		<node pkg="swarms" type="square" name="square0" output="screen" ns="/drone0">
 			<param name="namespace" value="/uav"/>
 			<param name="drone_id_g" value="0"/>
 			<param name="drone_nums" value="9"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
-	</group>
+	</group> -->
 
-    <!-- <node pkg="swarms" type="swarm_master" name="swarm_master" output="screen">
-    </node> -->
-
-	<!-- <group>
+	<group>
 		<node pkg="swarms" type="square" name="square1" output="screen" ns="/drone1">
 			<param name="namespace" value="/uav"/>
 			<param name="drone_id_g" value="1"/>
 			<param name="drone_nums" value="9"/>
+			<param name="use_sim_time"  value="true" />
+		</node>
+	</group>
+
+	<!-- <group>
+		<node pkg="swarms" type="square" name="square2" output="screen" ns="/drone2">
+			<param name="namespace" value="/uav"/>
+			<param name="drone_id_g" value="2"/>
+			<param name="drone_nums" value="8"/>
 			<param name="use_sim_time"  value="true" />
 		</node>
 	</group> -->

@@ -5,7 +5,7 @@
     <!-- vehicle model: only frame450 are available for swarming -->
     <arg name="vehicle" default="frame450"/>
     <!-- Any world: empty, flat, city, forest etc -->
-    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="world" default="$(find px4_sim)/worlds/aruco.world"/>
 
     <!-- gazebo configs -->
     <arg name="gui" default="false"/>
@@ -21,7 +21,7 @@
 	</include>
 
     <!-- UAV0 -->
-    <group ns="uav0">
+    <group ns="uav0" launch-prefix="xterm -e">
         <arg name="ID" default="0"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -51,7 +51,7 @@
     </group>
 
     <!-- UAV1 -->
-    <!-- <group ns="uav1">
+    <group ns="uav1" launch-prefix="xterm -e">
         <arg name="ID" default="1"/>
         <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
             <arg name="ID" value="$(arg ID)"/>
@@ -78,15 +78,18 @@
             <arg name="tgt_system" value="$(arg tgt_system)" />
             <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
         </include>
-    </group> -->
+    </group>
 
 
 	<!-- Timer setup -->
 	<!-- <arg name="node_start_delay" default="20.0" /> -->
 
-	<!-- Swarm master setup -->
-    <!-- <include file="$(find swarms)/launch/multi_square_sol.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
-    </include> -->
+	<!-- Sequence mission setup -->
+    <!-- 
+    <include file="$(find swarms)/launch/drones_sequence0.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+    <include file="$(find swarms)/launch/drones_sequence1.launch" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@'">
+    </include> 
+    -->
 
     <node name="rviz" pkg="rviz" type="rviz" output="screen" />
 
@@ -94,21 +97,3 @@
     <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
 
 </launch>
-<!-- 
-To add more UAVs (up to 10):
-Increase the id
-Change the name space
-Set the FCU to default="udp://:14540+id@localhost:14550+id"
-Set the malink_udp_port to 14560+id) 
-
-Note:
-To add more UAVs, you need to change some parameters.
-For the camera, you need to change the following parameters in the sdf file:
-    <video_uri>
-    <system_id>
-    <mavlink_cam_udp_port>
-
-For the mavlink, you need to change these parameters:
-    <mavlink_udp_port>
-    <mavlink_tcp_port>
--->
