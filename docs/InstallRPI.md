@@ -29,6 +29,24 @@ wifis:
             password: "pass"
     dhcp4: true
 ```
+the setting can be modified:
+```bash
+wifis:
+  wlan0:
+    optional: true
+    dhcp4: false
+    dhcp6: false
+    addresses: [10.100.190.50/24]
+    nameservers:
+      addresses: [10.11.12.2]
+    access-points:
+        "your-ssid":
+            password: "pass"
+    routes:
+      - to: default
+        via: 10.100.190.1
+```
+
 The yaml should look like this:
 
 ![alt text](./wifi.jpeg)
@@ -47,6 +65,12 @@ ipconfig
 and for Linux (may require net-tools to be installed)
 ```bash
 ifconfig -a
+```
+other options:
+```bash
+ip a
+ip addr show
+hostname -I
 ```
 
 #### We need to mofify terminal UI for the colorful visualization:
@@ -83,7 +107,7 @@ Connect to ssh with IP: 192.168.1.6
 sudo apt update
 ```
 ```bash
-sudo apt install git python3-pip schedule -y
+sudo apt install git python3-pip python3-schedule -y
 ```
 ```bash
 mkdir -p ~/catkin_ws/src
@@ -138,6 +162,7 @@ Now we need to delete gazebo-related package because it's not neeeded here
 ```bash
 sudo rm -r src/px4_sim
 sudo rm -r src/world_sim
+sudo rm -r src/mavros_humantracking
 ```
 ```bash
 rosdep update
@@ -151,7 +176,7 @@ sudo /usr/bin/python3 -m pip install -r ~/catkin_ws/src/yolov8_ros/requirements.
 ```bash
 cd ~/catkin_ws
 source devel/setup.bash
-catkin_make
+catkin_make -j1
 ```
 
 #### Install QGroundControl
@@ -160,6 +185,21 @@ catkin_make
 cd
 sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 ```
+
+#### WIFI setup
+
+```bash
+cd ~/catkin_ws/src/swarms/
+sudo wifi-hotspot.sh
+```
+
+#### I2C communication setup
+
+[Setting 9250 IMU module with I2C](docs/IMU9250I2C.md)
+
+#### Flash Arduino via ssh
+
+[Setting Raspberry Pi with Arduino](docs/InstallArduino.md)
 
 # Custom image building for the Ubuntu Server
 
@@ -184,3 +224,6 @@ Switch back to Windows and install "win32 disk imager". It's a simple way to cre
 
 Remember to check "Read Only Allocated Partitions"
 ![alt text](./win32.jpeg)
+
+
+# Delete disk location
