@@ -201,7 +201,7 @@ sudo wifi-hotspot.sh
 
 [Setting Raspberry Pi with Arduino](docs/InstallArduino.md)
 
-# Custom image building for the Ubuntu Server
+#### Custom image building for the Ubuntu Server
 
 For Linux users there are really simple instructions on the internet how to do it but for Windows users there are some "hacks" how we can create an image backup for our companion computer
 
@@ -226,5 +226,18 @@ Remember to check "Read Only Allocated Partitions"
 ![alt text](./win32.jpeg)
 
 
-# Delete disk location
+#### Delete disk location
 
+To delete the link to an SD card in VirtualBox, you can follow these steps:
+
+- Open the VirtualBox Disk Manager.
+
+- Locate the sdcard.vmdk file in the list.
+
+- Select the sdcard.vmdk file and click on the "Remove" or "Delete" button.
+
+![alt text](./Vbox.jpeg)
+
+From cmd excecute this line of code:
+
+"C:\Program Files\Oracle\VirtualBox\VBoxManage" closemedium "C:\Hard Disks\sdcard.vmdk" --delete
