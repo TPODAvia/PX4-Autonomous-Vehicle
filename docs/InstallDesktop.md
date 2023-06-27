@@ -41,24 +41,23 @@ cd ~/catkin_ws/src
 git clone https://github.com/TPODAvia/ROS1-installation.git
 chmod +x ROS1-installation/ROS.sh
 sudo ./ROS1-installation/ROS.sh
+```
+```bash
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
-```
-```bash
-sudo apt install xterm -y
-sudo apt install build-essential python3-rosdep -y
-sudo apt-get install ros-noetic-hector-slam -y
-sudo apt install libpcl1 ros-noetic-octomap-* -y
+# sudo apt install xterm build-essential python3-rosdep -y
+sudo apt-get install xterm build-essential python3-rosdep ros-noetic-hector-slam libpcl1 ros-noetic-octomap-* -y
+# sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
 #### Install YOLOv8 dependencies
 
 ```bash
-sudo apt-get install python3-scipy -y
-sudo apt-get install ros-noetic-vision-msgs -y
-sudo apt-get install ros-noetic-geometry-msgs -y
-sudo apt-get install ros-noetic-usb-cam -y
+sudo apt-get install python3-scipy ros-noetic-vision-msgs ros-noetic-geometry-msgs ros-noetic-usb-cam -y
+# sudo apt-get install ros-noetic-vision-msgs -y
+# sudo apt-get install ros-noetic-geometry-msgs -y
+# sudo apt-get install ros-noetic-usb-cam -y
 ```
 
 #### Install the workspace
@@ -146,9 +145,9 @@ catkin_make
 cd
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
-sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
-sudo apt install libqt5gui5 -y
-sudo apt install libfuse2 -y
+sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl libqt5gui5 libfuse2 -y
+# sudo apt install libqt5gui5 -y
+# sudo apt install libfuse2 -y
 xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
 ```
 wait for some seconds

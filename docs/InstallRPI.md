@@ -115,23 +115,23 @@ cd ~/catkin_ws/src
 git clone https://github.com/TPODAvia/ROS1-installation.git
 chmod +x ROS1-installation/ROS_server.sh
 sudo ./ROS1-installation/ROS_server.sh
+```
+```bash
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
-```
-```bash
-sudo apt install xterm -y
-sudo apt install build-essential python3-rosdep -y
-sudo apt-get install ros-noetic-hector-slam -y
-sudo apt install libpcl1 ros-noetic-octomap-* -y
+sudo apt install xterm pi-bluetooth -y
+sudo apt install build-essential python3-rosdep ros-noetic-hector-slam libpcl1 ros-noetic-octomap-* -y
+# sudo apt-get install ros-noetic-hector-slam -y
+# sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
 #### Install YOLOv8 dependencies
 
 ```bash
-sudo apt-get install python3-scipy -y
-sudo apt-get install ros-noetic-vision-msgs -y
-sudo apt-get install ros-noetic-geometry-msgs -y
+sudo apt-get install python3-scipy ros-noetic-vision-msgs ros-noetic-geometry-msgs -y
+# sudo apt-get install ros-noetic-vision-msgs -y
+# sudo apt-get install ros-noetic-geometry-msgs -y
 ```
 
 #### Install the workspace
@@ -227,3 +227,4 @@ Remember to check "Read Only Allocated Partitions"
 
 
 # Delete disk location
+

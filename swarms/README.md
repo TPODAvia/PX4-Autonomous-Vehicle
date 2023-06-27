@@ -1,77 +1,23 @@
-# swarms
+# Swarms
 
-![iq](docs/imgs/iq.JPG)
+The code in this repo is explains how to set up your drone swarms systems as well as teaches basic drone programming commands. 
 
-This package hosts a collection of software designed to help drone developers make their application come to life. The code in this repo is complimented by the [iq_tutorials](https://github.com/Intelligent-Quads/iq_tutorials) repo, which explains how to set up your dev enviorment as well as teaches basic drone programming fundamentals. 
+This project need to use WiFi hotspot for drone collaboration. Make sure that network is properly setup:
 
-## Example Code (C++)
+[Setting_Hotspot](docs/Setting_Hotspot.md)
 
-### avoidance_sol.cpp
-Example obstacle avoidance program utilizing the potential field method.
+### Non-stop delivery of goods using multiple drones
 
-To create a bash script that enables or disables the WiFi hotspot on Ubuntu, follow these steps:
+The small payload of drones is a big disadvantage. This task solves the logistics of transportation of small, but large volumes of goods. This is achieved through the collaboration of several drones and can significantly reduce and speed up the delivery time of the cargo.
 
-    Open a terminal window and create a new file using your favorite text editor. For example, you can use nano:
+```bash
+roslaunch swarms drones_sequence0.launch
+```
 
-   $ nano wifi-hotspot.sh
+### Simple group flight for the simultaneous delivery of goods
 
-    Add the following code to the file to create a script that enables the WiFi hotspot:
+This task solves a way to prevent collision between several drones while flying on missions. The minimum distance between drones is at least 5 meters (GPS accuracy limits). For coordinated work, the concept of a master-slave drone is used. The lead drone in this case is a Wi-Fi distributor for other drones. The maximum number of drones is 8. (Restrictions on the hotspot of Wi-Fi)
 
-   #!/bin/bash
-   
-   # Enable WiFi hotspot
-   nmcli device wifi hotspot ifname <DEVICE_NAME> ssid <SSID> password <PASSWORD>
-
-Replace <DEVICE_NAME> with your WiFi device name, <SSID> with the name of your WiFi hotspot, and <PASSWORD> with the password for your WiFi hotspot. Save the file.
-
-    Add the following code to the file to create a script that disables the WiFi hotspot:
-
-   #!/bin/bash
-   
-   # Disable WiFi hotspot
-   nmcli connection delete <SSID>
-
-Replace <SSID> with the name of your WiFi hotspot. Save the file.
-
-    Make the script executable:
-
-   $ chmod +x wifi-hotspot.sh
-
-    To enable the WiFi hotspot, run the script as follows:
-
-   $ ./wifi-hotspot.sh enable
-
-    To disable the WiFi hotspot, run the script as follows:
-
-   $ ./wifi-hotspot.sh disable
-
-    You can also add some error checking to the script to make sure that the correct arguments are passed. For example:
-
-   #!/bin/bash
-   
-   # Check if the correct number of arguments is passed
-   if [ "$#" -ne 1 ]; then
-       echo "Usage: \$0 enable|disable"
-       exit 1
-   fi
-   
-   # Enable or disable WiFi hotspot
-   if [ "\$1" = "enable" ]; then
-       nmcli device wifi hotspot ifname <DEVICE_NAME> ssid <SSID> password <PASSWORD>
-   elif [ "\$1" = "disable" ]; then
-       nmcli connection delete <SSID>
-   else
-       echo "Usage: \$0 enable|disable"
-       exit 1
-   fi
-
-This code checks if the correct number of arguments is passed and if the argument is either "enable" or "disable". If not, it displays the usage message and exits with an error code.
-
-## Related Repos
-
-[iq_tutorials](https://github.com/Intelligent-Quads/iq_tutorials) - Repo hosting associated tutorials for swarms
-
-[iq_sim](https://github.com/Intelligent-Quads/iq_sim) - Repo hosing the simulation wolds designed to help develop drone gnc missions
-
-
-
+```bash
+roslaunch swarms multi_square_sol0.launch
+```

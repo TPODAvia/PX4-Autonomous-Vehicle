@@ -26,6 +26,13 @@ roslaunch px4_ground 5mission_SingleOffb_Avoid.launch
 roslaunch px4_ground 6mission_FollowMe.launch
 ```
 
+4. Swarms
+
+This project need to use WiFi hotspot for drone collaboration. Make sure that network is properly setup:
+
+[Setting_Swarms](../swarms/README.md)
+[Setting_Hotspot](../swarms/docs/Setting_Hotspot.md)
+
 #### PX4 launch command
 ```bash
 roslaunch mavros px4.launch
