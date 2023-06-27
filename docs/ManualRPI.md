@@ -6,18 +6,18 @@ To ensure that the package is connected and working properly, it is recommended 
 
 Here are the steps to use the package:
 
-1. Launch the mavros node using the following commands:
+#### 1. Launch the mavros node using the following commands:
 ```bash
 roslaunch px4_ground 0main_camera.launch
 roslaunch px4_ground 0mavros.launch
 ```
 
-2. Launch the drone setup using the following command:
+#### 2. Launch the drone setup using the following command:
 ```bash
 roslaunch px4_ground 1setup.launch
 ```
 
-3. Launch the control missions using the following commands:
+#### 3. Launch the control missions using the following commands:
 ```bash
 roslaunch px4_ground 2mission_ManualOffb.launch
 roslaunch px4_ground 3mission_QGCaruco.launch
@@ -26,11 +26,12 @@ roslaunch px4_ground 5mission_SingleOffb_Avoid.launch
 roslaunch px4_ground 6mission_FollowMe.launch
 ```
 
-4. Swarms
+#### 4. Swarms
 
 This project need to use WiFi hotspot for drone collaboration. Make sure that network is properly setup:
 
 [Setting_Swarms](../swarms/README.md)
+
 [Setting_Hotspot](../swarms/docs/Setting_Hotspot.md)
 
 #### PX4 launch command
