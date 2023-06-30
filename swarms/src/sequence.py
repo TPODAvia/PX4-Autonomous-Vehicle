@@ -9,6 +9,7 @@ from std_msgs.msg import String
 import re
 from sensor_msgs.msg import BatteryState
 from mavros_msgs.msg import State
+# https://github.com/Mohit505Git/Mavros-AUTO.MISSION-mode/blob/master/wayPointMission.py
 # http://docs.ros.org/api/mavros_msgs/html/msg/Waypoint.html
 # Check the https://github.com/mavlink/mavros/blob/master/mavros_msgs/msg/CommandCode.msg
 # Initialize global variables
@@ -213,8 +214,8 @@ def main():
         
         print("Drones available", available_drones)
         swarm_data.data, flight_trigger = caller(my_drone_id)
-        if str(my_drone_id) == "0":
-            swarm_data.data = f"Drone {my_drone_id} in_mission reached"
+        # if str(my_drone_id) == "0":
+        #     swarm_data.data = f"Drone {my_drone_id} in_mission reached"
         my_drone_id_ready_pub.publish(swarm_data)
         if flight_trigger:
             PX4modes.setAutoMissionMode()
@@ -254,11 +255,11 @@ def caller(my_drone_id):
                         return swarm_data, False
                     
                 count = sum(1 for drone_id in drone_ids if drone_id < my_drone_id)
-                # print(f"Number of drone_ids smaller than {my_drone_id}: {count}")
+                print(f"Number of drone_ids smaller than {my_drone_id}: {count}")
 
                 # Check the priority of the drone
                 if count == 0:
-                    print(f"Count is 0 {my_drone_id}")
+                    print(f"Count is: {my_drone_id}")
                     swarm_data = f"Drone {my_drone_id} in_mission not_reached"
                     return swarm_data, True
                 

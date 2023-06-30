@@ -46,7 +46,7 @@ nav_msgs::Odometry current_pose_g;
 geometry_msgs::Pose correction_vector_g;
 geometry_msgs::Point local_offset_pose_g;
 geometry_msgs::PoseStamped waypoint_g;
-mavros_msgs::GlobalPositionTarget my_home_position;
+sensor_msgs::NavSatFix my_home_position;
 std::vector<ros::Subscriber> drone_subscribers;
 mavros_msgs::GlobalPositionTarget leader_home_position;
 
@@ -55,7 +55,7 @@ float local_offset_g;
 float correction_heading_g = 0;
 float local_desired_heading_g;
 int my_drone_id;
-int leader_drone_id_g = 0;
+int leader_drone_id_g = -1;
 bool publish_my_home_position = true;
 int first_init_leader_id = -1;
 int drone_nums;
@@ -65,6 +65,9 @@ float shift_alt;
 double leader_shift_x;
 double leader_shift_y;
 double leader_alt_z;
+int counter = 0;
+std::string ros_namespace;
+geometry_msgs::PoseStamped leader_shift;
 
 std_msgs::Bool leader_landing_command;
 std_msgs::String swarm_data;
@@ -82,6 +85,8 @@ ros::Subscriber landing_command_sub;
 ros::Subscriber local_position_sub;
 ros::Subscriber state_sub;
 ros::Subscriber global_position_sub;
+ros::Subscriber leader_global_position_sub;
+ros::Subscriber leader_local_position_sub;
 
 ros::ServiceClient arming_client;
 ros::ServiceClient land_client;
@@ -103,8 +108,11 @@ struct gnc_api_waypoint{
 	float psi; ///< rotation about the third axis of your reference frame
 };
 
-struct DroneData {
-    int drone_id;
-    std::string leader_status;
-    std::string reached_status;
-};
+// struct DroneData {
+//     int drone_id;
+//     std::string leader_status;
+//     std::string reached_status;
+// 	int counter;
+// 	int reserve1;
+// 	int reserve2;
+// };

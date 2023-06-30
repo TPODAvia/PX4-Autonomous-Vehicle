@@ -5,7 +5,7 @@
     <!-- vehicle model: only frame450 are available for swarming -->
     <arg name="vehicle" default="frame450"/>
     <!-- Any world: empty, flat, city, forest etc -->
-    <arg name="world" default="$(find px4_sim)/worlds/empty.world"/>
+    <arg name="world" default="$(find px4_sim)/worlds/aruco.world"/>
 
     <!-- gazebo configs -->
     <arg name="gui" default="false"/>

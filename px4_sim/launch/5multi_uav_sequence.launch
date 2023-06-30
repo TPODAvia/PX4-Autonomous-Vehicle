@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Posix SITL environment launch script -->
+    <!-- vehicle model: only frame450 are available for swarming -->
+    <arg name="vehicle" default="frame450"/>
+    <!-- Any world: empty, flat, city, forest etc -->
+    <arg name="world" default="$(find px4_sim)/worlds/aruco.world"/>
+
+    <!-- gazebo configs -->
+    <arg name="gui" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="paused" default="false"/>
+    <!-- Gazebo sim -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="paused" value="$(arg paused)"/>
+		<arg name="world_name" default="$(arg world)" />
+		<arg name="gui" value="$(arg gui)"/>
+		<arg name="verbose" value="true"/>
+	</include>
+
+    <!-- UAV0 -->
+    <group ns="uav0">
+        <arg name="ID" default="0"/>
+        <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="x" value="0"/>
+            <arg name="y" value="0"/>
+            <arg name="z" value="0"/>
+            <arg name="R" value="0"/>
+            <arg name="P" value="0"/>
+            <arg name="Y" value="0"/>
+            <arg name="vehicle" value="$(arg vehicle)"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_$(arg ID).sdf"/>
+            <arg name="avoidance" default="false"/>
+        </include>
+
+        <arg name="fcu_conn" default="sitl"/>
+        <arg name="fcu_ip" default="127.0.0.1"/>
+        <arg name="gcs_bridge" default=""/>
+        <arg name="tgt_system" default="1" />
+        <include file="$(find px4_air)/launch/0mavros.launch">
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+            <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+            <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+            <arg name="tgt_system" value="$(arg tgt_system)" />
+            <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
+        </include>
+    </group>
+
+    <!-- UAV1 -->
+    <group ns="uav1">
+        <arg name="ID" default="1"/>
+        <include file="$(find px4_sim)/launch/5mavros_posix_only.launch">
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="x" value="0"/>
+            <arg name="y" value="5"/>
+            <arg name="z" value="0"/>
+            <arg name="R" value="0"/>
+            <arg name="P" value="0"/>
+            <arg name="Y" value="0"/>
+            <arg name="vehicle" value="$(arg vehicle)"/>
+            <arg name="sdf" default="$(find px4_sim)/models/$(arg vehicle)/$(arg vehicle)_$(arg ID).sdf"/>
+            <arg name="avoidance" default="false"/>
+        </include>
+
+        <arg name="fcu_conn" default="sitl"/>
+        <arg name="fcu_ip" default="127.0.0.2"/>
+        <arg name="gcs_bridge" default=""/>
+        <arg name="tgt_system" default="2" />
+        <include file="$(find px4_air)/launch/0mavros.launch">
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+            <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+            <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+            <arg name="tgt_system" value="$(arg tgt_system)" />
+            <arg name="config_yaml" value="$(find px4_air)/launch/px4_config_$(arg ID).yaml" />
+        </include>
+    </group>
+
+    <arg name="node_start_delay" default="20.0" />
+    <node pkg="swarms" type="sequence.py" name="my_program0" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+        <param name="drone_id" value="0" />
+        <param name="drone_name" value="uav" />
+    </node>
+    <node pkg="swarms" type="sequence.py" name="my_program1" output="screen" launch-prefix="xterm -e bash -c 'sleep $(arg node_start_delay); $0 $@'">
+        <param name="drone_id" value="1" />
+        <param name="drone_name" value="uav" />
+    </node>
+
+
+
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" />
+
+    <!-- QGroundControl launch -->
+    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+
+</launch>

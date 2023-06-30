@@ -29,6 +29,7 @@ void local_position_callback(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
     // ROS_INFO("Position: (%f, %f, %f), Orientation: (%f, %f, %f, %f)", msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
     drone_pose = *msg;
+    
 }
 
 bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, std::string aruco_id)
@@ -49,9 +50,9 @@ bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, st
 
     // Perform manipulations on the transform_stamped
     pose_stamped.header = transform_stamped.header;
-    pose_stamped.pose.position.x = transform_stamped.transform.translation.x;
+    pose_stamped.pose.position.x = transform_stamped.transform.translation.x + 0.12;
     pose_stamped.pose.position.y = transform_stamped.transform.translation.y;
-    pose_stamped.pose.position.z = -transform_stamped.transform.translation.z + 4.0;
+    pose_stamped.pose.position.z = -transform_stamped.transform.translation.z + 5.0;
     pose_stamped.pose.orientation = transform_stamped.transform.rotation;
 
     // Publish the result to the mavros/setpoint_position topic
@@ -60,9 +61,9 @@ bool tf_callback(const tf2_ros::Buffer &buffer, ros::Publisher &setpoint_pub, st
     float drone_pose_x = drone_pose.pose.position.x - pose_stamped.pose.position.x;
     float drone_pose_y = drone_pose.pose.position.y - pose_stamped.pose.position.y;
     float drone_pose_z = drone_pose.pose.position.z - pose_stamped.pose.position.z;
-    // drone_pose_x*drone_pose_x + drone_pose.pose.position.y^2 + drone_pose.pose.position.z^2 < 0.1^2;
     float abs = drone_pose_x*drone_pose_x+drone_pose_y*drone_pose_y+drone_pose_z*drone_pose_z;
-    if (abs < 0.2*0.2)
+    // ROS_INFO("drone_pose_x: %f, drone_pose_y: %f, drone_pose_z: %f, abs: %f", drone_pose_x, drone_pose_y, drone_pose_z, abs);
+    if (abs < 0.04)
     {
         return true;
     }
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
 
     ros::Subscriber state_sub = nh.subscribe<mavros_msgs::State>
             ("mavros/state", 10, state_cb);
-     ros::Subscriber sub = nh.subscribe("local_position/pose", 10, local_position_callback);
+    ros::Subscriber sub = nh.subscribe("mavros/local_position/pose", 10, local_position_callback);
 
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>
             ("mavros/cmd/arming");
@@ -102,21 +103,30 @@ int main(int argc, char **argv)
     arm_cmd.request.value = true;
     ros::Time last_request = ros::Time::now();
 
-    if(current_state.mode != "AUTO.TAKEOFF")
-    {
-        offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
-        set_mode_client.call(offb_set_mode);
-        std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
-
-    }
-
-
     pose_stamped.pose.position.x = 0;
     pose_stamped.pose.position.y = 0;
     pose_stamped.pose.position.z = 2;
 
-    //send a few setpoints before starting
-    for(int i = 100; ros::ok() && i > 0; --i){
+    while(ros::ok() && drone_pose.pose.position.z < 1)
+    {
+
+        if(current_state.mode != "AUTO.TAKEOFF")
+        {
+            offb_set_mode.request.custom_mode = "AUTO.TAKEOFF";
+            set_mode_client.call(offb_set_mode);
+            std::cout << "Setting to TAKEOFF Mode..." <<std::endl;
+
+        }
+
+        if( !current_state.armed && (ros::Time::now() - last_request > ros::Duration(5.0)))
+        {
+            if( arming_client.call(arm_cmd) && arm_cmd.response.success)
+            {
+                ROS_INFO("Vehicle armed");
+            }
+            last_request = ros::Time::now();
+        }
+
         setpoint_pub.publish(pose_stamped);
         ros::spinOnce();
         rate.sleep();

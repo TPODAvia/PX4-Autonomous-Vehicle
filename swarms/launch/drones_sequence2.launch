@@ -5,15 +5,15 @@
         <param name="drone_name" value="uav" />
     </node> -->
 
-    <node pkg="swarms" type="sequence.py" name="my_program1" output="screen">
+    <!-- <node pkg="swarms" type="sequence.py" name="my_program1" output="screen">
         <param name="drone_id" value="1" />
         <param name="drone_name" value="uav" />
-    </node>
+    </node> -->
 
-    <!-- <node pkg="swarms" type="sequence.py" name="my_program2" output="screen">
+    <node pkg="swarms" type="sequence.py" name="my_program2" output="screen">
         <param name="drone_id" value="2" />
         <param name="drone_name" value="uav" />
-    </node> -->
+    </node>
 
 
 </launch>

@@ -11,7 +11,7 @@
         <!-- Node: change the yolo or aruco world depends on fly_modes -->
         <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
 
-        <arg name="gui" default="false"/>
+        <arg name="gui" default="true"/>
     </include>
 
 	<!-- Pixhawk setup -->

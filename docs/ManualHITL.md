@@ -3,14 +3,14 @@
 ### Adding custom airframes
 You can create custom airframe for HITL simulations and save them in airframe_hitl folder. Names of created airframe file should consist of number code followed by model name (e.g. 6011_typhoon_h480). After run in terminal: 
 
-```s
+```bash
 ln -fs ~/catkin_ws/src/px4_sim/airframes_hitl/* ~/PX4-Autopilot/build/px4_sitl_default/etc/init.d-posix/airframes/
 ```
 
 ### Enabling motors in hitl
 By default motors output is blocked in hitl mode. To unblock it, run in terminal:
 
-```s
+```bash
 cd ~/catkin_ws/src/px4_sim/hitl_setup/
 ./hitl_setup
 ```
@@ -20,13 +20,13 @@ Follow the instructions of the script to achieve the desired state of operation 
 To apply changes ypu need to build and upload px4 firmware onto flight-controller board. To build for NuttX- or Pixhawk- based boards, navigate into the PX4-Autopilot directory and then call `make` with the build target for your board.
 For example, to build for Pixhawk 4 hardware you could use the following command:
 
-```s
+```bash
 cd PX4-Autopilot
 make px4_fmu-v5_default
 ```
 A successful run will end with output similar to:
 
-```s
+```bash
 -- Build files have been written to: /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default
 [954/954] Creating /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default/px4_fmu-v4_default.px4
 ```
@@ -76,11 +76,11 @@ Build commands for non-Pixhawk NuttX fight controllers (and for all other-boards
 
 ### Uploading Firmware (Flashing the board)
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB. For example:
-```s
+```bash
 make px4_fmu-v4_default upload
 ```
 A successful run will end with this output:
-```s
+```bash
 Erase  : [====================] 100.0%
 Program: [====================] 100.0%
 Verify : [====================] 100.0%

@@ -8,13 +8,13 @@
 To build for NuttX- or Pixhawk- based boards, navigate into the **PX4-Autopilot** directory and then call `make` with the build target for your board.
 
 For example, to build for Pixhawk 4 hardware you could use the following command:
-```s
+```bash
 cd PX4-Autopilot
 make px4_fmu-v5_default
 ```
 
 A successful run will end with similar output to:
-```s
+```bash
 -- Build files have been written to: /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default
 [954/954] Creating /home/youruser/src/PX4-Autopilot/build/px4_fmu-v4_default/px4_fmu-v4_default.px4
 ```
@@ -74,13 +74,13 @@ This is optional (i.e. you can also build using `make px4_fmu-v4`, `make bitcraz
 Append `upload` to the make commands to upload the compiled binary to the autopilot hardware via USB.
 For example
 
-```s
+```bash
 make px4_fmu-v4_default upload
 ```
 
 A successful run will end with this output:
 
-```s
+```bash
 Erase  : [====================] 100.0%
 Program: [====================] 100.0%
 Verify : [====================] 100.0%
@@ -94,7 +94,7 @@ Rebooting.
 Build commands for other boards are given the board-specific flight controller pages (usually under a heading *Building Firmware*).
 
 You can also list all configuration targets using the command:
-```s
+```bash
 make list_config_targets
 ```
 

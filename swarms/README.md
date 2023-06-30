@@ -1,51 +1,23 @@
-# swarms
+# Swarms
 
-![iq](docs/imgs/iq.JPG)
+The code in this repo is explains how to set up your drone swarms systems as well as teaches basic drone programming commands. 
 
-This package hosts a collection of software designed to help drone developers make their application come to life. The code in this repo is complimented by the [iq_tutorials](https://github.com/Intelligent-Quads/iq_tutorials) repo, which explains how to set up your dev enviorment as well as teaches basic drone programming fundamentals. 
+This project need to use WiFi hotspot for drone collaboration. Make sure that network is properly setup:
 
-## Community Discord Server
+[Setting_Hotspot](docs/Setting_Hotspot.md)
 
-Come be a part of the growing community of drone application developers! Join the the conversation in our [discord](https://discord.gg/xZjXaAf).
+### Non-stop delivery of goods using multiple drones
 
----
+The small payload of drones is a big disadvantage. This task solves the logistics of transportation of small, but large volumes of goods. This is achieved through the collaboration of several drones and can significantly reduce and speed up the delivery time of the cargo.
 
-## Guidance Navigation and Control Functions
+```bash
+roslaunch swarms drones_sequence0.launch
+```
 
-### gnc_function.hpp / py_gnc_functions.py
+### Simple group flight for the simultaneous delivery of goods
 
-The intelligent quads gnc_functions are collection of high level functions to help make controlling your drone simple. You can find functions for interpreting state estimation, commanding waypoints, changing modes and more. The documentation for using these functions is shown below. 
+This task solves a way to prevent collision between several drones while flying on missions. The minimum distance between drones is at least 5 meters (GPS accuracy limits). For coordinated work, the concept of a master-slave drone is used. The lead drone in this case is a Wi-Fi distributor for other drones. The maximum number of drones is 8. (Restrictions on the hotspot of Wi-Fi)
 
-[gnc_functions.hpp documentation](https://github.com/Intelligent-Quads/iq_tutorials/blob/master/docs/GNC_functions_documentation.md)
-
-[py_gnc_functions.py documentation](docs/py_gnc_functions.md)
-
-special thanks to [Sahas-Ananth](https://github.com/Sahas-Ananth) for translating the gnc_functions to python! 
-
----
-
-## Example Code (C++)
-
-### avoidance_sol.cpp
-Example obstacle avoidance program utilizing the potential field method.
-
-### gnc_tutorial.cpp
-Simple waypoint mission that commands a drone to fly a square pattern. 
-
-### sr_sol.cpp 
-Simple search and rescue program that will fly a search pattern until yolo detects a person. This will trigger the drone to land to deliver the rescue supplies. 
-
-### subscriber_sol.cpp
-Example program showing how to use a ROS subscriber to take input into your drone's guidance node.
-
-
-### [*Python Version of Example code.*](docs/py_gnc_functions.md)
-
-## Related Repos
-
-[iq_tutorials](https://github.com/Intelligent-Quads/iq_tutorials) - Repo hosting associated tutorials for swarms
-
-[iq_sim](https://github.com/Intelligent-Quads/iq_sim) - Repo hosing the simulation wolds designed to help develop drone gnc missions
-
-
-
+```bash
+roslaunch swarms multi_square_sol0.launch
+```

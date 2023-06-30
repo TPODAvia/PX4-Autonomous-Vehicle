@@ -101,6 +101,7 @@
   <depend>dynamic_reconfigure</depend>
   <exec_depend>python-pymavlink</exec_depend>
   <test_depend>ros_pytest</test_depend>
+  <depend>yolov8_ros_msgs</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
