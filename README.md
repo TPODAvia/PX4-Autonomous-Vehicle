@@ -1,8 +1,8 @@
 # This is the project contains Gazebo SITL control for multiple vehicles
 
-![GitHub Repo stars](https://img.shields.io/github/stars/your-github-username/px4-autonomous-vehicle?style=social)
-![GitHub forks](https://img.shields.io/github/forks/your-github-username/px4-autonomous-vehicle?style=social)
-![GitHub Profile Views](https://komarev.com/ghpvc/?username=your-github-username&style=flat-square&color=blue)
+![GitHub Repo stars](https://img.shields.io/github/stars/TPODAvia/PX4-Autonomous-Vehicle?style=social)
+![GitHub forks](https://img.shields.io/github/forks/TPODAvia/PX4-Autonomous-Vehicle?style=social)
+![GitHub Profile Views](https://komarev.com/ghpvc/?username=TPODAvia&style=flat-square&color=blue)
 
 # Inroduction
 
