@@ -241,3 +241,68 @@ To delete the link to an SD card in VirtualBox, you can follow these steps:
 From cmd excecute this line of code:
 
 "C:\Program Files\Oracle\VirtualBox\VBoxManage" closemedium "C:\Hard Disks\sdcard.vmdk" --delete
+
+
+To disable the sleep mode and allow automatic login in Ubuntu using the terminal, follow the steps below:
+
+1. **Disable Sleep Mode**
+
+To disable the sleep mode in Ubuntu, you can use the `systemctl` command to mask the sleep, suspend, hibernate, and hybrid-sleep targets. This essentially links these unit files to /dev/null, making it impossible for the system to start them [Source 2](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep).
+
+You can execute the following command:
+
+```bash
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+```
+
+Keep in mind that this command will completely disable sleep mode, meaning your system will stay awake indefinitely until you manually put it to sleep or shut it down.
+
+2. **Enable Automatic Login**
+
+To enable automatic login, you'll need to edit the `custom.conf` file in the `/etc/gdm3/` directory. Here is how you can do it:
+
+First, open the file using a text editor such as `nano`.
+
+```bash
+sudo nano /etc/gdm3/custom.conf
+```
+
+Find the section in the file labeled `[daemon]`. In this section, uncomment (or add if it's not there) the line `AutomaticLoginEnable=true` and the line `AutomaticLogin=[your username]`, replacing `[your username]` with your actual username.
+
+Here is how it should look:
+
+```bash
+[daemon]
+AutomaticLoginEnable=true
+AutomaticLogin=john_doe
+```
+
+After making the changes, press `Ctrl+X` to exit and `Y` to save the changes. Then, restart your system for the changes to take effect.
+
+Please note that enabling automatic login can pose a security risk as anyone who can access your computer will be able to turn it on and have immediate access to your files and data.
+
+3. **Handle Lid Close Action**
+
+In some cases, you might want to change the action that Ubuntu takes when the laptop lid is closed. To do this, you can edit the `/etc/systemd/logind.conf` file [Source 9](https://www.dell.com/support/kbdoc/en-us/000179566/how-to-disable-sleep-and-configure-lid-power-settings-for-ubuntu-or-red-hat-enterprise-linux-7).
+
+Open the file using a text editor:
+
+```bash
+sudo nano /etc/systemd/logind.conf
+```
+
+Find the line that starts with `#HandleLidSwitch=suspend` and change it to `HandleLidSwitch=ignore`. This will make Ubuntu do nothing when the laptop lid is closed.
+
+Here is how it should look:
+
+```bash
+HandleLidSwitch=ignore
+```
+
+After making the change, save and close the file, then restart the `systemd-logind` service by running:
+
+```bash
+sudo systemctl restart systemd-logind
+```
+
+Please keep in mind that these changes should be made carefully as they can significantly alter the behavior of your system. Always make sure to backup any files you edit in case you need to revert the changes.
