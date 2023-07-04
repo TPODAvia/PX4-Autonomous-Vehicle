@@ -243,6 +243,8 @@ From cmd excecute this line of code:
 "C:\Program Files\Oracle\VirtualBox\VBoxManage" closemedium "C:\Hard Disks\sdcard.vmdk" --delete
 
 
+#### Always On mode
+
 To disable the sleep mode and allow automatic login in Ubuntu using the terminal, follow the steps below:
 
 1. **Disable Sleep Mode**
