@@ -243,7 +243,7 @@ From cmd excecute this line of code:
 "C:\Program Files\Oracle\VirtualBox\VBoxManage" closemedium "C:\Hard Disks\sdcard.vmdk" --delete
 
 
-#### Always On mode
+### Always On mode
 
 To disable the sleep mode and allow automatic login in Ubuntu using the terminal, follow the steps below:
 
@@ -301,10 +301,34 @@ Here is how it should look:
 HandleLidSwitch=ignore
 ```
 
+To prevent Ubuntu from going into suspend mode and turning on the lock screen, you can use the following steps:
+
+4. **Disable Automatic Lock Screen**
+
+To disable the automatic lock screen, you need to change the settings of the GNOME desktop. You can do this using the `gsettings` command. The following command will disable the lock screen:
+
+```bash
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+```
+
+This command will prevent the lock screen from appearing due to inactivity [Source 2](https://askubuntu.com/questions/1029696/disable-password-request-from-suspend-18-04).
+
+5. **Disable Lock Screen Upon Suspend**
+
+In addition to disabling the automatic lock screen, you may also want to disable the lock screen that appears after your system wakes up from suspend. You can do this with the following `gsettings` command:
+
+```bash
+gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
+```
+
+This command will prevent the lock screen from appearing after suspend [Source 2](https://askubuntu.com/questions/1029696/disable-password-request-from-suspend-18-04).
+
+
 After making the change, save and close the file, then restart the `systemd-logind` service by running:
 
 ```bash
-sudo systemctl restart systemd-logind
+sudo reboot
 ```
 
 Please keep in mind that these changes should be made carefully as they can significantly alter the behavior of your system. Always make sure to backup any files you edit in case you need to revert the changes.
+Again, please note that disabling the lock screen and suspend mode can pose a security risk. Anyone with access to your computer will be able to use it without having to enter a password. Please use these commands responsibly.
