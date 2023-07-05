@@ -308,6 +308,7 @@ To prevent Ubuntu from going into suspend mode and turning on the lock screen, y
 To disable the automatic lock screen, you need to change the settings of the GNOME desktop. You can do this using the `gsettings` command. The following command will disable the lock screen:
 
 ```bash
+gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 ```
 
