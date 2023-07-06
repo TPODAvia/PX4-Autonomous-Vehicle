@@ -157,6 +157,18 @@ cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
 ```
 
+#### Install UI
+```bash
+
+sudo apt install zenity
+
+# sudo apt install yad
+# sudo apt-get install libcanberra-gtk-module
+# sudo apt-get install libcanberra-gtk-module:i386
+# sudo apt-get install --reinstall libcanberra-gtk-module
+
+```
+
 Close and restart your Ubuntu:
 ```bash
 sudo reboot
