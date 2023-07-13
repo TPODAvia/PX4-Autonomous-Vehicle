@@ -77,5 +77,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "future": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": true
 }
