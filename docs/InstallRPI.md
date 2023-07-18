@@ -29,14 +29,16 @@ wifis:
             password: "pass"
     dhcp4: true
 ```
-the setting can be modified:
+![alt text](./wifi.jpeg)
+
+After this, open terminal and note your IP address. The the setting can be modified:
 ```bash
 wifis:
   wlan0:
     optional: true
     dhcp4: false
     dhcp6: false
-    addresses: [10.100.190.50/24]
+    addresses: ["your-IP-address"/24]
     nameservers:
       addresses: [10.11.12.2]
     access-points:
@@ -46,10 +48,10 @@ wifis:
       - to: default
         via: 10.100.190.1
 ```
-
+where 10.11.12.2 is your DNS server IP, and 10.100.190.1 is your router IP.
 The yaml should look like this:
 
-![alt text](./wifi.jpeg)
+![alt text](./netplan_config.png)
 
 #### We should check the sintax for the errors
 ```bash
