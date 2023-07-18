@@ -33,7 +33,7 @@ Save the file and write "exit"
 sudo apt update
 ```
 ```bash
-sudo apt install git python3-pip schedule -y
+sudo apt install git python3-pip python3-schedule -y
 ```
 ```bash
 mkdir -p ~/catkin_ws/src
@@ -148,6 +148,8 @@ sudo apt-get remove modemmanager -y
 sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl libqt5gui5 libfuse2 -y
 # sudo apt install libqt5gui5 -y
 # sudo apt install libfuse2 -y
+```
+```bash
 xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
 ```
 wait for some seconds
@@ -155,6 +157,18 @@ wait for some seconds
 cd
 cp ./Downloads/QGroundControl.AppImage ~/QGroundControl.AppImage
 chmod +x ./QGroundControl.AppImage
+```
+
+#### Install UI
+```bash
+
+sudo apt install zenity
+
+# sudo apt install yad
+# sudo apt-get install libcanberra-gtk-module
+# sudo apt-get install libcanberra-gtk-module:i386
+# sudo apt-get install --reinstall libcanberra-gtk-module
+
 ```
 
 Close and restart your Ubuntu:

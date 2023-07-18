@@ -1,14 +1,15 @@
 <?xml version='1.0'?>
-<sdf version='1.6'>
+<sdf version='1.4'>
 
-  <model name='balance_robot'>
+  <model name="balance_bot">
 
-    <link name='base_robot'>
+
+    <link name='base_link'>
       <pose>0 0 0 0 0 0</pose>
 
       <inertial>
-        <mass>20</mass>
         <pose>0 0 0.25 0 0 0</pose>
+        <mass>20.0</mass>
         <inertia>
           <ixx>0.17</ixx>
           <ixy>0</ixy>
@@ -75,15 +76,11 @@
         </geometry>
       </collision>
 
-      <gravity>1</gravity>
-      <velocity_decay/>
-      <self_collide>0</self_collide>
-
-      <collision name='caster_collision_ghost1'>
-        <pose>0.3 0 0 0 0 0</pose>
+      <collision name='caster_collision_ghost'>
+        <pose>0.3 0 -0.03 0 0 0</pose>
         <geometry>
           <sphere>
-            <radius>0.06</radius>
+            <radius>0.05</radius>
           </sphere>
         </geometry>
         <surface>
@@ -102,8 +99,8 @@
         </surface>
       </collision>
 
-      <collision name='caster_collision_ghost2'>
-        <pose>-0.3 0 0 0 0 0</pose>
+      <collision name='caster_collision'>
+        <pose>-0.15 0 -0.05 0 0 0</pose>
         <geometry>
           <sphere>
             <radius>0.05</radius>
@@ -300,8 +297,8 @@
 
     </link>
   
-    <joint name='rotor_head' type='revolute'>
-      <parent>base_robot</parent>
+    <joint name='rotor_head' type='fixed'>
+      <parent>base_link</parent>
       <child>head</child>
       <pose>0 0 0 0 0 0</pose>
       <axis>
@@ -323,6 +320,111 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Stereo Camera -->
+
+    <!-- <link name="stereo_link">
+      <pose>0.1 0 0.1 0 0 0</pose>
+ 
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>4.15e-6</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>2.407e-6</iyy>
+          <iyz>0</iyz>
+          <izz>2.407e-6</izz>
+        </inertia>
+      </inertial>
+  
+      <visual name="visual">
+        <pose>0 0 0 0 1.57 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://depth_camera/meshes/hokuyo.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor type="multicamera" name="stereo_camera">
+        <update_rate>7.0</update_rate>
+ 
+        <camera name="left">
+          <pose>0.1 0.035 0 0 0 0</pose>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>400</width>
+            <height>400</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+  
+        <camera name="right">
+          <pose>0.1 -0.035 0 0 0 0</pose>
+          <horizontal_fov>1.3962634</horizontal_fov>
+          <image>
+            <width>400</width>
+            <height>400</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.02</near>
+            <far>300</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+   
+        <plugin name="stereo_camera_controller" filename="libgazebo_ros_multicamera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>stereo</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+
+    </link>
+
+    <joint type="fixed" name="stereo_joint">
+      <parent>base_link</parent>
+      <child>stereo_link</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint> -->
 
 
 
@@ -426,10 +528,10 @@
 
     </link>
 
-    <joint type="revolute" name="left_arm_hinge">
+    <joint type="fixed" name="left_arm_hinge">
       <pose>0 0 0 0 0 0</pose>
       <child>left_arm</child>
-      <parent>base_robot</parent>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -551,10 +653,10 @@
 
     </link>
 
-    <joint type="revolute" name="right_arm_hinge">
+    <joint type="fixed" name="right_arm_hinge">
       <pose>0 0 0 0 0 0</pose>
       <child>right_arm</child>
-      <parent>base_robot</parent>
+      <parent>base_link</parent>
       <axis>
         <xyz>0 1 0</xyz>
         <limit>
@@ -583,19 +685,10 @@
 
 
 
+    <!-- Left Wheel -->
 
-
-
-
-
-
-
-
-
-    <!-- Left Top Wheel -->
-
-    <link name="left_top_wheel">
-      <pose>0 0.12 0.525 1.57 0 0</pose>
+    <link name="left_wheel">
+      <pose>0.1 0.33 0 1.57 0 0</pose>
 
       <inertial>
         <pose>0 0 0 1.57 0 0</pose>
@@ -613,8 +706,8 @@
       <collision name="collision">
         <geometry>
           <cylinder>
-            <radius>0.03</radius>
-            <length>0.01</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
           <surface>
@@ -642,16 +735,17 @@
                 <max_vel>0.0</max_vel>
                 <kp>1.0e6</kp>
                 <kd>100.0</kd>
+                <minDepth>0.001</minDepth>
               </ode>
             </contact>
           </surface>
       </collision>
 
-      <visual name="visual">
+      <!-- <visual name="visual">
         <geometry>
           <cylinder>
-            <radius>0.03</radius>
-            <length>0.01</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
         <material>
@@ -660,16 +754,16 @@
             <uri>__default__</uri>
           </script>
         </material>
-      </visual>
+      </visual> -->
 
     </link>
 
-    <joint type="revolute" name="left_top_wheel_hinge">
+    <joint type="revolute" name="left_wheel_hinge">
       <pose>0 0 0 0 0 0</pose>
-      <child>left_top_wheel</child>
-      <parent>base_robot</parent>
+      <child>left_wheel</child>
+      <parent>base_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -682,18 +776,6 @@
       </axis>
     </joint>
 
-    <joint name='left_gearbox' type='gearbox'>
-      <parent>left_bottom_wheel</parent>
-      <child>left_top_wheel</child>
-      <gearbox_ratio>-1</gearbox_ratio>
-      <gearbox_reference_body>base_robot</gearbox_reference_body>
-      <axis>
-        <xyz>0 0 1</xyz>
-      </axis>
-      <axis2>
-        <xyz>0 0 1</xyz>
-      </axis2>
-    </joint>
 
 
 
@@ -708,10 +790,11 @@
 
 
 
-    <!-- Right Top Wheel -->
 
-    <link name="right_top_wheel">
-      <pose>0 -0.12 0.525 1.57 0 0</pose>
+    <!-- Right Wheel -->
+
+    <link name="right_wheel">
+      <pose>0.1 -0.33 0 1.57 0 0</pose>
 
       <inertial>
         <pose>0 0 0 1.57 0 0</pose>
@@ -729,8 +812,8 @@
       <collision name="collision">
         <geometry>
           <cylinder>
-            <radius>0.03</radius>
-            <length>0.01</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
           <surface>
@@ -758,16 +841,17 @@
                 <max_vel>0.0</max_vel>
                 <kp>1.0e6</kp>
                 <kd>100.0</kd>
+                <minDepth>0.001</minDepth>
               </ode>
             </contact>
           </surface>
       </collision>
 
-      <visual name="visual">
+      <!-- <visual name="visual">
         <geometry>
           <cylinder>
-            <radius>0.03</radius>
-            <length>0.01</length>
+            <radius>0.1</radius>
+            <length>0.05</length>
           </cylinder>
         </geometry>
         <material>
@@ -776,241 +860,16 @@
             <uri>__default__</uri>
           </script>
         </material>
-      </visual>
+      </visual> -->
 
     </link>
 
-    <joint type="revolute" name="right_top_wheel_hinge">
+    <joint type="revolute" name="right_wheel_hinge">
       <pose>0 0 0 0 0 0</pose>
-      <child>right_top_wheel</child>
-      <parent>base_robot</parent>
+      <child>right_wheel</child>
+      <parent>base_link</parent>
       <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-    </joint>
-
-    <joint name='right_gearbox' type='gearbox'>
-      <parent>right_bottom_wheel</parent>
-      <child>right_top_wheel</child>
-      <gearbox_ratio>-1</gearbox_ratio>
-      <gearbox_reference_body>base_robot</gearbox_reference_body>
-      <axis>
-        <xyz>0 0 1</xyz>
-      </axis>
-      <axis2>
-        <xyz>0 0 1</xyz>
-      </axis2>
-    </joint>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Left Bottom Wheel -->
-
-    <link name="left_bottom_wheel">
-      <pose>0 0.12 0 1.57 0 0</pose>
-
-      <inertial>
-        <pose>0 0 0 1.57 0 0</pose>
-        <mass>0.4</mass>
-        <inertia>
-          <ixx>0.0003</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0003</iyy>
-          <iyz>0</iyz>
-          <izz>0.0004</izz>
-        </inertia>
-      </inertial>
-
-      <collision name="collision">
-        <geometry>
-          <cylinder>
-            <radius>0.06</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-          <surface>
-            <friction>
-              <torsional>
-                <coefficient>0.25</coefficient>
-                <use_patch_radius>1</use_patch_radius>
-                <surface_radius>0.0686</surface_radius>
-              </torsional>
-              <ode>
-                <mu>1.0</mu>
-                <mu2>0.45</mu2>
-                <fdir1>1 0 0</fdir1>
-                <slip1>0.0</slip1>
-                <slip2>0.0</slip2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e6</threshold>
-            </bounce>
-            <contact>
-              <ode>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.0</max_vel>
-                <kp>1.0e6</kp>
-                <kd>100.0</kd>
-              </ode>
-            </contact>
-          </surface>
-      </collision>
-
-      <visual name="visual">
-        <geometry>
-          <cylinder>
-            <radius>0.06</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>__default__</uri>
-          </script>
-        </material>
-      </visual>
-
-    </link>
-
-    <joint type="revolute" name="left_bottom_wheel_hinge">
-      <pose>0 0 0 0 0 0</pose>
-      <child>left_bottom_wheel</child>
-      <parent>base_robot</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
-        <limit>
-          <lower>-1e+16</lower>
-          <upper>1e+16</upper>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-    </joint>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Right Bottom Wheel -->
-
-    <link name="right_bottom_wheel">
-      <pose>0 -0.12 0 1.57 0 0</pose>
-
-      <inertial>
-        <pose>0 0 0 1.57 0 0</pose>
-        <mass>0.4</mass>
-        <inertia>
-          <ixx>0.0003</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.0003</iyy>
-          <iyz>0</iyz>
-          <izz>0.0004</izz>
-        </inertia>
-      </inertial>
-
-      <collision name="collision">
-        <geometry>
-          <cylinder>
-            <radius>0.06</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-          <surface>
-            <friction>
-              <torsional>
-                <coefficient>0.25</coefficient>
-                <use_patch_radius>1</use_patch_radius>
-                <surface_radius>0.0686</surface_radius>
-              </torsional>
-              <ode>
-                <mu>1.0</mu>
-                <mu2>0.45</mu2>
-                <fdir1>1 0 0</fdir1>
-                <slip1>0.0</slip1>
-                <slip2>0.0</slip2>
-              </ode>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e6</threshold>
-            </bounce>
-            <contact>
-              <ode>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.0</max_vel>
-                <kp>1.0e6</kp>
-                <kd>100.0</kd>
-              </ode>
-            </contact>
-          </surface>
-      </collision>
-
-      <visual name="visual">
-        <geometry>
-          <cylinder>
-            <radius>0.06</radius>
-            <length>0.01</length>
-          </cylinder>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/DarkGrey</name>
-            <uri>__default__</uri>
-          </script>
-        </material>
-      </visual>
-
-    </link>
-
-    <joint type="revolute" name="right_bottom_wheel_hinge">
-      <pose>0 0 0 0 0 0</pose>
-      <child>right_bottom_wheel</child>
-      <parent>base_robot</parent>
-      <axis>
-        <xyz>0 1 0</xyz>
+        <xyz>0 -1 0</xyz>
         <limit>
           <lower>-1e+16</lower>
           <upper>1e+16</upper>
@@ -1039,49 +898,26 @@
 
 
 
+    <!-- GPS Sensors -->
+  
+    <include>
+        <uri>model://gps</uri>
+        <pose>-0.05 0 0.3 0 0 0</pose>
+        <name>gps</name>
+    </include>
 
-
-
-
-
-
-
-
-    <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-      <updateRate>30</updateRate>
-      <leftJoint>left_bottom_wheel_hinge</leftJoint>
-      <rightJoint>right_bottom_wheel_hinge</rightJoint>
-      <wheelSeparation>0.24</wheelSeparation>
-      <wheelDiameter>0.12</wheelDiameter>
-      <wheelAcceleration>1.0</wheelAcceleration>
-      <wheelTorque>200</wheelTorque>
-      <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <robotBaseFrame>base_robot</robotBaseFrame>
-      <odometrySource>1</odometrySource>
-      <publishWheelTF>true</publishWheelTF>
-      <publishOdom>true</publishOdom>
-      <publishWheelJointState>true</publishWheelJointState>
-      <legacyMode>false</legacyMode>
-    </plugin> -->
-
-
-
-
-
-
-
-
-
+    <joint name='gps_joint' type='fixed'>
+        <child>gps::link</child>
+        <parent>base_link</parent>
+    </joint>
 
 
 
 
     <!-- IMU -->
+    <link name='rover/imu_link'>
 
-    <link name='imu_link'>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0 0 0.1 0 0 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
@@ -1096,11 +932,25 @@
         </inertia>
       </inertial>
 
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.004</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Orange</name>
+          </script>
+        </material>
+      </visual>
+
     </link>
 
-    <joint name='imu_joint' type='revolute'>
-      <child>imu_link</child>
-      <parent>base_robot</parent>
+    <joint name='rover/imu_joint' type='revolute'>
+      <child>rover/imu_link</child>
+      <parent>base_link</parent>
       <axis>
         <xyz>1 0 0</xyz>
         <limit>
@@ -1119,22 +969,11 @@
 
 
 
+    <!-- Ground Truth -->
 
-    <!-- GPS -->
-
-    <include>
-      <uri>model://gps</uri>
-      <pose>-0.05 0 0.3 0 0 0</pose>
-      <name>gps</name>
-    </include>
-
-    <joint name='gps_joint' type='fixed'>
-      <child>gps::link</child>
-      <parent>base_robot</parent>
-    </joint>
-
-
-
+    <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
+      <robotNamespace/>
+    </plugin>
 
 
     <!-- Magnetometer -->
@@ -1149,12 +988,7 @@
     </plugin>
 
 
-
-
-
-
     <!-- Barometer -->
-
 
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
       <robotNamespace/>
@@ -1167,11 +1001,6 @@
 
 
 
-    <!-- Ground Truth -->
-
-    <plugin name='groundtruth_plugin' filename='libgazebo_groundtruth_plugin.so'>
-      <robotNamespace/>
-    </plugin>
 
 
 
@@ -1180,7 +1009,46 @@
 
 
 
-    <!-- Mavlink -->
+
+
+
+
+
+
+    <!-- Diff Drive Plugin -->
+    <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+
+      <updateRate>30</updateRate>
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <rightJoint>right_wheel_hinge</rightJoint>
+
+      <wheelSeparation>0.66</wheelSeparation>
+      <wheelDiameter>0.2</wheelDiameter>
+
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <wheelTorque>400</wheelTorque>
+
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>robotodom</odometryTopic>
+
+      <odometryFrame>robotodom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+
+      <odometrySource>1</odometrySource>
+      <publishWheelTF>true</publishWheelTF>
+      <publishOdom>true</publishOdom>
+      <publishWheelJointState>true</publishWheelJointState>
+      <legacyMode>false</legacyMode>
+    </plugin> -->
+
+
+
+
+
+
+
+
+    <!--Mavlink -->
 
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace></robotNamespace>
@@ -1204,14 +1072,14 @@
       <motorSpeedCommandPubTopic>/gazebo/command/motor_speed</motorSpeedCommandPubTopic>
       <control_channels>
 
-        <channel name="left_front_wheel_drive">
+        <channel name="left_wheel_drive">
           <input_index>0</input_index>
           <input_offset>0</input_offset>
           <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
-          <joint_name>left_bottom_wheel_hinge</joint_name>
+          <joint_name>left_wheel_hinge</joint_name>
           <joint_control_pid>
             <p>0.7</p>
             <i>0</i>
@@ -1223,14 +1091,14 @@
           </joint_control_pid>
         </channel>
 
-        <channel name="right_front_wheel_drive">
+        <channel name="right_wheel_drive">
           <input_index>5</input_index>
           <input_offset>0</input_offset>
           <input_scaling>-20</input_scaling>
           <zero_position_disarmed>0</zero_position_disarmed>
           <zero_position_armed>0</zero_position_armed>
           <joint_control_type>velocity</joint_control_type>
-          <joint_name>right_bottom_wheel_hinge</joint_name>
+          <joint_name>right_wheel_hinge</joint_name>
           <joint_control_pid>
             <p>0.7</p>
             <i>0</i>
@@ -1242,57 +1110,20 @@
           </joint_control_pid>
         </channel>
 
-<!-- 
-        <channel name="left_leg">
-          <input_index>2</input_index>
-          <input_offset>1</input_offset>
-          <input_scaling>1</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>position</joint_control_type>
-          <joint_name>left_arm_hinge</joint_name>
-          <joint_control_pid>
-            <p>3.5</p>
-            <i>0.5</i>
-            <d>0</d>
-            <iMax>4</iMax>
-            <iMin>-4</iMin>
-            <cmdMax>6</cmdMax>
-            <cmdMin>-6</cmdMin>
-          </joint_control_pid>
-        </channel>
 
-        <channel name="right_leg">
-          <input_index>3</input_index>
-          <input_offset>1</input_offset>
-          <input_scaling>1</input_scaling>
-          <zero_position_disarmed>0</zero_position_disarmed>
-          <zero_position_armed>0</zero_position_armed>
-          <joint_control_type>position</joint_control_type>
-          <joint_name>right_arm_hinge</joint_name>
-          <joint_control_pid>
-            <p>3.5</p>
-            <i>0.5</i>
-            <d>0</d>
-            <iMax>4</iMax>
-            <iMin>-4</iMin>
-            <cmdMax>6</cmdMax>
-            <cmdMin>-6</cmdMin>
-          </joint_control_pid>
-        </channel> -->
 
       </control_channels>
     </plugin>
-    <static>0</static>
-    <allow_auto_disable>1</allow_auto_disable>
 
+    <!-- Physics -->
+    <static>0</static>
 
 
     <!-- IMU -->
 
     <plugin name='gazebo_imu_plugin' filename='libgazebo_imu_plugin.so'>
       <robotNamespace></robotNamespace>
-      <linkName>imu_link</linkName>
+      <linkName>rover/imu_link</linkName>
       <imuTopic>/imu</imuTopic>
       <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
       <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
@@ -1305,5 +1136,5 @@
     </plugin>
 
 
-  </model>
+  </model> 
 </sdf>

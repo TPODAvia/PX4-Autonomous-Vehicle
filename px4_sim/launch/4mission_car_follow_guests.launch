@@ -5,10 +5,10 @@
     <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
         <!-- box spawn -->
         <arg name="box_activate" value="false"/>
-        <!-- any rovers: acker_rover, diff_rover -->
-        <arg name="vehicle" value="diff_rover"/>
-        <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/yolo.world"/>
+        <!-- any rovers: acker_rover, diff_rover, balance_bot -->
+        <arg name="vehicle" value="balance_bot"/>
+        <!-- Any world: empty, flat, city, forest, parcking etc -->
+        <arg name="world" value="$(find px4_sim)/worlds/empty.world"/>
 
         <!-- avoidance trigger -->
         <!-- <arg name="avoidance" default="true"/> -->
@@ -17,11 +17,11 @@
     </include>
 
 	<!-- Pixhawk setup -->
-    <include file="$(find px4_ground)/launch/5mission_SingleOffb_Avoid.launch">
+    <!-- <include file="$(find px4_ground)/launch/7mission_Follow_guests.launch">
 		<arg name="fcu_conn" value="sitl"/>
 		<arg name="fcu_ip" value="127.0.0.1"/>
 		<arg name="gcs_bridge" value=""/>
-    </include>
+    </include> -->
 
 
 	  <!--  **************** Visualisation ****************  -->
