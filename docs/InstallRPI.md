@@ -109,7 +109,7 @@ Connect to ssh with IP: 192.168.1.6
 sudo apt update
 ```
 ```bash
-sudo apt install git python3-pip python3-schedule -y
+sudo apt install git python3-pip python3-schedule i2c-tools python3-smbus -y
 ```
 ```bash
 mkdir -p ~/catkin_ws/src
@@ -126,6 +126,15 @@ sudo apt install xterm pi-bluetooth -y
 sudo apt install build-essential python3-rosdep ros-noetic-hector-slam libpcl1 ros-noetic-octomap-* -y
 # sudo apt-get install ros-noetic-hector-slam -y
 # sudo apt install libpcl1 ros-noetic-octomap-* -y
+```
+#### Enable I2C connection
+```bash
+sudo nano /lib/udev/rules.d/60-i2c-tools.rules
+```
+
+Change Mode from "0660" to "0666":
+```bash
+KERNEL=="i2c-[1-9]*", GROUP="i2c", MODE="0666"
 ```
 
 #### Install YOLOv8 dependencies
