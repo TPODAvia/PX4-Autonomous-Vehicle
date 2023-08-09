@@ -5,12 +5,12 @@
     <arg name="gcs_bridge" default="tcp"/>
     <arg name="tgt_system" default="1" />
 
-    <arg name="web_video_server" default="false"/>
-    <arg name="rosbridge" default="false"/>
+    <arg name="web_video_server" default="true"/>
+    <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
-    <arg name="optical_flow" default="false"/>
-    <arg name="aruco" default="false"/>
-    <arg name="rangefinder_vl53l1x" default="false"/>
+    <arg name="optical_flow" default="true"/>
+    <arg name="aruco" default="true"/>
+    <arg name="rangefinder_vl53l1x" default="true"/>
     <arg name="rc" default="false"/>
     <arg name="force_init" default="true"/> <!-- force estimator to init by publishing zero pose -->
 
@@ -58,6 +58,8 @@
 
     <!-- tf2 republisher for web visualization -->
     <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher" output="screen" if="$(arg rosbridge)"/>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/>
 
     <!-- vl53l1x ToF rangefinder -->
     <node name="rangefinder" pkg="vl53l1x" type="vl53l1x_node" output="screen" if="$(eval fcu_conn == 'usb' or fcu_conn == 'uart')">
