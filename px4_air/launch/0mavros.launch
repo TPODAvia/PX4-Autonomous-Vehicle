@@ -5,7 +5,7 @@
     <!-- mavros parameters -->
     <arg name="ID" default="0"/>
 	<arg name="fcu_conn" default="usb" />
-	<arg name="gcs_bridge" default="" />
+	<arg name="gcs_bridge" default="tcp" />
     <arg name="fcu_ip" default="127.0.0.1"/>
 	<arg name="tgt_system" default="1" />
 	<arg name="tgt_component" default="1" />
@@ -35,8 +35,8 @@
 
 
         <!-- gcs bridge -->
-        <param name="gcs_url" value="tcp-l://0.0.0.0:5760" if="$(eval gcs_bridge == 'tcp')"/>
-        <param name="gcs_url" value="udp://0.0.0.0:14550@14550" if="$(eval gcs_bridge == 'udp')"/>
+        <param name="gcs_url" value="tcp-l://:5760@10.100.190.146:5760" if="$(eval gcs_bridge == 'tcp')"/>
+        <param name="gcs_url" value="udp://:14556@10.100.190.146:14550@14550" if="$(eval gcs_bridge == 'udp')"/>
         <param name="gcs_url" value="udp-b://$(env ROS_HOSTNAME):14550@14550" if="$(eval gcs_bridge == 'udp-b')"/>
         <param name="gcs_url" value="udp-pb://$(env ROS_HOSTNAME):14550@14550" if="$(eval gcs_bridge == 'udp-pb')"/>
         <param name="gcs_url" value="" if="$(eval not gcs_bridge)"/>
@@ -51,7 +51,7 @@
 	</node>
     
     <!-- Rangefinders frame -->
-    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/>
 
     <!-- Copter visualization -->
     <!-- <node name="visualization" pkg="mavros_extras" type="visualization" if="$(arg viz)">
