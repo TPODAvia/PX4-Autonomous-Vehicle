@@ -59,13 +59,13 @@
     <!-- tf2 republisher for web visualization -->
     <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher" output="screen" if="$(arg rosbridge)"/>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="rangefinder_frame" args="-0.05 0 0 0 1.5707963268 0 base_link rangefinder"/>
-
     <!-- vl53l1x ToF rangefinder -->
     <node name="rangefinder" pkg="vl53l1x" type="vl53l1x_node" output="screen" if="$(eval fcu_conn == 'usb' or fcu_conn == 'uart')">
         <param name="frame_id" value="rangefinder"/>
         <param name="min_signal" value="0.4"/>
         <param name="pass_statuses" type="yaml" value="[0, 6, 7, 11]"/>
+        <remap from="rangefinder/range" to="mavros/distance_sensor/rangefinder_sub"/>
+        <remap from="rangefinder/data" to="mavros/distance_sensor/rangefinder_data"/>
     </node>
 
     <!-- rc backend -->
