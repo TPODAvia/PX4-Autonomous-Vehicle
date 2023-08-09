@@ -64,6 +64,32 @@ roslaunch mavros px4.launch fcu_url:=/dev/ttyS0:921600
 ```bash
 export ROS_MASTER_URI=http://192.168.1.6:11311
 ```
+### Check if your camera is recognized and working
+
+Run this command to check if your camera is recognized by the system:
+
+```bash
+ls -l /dev/video*
+```
+Camera is assigned as `/dev/video0` by default. If it is absent in the list you get in terminal after running previous command you need to follow next steps: 
+1. Open `config.txt` for editing:
+```bash
+sudo nano /boot/firmware/config.txt
+```
+2. Add the following line: 
+```bash
+start_x=1
+```
+Hit <kbd>Ctrl</kbd>+<kbd>O</kbd> to save, then <kbd>Ctrl</kbd>+<kbd>X</kbd> to exit.
+3. Reboot your system.
+4. Update your system to install the necessary drivers:
+```bash
+sudo apt update
+sudo apt upgrade
+```
+It may take a few minutes. After its all done you can use `rqt` or `rviz` to visualize your camera topic.
+
+
 #### Sample change flight mode
 ```bash
 rosrun mavros mavsys mode -b 80 # stablize disarmed
