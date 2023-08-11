@@ -47,7 +47,7 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
 # sudo apt install xterm build-essential python3-rosdep -y
-sudo apt-get install xterm build-essential python3-rosdep ros-noetic-hector-slam libpcl1 ros-noetic-octomap-* -y
+sudo apt-get install xterm build-essential python3-rosdep libpcl1 ros-noetic-octomap-* -y
 # sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
