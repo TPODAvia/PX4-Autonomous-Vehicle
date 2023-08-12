@@ -1,6 +1,5 @@
 # Installing Ubuntu 20.04 Desktop Guide
 
-
 #### Install a virtual box in your PC (optional)
 
 I will provide some recoureces for windows users. If you are using Linux then you can skip some guides.
@@ -46,18 +45,13 @@ sudo ./ROS1-installation/ROS.sh
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
-# sudo apt install xterm build-essential python3-rosdep -y
 sudo apt-get install xterm build-essential python3-rosdep libpcl1 ros-noetic-octomap-* -y
-# sudo apt install libpcl1 ros-noetic-octomap-* -y
 ```
 
 #### Install YOLOv8 dependencies
 
 ```bash
 sudo apt-get install python3-scipy ros-noetic-vision-msgs ros-noetic-geometry-msgs ros-noetic-usb-cam -y
-# sudo apt-get install ros-noetic-vision-msgs -y
-# sudo apt-get install ros-noetic-geometry-msgs -y
-# sudo apt-get install ros-noetic-usb-cam -y
 ```
 
 #### Install the workspace
@@ -105,7 +99,6 @@ sudo apt install libopencv-dev python-jinja2 protobuf-compiler -y
 sudo /opt/ros/noetic/lib/mavros/install_geographiclib_datasets.sh
 
 ~/PX4-Autopilot/Tools/setup/ubuntu.sh
-# export GAZEBO_RESOURCE_PATH=/usr/share/gazebo-11
 
 cd ~/PX4-Autopilot
 #make px4_sitl_default
@@ -146,8 +139,6 @@ cd
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
 sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl libqt5gui5 libfuse2 -y
-# sudo apt install libqt5gui5 -y
-# sudo apt install libfuse2 -y
 ```
 ```bash
 xdg-open https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage
