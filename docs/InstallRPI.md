@@ -344,3 +344,137 @@ sudo reboot
 
 Please keep in mind that these changes should be made carefully as they can significantly alter the behavior of your system. Always make sure to backup any files you edit in case you need to revert the changes.
 Again, please note that disabling the lock screen and suspend mode can pose a security risk. Anyone with access to your computer will be able to use it without having to enter a password. Please use these commands responsibly.
+
+
+6. **Watchdog**
+
+To enable the watchdog timer on your Raspberry Pi running Ubuntu 22.04, you can follow the steps below:
+
+1. Activate the hardware watchdog on your Raspberry Pi. In your `config.txt` file, add the following line to enable the watchdog:
+
+```bash
+dtparam=watchdog=on
+```
+You can edit this file using the nano editor with the command `sudo nano /boot/config.txt`, then add the line above at the end of the file and save it [Source 7](https://medium.com/@arslion/enabling-watchdog-on-raspberry-pi-b7e574dcba6b).
+
+2. Reboot your Raspberry Pi. After the reboot, you can check if the watchdog is enabled by running the command `ls -al /dev/watchdog*`. You should see output similar to this:
+
+```bash
+crw------- 1 root root  10, 130 May 19 07:09 /dev/watchdog
+crw------- 1 root root 253,   0 May 19 07:09 /dev/watchdog0
+```
+This indicates that the watchdog is enabled [Source 7](https://medium.com/@arslion/enabling-watchdog-on-raspberry-pi-b7e574dcba6b).
+
+3. Install the watchdog software package with the command `sudo apt-get install watchdog` [Source 1](https://forums.raspberrypi.com//viewtopic.php?t=147501).
+
+4. Configure the watchdog package. Edit the configuration file `/etc/watchdog.conf` and uncomment or add the following lines:
+
+```bash
+max-load-1 = 24
+min-memory = 1
+watchdog-device = /dev/watchdog
+watchdog-timeout=15
+```
+You can edit this file using the nano editor with the command `sudo nano /etc/watchdog.conf`, then make the changes and save the file [Source 7](https://medium.com/@arslion/enabling-watchdog-on-raspberry-pi-b7e574dcba6b).
+
+5. Start the watchdog service with the command `sudo systemctl start watchdog` and enable it to start at boot with the command `sudo systemctl enable watchdog` [Source 7](https://medium.com/@arslion/enabling-watchdog-on-raspberry-pi-b7e574dcba6b).
+
+6. Verify that the watchdog service is running with the command `sudo systemctl status watchdog`. If it's running correctly, you should see output indicating that the service is active [Source 1](https://forums.raspberrypi.com//viewtopic.php?t=147501).
+
+With these steps, you should have successfully enabled the watchdog timer on your Raspberry Pi running Ubuntu 22.04. The watchdog timer will help to automatically reboot the system in case it freezes.
+
+
+
+Ubuntu Server uses Netplan to manage its connections.
+
+To create an access point using Netplan, you can do the following:
+#### 1. Install Network Manager
+
+```bash
+sudo apt update
+sudo apt install network-manager
+```
+
+#### 2. Disable cloud-init
+
+```bash
+sudo bash -c "echo 'network: {config: disabled}' > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg"
+```
+
+####  3. Create a Netplan configuration
+
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+Then add the following configuration:
+
+```bash
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    eth0:
+      dhcp4: true
+      optional: true
+  wifis:
+    wlan0:
+      dhcp4: true
+      optional: true
+      access-points:
+        "Raspberry":
+          password: "12345678"
+          mode: ap
+        "Additional_WIFI_Name_1":
+          password: "12345678"
+        "Additional_WIFI_Name_2":
+          password: "12345678"
+```
+You can change the access point name "Raspberry" and the password to your liking.
+
+Then save the file using CTRL+X.
+####  4. Apply the Netplan configuration
+
+Finally, use use the following commands to apply your new configuration:
+
+```bash
+sudo netplan generate
+sudo netplan apply
+sudo reboot
+```
+A new wireless access point should be created. It has DHCP and DNS enabled by default, and if the Pi has internet access over Ethernet, it'll be shared over the WiFi hotspot as well.
+
+#### 5. To enable/disable Wifi 
+
+Run this command:
+
+The command template is look like this:
+```bash
+sudo nmcli c up/down your_wifi_name
+```
+
+This command is used to activate a hotspot connection:
+```bash
+sudo nmcli c up netplan-wlan0-Raspberry
+```
+
+To switch to others WiFi connection - run this
+```bash
+sudo nmcli c up Additional_WIFI_Name_1
+```
+
+```bash
+sudo nmcli c down Additional_WIFI_Name_1
+```
+
+#### 6. To display a list of visible Wi-Fi networks:
+
+```bash
+nmcli d wifi list
+```
+```bash
+nmcli connection show netplan-wlan0-Raspberry
+```
+
+#### 7. Bash script
+
+The connections control can be wrapped to the bash script. The example are provided in the `bash` folder.

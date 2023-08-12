@@ -1,10 +1,10 @@
 # Swarms
 
-The code in this repo is explains how to set up your drone swarms systems as well as teaches basic drone programming commands. 
+The code in this repo explains how to set up your drone swarm systems as well as teaches basic drone programming commands. 
 
-This project need to use WiFi hotspot for drone collaboration. Make sure that network is properly setup:
+This project needs to use WiFi hotspots for drone collaboration. Make sure that network is properly setup:
 
-[Setting_Hotspot](docs/Setting_Hotspot.md)
+[Setting_Hotspot](https://github.com/TPODAvia/PX4-Autonomous-Vehicle/blob/main/docs/InstallRPI.md)
 
 ### Non-stop delivery of goods using multiple drones
 
