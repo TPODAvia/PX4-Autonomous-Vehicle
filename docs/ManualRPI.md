@@ -54,24 +54,25 @@ param set-default MPC_VEL_MANUAL 5
 #####################################
 # EKF
 #####################################
-# fusion: gps + flow + vis pos + vis yaw
-param set-default EKF2_AID_MASK 27
+# fusion: flow + vis pos + vis yaw
+param set-default EKF2_AID_MASK 26
 param set-default EKF2_OF_DELAY 0
 param set-default EKF2_OF_QMIN 10
 param set-default EKF2_OF_N_MIN 0.05
 param set-default EKF2_OF_N_MAX 0.2
 
-# height est: 0 = baro, 1 = gps, 2 = range, 3 = vision
-param set-default EKF2_HGT_MODE 2
-# maximum fusion in (m) for the distance sensor
+param set-default EKF2_OF_POS_X 0.12
+param set-default EKF2_OF_POS_Y 0.0
+param set-default EKF2_OF_POS_Z -0.09
+
+# height est EKF2_HGT_MODE: 0 = baro, 1 = gps, 2 = range, 3 = vision
+param set-default EKF2_HGT_MODE 3
+
+# maximum fusion in (m) for the distance sensor (Aruco/April tag)
 param set-default EKF2_RNG_A_HMAX 4
 param set-default EKF2_EVA_NOISE 0.1
 param set-default EKF2_EVP_NOISE 0.1
 param set-default EKF2_EV_DELAY 0
-
-# LPE: Flow-only mode
-param set-default LPE_FUSION 242
-param set-default LPE_FAKE_ORIGIN 1
 
 # ALT Mode: 0 alt following, 1 terrain following, 2 terrain hold
 param set-default MPC_ALT_MODE 2
@@ -87,7 +88,7 @@ param set-default IMU_DGYRO_CUTOFF 90
 param set-default IMU_GYRO_CUTOFF 100
 
 # Minimum take off altitude
-param set-default MIS_TAKEOFF_ALT 10
+param set-default MIS_TAKEOFF_ALT 1
 
 # Time out of auto disarm
 param set-default COM_DISARM_LAND 1.0
@@ -95,6 +96,17 @@ param set-default COM_DISARM_LAND 1.0
 # enable offboard flights without rc
 param set-default COM_RCL_EXCEPT 4
 
+# LPE: Flow-only mode
+param set-default LPE_FUSION 242
+param set-default LPE_FAKE_ORIGIN 1
+
+param set-default LPE_FLW_SCALE 1.0
+param set-default LPE_FLW_R 0.2
+param set-default LPE_FLW_RR 0.0
+param set-default LPE_FLW_QMIN 10
+param set-default LPE_VIS_DELAY 0.0
+param set-default LPE_VIS_Z 0.1
+param set-default LPE_FUSION 86 # flow + vis + land detector + gyro comp
 
 # Manual control parameters
 # param set-default COM_RC_IN_MODE 3
@@ -111,34 +123,6 @@ param set-default RC_CHAN_CNT 8
 set MAV_TYPE 2
 
 set MIXER quad_x
-
-
-
-# When using EKF2 (parameter SYS_MC_EST_GROUP = ekf2):
-EKF2_AID_MASK – flag 'use optical flow' is on.
-EKF2_OF_DELAY – 0.
-EKF2_OF_QMIN – 10.
-EKF2_OF_N_MIN – 0.05.
-EKF2_OF_N_MAX - 0.2.
-SENS_FLOW_ROT – No rotation.
-SENS_FLOW_MAXHGT – 4.0 (for the rangefinder VL53L1X)
-SENS_FLOW_MINHGT – 0.0 (for the rangefinder VL53L1X)
-Optional: EKF2_HGT_MODE – range sensor (cf. rangefinder setup).
-
-# When using OPTICAL FLOW:
-EKF2_OF_QMMIN - 10.
-EKF2_OF_N_MMIN - 0.05.
-EKF2_OF_N_MAX - 0.2.
-SENS_FLOW_MINHGT - 0.0.
-SENS_FLOW_MAXHGT - 4.0.
-
-# When using Distance Sensor:
-EKF2_RNG_AID = 1.
-EKF_HGT_MODE = Range sensor.
-
-# When using Vision Position estimate (Aruco/April tag):
-EKF2_EVA_NOISE - 0.05.
-EKF2_EVP_NOISE - 0.1.
 
 ```
 
@@ -174,16 +158,15 @@ CPU usage – checks the CPU load of the onboard computer.
 
 ```
 
-Check ros MAVROS state:
+Check the MAVROS state:
 
 ```bash
 rostopic echo -n 1 /dignostics
 ```
+The heardbeat should be 1HZ
+The voltage should be show up "normal"
 
-Check the heardbeat - it should be 1HZ
-Check the voltage - it should be normal
-
-Run RVIZ:
+Run the RVIZ:
 
 The rviz tool allows real-time visualization of all components of the robotic system —the system of coordinates, moving parts, sensors, camera images — on the 3D stag
 
@@ -194,7 +177,7 @@ export ROS_IP=10.100.190.146
 
 ``` 
 
-Open your desktop Ubuntu so we can be able to open rviz
+Open your desktop Ubuntu so we can be able to open rviz and type this scripts:
 
 ```bash
 

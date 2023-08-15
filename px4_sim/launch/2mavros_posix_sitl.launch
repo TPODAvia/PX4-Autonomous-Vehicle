@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- PX4 SITL and Gazebo -->
+    <include file="$(find px4_sim)/launch/1mavros_posix_sitl.launch">
+        <!-- box spawn -->
+        <arg name="box_activate" value="false"/>
+        <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
+        <arg name="vehicle" value="frame450"/>
+        <!-- Any world: empty, flat, city, forest etc -->
+        <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
+
+        <arg name="gui" default="true"/>
+    </include>
+
+	<!-- Pixhawk setup -->
+    <include file="$(find px4_air)/launch/1setup.launch">
+		<arg name="fcu_conn" value="sitl"/>
+		<arg name="fcu_ip" value="127.0.0.1"/>
+		<arg name="gcs_bridge" value=""/>
+    </include>
+
+
+    <!-- QGroundControl launch -->
+    <node name="listener" pkg="roscpp_tutorials" type="listener" launch-prefix="bash -c '../QGroundControl.AppImage' " />
+
+	<!-- Wind plugin -->
+	<!-- <arg name="node_start_delay" default="10.0" />  
+    <node pkg="px4_sim" type="wind.py" name="offb_node_py" output="screen"  launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' ">
+		<param name="vehicle_name" value="$(arg vehicle)" />
+	</node> -->
+
+
+</launch>
