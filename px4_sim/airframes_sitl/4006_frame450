@@ -63,6 +63,7 @@ param set-default EKF2_OF_QMIN 10
 param set-default EKF2_OF_N_MIN 0.05
 param set-default EKF2_OF_N_MAX 0.2
 
+# optical flow offset
 param set-default EKF2_OF_POS_X 0.12
 param set-default EKF2_OF_POS_Y 0.0
 param set-default EKF2_OF_POS_Z -0.09
