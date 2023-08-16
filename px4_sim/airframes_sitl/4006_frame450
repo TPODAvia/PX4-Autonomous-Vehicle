@@ -68,14 +68,19 @@ param set-default EKF2_OF_POS_X 0.12
 param set-default EKF2_OF_POS_Y 0.0
 param set-default EKF2_OF_POS_Z -0.09
 
-# height est EKF2_HGT_MODE: 0 = baro, 1 = gps, 2 = range, 3 = vision
-param set-default EKF2_HGT_MODE 3
-
-# maximum fusion in (m) for the distance sensor (Aruco/April tag)
-param set-default EKF2_RNG_A_HMAX 4
+# visual position fusion (Aruco/April tag)
 param set-default EKF2_EVA_NOISE 0.1
 param set-default EKF2_EVP_NOISE 0.1
 param set-default EKF2_EV_DELAY 0
+
+# height est EKF2_HGT_MODE: 0 = baro, 1 = gps, 2 = range, 3 = vision
+param set-default EKF2_HGT_MODE 3
+
+# maximum fusion in (m) for the distance sensor
+param set-default EKF2_RNG_A_HMAX 4
+param set-default EKF2_RNG_POS_X -0.12
+param set-default EKF2_RNG_POS_Y 0.0
+param set-default EKF2_RNG_POS_Z 0.0
 
 # ALT Mode: 0 alt following, 1 terrain following, 2 terrain hold
 param set-default MPC_ALT_MODE 2
