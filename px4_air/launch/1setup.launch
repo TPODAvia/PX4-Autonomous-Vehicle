@@ -70,8 +70,8 @@
 
     <!-- rc backend -->
     <!-- Use fake GCS. Send fake GCS heartbeats. Set to "true" for upstream PX4 -->
-    <node name="rc" pkg="px4_air" type="rc" output="screen" if="$(arg rc)" clear_params="true">
+    <!-- <node name="rc" pkg="px4_air" type="rc" output="screen" if="$(arg rc)" clear_params="true">
         <param name="use_fake_gcs" value="false"/>
-    </node>
+    </node> -->
 
 </launch>

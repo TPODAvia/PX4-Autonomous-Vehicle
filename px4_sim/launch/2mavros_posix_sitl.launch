@@ -8,7 +8,7 @@
         <!-- any drones: iris, frame450, avia_vtol, typhoon_h480 etc -->
         <arg name="vehicle" value="frame450"/>
         <!-- Any world: empty, flat, city, forest etc -->
-        <arg name="world" value="$(find px4_sim)/worlds/aruco.world"/>
+        <arg name="world" value="$(find px4_sim)/worlds/forest.world"/>
 
         <arg name="gui" default="true"/>
     </include>
@@ -19,6 +19,12 @@
 		<arg name="fcu_ip" value="127.0.0.1"/>
 		<arg name="gcs_bridge" value=""/>
     </include>
+    <!-- <include file="$(find clover)/launch/clover.launch">
+        <arg name="simulator" value="true"/>
+        <arg name="fcu_conn" value="sitl"/>
+        <arg name="fcu_ip" value="127.0.0.1"/>
+        <arg name="gcs_bridge" value=""/>
+    </include> -->
 
 
     <!-- QGroundControl launch -->

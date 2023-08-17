@@ -186,70 +186,6 @@
 
 
 
-    <link name="box">
-      <pose>0.0 0.0 -0.06 0 0 0</pose>
-      <inertial>
-        <mass>0.5</mass>
-        <inertia>
-          <ixx>0.002</ixx>
-          <iyy>0.002</iyy>
-          <izz>0.0035</izz>
-        </inertia>
-      </inertial>
-
-      <gravity>true</gravity>
-      <self_collide>false</self_collide>
-      <velocity_decay/>
-
-      <visual name="box_visual">
-        <pose>0 0 0 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.15 0.08 0.04</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <name>Gazebo/Gold</name>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-          </script>
-        </material>
-      </visual>
-
-      <collision name="box_collision">
-        <pose>0 0 0 0 0 0</pose>
-        <geometry>
-          <box>
-            <size>0.15 0.08 0.04</size>
-          </box>
-        </geometry>
-        <surface>
-          <contact>
-            <ode>
-              <min_depth>0.001</min_depth>
-              <max_vel>0</max_vel>
-            </ode>
-          </contact>
-          <friction>
-            <ode/>
-          </friction>
-        </surface>
-      </collision>
-
-    </link>
-
-    <joint name='box_joint' type='fixed'>
-      <child>box</child>
-      <parent>base_link</parent>
-    </joint>
-
-
-
-
-
-
-
-
 
     <!-- IMU -->
 
@@ -304,7 +240,7 @@
 
     <!-- FPV Camera -->
     <link name="cgo3_camera_link">
-    <pose>0.12 0 -0.09 0 1.57 0</pose>
+    <pose>0.12 0 -0.08 0 1.57 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.01</mass>
@@ -537,7 +473,7 @@
     <!-- lidar vl53l1x -->
 
     <link name="lidar_vl53l1x_link">
-    <pose>-0.12 0 0 0 1.57 0</pose>
+    <pose>0.14 0 0.0 0 1.57 0</pose>
 
       <inertial>
         <pose>0 0 0 0 0 0</pose>
