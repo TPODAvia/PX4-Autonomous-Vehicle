@@ -240,7 +240,7 @@
 
     <!-- FPV Camera -->
     <link name="cgo3_camera_link">
-    <pose>0.12 0 -0.08 0 1.57 0</pose>
+    <pose>0.12 0 -0.08 0 1.57079633 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
         <mass>0.01</mass>

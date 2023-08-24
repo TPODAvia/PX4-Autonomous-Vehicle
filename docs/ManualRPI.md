@@ -5,6 +5,15 @@
 QGroundControl offers a multitude of parameters for customization. Below are the fundamental steps required for setting it up:
 
 ```bash
+#!/bin/sh
+#
+# @name Balamut i Oborot
+#
+# @type Quadrotor X
+#
+
+. ${R}etc/init.d/rc.mc_defaults
+
 ###############################################
 # Attitude & rate gains
 ###############################################
@@ -61,18 +70,23 @@ param set-default EKF2_OF_QMIN 10
 param set-default EKF2_OF_N_MIN 0.05
 param set-default EKF2_OF_N_MAX 0.2
 
+# optical flow offset
 param set-default EKF2_OF_POS_X 0.12
 param set-default EKF2_OF_POS_Y 0.0
-param set-default EKF2_OF_POS_Z -0.09
+param set-default EKF2_OF_POS_Z 0.0
 
 # height est EKF2_HGT_MODE: 0 = baro, 1 = gps, 2 = range, 3 = vision
-param set-default EKF2_HGT_MODE 3
+param set-default EKF2_HGT_MODE 2
 
 # maximum fusion in (m) for the distance sensor (Aruco/April tag)
 param set-default EKF2_RNG_A_HMAX 4
 param set-default EKF2_EVA_NOISE 0.1
 param set-default EKF2_EVP_NOISE 0.1
 param set-default EKF2_EV_DELAY 0
+
+param set-default EKF2_RNG_POS_X 0.14
+param set-default EKF2_RNG_POS_Y 0.0
+param set-default EKF2_RNG_POS_Z 0.0
 
 # ALT Mode: 0 alt following, 1 terrain following, 2 terrain hold
 param set-default MPC_ALT_MODE 2
@@ -82,10 +96,6 @@ param set-default SENS_FLOW_ROT 0
 param set-default SENS_FLOW_MINHGT 0.0
 param set-default SENS_FLOW_MAXHGT 4.0
 param set-default SENS_FLOW_MAXR 10.0
-
-# Filter settings
-param set-default IMU_DGYRO_CUTOFF 90
-param set-default IMU_GYRO_CUTOFF 100
 
 # Minimum take off altitude
 param set-default MIS_TAKEOFF_ALT 1
@@ -97,16 +107,16 @@ param set-default COM_DISARM_LAND 1.0
 param set-default COM_RCL_EXCEPT 4
 
 # LPE: Flow-only mode
-param set-default LPE_FUSION 242
-param set-default LPE_FAKE_ORIGIN 1
+# param set-default LPE_FUSION 242
+# param set-default LPE_FAKE_ORIGIN 1
 
-param set-default LPE_FLW_SCALE 1.0
-param set-default LPE_FLW_R 0.2
-param set-default LPE_FLW_RR 0.0
-param set-default LPE_FLW_QMIN 10
-param set-default LPE_VIS_DELAY 0.0
-param set-default LPE_VIS_Z 0.1
-param set-default LPE_FUSION 86 # flow + vis + land detector + gyro comp
+# param set-default LPE_FLW_SCALE 1.0
+# param set-default LPE_FLW_R 0.2
+# param set-default LPE_FLW_RR 0.0
+# param set-default LPE_FLW_QMIN 10
+# param set-default LPE_VIS_DELAY 0.0
+# param set-default LPE_VIS_Z 0.1
+# param set-default LPE_FUSION 86 # flow + vis + land detector + gyro comp
 
 # Manual control parameters
 # param set-default COM_RC_IN_MODE 3
