@@ -60,9 +60,9 @@ param set-default MPC_TKO_SPEED 1.5
 param set-default MPC_VEL_MANUAL 5
 
 
-#####################################
+###############################################
 # EKF
-#####################################
+###############################################
 # fusion: flow + vis pos + vis yaw
 param set-default EKF2_AID_MASK 26
 param set-default EKF2_OF_DELAY 0
@@ -100,12 +100,6 @@ param set-default SENS_FLOW_MAXR 10.0
 # Minimum take off altitude
 param set-default MIS_TAKEOFF_ALT 1
 
-# Time out of auto disarm
-param set-default COM_DISARM_LAND 1.0
-
-# enable offboard flights without rc
-param set-default COM_RCL_EXCEPT 4
-
 # LPE: Flow-only mode
 # param set-default LPE_FUSION 242
 # param set-default LPE_FAKE_ORIGIN 1
@@ -128,6 +122,77 @@ param set-default RC_MAP_PITCH 3
 param set-default RC_MAP_YAW 4
 param set-default RC_MAP_FLTMODE 5
 param set-default RC_CHAN_CNT 8
+
+###############################################
+# Failsafe
+###############################################
+
+# Low Battery Failsafe: return at critical and land at emergency
+param set-default COM_LOW_BAT_ACT 3
+param set-default BAT_LOW_THR 0.15
+param set-default BAT_CRIT_THR 0.07
+param set-default BAT_EMERGEN_THR 0.05
+
+# RC Loss Failsafe: hold when RC loss, disable failsafe when offboard mode
+param set-default COM_RC_LOSS_T 0.5
+param set-default COM_FAIL_ACT_T 5.0
+param set-default NAV_RCL_ACT 1
+param set-default COM_RCL_EXCEPT 4
+
+# Data Link Loss Failsafe: disabled
+param set-default COM_DL_LOSS_T 0 
+param set-default NAV_DLL_ACT 10
+
+# Geofence Failsafe: hold mode, GPS altitude calculated
+param set-default GF_ACTION 2
+param set-default GF_MAX_HOR_DIST 0
+param set-default GF_MAX_VER_DIST 0
+param set-default GF_ALTMODE 0
+param set-default GF_COUNT -1
+param set-default GF_PREDICT 0
+param set-default GF_SOURCE 0
+param set-default CBRK_FLIGHTTERM 121212
+
+# Return Mode Settings: 2m return altitude
+param set-default RTL_RETURN_ALT 45
+param set-default RTL_DESCEND_ALT 2
+param set-default RTL_LAND_DELAY 0.0
+
+# Land Mode Settings
+param set-default COM_DISARM_LAND 2.0
+param set-default MPC_LAND_SPEED 0.7
+
+# Position (GPS) Loss Failsafe: Altitude/Manual
+param set-default COM_POS_FS_DELAY 1
+param set-default COM_POSCTL_NAVL 0
+param set-default FW_GPSF_LT 30
+param set-default FW_GPSF_R 15
+
+# Offboard Loss Failsafe: Position mode
+param set-default COM_OF_LOSS_T 1.0
+param set-default COM_OBL_RC_ACT 0
+
+# Traffic Avoidance Failsafe: warn only
+param set-default NAV_TRAFF_AVOID 1
+
+# Quad-chute Failsafe: hold mode
+param set-default COM_QC_ACT 2
+param set-default VT_FW_QC_HMAX 0
+param set-default VT_QC_ALT_LOSS 0
+param set-default VT_QC_T_ALT_LOSS 20.0
+param set-default VT_FW_MIN_ALT 0
+param set-default VT_FW_QC_R 0
+param set-default VT_FW_QC_P 0
+
+# Failure Detector: disable
+param set-default CBRK_FLIGHTTERM 121212
+
+# Attitude Trigger: disable
+param set-default CBRK_FLIGHTTERM 121212
+param set-default FD_FAIL_P 60
+param set-default FD_FAIL_R 60
+param set-default FD_FAIL_P_TTRI 0.3
+param set-default FD_FAIL_R_TTRI 0.3
 
 # Set to Quadrotor
 set MAV_TYPE 2
